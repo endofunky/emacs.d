@@ -1,0 +1,14 @@
+.cache
+elpa
+auto-save-list
+eshell
+el-get
+custom.el
+*.elc
+savehist
+saveplace
+projectile-bookmarks.eld
+smex-items
+ido.last
+private.el
+undo
