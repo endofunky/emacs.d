@@ -41,12 +41,19 @@
   (define-key evil-normal-state-map ",ws" 'delete-trailing-whitespace)
 
   ;; Easier window navigation
-  (define-key evil-normal-state-map (kbd "M-h") 'evil-window-left)
-  (define-key evil-normal-state-map (kbd "M-j") 'evil-window-down)
-  (define-key evil-normal-state-map (kbd "M-k") 'evil-window-up)
-  (define-key evil-normal-state-map (kbd "M-l") 'evil-window-right)
+  (define-key evil-normal-state-map (kbd "s-h") 'evil-window-left)
+  (define-key evil-normal-state-map (kbd "s-j") 'evil-window-down)
+  (define-key evil-normal-state-map (kbd "s-k") 'evil-window-up)
+  (define-key evil-normal-state-map (kbd "s-l") 'evil-window-right)
 
   (define-key evil-normal-state-map (kbd ",u") 'undo-tree-visualize)
+
+  ;; Cursor keys have to die
+  (dolist (state (list 'normal 'insert 'visual 'replace))
+    (evil-global-set-key state (kbd "<up>") 'ignore)
+    (evil-global-set-key state (kbd "<down>") 'ignore)
+    (evil-global-set-key state (kbd "<left>") 'ignore)
+    (evil-global-set-key state (kbd "<right>") 'ignore))
 
   (evil-add-hjkl-bindings package-menu-mode-map 'emacs
     "H" 'package-menu-quick-help)
