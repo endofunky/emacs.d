@@ -3,7 +3,7 @@
   :defer t
   :init
   (evil-define-key 'normal global-map ",s" 'ido-switch-buffer)
-  :commands (ido-switch-buffer)
+  :commands (ido-switch-buffer ido-find-file imenu)
   :config
   (ido-mode 1)
   (ido-everywhere 1)
@@ -42,7 +42,6 @@
   :bind (("M-x" . smex)
          ("M-X" . smex-major-mode-commands))
   :config
-  (message "called")
   (smex-initialize))
 
 (provide 'pkg-ido)
