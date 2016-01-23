@@ -1,7 +1,7 @@
 (use-package scala-mode2
   :ensure t
   :mode ("\\.scala\\'" . scala-mode)
-  :init
+  :config
   (use-package sbt-mode
     :ensure t))
 
