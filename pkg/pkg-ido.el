@@ -16,6 +16,7 @@
   (add-to-list 'ido-ignore-files "\\.DS_Store")
   (add-to-list 'ido-ignore-directories "\\.cache")
   (add-to-list 'ido-ignore-directories "\\.git")
+  (add-to-list 'ido-ignore-directories "\\.svn")
   (add-to-list 'ido-ignore-directories "\\.bundle")
   (add-to-list 'ido-ignore-directories "node_modules")
   (add-to-list 'ido-ignore-directories "elpa")
