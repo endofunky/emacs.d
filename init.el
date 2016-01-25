@@ -62,11 +62,12 @@
 (require 'pkg-smartparens)
 (require 'pkg-spaceline)
 
-(require 'lang-css)
 (require 'lang-coffee)
+(require 'lang-css)
 (require 'lang-dockerfile)
 (require 'lang-dot)
 (require 'lang-js)
+(require 'lang-json)
 (require 'lang-lisp)
 (require 'lang-llvm)
 (require 'lang-markdown)
