@@ -1,12 +1,15 @@
 (use-package lisp-mode
+  :commands (emacs-lisp-mode lisp-interaction-mode)
   :init
-  (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-  (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
-  (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+  (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook lisp-interaction-mode-hook))
+    (add-hook hook 'turn-on-eldoc-mode))
   :config
   (evil-define-key 'normal emacs-lisp-mode-map ",eb" 'eval-buffer)
   (evil-define-key 'normal emacs-lisp-mode-map ",ee" 'eval-expression)
   (evil-define-key 'normal emacs-lisp-mode-map ",er" 'eval-region)
+  (evil-define-key 'normal lisp-interaction-mode-map ",eb" 'eval-buffer)
+  (evil-define-key 'normal lisp-interaction-mode-map ",ee" 'eval-expression)
+  (evil-define-key 'normal lisp-interaction-mode-map ",er" 'eval-region)
 
   (use-package elisp-slime-nav
     :defer t
@@ -14,11 +17,13 @@
     :diminish elisp-slime-nav-mode
     :commands (elisp-slime-nav-mode)
     :init
-    (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
+    (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook lisp-interaction-mode-hook))
       (add-hook hook 'elisp-slime-nav-mode))
     :config
     (evil-define-key 'normal emacs-lisp-mode-map ",," 'elisp-slime-nav-find-elisp-thing-at-point)
-    (evil-define-key 'normal emacs-lisp-mode-map ",." 'pop-tag-mark))
+    (evil-define-key 'normal emacs-lisp-mode-map ",." 'pop-tag-mark)
+    (evil-define-key 'normal lisp-interaction-mode-map ",," 'elisp-slime-nav-find-elisp-thing-at-point)
+    (evil-define-key 'normal lisp-interaction-mode-map ",." 'pop-tag-mark))
 
   (defun ts/emacs-lisp-recompile ()
     "Recompile elc file correspinding to buffer-file-name, if it exists."
