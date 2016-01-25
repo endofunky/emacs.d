@@ -26,6 +26,8 @@
 
   (setenv "GIT_PAGER" "")
   (setq magit-commit-show-diff nil)
+  (setq magit-stage-all-confirm nil)
+  (setq magit-stage-all-confirm nil)
 
   ;; Don't let magit-status mess up window configurations
   ;; http://whattheemacsd.com/setup-magit.el-01.html
