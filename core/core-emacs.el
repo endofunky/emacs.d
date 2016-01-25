@@ -65,6 +65,9 @@
 ;; Keep buffers in sync
 (global-auto-revert-mode 1)
 
+;; Don't defer screen updates when performing operations
+(setq redisplay-dont-pause t)
+
 ;; Escape minibuffer with single escape
 (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
