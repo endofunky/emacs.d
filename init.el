@@ -15,7 +15,7 @@
   (scroll-bar-mode -1)
   (menu-bar-mode -1))
 
-(dolist (path '("core" "lang" "pkg" "vendor"))
+(dolist (path '("core" "lang" "pkg"))
   (add-to-list 'load-path (expand-file-name path user-emacs-directory)))
 
 (let ((default-directory (expand-file-name "elpa" user-emacs-directory)))
