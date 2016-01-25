@@ -22,6 +22,7 @@
   (add-to-list 'ido-ignore-directories "\\.bundle")
   (add-to-list 'ido-ignore-directories "node_modules")
   (add-to-list 'ido-ignore-directories "elpa")
+  (add-to-list 'ido-ignore-directories "target")
 
   (use-package ido-vertical-mode
     :ensure t
