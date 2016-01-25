@@ -3,7 +3,9 @@
   :defer t
   :init
   (evil-define-key 'normal global-map ",s" 'ido-switch-buffer)
-  :commands (ido-switch-buffer ido-find-file imenu)
+  :commands (ido-switch-buffer
+             ido-find-file
+             imenu)
   :config
   (ido-mode 1)
   (ido-everywhere 1)
