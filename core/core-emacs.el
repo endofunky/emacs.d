@@ -102,4 +102,7 @@
 ;; Empty scratch buffer by default
 (setq initial-scratch-message "")
 
+;; No point keeping this off
+(which-function-mode t)
+
 (provide 'core-emacs)
