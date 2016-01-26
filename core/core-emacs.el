@@ -54,7 +54,7 @@
 (global-prettify-symbols-mode 1)
 
 ;; Don't auto-split windows
-(setq split-window-preferred-function '(lambda () (interactive) nil))
+(setq split-window-preferred-function 'ignore)
 
 ;; Highlight current line
 (global-hl-line-mode 1)
