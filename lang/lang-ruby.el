@@ -50,6 +50,7 @@
 
   (use-package ruby-tools
     :ensure t
+    :diminish ruby-tools-mode
     :init
     (add-hook 'ruby-mode-hook 'ruby-tools-mode)
     :config
