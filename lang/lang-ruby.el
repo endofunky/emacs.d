@@ -47,7 +47,24 @@
     :ensure t
     :commands (projectile-rails-on)
     :init
-    (add-hook 'projectile-mode-hook 'projectile-rails-on))
+    (add-hook 'projectile-mode-hook 'projectile-rails-on)
+    :config
+    (evil-define-key 'normal projectile-rails-mode-map ",rc" 'projectile-rails-find-current-controller)
+    (evil-define-key 'normal projectile-rails-mode-map ",rd" 'projectile-rails-goto-schema)
+    (evil-define-key 'normal projectile-rails-mode-map ",re" 'projectile-rails-goto-seeds)
+    (evil-define-key 'normal projectile-rails-mode-map ",rh" 'projectile-rails-find-current-helper)
+    (evil-define-key 'normal projectile-rails-mode-map ",rj" 'projectile-rails-find-current-javascript)
+    (evil-define-key 'normal projectile-rails-mode-map ",rg" 'projectile-rails-goto-gemfile)
+    (evil-define-key 'normal projectile-rails-mode-map ",rm" 'projectile-rails-find-current-model)
+    (evil-define-key 'normal projectile-rails-mode-map ",rn" 'projectile-rails-find-current-migration)
+    (evil-define-key 'normal projectile-rails-mode-map ",rp" 'projectile-rails-find-current-spec)
+    (evil-define-key 'normal projectile-rails-mode-map ",rr" 'projectile-rails-goto-routes)
+    (evil-define-key 'normal projectile-rails-mode-map ",rs" 'projectile-rails-find-current-stylesheet)
+    (evil-define-key 'normal projectile-rails-mode-map ",rt" 'projectile-rails-find-current-test)
+    (evil-define-key 'normal projectile-rails-mode-map ",ru" 'projectile-rails-find-current-fixture)
+    (evil-define-key 'normal projectile-rails-mode-map ",rv" 'projectile-rails-find-current-view)
+    (evil-define-key 'normal projectile-rails-mode-map ",rz" 'projectile-rails-goto-spec-helper)
+    (evil-define-key 'normal projectile-rails-mode-map ",r." 'projectile-rails-goto-file-at-point))
 
   (use-package ruby-tools
     :ensure t
