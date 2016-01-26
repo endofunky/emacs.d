@@ -9,6 +9,8 @@
          ("zshenv\\'" . sh-mode)
          ("zshrc\\'" . sh-mode))
   :config
-  (setq sh-basic-offset 2))
+  (setq sh-basic-offset 2)
+  (setq sh-indent-for-case-label 0)
+  (setq sh-indent-for-case-alt '+))
 
 (provide 'lang-shell)
