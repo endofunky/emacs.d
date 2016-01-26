@@ -99,8 +99,11 @@
   :diminish (whitespace-mode global-whitespace-mode))
 
 ;; Never delete the scratch buffer
-(run-with-idle-timer 1 t
-  '(lambda () (get-buffer-create "*scratch*")))
+(defun ts/get-scratch-buffer-create ()
+  "Get *scratch* buffer or create it."
+  (get-buffer-create "*scratch*"))
+
+(run-with-idle-timer 1 t 'ts/get-scratch-buffer-create)
 
 ;; Empty scratch buffer by default
 (setq initial-scratch-message "")
