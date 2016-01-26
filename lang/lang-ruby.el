@@ -43,6 +43,7 @@
     (setq rbenv-modeline-function 'rbenv--modeline-plain))
 
   (use-package projectile-rails
+    :diminish projectile-rails-mode
     :ensure t
     :commands (projectile-rails-on)
     :init
