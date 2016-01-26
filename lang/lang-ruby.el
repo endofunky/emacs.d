@@ -54,7 +54,7 @@
     (evil-define-key 'normal projectile-rails-mode-map ",rf" 'projectile-rails-find-current-fixture)
     (evil-define-key 'normal projectile-rails-mode-map ",rh" 'projectile-rails-find-current-helper)
     (evil-define-key 'normal projectile-rails-mode-map ",rm" 'projectile-rails-find-current-model)
-    (evil-define-key 'normal projectile-rails-mode-map ",rp" 'projectile-rails-find-current-spec)
+    (evil-define-key 'normal projectile-rails-mode-map ",rs" 'projectile-rails-find-current-spec)
     (evil-define-key 'normal projectile-rails-mode-map ",rt" 'projectile-rails-find-current-test)
     (evil-define-key 'normal projectile-rails-mode-map ",rv" 'projectile-rails-find-current-view))
 
