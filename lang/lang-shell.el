@@ -7,6 +7,8 @@
          ("zlogout\\'" . sh-mode)
          ("zprofile\\'" . sh-mode)
          ("zshenv\\'" . sh-mode)
-         ("zshrc\\'" . sh-mode)))
+         ("zshrc\\'" . sh-mode))
+  :config
+  (setq sh-basic-offset 2))
 
 (provide 'lang-shell)
