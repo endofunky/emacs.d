@@ -2,7 +2,8 @@
   :ensure t
   :defer t
   :commands (magit-status
-             magit-log
+             magit-log-popup
+             magit-log-all
              magit-blame-mode
              magit-diff-popup
              magit-diff)
@@ -16,7 +17,8 @@
   (define-key evil-normal-state-map ",gd" 'magit-diff-popup)
   (define-key evil-normal-state-map ",gD" 'ts/magit-diff-head)
   (define-key evil-normal-state-map ",gs" 'magit-status)
-  (define-key evil-normal-state-map ",gl" 'magit-log)
+  (define-key evil-normal-state-map ",gl" 'magit-log-popup)
+  (define-key evil-normal-state-map ",gL" 'magit-log-all)
   (define-key evil-normal-state-map ",gb" 'magit-blame-mode)
   :config
   (use-package evil-magit
@@ -28,6 +30,10 @@
   (setq magit-commit-show-diff nil)
   (setq magit-stage-all-confirm nil)
   (setq magit-stage-all-confirm nil)
+  (setq magit-log-arguments '("--graph"
+                              "--decorate"
+                              "--color"
+                              "--show-signature"))
 
   ;; Don't let magit-status mess up window configurations
   ;; http://whattheemacsd.com/setup-magit.el-01.html
