@@ -1,6 +1,7 @@
 (use-package ruby-mode
   :mode (("Appraisals\\'" . ruby-mode)
          ("Berksfile\\'" . ruby-mode)
+         ("Brewfile\\'" . ruby-mode)
          ("Capfile\\'" . ruby-mode)
          ("Gemfile\\'" . ruby-mode)
          ("Guardfile\\'" . ruby-mode)
