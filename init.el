@@ -72,7 +72,6 @@
 (require 'lang-llvm)
 (require 'lang-markdown)
 (require 'lang-ruby)
-(require 'lang-scala)
 (require 'lang-shell)
 (require 'lang-slim)
 (require 'lang-thrift)
