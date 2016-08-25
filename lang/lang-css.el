@@ -1,5 +1,5 @@
 (use-package css-mode
-  :mode ("\\.css\\'" "\\.scss\\'")
+  :mode "\\.css$"
   :config
   (setq css-indent-offset 2))
 
