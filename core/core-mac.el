@@ -24,8 +24,8 @@
   (fset 'insertPound "#")
   (define-key global-map (kbd "s-3") 'insertPound)
 
-  ;; Enable sRGB colorspace
-  (setq ns-use-srgb-colorspace t)
+  ;; Disable sRGB colorspace
+  (setq ns-use-srgb-colorspace nil)
 
   ;; Enable emoji
   (if (fboundp 'set-fontset-font)
