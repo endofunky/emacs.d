@@ -59,6 +59,7 @@
     "H" 'package-menu-quick-help)
 
   (use-package evil-nerd-commenter
+    :defer 1
     :ensure t
     :commands (evilnc-comment-or-uncomment-lines)
     :init
@@ -66,6 +67,7 @@
     (define-key evil-visual-state-map (kbd "\\") 'evilnc-comment-or-uncomment-lines))
 
   (use-package evil-surround
+    :defer 1
     :ensure t
     :config
     (global-evil-surround-mode 1)))
