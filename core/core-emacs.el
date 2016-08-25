@@ -85,7 +85,6 @@
         history-length 1000))
 
 (use-package saveplace
-  :defer 1
   :config
   (require 'saveplace)
   (setq save-place-file (expand-file-name "saveplace" user-emacs-directory))
