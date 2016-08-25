@@ -1,5 +1,4 @@
 (use-package eldoc
-  :defer t
   :commands eldoc-mode
   :diminish eldoc-mode
   :init

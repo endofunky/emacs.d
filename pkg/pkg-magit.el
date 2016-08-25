@@ -1,6 +1,5 @@
 (use-package magit
   :ensure t
-  :defer t
   :commands (magit-status
              magit-log-popup
              magit-log-all
