@@ -38,7 +38,6 @@
                  :position bottom
                  :stick t
                  :noselect nil
-                 :height 0.3))
-  )
+                 :height 0.3)))
 
 (provide 'pkg-popwin)
