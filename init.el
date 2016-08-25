@@ -12,8 +12,9 @@
 ;; Remove menu items early to avoid flickering.
 (when (display-graphic-p)
   (tool-bar-mode -1)
-  (scroll-bar-mode -1)
-  (menu-bar-mode -1))
+  (scroll-bar-mode -1))
+
+(menu-bar-mode -1)
 
 (dolist (path '("core" "lang" "pkg"))
   (add-to-list 'load-path (expand-file-name path user-emacs-directory)))
