@@ -1,9 +1,8 @@
-(use-package color-theme-sanityinc-tomorrow
+(use-package base16-theme
   :ensure t
   :config
   (setq custom-safe-themes t)
-
-  (color-theme-sanityinc-tomorrow-night)
+  (load-theme 'base16-tomorrow-night t)
 
   (defun ts/theme-add-watchwords ()
     "Highlight FIXME, TODO, and NOCOMMIT in code"
@@ -13,8 +12,8 @@
 
   (add-hook 'prog-mode-hook 'ts/theme-add-watchwords)
 
-  ;; Don't show a border on the modeline
-  (set-face-attribute 'mode-line nil :box nil)
-  (set-face-attribute 'mode-line-inactive nil :box nil))
+  (set-face-attribute 'company-template-field nil :background "#373b41" :foreground "#81a2be")
+  (set-face-attribute 'vertical-border nil :foreground "#373b41")
+  (set-face-attribute 'font-lock-comment-face nil :foreground "#767876"))
 
-(provide 'pkg-tomorrow-theme)
+(provide 'pkg-theme)

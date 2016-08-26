@@ -49,7 +49,6 @@
 ;; Load evil-mode early in case something goes wrong and so package
 ;; configurations can assume evil functions to be available.
 (require 'pkg-evil)
-(require 'pkg-tomorrow-theme)
 
 (require 'core-emacs)
 (require 'core-gui)
@@ -65,6 +64,7 @@
 (require 'pkg-restclient)
 (require 'pkg-smartparens)
 (require 'pkg-spaceline)
+(require 'pkg-theme)
 
 (require 'lang-c)
 (require 'lang-coffee)
