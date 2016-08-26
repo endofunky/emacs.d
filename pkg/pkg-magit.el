@@ -74,28 +74,25 @@
         git-gutter-fr:side 'right-fringe)
 
   (fringe-helper-define 'git-gutter-fr:added nil
-    "..XX.."
-    "..XX.."
-    "XXXXXX"
-    "XXXXXX"
-    "..XX.."
-    "..XX..")
+    "..X...."
+    "..X...."
+    "XXXXX.."
+    "..X...."
+    "..X....")
 
   (fringe-helper-define 'git-gutter-fr:deleted nil
-    "......"
-    "......"
-    "XXXXXX"
-    "XXXXXX"
-    "......"
-    "......")
+    "......."
+    "......."
+    "XXXXX.."
+    "......."
+    ".......")
 
   (fringe-helper-define 'git-gutter-fr:modified nil
-    "......"
-    ".XXXX."
-    ".XXXX."
-    ".XXXX."
-    ".XXXX."
-    "......")
+    "......."
+    ".XXX..."
+    ".XXX..."
+    ".XXX..."
+    ".......")
 
   (global-git-gutter-mode))
 
