@@ -1,9 +1,21 @@
 (defconst ts/emacs-start-time (current-time))
+
+;; Less warnings unless we're in debug mode.
+(unless (getenv "EMACS_INIT_DEBUG")
+  (setq warning-minimum-level :error))
+
 (defconst ts/initial-gc-cons-threshold gc-cons-threshold
   "Initial value of `gc-cons-threshold' at start-up time.")
+
+(defun ts/reset-gc-cons-threshold ()
+  "Resets `gc-cons-threshold` to it's initial value"
+  (setq gc-cons-threshold ts/initial-gc-cons-threshold))
+
+(add-hook 'after-init-hook 'ts/reset-gc-cons-threshold)
+
 (setq gc-cons-threshold (* 128 1024 1024))
-(add-hook 'after-init-hook
-          (lambda () (setq gc-cons-threshold ts/initial-gc-cons-threshold)))
+
+;; Increate *Messages* buffer size
 (setq message-log-max 16384)
 
 ;; Silence ad-handle-definition about advised functions getting redefined.
@@ -40,7 +52,7 @@
     (package-install 'use-package))
   (require 'use-package))
 
-(if (getenv "USE_PACKAGE_VERBOSE")
+(if (getenv "EMACS_INIT_DEBUG")
     (setq use-package-verbose t))
 
 ;; Load evil-mode early in case something goes wrong and so package
