@@ -12,12 +12,6 @@
 
   (add-hook 'prog-mode-hook 'ts/theme-add-watchwords)
 
-  (use-package company-mode
-    :defer t
-    :config
-    (set-face-attribute 'company-template-field
-                        nil :background "#373b41" :foreground "#81a2be"))
-
   (use-package git-gutter
     :defer t
     :config
@@ -26,6 +20,7 @@
     (set-face-attribute 'git-gutter:deleted nil :foreground "#cc6666")
     (set-face-attribute 'git-gutter:modified nil :foreground "#b294bb"))
 
+  (set-face-attribute 'company-template-field nil :background "#373b41" :foreground "#81a2be")
   (set-face-attribute 'font-lock-doc-face nil :foreground "#969896")
   (set-face-attribute 'fringe nil :background "#1d1f21")
   (set-face-attribute 'vertical-border nil :foreground "#373b41")
