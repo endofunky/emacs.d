@@ -43,9 +43,6 @@
 (if (getenv "USE_PACKAGE_VERBOSE")
     (setq use-package-verbose t))
 
-;; Allow loading of a private.el file
-(require 'private nil t)
-
 ;; Load evil-mode early in case something goes wrong and so package
 ;; configurations can assume evil functions to be available.
 (require 'pkg-evil)
