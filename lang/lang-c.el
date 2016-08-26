@@ -33,8 +33,7 @@
     :ensure t
     :commands (company-c-headers)
     :init
-    (add-to-list 'company-backends 'company-c-headers))
-  )
+    (add-to-list 'company-backends 'company-c-headers)))
 
 (use-package cmake-mode
   :ensure t
