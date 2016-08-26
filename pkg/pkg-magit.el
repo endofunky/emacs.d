@@ -57,4 +57,45 @@
   :ensure t
   :mode ("/\\.gitignore\\'" "/\\.git/info/exclude\\'" "/git/ignore\\'"))
 
+(use-package git-gutter-fringe
+  :ensure t
+  :diminish ""
+  :init
+  :config
+  (setq git-gutter:update-interval 2
+        git-gutter:diff-option "-w"
+        git-gutter:hide-gutter nil
+        git-gutter:ask-p nil
+        git-gutter:verbosity 0
+        git-gutter:separator-sign " "
+        git-gutter:unchanged-sign " "
+        git-gutter:handled-backends '(git hg bzr svn)
+        git-gutter-fr:side 'right-fringe)
+
+  (fringe-helper-define 'git-gutter-fr:added nil
+    "..XX.."
+    "..XX.."
+    "XXXXXX"
+    "XXXXXX"
+    "..XX.."
+    "..XX..")
+
+  (fringe-helper-define 'git-gutter-fr:deleted nil
+    "......"
+    "......"
+    "XXXXXX"
+    "XXXXXX"
+    "......"
+    "......")
+
+  (fringe-helper-define 'git-gutter-fr:modified nil
+    "......"
+    ".XXXX."
+    ".XXXX."
+    ".XXXX."
+    ".XXXX."
+    "......")
+
+  (global-git-gutter-mode))
+
 (provide 'pkg-magit)

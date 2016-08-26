@@ -1,10 +1,6 @@
 ;; Tabs are just awful
 (setq-default indent-tabs-mode nil)
 
-;; Disable the fringe
-(fringe-mode 0)
-(set-fringe-style -1)
-
 ;; Disable bell completely
 (setq ring-bell-function 'ignore)
 
