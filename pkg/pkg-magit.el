@@ -58,6 +58,7 @@
   :mode ("/\\.gitignore\\'" "/\\.git/info/exclude\\'" "/git/ignore\\'"))
 
 (use-package git-gutter-fringe
+  :if window-system
   :ensure t
   :diminish ""
   :init
