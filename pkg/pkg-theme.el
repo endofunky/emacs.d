@@ -26,6 +26,7 @@
     (set-face-attribute 'git-gutter:deleted nil :foreground "#cc6666")
     (set-face-attribute 'git-gutter:modified nil :foreground "#b294bb"))
 
+  (set-face-attribute 'font-lock-doc-face nil :foreground "#969896")
   (set-face-attribute 'fringe nil :background "#1d1f21")
   (set-face-attribute 'vertical-border nil :foreground "#373b41")
   (set-face-attribute 'font-lock-comment-face nil :foreground "#767876"))
