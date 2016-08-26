@@ -60,7 +60,7 @@
 (use-package git-gutter-fringe
   :if window-system
   :ensure t
-  :diminish ""
+  :diminish git-gutter-mode
   :init
   :config
   (setq git-gutter:update-interval 2
