@@ -3,6 +3,14 @@
   :config
   (popwin-mode 1)
   (add-to-list 'popwin:special-display-config
+               '("*ag search*"
+                 :dedicated t
+                 :position bottom
+                 :stick nil
+                 :noselect nil
+                 :height 0.4))
+
+  (add-to-list 'popwin:special-display-config
                '("*Help*"
                  :dedicated t
                  :position bottom

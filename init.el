@@ -63,6 +63,7 @@
 (require 'core-gui)
 (require 'core-mac)
 
+(require 'pkg-ag)
 (require 'pkg-company)
 (require 'pkg-eldoc)
 (require 'pkg-ido)
