@@ -1,10 +1,9 @@
 (use-package company
   :ensure t
-  :defer 1
   :diminish ""
   :config
   (global-company-mode)
-  (setq company-idle-delay 0.3)
+  (setq company-idle-delay 0.2)
   (setq company-minimum-prefix-length 1)
   (setq company-echo-delay 0)
   (setq company-begin-commands '(self-insert-command))

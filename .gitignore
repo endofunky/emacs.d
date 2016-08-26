@@ -14,3 +14,4 @@ private.el
 undo
 projectile.cache
 network-security.data
+irony/

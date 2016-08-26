@@ -40,6 +40,9 @@
 ;; Don't wrap long lines
 (setq-default truncate-lines -1)
 
+;; Don't mess with the init.el
+(setq custom-file "~/.emacs.d/custom.el")
+
 ;; UTF-8
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
@@ -89,6 +92,10 @@
   (require 'saveplace)
   (setq save-place-file (expand-file-name "saveplace" user-emacs-directory))
   (setq-default save-place t))
+
+(use-package abbrev
+  :diminish abbrev-mode
+  :defer t)
 
 (use-package whitespace
   :config

@@ -40,6 +40,9 @@
     (package-install 'use-package))
   (require 'use-package))
 
+(if (getenv "USE_PACKAGE_VERBOSE")
+    (setq use-package-verbose t))
+
 ;; Allow loading of a private.el file
 (require 'private nil t)
 
@@ -63,6 +66,7 @@
 (require 'pkg-smartparens)
 (require 'pkg-spaceline)
 
+(require 'lang-c)
 (require 'lang-coffee)
 (require 'lang-css)
 (require 'lang-dockerfile)
