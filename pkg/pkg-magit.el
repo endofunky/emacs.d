@@ -57,43 +57,51 @@
   :ensure t
   :mode ("/\\.gitignore\\'" "/\\.git/info/exclude\\'" "/git/ignore\\'"))
 
-(use-package git-gutter-fringe
+(use-package diff-hl
   :if window-system
   :ensure t
-  :diminish git-gutter-mode
+  :commands (diff-hl-mode diff-hl-dir-mode)
   :init
+  (add-hook 'prog-mode-hook 'diff-hl-mode)
+  (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+  (add-hook 'org-mode-hook 'diff-hl-mode)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   :config
-  (setq git-gutter:update-interval 2
-        git-gutter:diff-option "-w"
-        git-gutter:hide-gutter nil
-        git-gutter:ask-p nil
-        git-gutter:verbosity 0
-        git-gutter:separator-sign " "
-        git-gutter:unchanged-sign " "
-        git-gutter:handled-backends '(git hg bzr svn)
-        git-gutter-fr:side 'right-fringe)
+  (require 'diff-hl-dired)
+  (require 'diff-hl-flydiff)
 
-  (fringe-helper-define 'git-gutter-fr:added nil
-    "..X...."
-    "..X...."
-    "XXXXX.."
-    "..X...."
-    "..X....")
+  (setq diff-hl-side 'right)
+  (setq diff-hl-draw-borders t)
 
-  (fringe-helper-define 'git-gutter-fr:deleted nil
-    "......."
-    "......."
-    "XXXXX.."
-    "......."
-    ".......")
+  (use-package fringe-helper
+    :ensure t
+    :config
+    (fringe-helper-define 'ts/diff-hl-added    '(top repeat) "XXXXXXXX")
+    (fringe-helper-define 'ts/diff-hl-modified '(top repeat) "XXXXXXXX")
+    (fringe-helper-define 'ts/diff-hl-deleted  '(top repeat) "XXXXXXXX"))
 
-  (fringe-helper-define 'git-gutter-fr:modified nil
-    "......."
-    ".XXX..."
-    ".XXX..."
-    ".XXX..."
-    ".......")
+  (defun ts/diff-hl-fringe-bmp-from-type (type _pos)
+    (cl-case type
+      (unknown 'question-mark)
+      (change 'ts/diff-hl-modified)
+      (insert 'ts/diff-hl-added)
+      (delete 'ts/diff-hl-deleted)
+      (ignored 'diff-hl-bmp-i)
+      (t (intern (format "diff-hl-bmp-%s" type)))))
 
-  (global-git-gutter-mode))
+  (diff-hl-flydiff-mode t)
+
+  (setq diff-hl-fringe-bmp-function 'ts/diff-hl-fringe-bmp-from-type)
+
+  ;; Workaround for flydiff breaking company-mode keybinds
+  (defun ts/disable-hl-flydiff-mode (&rest ignore)
+    (diff-hl-flydiff-mode -1))
+
+  (defun ts/enable-hl-flydiff-mode (&rest ignore)
+    (diff-hl-flydiff-mode t))
+
+  (add-hook 'company-completion-started-hook 'ts/disable-hl-flydiff-mode)
+  (add-hook 'company-completion-finished-hook 'ts/enable-hl-flydiff-mode)
+  (add-hook 'company-completion-cancelled-hook 'ts/enable-hl-flydiff-mode))
 
 (provide 'pkg-magit)
