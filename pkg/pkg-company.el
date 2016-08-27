@@ -1,21 +1,29 @@
-(use-package company
+(use-package auto-complete
   :ensure t
-  :diminish ""
+  :diminish auto-complete-mode
+  :commands (auto-complete-mode)
+  :init
+  (add-hook 'prog-mode-hook 'auto-complete-mode)
   :config
-  (global-company-mode)
-  (setq company-idle-delay 0.1)
-  (setq company-minimum-prefix-length 2)
-  (setq company-echo-delay 0.2)
-  (setq company-begin-commands '(self-insert-command))
-  (setq company-show-numbers t)
-  (setq company-tooltip-align-annotations t)
-  (setq company-selection-wrap-around t)
-  (setq company-minimum-prefix-length 2)
+  (require 'auto-complete-config)
+  (ac-set-trigger-key "TAB")
+  (ac-config-default)
+  (setq ac-auto-show-menu t)
+  (setq ac-auto-start 2)
+  (setq ac-delay 0.1)
+  (setq ac-use-menu-map t)
+  (setq ac-menu-height 10)
+  (setq ac-use-quick-help t)
+  (setq ac-comphist-file  "~/.emacs.d/ac-comphist.dat")
+  (setq ac-ignore-case nil)
+  (setq ac-fuzzy-enable t)
+  (setq ac-candidate-limit 30)
+  (setq ac-dwim t)
 
-  (setq evil-complete-next-func 'company-select-next-or-abort)
-  (setq evil-complete-previous-func 'company-select-previous-or-abort)
+  (defadvice diff-hl-update (around diff-hl-update-workaround activate)
+    (unless ac-completing
+      ad-do-it))
 
-  (define-key company-active-map (kbd "TAB") 'company-select-next))
+  )
 
 (provide 'pkg-company)
-
