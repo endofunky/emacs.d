@@ -23,7 +23,7 @@
   (set-face-attribute 'company-template-field nil :background "#373b41" :foreground "#81a2be")
   (set-face-attribute 'font-lock-doc-face nil :foreground "#969896")
   (set-face-attribute 'fringe nil :background "#1d1f21")
-  (set-face-attribute 'vertical-border nil :foreground "#373b41")
+  (set-face-attribute 'vertical-border nil :foreground "#000000")
   (set-face-attribute 'font-lock-comment-face nil :foreground "#767876"))
 
 (provide 'pkg-theme)
