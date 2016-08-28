@@ -109,11 +109,9 @@
   (advice-add 'eldoc-pre-command-refresh-echo-area :override #'ignore))
 
 (use-package linum-mode
-  :init
-  (add-hook 'prog-mode-hook 'linum-mode)
-  (add-hook 'text-mode-hook 'linum-mode)
-  :config
-  (setq linum-format "%4d "))
+ :init
+ (add-hook 'prog-mode-hook 'linum-mode)
+ (add-hook 'text-mode-hook 'linum-mode))
 
 ;; Never delete the scratch buffer
 (defun ts/get-scratch-buffer-create ()
