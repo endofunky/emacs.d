@@ -10,14 +10,19 @@
   (ac-config-default)
   (setq ac-auto-show-menu t)
   (setq ac-auto-start 2)
-  (setq ac-delay 0.01)
-  (setq ac-use-menu-map t)
-  (setq ac-menu-height 10)
-  (setq ac-use-quick-help t)
-  (setq ac-comphist-file  "~/.emacs.d/ac-comphist.dat")
-  (setq ac-ignore-case nil)
-  (setq ac-fuzzy-enable t)
   (setq ac-candidate-limit 30)
-  (setq ac-dwim t))
+  (setq ac-comphist-file  "~/.emacs.d/ac-comphist.dat")
+  (setq ac-delay 0.01)
+  (setq ac-dwim t)
+  (setq ac-fuzzy-enable t)
+  (setq ac-ignore-case nil)
+  (setq ac-menu-height 10)
+  (setq ac-use-menu-map t)
+  (setq ac-use-quick-help t)
+
+  ;; Workaround so the fringe doesn't flicker when completing close to EOF
+  (defadvice diff-hl-update (around ts/diff-hl-update-workaround activate)
+    (unless ac-completing
+      ad-do-it)))
 
 (provide 'pkg-company)
