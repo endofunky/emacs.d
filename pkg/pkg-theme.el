@@ -25,6 +25,15 @@
     :config
     (set-face-attribute 'diff-hl-change nil :foreground "#de935f"))
 
+  (use-package popup
+    :defer t
+    :config
+    (set-face-attribute 'popup-summary-face nil :background "#FF0000")
+    (set-face-attribute 'popup-scroll-bar-background-face nil :background "#ffffff")
+    (set-face-attribute 'popup-scroll-bar-foreground-face nil :background "#b4b7b4")
+    (set-face-attribute 'popup-face nil :background "#282a2e" :foreground "#c5c8c6")
+    (set-face-attribute 'popup-menu-selection-face nil :background "#373b41" :foreground "#81a2be"))
+
   (set-face-attribute 'font-lock-doc-face nil :foreground "#969896")
   (set-face-attribute 'fringe nil :background "#1d1f21")
   (set-face-attribute 'vertical-border nil :foreground "#000000")
