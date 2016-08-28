@@ -3,6 +3,10 @@
   :mode ("\\.coffee\\'" "Cakefile\\'")
   :config
   (defun ts/coffee-mode-hook ()
+    (sp-with-modes '(coffee-mode)
+      (sp-local-pair "[" nil :post-handlers '((ts/sp-create-newline-and-enter-sexp "RET")))
+      (sp-local-pair "{" nil :post-handlers '((ts/sp-create-newline-and-enter-sexp "RET")))
+      (sp-local-pair "(" nil :post-handlers '((ts/sp-create-newline-and-enter-sexp "RET"))))
     (setq coffee-tab-width 2))
 
   (add-hook 'coffee-mode-hook 'ts/coffee-mode-hook))

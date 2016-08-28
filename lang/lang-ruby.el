@@ -72,7 +72,13 @@
   (defun ts/ruby-mode-hook ()
     (yard-mode 1)
     (eldoc-mode 1)
-    (global-rbenv-mode 1))
+    (global-rbenv-mode 1)
+
+    (require 'smartparens-ruby)
+    (sp-with-modes '(ruby-mode)
+      (sp-local-pair "[" nil :post-handlers '((ts/sp-create-newline-and-enter-sexp "RET")))
+      (sp-local-pair "{" nil :post-handlers '((ts/sp-create-newline-and-enter-sexp "RET")))
+      (sp-local-pair "(" nil :post-handlers '((ts/sp-create-newline-and-enter-sexp "RET")))))
 
   (add-hook 'ruby-mode-hook 'ts/ruby-mode-hook))
 
