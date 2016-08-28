@@ -8,6 +8,7 @@
   (require 'auto-complete-config)
   (ac-set-trigger-key "TAB")
   (ac-config-default)
+
   (setq ac-auto-show-menu t)
   (setq ac-auto-start 2)
   (setq ac-candidate-limit 30)
@@ -17,6 +18,7 @@
   (setq ac-fuzzy-enable t)
   (setq ac-ignore-case nil)
   (setq ac-menu-height 10)
+  (setq ac-quick-help-delay 0.5)
   (setq ac-use-menu-map t)
   (setq ac-use-quick-help t)
 
