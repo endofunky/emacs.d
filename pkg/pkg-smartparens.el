@@ -49,6 +49,9 @@
                    :post-handlers '(("[d1]" "SPC")))
     (sp-local-pair "_" "_"))
 
+  (sp-with-modes '(c-mode cc-mode)
+    (sp-local-pair "#include <" ">"))
+
   (defun ts/sp-create-newline-and-enter-sexp (&rest _ignored)
     "Open a new brace or bracket expression, with relevant newlines and indent. "
     (newline)
