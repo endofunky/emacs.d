@@ -3,8 +3,8 @@
   :diminish ""
   :config
   (global-company-mode)
-  (setq company-idle-delay 0.2)
-  (setq company-minimum-prefix-length 1)
+  (setq company-idle-delay 0.1)
+  (setq company-minimum-prefix-length 2)
   (setq company-echo-delay 0.2)
   (setq company-begin-commands '(self-insert-command))
   (setq company-show-numbers t)
