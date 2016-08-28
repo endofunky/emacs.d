@@ -108,6 +108,13 @@
   ;; Eldoc massively slows down cursor movement. This advice fixes that.
   (advice-add 'eldoc-pre-command-refresh-echo-area :override #'ignore))
 
+(use-package linum-mode
+  :init
+  (add-hook 'prog-mode-hook 'linum-mode)
+  (add-hook 'text-mode-hook 'linum-mode)
+  :config
+  (setq linum-format "%4d "))
+
 ;; Never delete the scratch buffer
 (defun ts/get-scratch-buffer-create ()
   "Get *scratch* buffer or create it."

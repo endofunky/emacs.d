@@ -22,9 +22,17 @@
   (setq ac-use-menu-map t)
   (setq ac-use-quick-help t)
 
+  (use-package linum-mode
+    :defer t
+    :config
+    (ac-linum-workaround))
+
   ;; Workaround so the fringe doesn't flicker when completing close to EOF
-  (defadvice diff-hl-update (around ts/diff-hl-update-workaround activate)
-    (unless ac-completing
-      ad-do-it)))
+  (use-package diff-hl
+    :defer t
+    :config
+    (defadvice diff-hl-update (around ts/diff-hl-update-workaround activate)
+      (unless ac-completing
+        ad-do-it))))
 
 (provide 'pkg-auto-complete)

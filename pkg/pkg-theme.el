@@ -34,6 +34,11 @@
     (set-face-attribute 'popup-face nil :background (ts/color :base01) :foreground (ts/color :base05))
     (set-face-attribute 'popup-menu-selection-face nil :background (ts/color :base02) :foreground (ts/color :base0D)))
 
+  (use-package linum-mode
+    :defer t
+    :config
+    (set-face-attribute 'linum nil :foreground (ts/color :base02) :background (ts/color :base00)))
+
   (set-face-attribute 'font-lock-doc-face nil :foreground (ts/color :base03))
   (set-face-attribute 'fringe nil :background (ts/color :base00))
   (set-face-attribute 'vertical-border nil :foreground (ts/color :base01)))
