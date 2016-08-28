@@ -100,6 +100,14 @@
   (setq whitespace-style (quote (face trailing)))
   :diminish (whitespace-mode global-whitespace-mode))
 
+(use-package eldoc
+  :diminish eldoc-mode
+  :config
+  (setq eldoc-idle-delay 0.5)
+
+  ;; Eldoc massively slows down cursor movement. This advice fixes that.
+  (advice-add 'eldoc-pre-command-refresh-echo-area :override #'ignore))
+
 ;; Never delete the scratch buffer
 (defun ts/get-scratch-buffer-create ()
   "Get *scratch* buffer or create it."

@@ -1,15 +1,12 @@
 (use-package lisp-mode
   :commands (emacs-lisp-mode lisp-interaction-mode)
-  :init
-  (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook lisp-interaction-mode-hook))
-    (add-hook hook 'turn-on-eldoc-mode))
   :config
   (evil-define-key 'normal emacs-lisp-mode-map ",eb" 'eval-buffer)
   (evil-define-key 'normal emacs-lisp-mode-map ",ee" 'eval-expression)
-  (evil-define-key 'normal emacs-lisp-mode-map ",er" 'eval-region)
+  (evil-define-key 'visual emacs-lisp-mode-map ",er" 'eval-region)
   (evil-define-key 'normal lisp-interaction-mode-map ",eb" 'eval-buffer)
   (evil-define-key 'normal lisp-interaction-mode-map ",ee" 'eval-expression)
-  (evil-define-key 'normal lisp-interaction-mode-map ",er" 'eval-region)
+  (evil-define-key 'visual lisp-interaction-mode-map ",er" 'eval-region)
 
   (use-package elisp-slime-nav
     :defer t
