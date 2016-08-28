@@ -12,14 +12,6 @@
 
   (add-hook 'prog-mode-hook 'ts/theme-add-watchwords)
 
-  (use-package git-gutter
-    :defer t
-    :config
-    (set-face-attribute 'git-gutter:unchanged nil :background "#1d1f21")
-    (set-face-attribute 'git-gutter:added nil :foreground "#b5bd68")
-    (set-face-attribute 'git-gutter:deleted nil :foreground "#cc6666")
-    (set-face-attribute 'git-gutter:modified nil :foreground "#b294bb"))
-
   (use-package diff-hl
     :defer t
     :config

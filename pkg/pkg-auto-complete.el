@@ -25,4 +25,4 @@
     (unless ac-completing
       ad-do-it)))
 
-(provide 'pkg-company)
+(provide 'pkg-auto-complete)

@@ -64,7 +64,7 @@
 (require 'core-mac)
 
 (require 'pkg-ag)
-(require 'pkg-company)
+(require 'pkg-auto-complete)
 (require 'pkg-eldoc)
 (require 'pkg-ido)
 (require 'pkg-magit)
