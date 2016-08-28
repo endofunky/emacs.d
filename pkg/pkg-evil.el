@@ -58,6 +58,13 @@
   (evil-add-hjkl-bindings package-menu-mode-map 'emacs
     "H" 'package-menu-quick-help)
 
+  (use-package evil-cleverparens
+    :ensure t
+    :diminish evil-cleverparens-mode
+    :commands (evil-cleverparens-mode)
+    :init
+    (add-hook 'emacs-lisp-mode-hook 'evil-cleverparens-mode))
+
   (use-package evil-nerd-commenter
     :defer 1
     :ensure t
