@@ -65,7 +65,6 @@
 
 (require 'pkg-ag)
 (require 'pkg-auto-complete)
-(require 'pkg-eldoc)
 (require 'pkg-ido)
 (require 'pkg-magit)
 (require 'pkg-popwin)
