@@ -49,11 +49,11 @@
   (define-key evil-normal-state-map (kbd ",u") 'undo-tree-visualize)
 
   ;; Cursor keys have to die
-  (dolist (state (list 'normal 'insert 'visual 'replace))
-    (evil-global-set-key state (kbd "<up>") 'ignore)
-    (evil-global-set-key state (kbd "<down>") 'ignore)
-    (evil-global-set-key state (kbd "<left>") 'ignore)
-    (evil-global-set-key state (kbd "<right>") 'ignore))
+  ;; (dolist (state (list 'normal 'insert 'visual 'replace))
+  ;;   (evil-global-set-key state (kbd "<up>") 'ignore)
+  ;;   (evil-global-set-key state (kbd "<down>") 'ignore)
+  ;;   (evil-global-set-key state (kbd "<left>") 'ignore)
+  ;;   (evil-global-set-key state (kbd "<right>") 'ignore))
 
   (evil-add-hjkl-bindings package-menu-mode-map 'emacs
     "H" 'package-menu-quick-help)

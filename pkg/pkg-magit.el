@@ -91,17 +91,6 @@
 
   (diff-hl-flydiff-mode t)
 
-  (setq diff-hl-fringe-bmp-function 'ts/diff-hl-fringe-bmp-from-type)
-
-  ;; Workaround for flydiff breaking company-mode keybinds
-  (defun ts/disable-hl-flydiff-mode (&rest ignore)
-    (diff-hl-flydiff-mode -1))
-
-  (defun ts/enable-hl-flydiff-mode (&rest ignore)
-    (diff-hl-flydiff-mode t))
-
-  (add-hook 'company-completion-started-hook 'ts/disable-hl-flydiff-mode)
-  (add-hook 'company-completion-finished-hook 'ts/enable-hl-flydiff-mode)
-  (add-hook 'company-completion-cancelled-hook 'ts/enable-hl-flydiff-mode))
+  (setq diff-hl-fringe-bmp-function 'ts/diff-hl-fringe-bmp-from-type))
 
 (provide 'pkg-magit)
