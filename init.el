@@ -15,7 +15,7 @@
 
 (setq gc-cons-threshold (* 128 1024 1024))
 
-;; Increate *Messages* buffer size
+;; Increase *Messages* buffer size
 (setq message-log-max 16384)
 
 ;; Silence ad-handle-definition about advised functions getting redefined.
@@ -43,11 +43,10 @@
 
 (package-initialize t)
 
-(eval-when-compile
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
-  (require 'use-package))
+(unless (package-installed-p 'use-package)
+   (package-refresh-contents)
+   (package-install 'use-package))
+ (require 'use-package)
 
 (if (getenv "EMACS_INIT_DEBUG")
     (setq use-package-verbose t))
