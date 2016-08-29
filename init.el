@@ -28,9 +28,6 @@
 
 (menu-bar-mode -1)
 
-(dolist (path '("core" "lang" "pkg" "vendor"))
-  (add-to-list 'load-path (expand-file-name path user-emacs-directory)))
-
 (let ((default-directory (expand-file-name "elpa" user-emacs-directory)))
   (unless (file-exists-p default-directory)
         (make-directory default-directory))
@@ -55,42 +52,17 @@
 (if (getenv "EMACS_INIT_DEBUG")
     (setq use-package-verbose t))
 
-;; Load evil-mode early in case something goes wrong and so package
-;; configurations can assume evil functions to be available.
-(require 'pkg-evil)
+(add-to-list 'load-path (expand-file-name "vendor" user-emacs-directory))
 
-(require 'core-emacs)
-(require 'core-gui)
-(require 'core-mac)
+(defun ts/require-directory-files (dir)
+  (mapc (lambda (name)
+          (require (intern (file-name-sans-extension name))))
+        (directory-files dir nil "\\.el$")))
 
-(require 'pkg-ag)
-(require 'pkg-auto-complete)
-(require 'pkg-ido)
-(require 'pkg-magit)
-(require 'pkg-popwin)
-(require 'pkg-projectile)
-(require 'pkg-rainbow-delimiters)
-(require 'pkg-restclient)
-(require 'pkg-smartparens)
-(require 'pkg-spaceline)
-(require 'pkg-theme)
-
-(require 'lang-c)
-(require 'lang-coffee)
-(require 'lang-css)
-(require 'lang-dockerfile)
-(require 'lang-dot)
-(require 'lang-js)
-(require 'lang-json)
-(require 'lang-lisp)
-(require 'lang-llvm)
-(require 'lang-markdown)
-(require 'lang-ruby)
-(require 'lang-shell)
-(require 'lang-slim)
-(require 'lang-thrift)
-(require 'lang-web)
-(require 'lang-yaml)
+(dolist (path '("core" "pkg" "lang"))
+  (let ((absolute-path (expand-file-name path user-emacs-directory)))
+    (add-to-list 'load-path absolute-path)
+    (ts/require-directory-files absolute-path)))
 
 (let ((elapsed (float-time (time-subtract (current-time)
                                             ts/emacs-start-time))))
