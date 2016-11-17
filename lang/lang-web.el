@@ -13,7 +13,7 @@
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2)
   (setq web-mode-enable-current-element-highlight t)
-  (setq web-mode-enable-current-column-highlight t)
+  (setq web-mode-enable-current-column-highlight nil)
 
   (defun ts/web-mode-hook ()
     (setq web-mode-enable-auto-pairing nil)
