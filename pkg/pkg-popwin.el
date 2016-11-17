@@ -11,6 +11,14 @@
                  :height 0.4))
 
   (add-to-list 'popwin:special-display-config
+               '("*HTTP Response*"
+                 :dedicated t
+                 :position bottom
+                 :stick nil
+                 :noselect nil
+                 :height 0.4))
+
+  (add-to-list 'popwin:special-display-config
                '("*Help*"
                  :dedicated t
                  :position bottom
