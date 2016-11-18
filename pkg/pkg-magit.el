@@ -66,7 +66,6 @@
   (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
   (add-hook 'org-mode-hook 'diff-hl-mode)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-  (add-hook 'focus-in-hook 'diff-hl-update)
   :config
   (require 'diff-hl-dired)
   (require 'diff-hl-flydiff)
@@ -80,6 +79,13 @@
     (fringe-helper-define 'ts/diff-hl-added    '(top repeat) "XXXXXXXX")
     (fringe-helper-define 'ts/diff-hl-modified '(top repeat) "XXXXXXXX")
     (fringe-helper-define 'ts/diff-hl-deleted  '(top repeat) "XXXXXXXX"))
+
+  (defun ts/diff-hl-update-all ()
+    (cl-loop for buf in (buffer-list)
+             do (with-current-buffer buf
+                  (diff-hl-update))))
+
+  (add-hook 'focus-in-hook 'ts/diff-hl-update-all)
 
   (defun ts/diff-hl-fringe-bmp-from-type (type _pos)
     (cl-case type
