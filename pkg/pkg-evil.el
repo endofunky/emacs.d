@@ -25,6 +25,14 @@
   (setq evil-search-module 'evil-search)
   (setq evil-shift-width 2)
 
+
+  (defun ts/kill-other-buffers ()
+    "Kill all other buffers."
+    (interactive)
+    (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+
+  (define-key evil-normal-state-map ",kob" 'ts/kill-other-buffers)
+
   (defun ts/kill-buffer-or-delete-window ()
     "If more than one window is open, delete the current window, otherwise kill current buffer"
     (interactive)
@@ -63,7 +71,8 @@
     :diminish evil-cleverparens-mode
     :commands (evil-cleverparens-mode)
     :init
-    (add-hook 'emacs-lisp-mode-hook 'evil-cleverparens-mode))
+    (add-hook 'emacs-lisp-mode-hook 'evil-cleverparens-mode)
+    (setq evil-cleverparens-use-additional-movement-keys nil))
 
   (use-package evil-nerd-commenter
     :defer 1
