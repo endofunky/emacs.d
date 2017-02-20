@@ -25,7 +25,6 @@
   (setq evil-search-module 'evil-search)
   (setq evil-shift-width 2)
 
-
   (defun ts/kill-other-buffers ()
     "Kill all other buffers."
     (interactive)
@@ -56,12 +55,9 @@
 
   (define-key evil-normal-state-map (kbd ",u") 'undo-tree-visualize)
 
-  ;; Cursor keys have to die
-  ;; (dolist (state (list 'normal 'insert 'visual 'replace))
-  ;;   (evil-global-set-key state (kbd "<up>") 'ignore)
-  ;;   (evil-global-set-key state (kbd "<down>") 'ignore)
-  ;;   (evil-global-set-key state (kbd "<left>") 'ignore)
-  ;;   (evil-global-set-key state (kbd "<right>") 'ignore))
+  ;; Unset some annoying keys
+  (define-key evil-motion-state-map "K" nil)
+  (define-key evil-normal-state-map "K" nil)
 
   (evil-add-hjkl-bindings package-menu-mode-map 'emacs
     "H" 'package-menu-quick-help)
