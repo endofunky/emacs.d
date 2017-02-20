@@ -17,6 +17,9 @@
       (goto-char mb)
       (save-match-data (looking-at "^\\* "))))
 
+  (sp-local-pair 'gfm-mode "'" nil :actions nil)
+  (sp-local-pair 'markdown-mode "'" nil :actions nil)
+
   (defun ts/gfm-mode-hook ()
     (sp-with-modes '(gfm-mode)
       (sp-local-pair "`" "`"
