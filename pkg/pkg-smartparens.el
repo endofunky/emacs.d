@@ -4,7 +4,6 @@
   :config
   (require 'smartparens-config)
 
-  (smartparens-global-strict-mode t)
   (show-smartparens-global-mode -1)
 
   (setq sp-autoescape-string-quote nil)
