@@ -5,6 +5,7 @@
   (require 'smartparens-config)
 
   (show-smartparens-global-mode -1)
+  (smartparens-global-mode t)
 
   (setq sp-autoescape-string-quote nil)
   (setq sp-autoskip-closing-pair 'always)
