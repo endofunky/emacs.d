@@ -24,14 +24,12 @@
   (fset 'insertPound "#")
   (define-key global-map (kbd "s-3") 'insertPound)
 
-  ;; Fix delete-by-moving-to-trash
-  (use-package osx-trash
-    :ensure t
-    :init (osx-trash-setup))
+  ;; Disable sRGB colorspace
+  (setq ns-use-srgb-colorspace nil)
 
   ;; Enable emoji
   (if (fboundp 'set-fontset-font)
-      (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
+    (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
 
   (setq default-input-method "MacOSX"))
 
