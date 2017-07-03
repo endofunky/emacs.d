@@ -22,11 +22,6 @@
   (setq ac-use-menu-map t)
   (setq ac-use-quick-help t)
 
-  (use-package linum-mode
-    :defer t
-    :config
-    (ac-linum-workaround))
-
   ;; Workaround so the fringe doesn't flicker when completing close to EOF
   (use-package diff-hl
     :defer t

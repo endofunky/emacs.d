@@ -18,7 +18,7 @@
   (define-key evil-normal-state-map ",gs" 'magit-status)
   (define-key evil-normal-state-map ",gl" 'magit-log-popup)
   (define-key evil-normal-state-map ",gL" 'magit-log-all)
-  (define-key evil-normal-state-map ",gb" 'magit-blame-mode)
+  (define-key evil-normal-state-map ",gb" 'magit-blame-popup)
   :config
   (use-package evil-magit
     :ensure t
@@ -56,48 +56,5 @@
 (use-package gitignore-mode
   :ensure t
   :mode ("/\\.gitignore\\'" "/\\.git/info/exclude\\'" "/git/ignore\\'"))
-
-(use-package diff-hl
-  :if window-system
-  :ensure t
-  :commands (diff-hl-mode diff-hl-dir-mode)
-  :init
-  (add-hook 'prog-mode-hook 'diff-hl-mode)
-  (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
-  (add-hook 'org-mode-hook 'diff-hl-mode)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-  :config
-  (require 'diff-hl-dired)
-  (require 'diff-hl-flydiff)
-
-  (setq diff-hl-side 'right)
-  (setq diff-hl-draw-borders t)
-
-  (use-package fringe-helper
-    :ensure t
-    :config
-    (fringe-helper-define 'ts/diff-hl-added    '(top repeat) "XXXXXXXX")
-    (fringe-helper-define 'ts/diff-hl-modified '(top repeat) "XXXXXXXX")
-    (fringe-helper-define 'ts/diff-hl-deleted  '(top repeat) "XXXXXXXX"))
-
-  (defun ts/diff-hl-update-all ()
-    (cl-loop for buf in (buffer-list)
-             do (with-current-buffer buf
-                  (diff-hl-update))))
-
-  (add-hook 'focus-in-hook 'ts/diff-hl-update-all)
-
-  (defun ts/diff-hl-fringe-bmp-from-type (type _pos)
-    (cl-case type
-      (unknown 'question-mark)
-      (change 'ts/diff-hl-modified)
-      (insert 'ts/diff-hl-added)
-      (delete 'ts/diff-hl-deleted)
-      (ignored 'diff-hl-bmp-i)
-      (t (intern (format "diff-hl-bmp-%s" type)))))
-
-  (diff-hl-flydiff-mode t)
-
-  (setq diff-hl-fringe-bmp-function 'ts/diff-hl-fringe-bmp-from-type))
 
 (provide 'pkg-magit)

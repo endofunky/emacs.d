@@ -6,8 +6,6 @@
   (setq frame-resize-pixelwise t)
   (add-hook 'window-setup-hook 'toggle-frame-maximized)
 
-  ;; Enable right fringe
-  (setq-default right-fringe-width 3)
-  (fringe-mode '(0 . nil)))
+  (set-fringe-mode 0))
 
 (provide 'core-gui)

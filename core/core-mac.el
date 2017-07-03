@@ -20,12 +20,12 @@
   ;; Load new files in the same frame
   (setq ns-pop-up-frames nil)
 
+  ;; Regular fullscreen
+  (setq ns-use-native-fullscreen nil)
+
   ;; Fix the hash key
   (fset 'insertPound "#")
   (define-key global-map (kbd "s-3") 'insertPound)
-
-  ;; Disable sRGB colorspace
-  (setq ns-use-srgb-colorspace nil)
 
   ;; Enable emoji
   (if (fboundp 'set-fontset-font)

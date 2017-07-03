@@ -17,6 +17,7 @@
 ;; Paren highlighting
 (setq show-paren-delay 0)
 (show-paren-mode 1)
+(setq blink-matching-paren nil)
 
 ;; Enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -108,11 +109,6 @@
   ;; Eldoc massively slows down cursor movement. This advice fixes that.
   (advice-add 'eldoc-pre-command-refresh-echo-area :override #'ignore))
 
-(use-package linum-mode
- :init
- (add-hook 'prog-mode-hook 'linum-mode)
- (add-hook 'text-mode-hook 'linum-mode))
-
 ;; Never delete the scratch buffer
 (defun ts/get-scratch-buffer-create ()
   "Get *scratch* buffer or create it."
@@ -122,5 +118,14 @@
 
 ;; Empty scratch buffer by default
 (setq initial-scratch-message "")
+
+;; Re-enable disabled commands
+(setq disabled-command-function nil)
+(put 'set-goal-column 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'scroll-left 'disabled nil)
+(put 'erase-buffer 'disabled nil)
 
 (provide 'core-emacs)
