@@ -11,6 +11,7 @@
          ("\\.text\\'" . gfm-mode)
          ("\\.txt\\'" . gfm-mode))
   :config
+  (setq markdown-hide-urls nil)
   (defun ts/sp-skip-asterisk (ms mb me)
     "Skip asterisk if at begging of line"
     (save-excursion
@@ -21,6 +22,7 @@
   (sp-local-pair 'markdown-mode "'" nil :actions nil)
 
   (defun ts/gfm-mode-hook ()
+    (turn-on-orgtbl)
     (sp-with-modes '(gfm-mode)
       (sp-local-pair "`" "`"
                      :unless '(sp-point-after-word-p sp-point-at-bol-p)
