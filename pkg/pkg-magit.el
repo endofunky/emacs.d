@@ -3,7 +3,7 @@
   :commands (magit-status
              magit-log-popup
              magit-log-all
-             magit-blame-mode
+             magit-blame-popup
              magit-diff-popup
              magit-diff)
   :diminish auto-revert-mode
