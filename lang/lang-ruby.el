@@ -23,7 +23,7 @@
   :interpreter ("ruby" . ruby-mode)
   :config
   (setq ruby-insert-encoding-magic-comment nil)
-  (setq ruby-deep-indent-arglist nil)
+  (setq ruby-deep-arglist nil)
   (setq ruby-deep-indent-paren nil)
 
   (use-package bundler
