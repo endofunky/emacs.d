@@ -15,17 +15,19 @@
       (sp-local-pair "{" nil :post-handlers '((ts/sp-create-newline-and-enter-sexp "RET")))
       (sp-local-pair "(" nil :post-handlers '((ts/sp-create-newline-and-enter-sexp "RET")))))
 
-  (add-hook 'c-mode-hook 'ts/c-mode-hook)
+  (add-hook 'c-mode-hook 'ts/c-mode-hook))
 
-  (use-package ac-c-headers
-    :ensure t
-    :init
-    (add-hook 'c-mode-hook
-              (lambda ()
-                (add-to-list 'ac-sources 'ac-source-c-headers)
-                (add-to-list 'ac-sources 'ac-source-c-header-symbols t)))))
+(use-package ac-c-headers
+  :after cc-mode
+  :ensure t
+  :init
+  (add-hook 'c-mode-hook
+            (lambda ()
+              (add-to-list 'ac-sources 'ac-source-c-headers)
+              (add-to-list 'ac-sources 'ac-source-c-header-symbols t))))
 
 (use-package cmake-mode
+  :after cc-mode
   :ensure t
   :mode (("CMakeLists\\.txt\\'" . cmake-mode)
          ("\\.cmake\\'" . cmake-mode)))

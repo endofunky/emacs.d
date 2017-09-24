@@ -15,7 +15,7 @@
 (blink-cursor-mode -1)
 
 ;; Paren highlighting
-(setq show-paren-delay 0)
+(setq-default show-paren-delay 0)
 (show-paren-mode 1)
 (setq blink-matching-paren nil)
 

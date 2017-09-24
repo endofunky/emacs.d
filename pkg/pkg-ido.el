@@ -20,29 +20,33 @@
   (add-to-list 'ido-ignore-directories "\\.bundle")
   (add-to-list 'ido-ignore-directories "node_modules")
   (add-to-list 'ido-ignore-directories "elpa")
-  (add-to-list 'ido-ignore-directories "target")
+  (add-to-list 'ido-ignore-directories "target"))
 
-  (use-package smex
-    :ensure t
-    :bind (("M-x" . smex)
-           ("M-X" . smex-major-mode-commands))
-    :config
-    (smex-initialize))
+(use-package smex
+  :after ido
+  :ensure t
+  :bind (("M-x" . smex)
+         ("M-X" . smex-major-mode-commands))
+  :config
+  (smex-initialize))
 
-  (use-package ido-completing-read+
-    :ensure t
-    :config
-    (ido-ubiquitous-mode 1))
+(use-package ido-completing-read+
+  :after ido
+  :ensure t
+  :config
+  (ido-ubiquitous-mode 1))
 
-  (use-package ido-vertical-mode
-    :ensure t
-    :config
-    (ido-vertical-mode 1))
+(use-package ido-vertical-mode
+  :after ido
+  :ensure t
+  :config
+  (ido-vertical-mode 1))
 
-  (use-package flx-ido
-    :ensure t
-    :config
-    (flx-ido-mode 1)
-    (setq flx-ido-threshold 2000)))
+(use-package flx-ido
+  :after ido
+  :ensure t
+  :config
+  (flx-ido-mode 1)
+  (setq flx-ido-threshold 2000))
 
 (provide 'pkg-ido)

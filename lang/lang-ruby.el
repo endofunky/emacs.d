@@ -26,49 +26,6 @@
   (setq ruby-deep-arglist nil)
   (setq ruby-deep-indent-paren nil)
 
-  (use-package bundler
-    :ensure t)
-
-  (use-package ruby-interpolation
-    :ensure t
-    :diminish ruby-interpolation-mode)
-
-  (use-package yard-mode
-    :ensure t
-    :diminish yard-mode)
-
-  (use-package rbenv
-    :ensure t
-    :config
-    (global-rbenv-mode 1)
-    (setq rbenv-modeline-function 'rbenv--modeline-plain))
-
-  (use-package projectile-rails
-    :diminish projectile-rails-mode
-    :ensure t
-    :commands (projectile-rails-on)
-    :init
-    (add-hook 'projectile-mode-hook 'projectile-rails-on)
-    :config
-    (evil-define-key 'normal projectile-rails-mode-map ",r," 'projectile-rails-goto-file-at-point)
-    (evil-define-key 'normal projectile-rails-mode-map ",rc" 'projectile-rails-find-current-controller)
-    (evil-define-key 'normal projectile-rails-mode-map ",rf" 'projectile-rails-find-current-fixture)
-    (evil-define-key 'normal projectile-rails-mode-map ",rh" 'projectile-rails-find-current-helper)
-    (evil-define-key 'normal projectile-rails-mode-map ",rm" 'projectile-rails-find-current-model)
-    (evil-define-key 'normal projectile-rails-mode-map ",rs" 'projectile-rails-find-current-spec)
-    (evil-define-key 'normal projectile-rails-mode-map ",rt" 'projectile-rails-find-current-test)
-    (evil-define-key 'normal projectile-rails-mode-map ",rv" 'projectile-rails-find-current-view))
-
-  (use-package ruby-tools
-    :ensure t
-    :diminish ruby-tools-mode
-    :init
-    (add-hook 'ruby-mode-hook 'ruby-tools-mode)
-    :config
-    (evil-define-key 'normal ruby-mode-map ",x:" 'ruby-tools-to-symbol)
-    (evil-define-key 'normal ruby-mode-map ",x\"" 'ruby-tools-to-double-quote-string)
-    (evil-define-key 'normal ruby-mode-map ",x\'" 'ruby-tools-to-single-quote-string))
-
   (defun ts/ruby-mode-hook ()
     (yard-mode 1)
     (eldoc-mode 1)
@@ -81,5 +38,54 @@
       (sp-local-pair "(" nil :post-handlers '((ts/sp-create-newline-and-enter-sexp "RET")))))
 
   (add-hook 'ruby-mode-hook 'ts/ruby-mode-hook))
+
+(use-package bundler
+  :after ruby-mode
+  :ensure t)
+
+(use-package ruby-interpolation
+  :after ruby-mode
+  :ensure t
+  :diminish ruby-interpolation-mode)
+
+(use-package yard-mode
+  :after ruby-mode
+  :ensure t
+  :diminish yard-mode)
+
+(use-package rbenv
+  :after ruby-mode
+  :ensure t
+  :config
+  (global-rbenv-mode 1)
+  (setq rbenv-modeline-function 'rbenv--modeline-plain))
+
+(use-package projectile-rails
+  :after ruby-mode
+  :diminish projectile-rails-mode
+  :ensure t
+  :commands (projectile-rails-on)
+  :init
+  (add-hook 'projectile-mode-hook 'projectile-rails-on)
+  :config
+  (evil-define-key 'normal projectile-rails-mode-map ",r," 'projectile-rails-goto-file-at-point)
+  (evil-define-key 'normal projectile-rails-mode-map ",rc" 'projectile-rails-find-current-controller)
+  (evil-define-key 'normal projectile-rails-mode-map ",rf" 'projectile-rails-find-current-fixture)
+  (evil-define-key 'normal projectile-rails-mode-map ",rh" 'projectile-rails-find-current-helper)
+  (evil-define-key 'normal projectile-rails-mode-map ",rm" 'projectile-rails-find-current-model)
+  (evil-define-key 'normal projectile-rails-mode-map ",rs" 'projectile-rails-find-current-spec)
+  (evil-define-key 'normal projectile-rails-mode-map ",rt" 'projectile-rails-find-current-test)
+  (evil-define-key 'normal projectile-rails-mode-map ",rv" 'projectile-rails-find-current-view))
+
+(use-package ruby-tools
+  :after ruby-mode
+  :ensure t
+  :diminish ruby-tools-mode
+  :init
+  (add-hook 'ruby-mode-hook 'ruby-tools-mode)
+  :config
+  (evil-define-key 'normal ruby-mode-map ",x:" 'ruby-tools-to-symbol)
+  (evil-define-key 'normal ruby-mode-map ",x\"" 'ruby-tools-to-double-quote-string)
+  (evil-define-key 'normal ruby-mode-map ",x\'" 'ruby-tools-to-single-quote-string))
 
 (provide 'lang-ruby)

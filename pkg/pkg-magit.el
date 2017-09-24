@@ -20,11 +20,6 @@
   (define-key evil-normal-state-map ",gL" 'magit-log-all)
   (define-key evil-normal-state-map ",gb" 'magit-blame-popup)
   :config
-  (use-package evil-magit
-    :ensure t
-    :config
-    (evil-magit-init))
-
   (setenv "GIT_PAGER" "")
   (setq magit-commit-show-diff nil)
   (setq magit-stage-all-confirm nil)
@@ -48,6 +43,12 @@
     (jump-to-register :magit-fullscreen))
 
   (define-key magit-status-mode-map (kbd "q") 'ts/magit-quit-session))
+
+(use-package evil-magit
+  :after magit
+  :ensure t
+  :config
+  (evil-magit-init))
 
 (use-package gitconfig-mode
   :ensure t

@@ -2,15 +2,6 @@
   :ensure t
   :diminish undo-tree-mode
   :config
-  (use-package undo-tree
-    :ensure t
-    :config
-    (global-undo-tree-mode)
-    (setq undo-tree-visualizer-timestamps t)
-    (setq undo-tree-visualizer-lazy-drawing nil)
-    (setq undo-tree-auto-save-history t)
-    (let ((undo-dir (expand-file-name "undo" user-emacs-directory)))
-      (setq undo-tree-history-directory-alist (list (cons "." undo-dir)))))
 
   (evil-mode 1)
 
@@ -60,28 +51,42 @@
   (define-key evil-normal-state-map "K" nil)
 
   (evil-add-hjkl-bindings package-menu-mode-map 'emacs
-    "H" 'package-menu-quick-help)
+    "H" 'package-menu-quick-help))
 
-  (use-package evil-cleverparens
-    :ensure t
-    :diminish evil-cleverparens-mode
-    :commands (evil-cleverparens-mode)
-    :init
-    (add-hook 'emacs-lisp-mode-hook 'evil-cleverparens-mode)
-    (setq evil-cleverparens-use-additional-movement-keys nil))
+(use-package evil-cleverparens
+  :after evil
+  :ensure t
+  :diminish evil-cleverparens-mode
+  :commands (evil-cleverparens-mode)
+  :init
+  (add-hook 'emacs-lisp-mode-hook 'evil-cleverparens-mode)
+  (setq evil-cleverparens-use-additional-movement-keys nil))
 
-  (use-package evil-nerd-commenter
-    :defer 1
-    :ensure t
-    :commands (evilnc-comment-or-uncomment-lines)
-    :init
-    (define-key evil-normal-state-map (kbd "\\") 'evilnc-comment-or-uncomment-lines)
-    (define-key evil-visual-state-map (kbd "\\") 'evilnc-comment-or-uncomment-lines))
+(use-package evil-nerd-commenter
+  :after evil
+  :defer 1
+  :ensure t
+  :commands (evilnc-comment-or-uncomment-lines)
+  :init
+  (define-key evil-normal-state-map (kbd "\\") 'evilnc-comment-or-uncomment-lines)
+  (define-key evil-visual-state-map (kbd "\\") 'evilnc-comment-or-uncomment-lines))
 
-  (use-package evil-surround
-    :defer 1
-    :ensure t
-    :config
-    (global-evil-surround-mode 1)))
+(use-package evil-surround
+  :after evil
+  :defer 1
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
+
+(use-package undo-tree
+  :after evil
+  :ensure t
+  :config
+  (global-undo-tree-mode)
+  (setq undo-tree-visualizer-timestamps t)
+  (setq undo-tree-visualizer-lazy-drawing nil)
+  (setq undo-tree-auto-save-history t)
+  (let ((undo-dir (expand-file-name "undo" user-emacs-directory)))
+    (setq undo-tree-history-directory-alist (list (cons "." undo-dir)))))
 
 (provide 'pkg-evil)

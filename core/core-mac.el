@@ -10,7 +10,7 @@
 
   ;; Make dired work properly
   (require 'ls-lisp)
-  (setq ls-lisp-use-insert-directory-program nil)
+  (setq-default ls-lisp-use-insert-directory-program nil)
 
   ;; Key configuration
   (setq mac-command-modifier 'meta)

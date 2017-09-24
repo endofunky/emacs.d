@@ -20,17 +20,19 @@
 
   (add-hook 'prog-mode-hook 'ts/theme-add-watchwords)
 
-  (use-package popup
-    :defer t
-    :config
-    (set-face-attribute 'popup-tip-face nil :background (ts/color :base01) :foreground (ts/color :base04))
-    (set-face-attribute 'popup-scroll-bar-background-face nil :background (ts/color :base07))
-    (set-face-attribute 'popup-scroll-bar-foreground-face nil :background (ts/color :base04))
-    (set-face-attribute 'popup-face nil :background (ts/color :base01) :foreground (ts/color :base05))
-    (set-face-attribute 'popup-menu-selection-face nil :background (ts/color :base02) :foreground (ts/color :base0D)))
-
   (set-face-attribute 'font-lock-doc-face nil :foreground (ts/color :base03))
   (set-face-attribute 'fringe nil :background (ts/color :base00))
   (set-face-attribute 'vertical-border nil :foreground (ts/color :base01)))
+
+(use-package popup
+  :after base16-theme
+  :defer t
+  :config
+  (set-face-attribute 'popup-tip-face nil :background (ts/color :base01) :foreground (ts/color :base04))
+  (set-face-attribute 'popup-scroll-bar-background-face nil :background (ts/color :base07))
+  (set-face-attribute 'popup-scroll-bar-foreground-face nil :background (ts/color :base04))
+  (set-face-attribute 'popup-face nil :background (ts/color :base01) :foreground (ts/color :base05))
+  (set-face-attribute 'popup-menu-selection-face nil :background (ts/color :base02) :foreground (ts/color :base0D)))
+
 
 (provide 'pkg-theme)

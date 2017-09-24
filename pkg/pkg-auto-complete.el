@@ -20,14 +20,6 @@
   (setq ac-menu-height 10)
   (setq ac-quick-help-delay 0.5)
   (setq ac-use-menu-map t)
-  (setq ac-use-quick-help t)
-
-  ;; Workaround so the fringe doesn't flicker when completing close to EOF
-  (use-package diff-hl
-    :defer t
-    :config
-    (defadvice diff-hl-update (around ts/diff-hl-update-workaround activate)
-      (unless ac-completing
-        ad-do-it))))
+  (setq ac-use-quick-help t))
 
 (provide 'pkg-auto-complete)
