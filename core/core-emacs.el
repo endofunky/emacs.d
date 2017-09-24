@@ -47,7 +47,7 @@
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 (set-language-environment "UTF-8")
-(setq default-buffer-file-coding-system 'utf-8)
+(setq buffer-file-coding-system 'utf-8)
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
 ;; Pretify symbols
@@ -64,9 +64,6 @@
 
 ;; Keep buffers in sync
 (global-auto-revert-mode 1)
-
-;; Don't defer screen updates when performing operations
-(setq redisplay-dont-pause t)
 
 ;; Escape minibuffer with single escape
 (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
