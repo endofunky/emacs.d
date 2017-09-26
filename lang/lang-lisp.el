@@ -4,9 +4,12 @@
   (evil-define-key 'normal emacs-lisp-mode-map ",eb" 'eval-buffer)
   (evil-define-key 'normal emacs-lisp-mode-map ",ee" 'eval-expression)
   (evil-define-key 'visual emacs-lisp-mode-map ",er" 'eval-region)
+  (evil-define-key 'normal emacs-lisp-mode-map ",r" 'ielm)
+
   (evil-define-key 'normal lisp-interaction-mode-map ",eb" 'eval-buffer)
   (evil-define-key 'normal lisp-interaction-mode-map ",ee" 'eval-expression)
   (evil-define-key 'visual lisp-interaction-mode-map ",er" 'eval-region)
+  (evil-define-key 'normal lisp-interaction-mode-map ",r" 'ielm)
 
   (defun ts/emacs-lisp-recompile ()
     "Recompile elc file correspinding to buffer-file-name, if it exists."
