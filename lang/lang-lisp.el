@@ -42,4 +42,11 @@
   (evil-define-key 'normal lisp-interaction-mode-map ",," 'elisp-slime-nav-find-elisp-thing-at-point)
   (evil-define-key 'normal lisp-interaction-mode-map ",." 'pop-tag-mark))
 
+(use-package macrostep
+  :ensure t
+  :config
+  (evil-define-key 'normal emacs-lisp-mode-map ",xe" 'macrostep-expand)
+  (evil-define-key 'normal lisp-interaction-mode-map ",xe" 'macrostep-expand)
+  (evil-define-key 'normal macrostep-keymap "q" 'macrostep-collapse-all))
+
 (provide 'lang-lisp)
