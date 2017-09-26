@@ -2,7 +2,7 @@
 
 ;; Less warnings unless we're in debug mode.
 (unless (getenv "EMACS_INIT_DEBUG")
-  (setq warning-minimum-level :error))
+  (setq-default warning-minimum-level :error))
 
 (defconst ts/initial-gc-cons-threshold gc-cons-threshold
   "Initial value of `gc-cons-threshold' at start-up time.")
