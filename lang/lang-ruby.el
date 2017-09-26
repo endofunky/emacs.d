@@ -64,9 +64,11 @@
   :after ruby-mode
   :diminish projectile-rails-mode
   :ensure t
+  :init
+  (ts/define-repl ts/repl-projectile-rails-console "*rails*" #'(lambda () (projectile-rails-console nil)))
   :config
   (projectile-rails-global-mode t)
-  (evil-define-key 'normal projectile-rails-mode-map ",r" 'projectile-rails-console))
+  (evil-define-key 'normal projectile-rails-mode-map ",r" 'ts/repl-projectile-rails-console))
 
 (use-package ruby-tools
   :after ruby-mode
