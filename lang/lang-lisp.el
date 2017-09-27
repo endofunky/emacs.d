@@ -30,7 +30,19 @@
   (defun ts/lisp-mode-hook ()
     (setq mode-name "λ"))
 
-  (add-hook 'lisp-mode-hook 'ts/lisp-mode-hook))
+  (add-hook 'lisp-mode-hook 'ts/lisp-mode-hook)
+
+  (defun ts/inferior-emacs-lisp-mode-hook ()
+    (setq ac-sources '(ac-source-functions
+                       ac-source-variables
+                       ac-source-features
+                       ac-source-symbols
+                       ac-source-words-in-same-mode-buffers))
+    (add-to-list 'ac-modes 'inferior-emacs-lisp-mode)
+    (eldoc-mode t)
+    (auto-complete-mode 1))
+
+  (add-hook 'ielm-mode-hook 'ts/inferior-emacs-lisp-mode-hook))
 
 (use-package elisp-slime-nav
   :defer t
