@@ -22,6 +22,7 @@
     (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
   (define-key evil-normal-state-map ",kob" 'ts/kill-other-buffers)
+  (define-key evil-normal-state-map ",kb" 'kill-this-buffer)
 
   (defun ts/kill-buffer-or-delete-window ()
     "If more than one window is open, delete the current window, otherwise kill current buffer"
@@ -45,6 +46,10 @@
   (define-key evil-normal-state-map (kbd "s-l") 'evil-window-right)
 
   (define-key evil-normal-state-map (kbd ",u") 'undo-tree-visualize)
+
+  ;; Comint history
+  (evil-define-key 'insert comint-mode-map (kbd "<up>") 'comint-previous-input)
+  (evil-define-key 'insert comint-mode-map (kbd "<down>") 'comint-next-input)
 
   ;; Unset some annoying keys
   (define-key evil-motion-state-map "K" nil)
