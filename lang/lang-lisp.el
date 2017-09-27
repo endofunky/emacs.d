@@ -1,7 +1,12 @@
 (use-package lisp-mode
+  :config
+  (defun ts/lisp-mode-hook ()
+    (setq mode-name "λ"))
+
+  (add-hook 'lisp-mode-hook 'ts/lisp-mode-hook))
+
+(use-package elisp-mode
   :commands (emacs-lisp-mode lisp-interaction-mode)
-  :init
-  (ts/define-repl ts/repl-ielm "*ielm*" 'ielm)
   :config
   (evil-define-key 'normal emacs-lisp-mode-map ",eb" 'eval-buffer)
   (evil-define-key 'normal emacs-lisp-mode-map ",ee" 'eval-expression)
@@ -25,13 +30,14 @@
     (add-hook 'after-save-hook 'ts/emacs-lisp-recompile nil t)
     (setq mode-name "Emacs λ"))
 
-  (add-hook 'emacs-lisp-mode-hook 'ts/emacs-lisp-mode-hook)
+  (add-hook 'emacs-lisp-mode-hook 'ts/emacs-lisp-mode-hook))
 
-  (defun ts/lisp-mode-hook ()
-    (setq mode-name "λ"))
-
-  (add-hook 'lisp-mode-hook 'ts/lisp-mode-hook)
-
+(use-package ielm
+  :defer t
+  :commands (ielm)
+  :init
+  (ts/define-repl ts/repl-ielm "*ielm*" 'ielm)
+  :config
   (defun ts/inferior-emacs-lisp-mode-hook ()
     (setq ac-sources '(ac-source-functions
                        ac-source-variables
