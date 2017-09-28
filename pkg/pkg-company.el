@@ -26,10 +26,7 @@
   (define-key company-active-map (kbd "C-n") #'company-select-next)
   (define-key company-active-map (kbd "C-p") #'company-select-previous)
   (define-key company-active-map (kbd "C-f") 'company-complete-selection)
-  (define-key company-active-map [return] 'company-complete-selection)
   (define-key company-active-map (kbd "RET") 'company-complete-selection)
-  (define-key company-active-map [tab]
-    'company-select-next-if-tooltip-visible-or-complete-selection)
   (define-key company-active-map (kbd "TAB")
     'company-select-next-if-tooltip-visible-or-complete-selection)
 
