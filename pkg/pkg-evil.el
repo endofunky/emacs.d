@@ -1,20 +1,19 @@
 (use-package evil
   :ensure t
-  :diminish undo-tree-mode
   :config
 
   (evil-mode 1)
 
-  (setq evil-auto-indent t)
-  (setq evil-cross-lines t)
-  (setq evil-default-cursor t)
-  (setq evil-default-state 'normal)
-  (setq evil-echo-state nil)
-  (setq evil-ex-search-case 'smart)
-  (setq evil-ex-search-vim-style-regexp t)
-  (setq evil-magic 'very-magic)
-  (setq evil-search-module 'evil-search)
-  (setq evil-shift-width 2)
+  (setq-default evil-auto-indent t
+                evil-cross-lines t
+                evil-default-cursor t
+                evil-default-state 'normal
+                evil-echo-state nil
+                evil-ex-search-case 'smart
+                evil-ex-search-vim-style-regexp t
+                evil-magic 'very-magic
+                evil-search-module 'evil-search
+                evil-shift-width 2)
 
   (defun ts/kill-other-buffers ()
     "Kill all other buffers."
@@ -38,6 +37,14 @@
 
   (define-key evil-normal-state-map ",i" 'imenu)
   (define-key evil-normal-state-map ",ws" 'delete-trailing-whitespace)
+
+  ;; Alignment
+  (defun ts/align-to-= (begin end)
+    "Align region to = signs"
+    (interactive "r")
+    (align-regexp begin end "\\(\\s-*\\)=" 1 1 ))
+
+  (evil-define-key 'visual prog-mode-map ",=" 'ts/align-to-=)
 
   ;; Easier window navigation
   (define-key evil-normal-state-map (kbd "s-h") 'evil-window-left)
@@ -86,6 +93,7 @@
 (use-package undo-tree
   :after evil
   :ensure t
+  :diminish undo-tree-mode
   :config
   (global-undo-tree-mode)
   (setq undo-tree-visualizer-timestamps t)
