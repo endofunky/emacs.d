@@ -1,6 +1,14 @@
 (use-package lisp-mode
   :config
+  (defun ts/load_slime()
+    (let ((slime-helper (expand-file-name "~/quicklisp/slime-helper.el")))
+      (cond ((and (file-exists-p slime-helper)
+                  (not (fboundp 'slime)))
+             (load slime-helper)
+             (setq inferior-lisp-program "sbcl")))))
+
   (defun ts/lisp-mode-hook ()
+    (ts/load_slime)
     (setq mode-name "λ"))
 
   (add-hook 'lisp-mode-hook 'ts/lisp-mode-hook))
@@ -12,12 +20,10 @@
   (evil-define-key 'normal emacs-lisp-mode-map ",ee" 'eval-expression)
   (evil-define-key 'visual emacs-lisp-mode-map ",er" 'eval-region)
   (evil-define-key 'normal emacs-lisp-mode-map ",r" 'ts/repl-ielm)
-
   (evil-define-key 'normal lisp-interaction-mode-map ",eb" 'eval-buffer)
   (evil-define-key 'normal lisp-interaction-mode-map ",ee" 'eval-expression)
   (evil-define-key 'visual lisp-interaction-mode-map ",er" 'eval-region)
   (evil-define-key 'normal lisp-interaction-mode-map ",r" 'ts/repl-ielm)
-
   (evil-define-key 'normal ielm-map ",r" 'ts/repl-ielm)
 
   (defun ts/emacs-lisp-recompile ()
