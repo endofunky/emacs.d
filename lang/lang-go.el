@@ -8,11 +8,11 @@
   (sp-with-modes '(go-mode)
     (sp-local-pair "{" nil :post-handlers '((ts/sp-create-newline-and-enter-sexp "RET")))))
 
-(use-package go-autocomplete
+(use-package go-rename
   :after go-mode
   :ensure t)
 
-(use-package go-rename
+(use-package company-go
   :after go-mode
   :ensure t)
 
