@@ -1,17 +1,43 @@
 (use-package lisp-mode
   :config
-  (defun ts/load_slime()
-    (let ((slime-helper (expand-file-name "~/quicklisp/slime-helper.el")))
-      (cond ((and (file-exists-p slime-helper)
-                  (not (fboundp 'slime)))
-             (load slime-helper)
-             (setq inferior-lisp-program "sbcl")))))
-
   (defun ts/lisp-mode-hook ()
-    (ts/load_slime)
     (setq mode-name "λ"))
 
   (add-hook 'lisp-mode-hook 'ts/lisp-mode-hook))
+
+(use-package slime
+  :ensure t
+  :defer t
+  :commands (slime slime-lisp-mode-hook slime-mode)
+  :config
+  (setq slime-contribs
+        '(slime-fancy slime-asdf slime-quicklisp))
+
+  (setq inferior-lisp-program "sbcl"
+        slime-net-coding-system 'utf-8-unix
+        slime-complete-symbol*-fancy t
+        slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
+
+  (slime-setup '(slime-fancy slime-asdf slime-quicklisp slime-company))
+
+  (dolist (buf '("*slime-apropos*"
+                 "*slime-macroexpansion*"
+                 "*slime-description*"
+                 "*slime-xref*"
+                 slime-connection-list-mode
+                 slime-repl-mode))
+    (push buf popwin:special-display-config))
+
+  (push '("*slime-compilation*" :noselect t) popwin:special-display-config)
+
+  (ts/define-repl ts/repl-slime "*slime-repl sbcl*" 'slime-repl)
+  (evil-define-key 'normal lisp-mode-map ",r" 'ts/repl-slime)
+  (evil-define-key 'normal slime-repl-mode-map ",r" 'ts/repl-slime))
+
+(use-package slime-company
+  :ensure t
+  :defer t
+  :commands slime-company)
 
 (use-package elisp-mode
   :commands (emacs-lisp-mode lisp-interaction-mode)
