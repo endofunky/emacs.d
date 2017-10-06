@@ -23,4 +23,7 @@
   (evil-define-key 'normal tuareg-mode-map ",," 'merlin-locate)
   (evil-define-key 'normal tuareg-mode-map ",." 'merlin-pop-stack))
 
+(use-package ocp-indent
+  :ensure t)
+
 (provide 'lang-ocaml)
