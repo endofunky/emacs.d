@@ -22,7 +22,10 @@
                   (funcall ,fn)
                   (display-buffer buf))
                  ((get-buffer-window ,buf t)
-                  (popwin:close-popup-window t))
+                  (popwin:close-popup-window t)
+                  (let ((native-window (get-buffer-window ,buf t)))
+                    (when native-window
+                      (delete-window native-window))))
                  (t
                   (popwin:pop-to-buffer ,buf)))))))
 
