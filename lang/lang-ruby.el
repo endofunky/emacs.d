@@ -26,6 +26,12 @@
   (setq ruby-deep-arglist nil)
   (setq ruby-deep-indent-paren nil)
 
+  (ts/define-repl ts/repl-ruby "*ruby*" 'inf-ruby)
+  (evil-define-key 'normal ruby-mode-map ",r" 'ts/repl-ruby)
+  (evil-define-key 'normal inf-ruby-mode-map ",r" 'ts/repl-ruby)
+  (evil-define-key 'normal ruby-mode-map ",eb" 'ruby-send-buffer)
+  (evil-define-key 'visual ruby-mode-map ",er" 'ruby-send-region)
+
   (defun ts/ruby-mode-hook ()
     (yard-mode 1)
     (eldoc-mode 1)
