@@ -125,4 +125,7 @@
 (put 'scroll-left 'disabled nil)
 (put 'erase-buffer 'disabled nil)
 
+;; Never use TUI pagers in sub-processes
+(setenv "PAGER" (executable-find "cat"))
+
 (provide 'core-emacs)
