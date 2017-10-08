@@ -50,8 +50,8 @@
 (setq buffer-file-coding-system 'utf-8)
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
-;; Pretify symbols
-(global-prettify-symbols-mode 1)
+;; Never prettify symbols
+(global-prettify-symbols-mode -1)
 
 ;; Don't auto-split windows
 (setq split-window-preferred-function 'ignore)
