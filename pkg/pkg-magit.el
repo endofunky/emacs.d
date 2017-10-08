@@ -24,10 +24,6 @@
   (setq magit-commit-show-diff nil)
   (setq magit-stage-all-confirm nil)
   (setq magit-stage-all-confirm nil)
-  (setq magit-log-arguments '("--graph"
-                              "--decorate"
-                              "--color"
-                              "--show-signature"))
 
   ;; Don't let magit-status mess up window configurations
   ;; http://whattheemacsd.com/setup-magit.el-01.html
