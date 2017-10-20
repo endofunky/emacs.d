@@ -5,7 +5,8 @@
              magit-log-all
              magit-blame-popup
              magit-diff-popup
-             magit-diff)
+             magit-diff
+             magit-checkout)
   :diminish auto-revert-mode
   :init
   (defun ts/magit-diff-head ()
@@ -19,11 +20,13 @@
   (define-key evil-normal-state-map ",gl" 'magit-log-popup)
   (define-key evil-normal-state-map ",gL" 'magit-log-all)
   (define-key evil-normal-state-map ",gb" 'magit-blame-popup)
+  (define-key evil-normal-state-map ",gc" 'magit-checkout)
   :config
   (setenv "GIT_PAGER" "")
   (setq magit-commit-show-diff nil)
   (setq magit-stage-all-confirm nil)
   (setq magit-stage-all-confirm nil)
+  (setq magit-completing-read-function 'magit-ido-completing-read)
 
   ;; Don't let magit-status mess up window configurations
   ;; http://whattheemacsd.com/setup-magit.el-01.html
