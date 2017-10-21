@@ -1,6 +1,7 @@
 (use-package lisp-mode
   :config
   (defun ts/lisp-mode-hook ()
+    (slime-mode t)
     (setq mode-name "λ"))
 
   (add-hook 'lisp-mode-hook 'ts/lisp-mode-hook))
@@ -20,19 +21,29 @@
 
   (slime-setup '(slime-fancy slime-asdf slime-quicklisp slime-company))
 
-  (dolist (buf '("*slime-apropos*"
+  (setq popwin:special-display-config
+        (remove '(sldb-mode :stick t) popwin:special-display-config))
+
+  (dolist (buf '("*slime-xref*"
+                 "*slime-apropos*"
                  "*slime-macroexpansion*"
-                 "*slime-description*"
-                 "*slime-xref*"
-                 slime-connection-list-mode
-                 slime-repl-mode))
+                 "*slime-description*"))
     (push buf popwin:special-display-config))
 
-  (push '("*slime-compilation*" :noselect t) popwin:special-display-config)
+  (evil-define-key 'normal slime-mode-map ",," 'slime-edit-definition)
+  (evil-define-key 'normal slime-mode-map ",." 'slime-pop-find-definition-stack)
+  (evil-define-key 'normal slime-mode-map ",eb" 'slime-eval-buffer)
+  (evil-define-key 'visual slime-mode-map ",er" 'slime-eval-region)
+  (evil-define-key 'normal slime-mode-map ",ed" 'slime-eval-defun)
+  (evil-define-key 'normal slime-mode-map ",cc" 'slime-compile-and-load-file)
+  (evil-define-key 'region slime-mode-map ",cc" 'slime-compile-region)
 
   (ts/define-repl ts/repl-slime "*slime-repl sbcl*" 'slime-repl)
   (evil-define-key 'normal lisp-mode-map ",r" 'ts/repl-slime)
-  (evil-define-key 'normal slime-repl-mode-map ",r" 'ts/repl-slime))
+  (evil-define-key 'normal slime-repl-mode-map ",r" 'ts/repl-slime)
+
+  (evil-define-key 'insert slime-repl-mode-map (kbd "<up>") 'slime-repl-previous-input)
+  (evil-define-key 'insert slime-repl-mode-map (kbd "<down>") 'slime-repl-next-input))
 
 (use-package slime-company
   :ensure t
