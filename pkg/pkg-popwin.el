@@ -58,7 +58,7 @@
                  :dedicated t
                  :position bottom
                  :stick t
-                 :noselect t
+                 :noselect nil
                  :height 0.3))
 
   (add-to-list 'popwin:special-display-config
