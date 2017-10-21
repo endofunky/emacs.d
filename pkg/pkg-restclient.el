@@ -2,8 +2,6 @@
   :commands (restclient-mode)
   :ensure t
   :config
-  (when (featurep 'popwin)
-    (add-to-list 'popwin:special-display-config
-                 '("*HTTP Response*" :height 30 :dedicated t))))
+  (add-to-list 'shackle-rules '("*HTTP Respone*" :align bottom :size .4 :popup t :select t)))
 
 (provide 'pkg-restclient)
