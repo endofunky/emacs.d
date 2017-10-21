@@ -32,6 +32,13 @@
 
   (evil-ex-define-cmd "q" 'ts/kill-buffer-or-delete-window)
 
+  (defun ts/indent-buffer ()
+    "Indent the currently visited buffer."
+    (interactive)
+    (indent-region (point-min) (point-max)))
+
+  (define-key evil-normal-state-map (kbd ", TAB") 'ts/indent-buffer)
+
   (define-key evil-visual-state-map (kbd "TAB") 'indent-region)
   (define-key evil-normal-state-map (kbd "TAB") 'indent-for-tab-command)
 
