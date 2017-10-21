@@ -22,14 +22,12 @@ created by calling function `fn'"
                     '(,buf :align bottom :size .4 :popup t :select t))
        (defun ,name ()
          (interactive)
-         (let ((buffer-instance (get-buffer ,buf))
-               (buf (current-buffer)))
-           (cond ((null buffer-instance)
+         (let ((buffer (get-buffer ,buf))
+               (window (get-buffer-window ,buf t)))
+           (cond ((null buffer)
                   (funcall ,fn))
-                 ((get-buffer-window ,buf t)
-                  (let ((native-window (get-buffer-window ,buf t)))
-                    (when native-window
-                      (delete-window native-window))))
+                 (window
+                  (delete-window window))
                  (t
                   (pop-to-buffer ,buf))))))))
 
