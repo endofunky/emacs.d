@@ -1,4 +1,7 @@
 (use-package lisp-mode
+  :mode (("\\.cl\\'" . ruby-mode)
+         ("\\.lisp\\'" . ruby-mode)
+         ("\\.sbclrc\\'" . ruby-mode))
   :config
   (defun ts/lisp-mode-hook ()
     (slime-mode t)
