@@ -9,8 +9,15 @@
   (when (not shackle-rules)
     (setq shackle-rules '()))
 
-  (add-to-list 'shackle-rules '(" *undo-tree*" :align below :size .4 :popup t :select t))
-  (add-to-list 'shackle-rules '("*Help*" :align below :size .4 :popup t :select t))
+  (defun ts/shackle (shackle &rest rest)
+    "Adds one or more shackle rules to `shackle-rules'"
+    (if (eq 0 (length rest))
+        (add-to-list 'shackle-rules shackle)
+      (dolist (s (cons shackle rest))
+        (ts/shackle s))))
+
+  (ts/shackle '(" *undo-tree*" :align below :size .4 :popup t :select t)
+              '("*Help*" :align below :size .4 :popup t :select t))
 
   (shackle-mode t)
 

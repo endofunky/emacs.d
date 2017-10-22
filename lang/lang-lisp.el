@@ -21,10 +21,10 @@
 
   (slime-setup '(slime-fancy slime-asdf slime-quicklisp slime-company))
 
-  (add-to-list 'shackle-rules '(sldb-mode :align bottom :size .4 :popup t :select t))
-  (add-to-list 'shackle-rules '("*slime-compilation*" :align bottom :size .4 :popup t :select t))
-  (add-to-list 'shackle-rules '("*slime-description*" :align bottom :size .4 :popup t :select t))
-  (add-to-list 'shackle-rules '("*slime-apropos*" :align bottom :size .4 :popup t :select t))
+  (ts/shackle '(sldb-mode :align bottom :size .4 :popup t :select t)
+              '("*slime-compilation*" :align bottom :size .4 :popup t :select t)
+              '("*slime-description*" :align bottom :size .4 :popup t :select t)
+              '("*slime-apropos*" :align bottom :size .4 :popup t :select t))
 
   (evil-define-key 'normal slime-mode-map ",," 'slime-edit-definition)
   (evil-define-key 'normal slime-mode-map ",." 'slime-pop-find-definition-stack)
