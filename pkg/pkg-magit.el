@@ -1,12 +1,12 @@
 (use-package magit
   :ensure t
-  :commands (magit-status
-             magit-log-popup
-             magit-log-all
-             magit-blame-popup
-             magit-diff-popup
+  :commands (magit-blame-popup
+             magit-checkout
              magit-diff
-             magit-checkout)
+             magit-diff-popup
+             magit-log-all
+             magit-log-popup
+             magit-status)
   :diminish auto-revert-mode
   :init
   (defun ts/magit-diff-head ()
@@ -20,6 +20,7 @@
   (define-key evil-normal-state-map ",gl" 'magit-log-popup)
   (define-key evil-normal-state-map ",gL" 'magit-log-all)
   (define-key evil-normal-state-map ",gb" 'magit-blame-popup)
+  (define-key evil-normal-state-map ",gc" 'magit-checkout)
   (define-key evil-normal-state-map ",gc" 'magit-checkout)
   :config
   (setenv "GIT_PAGER" "")
