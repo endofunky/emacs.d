@@ -22,8 +22,8 @@
 
   (define-key company-active-map (kbd "M-n") nil)
   (define-key company-active-map (kbd "M-p") nil)
-  (define-key company-active-map (kbd "C-n") #'company-select-next)
-  (define-key company-active-map (kbd "C-p") #'company-select-previous)
+  (define-key company-active-map (kbd "C-n") #'company-select-next-or-abort)
+  (define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort)
   (define-key company-active-map (kbd "C-f") 'company-complete-selection)
   (define-key company-active-map (kbd "RET") 'company-complete-selection)
   (define-key company-active-map (kbd "TAB")
