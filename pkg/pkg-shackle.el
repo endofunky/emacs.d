@@ -17,6 +17,7 @@
         (ts/shackle s))))
 
   (ts/shackle '(" *undo-tree*" :align below :size .4 :popup t :select t)
+              '("*company-documentation*" :align below :size .4 :popup t :noselect t)
               '("*Help*" :align below :size .4 :popup t :select t))
 
   (shackle-mode t)
