@@ -103,6 +103,14 @@
   ;; Eldoc massively slows down cursor movement. This advice fixes that.
   (advice-add 'eldoc-pre-command-refresh-echo-area :override #'ignore))
 
+(use-package compile
+  :config
+  (defun ts/compilation-start-hook (_)
+    (setq truncate-lines nil)
+    (set (make-local-variable 'truncate-partial-width-windows) nil))
+
+  (add-hook 'compilation-start-hook 'ts/compilation-start-hook))
+
 ;; Never delete the scratch buffer
 (defun ts/get-scratch-buffer-create ()
   "Get *scratch* buffer or create it."
