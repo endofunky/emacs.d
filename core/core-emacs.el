@@ -109,7 +109,15 @@
     (setq truncate-lines nil)
     (set (make-local-variable 'truncate-partial-width-windows) nil))
 
-  (add-hook 'compilation-start-hook 'ts/compilation-start-hook))
+  (add-hook 'compilation-start-hook 'ts/compilation-start-hook)
+
+  (defun ts/compilation-exit-autoclose (status code msg)
+    (when (and (eq status 'exit) (zerop code))
+      (bury-buffer)
+      (delete-window (get-buffer-window (get-buffer "*compilation*"))))
+    (cons msg code))
+
+  (setq compilation-exit-message-function 'ts/compilation-exit-autoclose))
 
 ;; Never delete the scratch buffer
 (defun ts/get-scratch-buffer-create ()
