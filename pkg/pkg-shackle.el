@@ -9,12 +9,10 @@
   (when (not shackle-rules)
     (setq shackle-rules '()))
 
-  (defun ts/shackle (shackle &rest rest)
+  (defun ts/shackle (shackle &rest shackles)
     "Adds one or more shackle rules to `shackle-rules'"
-    (if (eq 0 (length rest))
-        (add-to-list 'shackle-rules shackle)
-      (dolist (s (cons shackle rest))
-        (ts/shackle s))))
+    (dolist (rule (cons shackle shackles))
+       (add-to-list 'shackle-rules rule)))
 
   (ts/shackle '(" *undo-tree*" :align below :size .4 :popup t :select t)
               '("*company-documentation*" :align below :size .4 :popup t :noselect t)
