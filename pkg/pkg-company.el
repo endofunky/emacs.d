@@ -7,19 +7,18 @@
          (company-explicit-action-p)))
 
   (setq company-auto-complete #'ts/company-visible-and-explicit-action-p
+        company-global-modes '(not message-mode help-mode)
         company-minimum-prefix-length 2
-        company-idle-delay 0.05
+        company-idle-delay 0.1
         company-dabbrev-ignore-case nil
         company-dabbrev-downcase nil
         company-selection-wrap-around t
         company-tooltip-align-annotations t
         company-tooltip-flip-when-above t
         company-tooltip-margin 2
-        company-echo-delay 0
         company-tooltip-limit 12
         company-require-match 'never
-        company-frontends '(company-pseudo-tooltip-frontend
-                            company-echo-metadata-frontend))
+        company-frontends '(company-pseudo-tooltip-frontend))
 
   (define-key company-active-map (kbd "M-n") nil)
   (define-key company-active-map (kbd "M-p") nil)
