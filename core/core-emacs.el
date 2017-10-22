@@ -105,6 +105,8 @@
 
 (use-package compile
   :config
+  (setq compilation-always-kill t)
+
   (defun ts/compilation-start-hook (_)
     (setq truncate-lines nil)
     (set (make-local-variable 'truncate-partial-width-windows) nil))
