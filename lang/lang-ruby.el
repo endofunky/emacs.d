@@ -66,6 +66,13 @@
   (global-rbenv-mode 1)
   (setq rbenv-modeline-function 'rbenv--modeline-plain))
 
+(use-package ruby-test-mode
+  :after ruby-mode
+  :ensure t
+  :config
+  (add-hook 'ruby-mode-hook 'ruby-test-mode)
+  (evil-define-key 'normal ruby-test-mode-map ",t" 'ruby-test-run))
+
 (use-package projectile-rails
   :after ruby-mode
   :diminish projectile-rails-mode
