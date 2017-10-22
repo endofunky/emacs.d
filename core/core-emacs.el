@@ -62,9 +62,6 @@
 ;; Keep buffers in sync
 (global-auto-revert-mode 1)
 
-;; Show file size in mode line
-(size-indication-mode 1)
-
 ;; Escape minibuffer with single escape
 (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
