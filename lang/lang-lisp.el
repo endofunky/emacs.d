@@ -15,7 +15,7 @@
   :commands (slime slime-lisp-mode-hook slime-mode)
   :config
   (setq slime-contribs
-        '(slime-fancy slime-asdf slime-quicklisp))
+        '(slime-fancy slime-asdf slime-quicklisp slime-cl-indent))
 
   (setq inferior-lisp-program "sbcl"
         slime-net-coding-system 'utf-8-unix
