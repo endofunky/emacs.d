@@ -43,7 +43,16 @@
       (sp-local-pair "{" nil :post-handlers '((ts/sp-create-newline-and-enter-sexp "RET")))
       (sp-local-pair "(" nil :post-handlers '((ts/sp-create-newline-and-enter-sexp "RET")))))
 
-  (add-hook 'ruby-mode-hook 'ts/ruby-mode-hook))
+  (add-hook 'ruby-mode-hook 'ts/ruby-mode-hook)
+
+
+  (defun ts/inf-ruby-mode-hook ()
+    (setq comint-input-ring-file-name ".pry_history")
+    (comint-read-input-ring 'silent)
+    (make-local-variable 'company-backends)
+    (setq company-backends (remq 'company-capf company-backends)))
+
+  (add-hook 'inf-ruby-mode 'ts/inf-ruby-mode-hook))
 
 (use-package bundler
   :after ruby-mode
