@@ -45,7 +45,6 @@
 
   (add-hook 'ruby-mode-hook 'ts/ruby-mode-hook)
 
-
   (defun ts/inf-ruby-mode-hook ()
     (setq comint-input-ring-file-name ".pry_history")
     (comint-read-input-ring 'silent)
