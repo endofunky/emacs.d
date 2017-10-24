@@ -42,7 +42,17 @@
     (kill-buffer)
     (jump-to-register :magit-fullscreen))
 
-  (define-key magit-status-mode-map (kbd "q") 'ts/magit-quit-session))
+  (define-key magit-status-mode-map (kbd "q") 'ts/magit-quit-session)
+
+  (set-face-attribute 'magit-section-heading nil :background nil :foreground (ts/color :base0A) :weight 'medium)
+  (set-face-attribute 'magit-branch-local nil :background nil :foreground (ts/color :base0C))
+  (set-face-attribute 'magit-branch-remote nil :background nil :foreground (ts/color :base0B))
+  (set-face-attribute 'magit-hash nil :background nil :foreground (ts/color :base03))
+  (set-face-attribute 'magit-diff-file-heading nil :background nil :foreground (ts/color :base05))
+  (set-face-attribute 'magit-diff-added nil :background nil :foreground (ts/color :base0B))
+  (set-face-attribute 'magit-diff-added-highlight nil :background nil :foreground (ts/color :base0B))
+  (set-face-attribute 'magit-diff-removed nil :background nil :foreground (ts/color :base08))
+  (set-face-attribute 'magit-diff-removed-highlight nil :background nil :foreground (ts/color :base08)))
 
 (use-package evil-magit
   :after magit
