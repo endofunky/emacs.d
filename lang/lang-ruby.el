@@ -79,7 +79,8 @@
   :ensure t
   :config
   (add-hook 'ruby-mode-hook 'ruby-test-mode)
-  (evil-define-key 'normal ruby-test-mode-map ",t" 'ruby-test-run))
+  (evil-define-key 'normal ruby-test-mode-map ",tt" 'ruby-test-run)
+  (evil-define-key 'normal ruby-test-mode-map ",tp" 'ruby-test-run-at-point))
 
 (use-package projectile-rails
   :after ruby-mode
