@@ -35,7 +35,7 @@
   (evil-define-key 'visual slime-mode-map ",er" 'slime-eval-region)
   (evil-define-key 'normal slime-mode-map ",ed" 'slime-eval-defun)
   (evil-define-key 'normal slime-mode-map ",cc" 'slime-compile-and-load-file)
-  (evil-define-key 'region slime-mode-map ",cc" 'slime-compile-region)
+  (evil-define-key 'region slime-mode-map ",cr" 'slime-compile-region)
 
   (ts/define-repl ts/repl-slime "*slime-repl sbcl*" 'slime-repl)
   (evil-define-key 'normal lisp-mode-map ",r" 'ts/repl-slime)
