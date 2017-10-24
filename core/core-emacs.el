@@ -104,15 +104,10 @@
   (advice-add 'eldoc-pre-command-refresh-echo-area :override #'ignore))
 
 (use-package compile
+  :defer t
   :config
   (setq compilation-always-kill t)
-
-  (defun ts/compilation-start-hook (_)
-    (evil-normal-state)
-    (setq truncate-lines nil)
-    (set (make-local-variable 'truncate-partial-width-windows) nil))
-
-  (add-hook 'compilation-start-hook 'ts/compilation-start-hook)
+  (add-hook 'compilation-start-hook 'evil-normal-state)
 
   (defun ts/compilation-exit-autoclose (status code msg)
     (when (and (eq status 'exit) (zerop code))
@@ -121,6 +116,14 @@
     (cons msg code))
 
   (setq compilation-exit-message-function 'ts/compilation-exit-autoclose))
+
+(use-package comint
+  :defer t
+  :config
+  (defun ts/comint-mode-hook ()
+    (setq truncate-lines nil)
+    (set (make-local-variable 'truncate-partial-width-windows) nil))
+  (add-hook 'comint-mode-hook 'ts/comint-mode-hook))
 
 ;; Never delete the scratch buffer
 (defun ts/get-scratch-buffer-create ()
