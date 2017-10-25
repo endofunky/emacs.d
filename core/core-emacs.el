@@ -107,7 +107,6 @@
   :defer t
   :config
   (setq compilation-always-kill t)
-  (add-hook 'compilation-start-hook 'evil-normal-state)
 
   (defun ts/compilation-exit-autoclose (status code msg)
     (when (and (eq status 'exit) (zerop code))

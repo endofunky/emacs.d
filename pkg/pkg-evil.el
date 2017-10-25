@@ -15,6 +15,9 @@
                 evil-search-module 'evil-search
                 evil-shift-width 2)
 
+  ;; Avoid dropping into insert mode in compilation windows
+  (add-hook 'compilation-start-hook 'evil-normal-state)
+
   (defun ts/kill-other-buffers ()
     "Kill all other buffers."
     (interactive)
