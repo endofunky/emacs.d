@@ -79,8 +79,29 @@
   :ensure t
   :config
   (add-hook 'ruby-mode-hook 'ruby-test-mode)
-  (evil-define-key 'normal ruby-test-mode-map ",tt" 'ruby-test-run)
-  (evil-define-key 'normal ruby-test-mode-map ",tp" 'ruby-test-run-at-point))
+  (evil-define-key 'normal ruby-test-mode-map ",tp" 'ruby-test-run-at-point)
+
+  (defun ts/file-exists-or-nil (filename)
+    (if (file-exists-p filename)
+        filename
+      nil))
+
+  (defun ts/ruby-test-infer-file (filename)
+    (cl-some #'ts/file-exists-or-nil (list (ruby-test-specification-filename filename)
+                                           (ruby-test-unit-filename filename)
+                                           (ruby-test-default-test-filename filename))))
+
+  (defun ts/ruby-test-run ()
+    (interactive)
+    (let ((filename (buffer-file-name (current-buffer))))
+      (if (ruby-test-any-p filename)
+          (ruby-test-run)
+        (if-let* ((testname (ts/ruby-test-infer-file filename)))
+            (ruby-test-with-ruby-directory testname
+                                           (ruby-test-run-command (ruby-test-command testname)))
+          (message "no corresponding test/spec file found")))))
+
+  (evil-define-key 'normal ruby-test-mode-map ",tt" 'ts/ruby-test-run))
 
 (use-package projectile-rails
   :after ruby-mode
