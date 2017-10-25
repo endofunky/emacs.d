@@ -81,17 +81,22 @@
   (add-hook 'ruby-mode-hook 'ruby-test-mode)
   (evil-define-key 'normal ruby-test-mode-map ",tp" 'ruby-test-run-at-point)
 
-  (defun ts/file-exists-or-nil (filename)
+  (defun ts/file-or-nil (filename)
+    "Return `filename' if `file-exists-p' returns non-nil, else nil"
     (if (file-exists-p filename)
         filename
       nil))
 
   (defun ts/ruby-test-infer-file (filename)
-    (cl-some #'ts/file-exists-or-nil (list (ruby-test-specification-filename filename)
-                                           (ruby-test-unit-filename filename)
-                                           (ruby-test-default-test-filename filename))))
+    "Return the inferred test or spec for `filename', or nil if it doesn't
+exist"
+    (cl-some #'ts/file-or-nil (list (ruby-test-specification-filename filename)
+                                    (ruby-test-unit-filename filename)
+                                    (ruby-test-default-test-filename filename))))
 
   (defun ts/ruby-test-run ()
+    "Run the current test/spec or the test/spec corresponding to the
+current buffer's file, if it exists"
     (interactive)
     (let ((filename (buffer-file-name (current-buffer))))
       (if (ruby-test-any-p filename)
