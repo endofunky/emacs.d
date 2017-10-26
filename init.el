@@ -26,18 +26,11 @@
   (tool-bar-mode -1)
   (scroll-bar-mode -1))
 
-;; Load private.el if it exists
-(add-hook 'after-init-hook
-          (lambda ()
-            (let ((private-file (concat user-emacs-directory "private.el")))
-              (when (file-exists-p private-file)
-                (load-file private-file)))))
-
 (menu-bar-mode -1)
 
 (let ((default-directory (expand-file-name "elpa" user-emacs-directory)))
   (unless (file-exists-p default-directory)
-    (make-directory default-directory))
+        (make-directory default-directory))
   (normal-top-level-add-subdirs-to-load-path))
 
 (setq package-enable-at-startup nil
@@ -51,9 +44,9 @@
 (package-initialize t)
 
 (unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(require 'use-package)
+   (package-refresh-contents)
+   (package-install 'use-package))
+ (require 'use-package)
 
 (if (getenv "EMACS_INIT_DEBUG")
     (setq use-package-verbose t))
@@ -71,7 +64,7 @@
     (ts/require-directory-files absolute-path)))
 
 (let ((elapsed (float-time (time-subtract (current-time)
-                                          ts/emacs-start-time))))
+                                            ts/emacs-start-time))))
   (message "Loading %s...done (%.3fs)" load-file-name elapsed))
 
 (provide 'init)

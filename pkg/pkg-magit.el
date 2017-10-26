@@ -54,11 +54,6 @@
   (set-face-attribute 'magit-diff-removed nil :background nil :foreground (ts/color :base08))
   (set-face-attribute 'magit-diff-removed-highlight nil :background nil :foreground (ts/color :base08)))
 
-(use-package magithub
-  :after magit
-  :ensure t
-  :config (magithub-feature-autoinject t))
-
 (use-package evil-magit
   :after magit
   :ensure t
