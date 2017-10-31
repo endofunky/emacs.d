@@ -119,6 +119,7 @@
 (use-package comint
   :defer t
   :config
+  (setq comint-scroll-to-bottom-on-output 'others)
   (defun ts/comint-mode-hook ()
     (setq truncate-lines nil)
     (set (make-local-variable 'truncate-partial-width-windows) nil))
