@@ -32,6 +32,8 @@
   (evil-define-key 'normal ruby-mode-map ",eb" 'ruby-send-buffer)
   (evil-define-key 'visual ruby-mode-map ",er" 'ruby-send-region)
 
+  (ts/shackle '("*rake-compilation*" :align below :size .4 :popup t :select t))
+
   (defun ts/ruby-mode-hook ()
     (yard-mode 1)
     (eldoc-mode 1)
