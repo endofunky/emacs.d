@@ -108,8 +108,6 @@
   (global-undo-tree-mode)
   (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-visualizer-lazy-drawing nil)
-  (setq undo-tree-auto-save-history t)
-  (let ((undo-dir (expand-file-name "undo" user-emacs-directory)))
-    (setq undo-tree-history-directory-alist (list (cons "." undo-dir)))))
+  (setq undo-tree-auto-save-history t))
 
 (provide 'pkg-evil)
