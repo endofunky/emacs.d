@@ -78,6 +78,7 @@
 
 (use-package ruby-test-mode
   :after ruby-mode
+  :diminish ruby-test-mode
   :ensure t
   :config
   (add-hook 'ruby-mode-hook 'ruby-test-mode)
