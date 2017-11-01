@@ -48,7 +48,6 @@
   (add-hook 'ruby-mode-hook 'ef-ruby-mode-hook)
 
   (defun ef-inf-ruby-mode-hook ()
-    (setq comint-input-ring-file-name ".pry_history")
     (comint-read-input-ring 'silent)
     (make-local-variable 'company-backends)
     (setq company-backends (remq 'company-capf company-backends)))
