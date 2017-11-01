@@ -126,7 +126,11 @@
 ;; Never delete the scratch buffer
 (defun ef-get-scratch-buffer-create ()
   "Get *scratch* buffer or create it."
-  (get-buffer-create "*scratch*"))
+  (unless (get-buffer "*scratch*")
+    (with-current-buffer (generate-new-buffer "*scratch")
+      (insert initial-scratch-message)
+      (set-buffer-modified-p nil)
+      (funcall initial-major-mode))))
 
 (run-with-idle-timer 1 t 'ef-get-scratch-buffer-create)
 
