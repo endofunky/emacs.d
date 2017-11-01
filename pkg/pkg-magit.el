@@ -52,7 +52,10 @@
   (set-face-attribute 'magit-diff-added nil :background nil :foreground (ef-color :base0B))
   (set-face-attribute 'magit-diff-added-highlight nil :background nil :foreground (ef-color :base0B))
   (set-face-attribute 'magit-diff-removed nil :background nil :foreground (ef-color :base08))
-  (set-face-attribute 'magit-diff-removed-highlight nil :background nil :foreground (ef-color :base08)))
+  (set-face-attribute 'magit-diff-removed-highlight nil :background nil :foreground (ef-color :base08))
+  (set-face-attribute 'magit-diff-context-highlight nil :background (ef-color :base01))
+  (set-face-attribute 'magit-diff-removed-highlight nil :background (ef-color :base01))
+  (set-face-attribute 'magit-diff-added-highlight nil :background (ef-color :base01)))
 
 (use-package evil-magit
   :after magit
