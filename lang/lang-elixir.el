@@ -12,9 +12,9 @@
   :init
   (add-hook 'elixir-mode-hook 'alchemist-mode)
   :config
-  (ts/define-repl ts/repl-alchemist "*Alchemist-IEx*" 'alchemist-iex-project-run)
-  (evil-define-key 'normal alchemist-mode-map ",r" 'ts/repl-alchemist)
-  (evil-define-key 'normal alchemist-iex-mode-map ",r" 'ts/repl-alchemist)
+  (ef-define-repl ef-repl-alchemist "*Alchemist-IEx*" 'alchemist-iex-project-run)
+  (evil-define-key 'normal alchemist-mode-map ",r" 'ef-repl-alchemist)
+  (evil-define-key 'normal alchemist-iex-mode-map ",r" 'ef-repl-alchemist)
   (evil-define-key 'normal alchemist-mode-map ",," 'alchemist-goto-definition-at-point)
   (evil-define-key 'normal alchemist-mode-map ",." 'alchemist-goto-jump-back))
 

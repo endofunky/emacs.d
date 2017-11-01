@@ -3,11 +3,11 @@
   :ensure t
   :defer 1
   :config
-  (defun ts/company-visible-and-explicit-action-p ()
+  (defun ef-company-visible-and-explicit-action-p ()
     (and (company-tooltip-visible-p)
          (company-explicit-action-p)))
 
-  (setq company-auto-complete #'ts/company-visible-and-explicit-action-p
+  (setq company-auto-complete #'ef-company-visible-and-explicit-action-p
         company-global-modes '(not message-mode help-mode)
         company-begin-commands '(self-insert-command)
         company-minimum-prefix-length 2
@@ -23,7 +23,7 @@
         company-require-match 'never
         company-frontends '(company-pseudo-tooltip-frontend))
 
-  (defun ts/check-expansion ()
+  (defun ef-check-expansion ()
     (save-excursion
       (if (looking-at "\\_>") t
         (backward-char 1)
@@ -31,22 +31,22 @@
           (backward-char 1)
           (if (looking-at "->") t nil)))))
 
-  (defun ts/tab-indent-or-complete ()
+  (defun ef-tab-indent-or-complete ()
     (interactive)
     (if (minibufferp)
         (minibuffer-complete)
-      (if (ts/check-expansion)
+      (if (ef-check-expansion)
           (company-complete-common)
         (indent-for-tab-command))))
 
-  (defun ts/evil-complete-lambda (arg)
+  (defun ef-evil-complete-lambda (arg)
     "Ignores passed in arg like a lambda and runs company-complete"
     (company-complete))
 
-  (setq evil-complete-next-func 'ts/evil-complete-lambda)
-  (setq evil-complete-previous-func 'ts/evil-complete-lambda)
+  (setq evil-complete-next-func 'ef-evil-complete-lambda)
+  (setq evil-complete-previous-func 'ef-evil-complete-lambda)
 
-  (define-key evil-insert-state-map (kbd "TAB") 'ts/tab-indent-or-complete)
+  (define-key evil-insert-state-map (kbd "TAB") 'ef-tab-indent-or-complete)
   (define-key company-active-map (kbd "C-n") #'company-select-next-or-abort)
   (define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort)
   (define-key company-active-map (kbd "C-f") 'company-complete-selection)

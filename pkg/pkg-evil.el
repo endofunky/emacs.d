@@ -18,29 +18,29 @@
   ;; Avoid dropping into insert mode in compilation windows
   (add-hook 'compilation-start-hook 'evil-normal-state)
 
-  (defun ts/kill-other-buffers ()
+  (defun ef-kill-other-buffers ()
     "Kill all other buffers."
     (interactive)
     (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
-  (define-key evil-normal-state-map ",kob" 'ts/kill-other-buffers)
+  (define-key evil-normal-state-map ",kob" 'ef-kill-other-buffers)
   (define-key evil-normal-state-map ",kb" 'kill-this-buffer)
 
-  (defun ts/kill-buffer-or-delete-window ()
+  (defun ef-kill-buffer-or-delete-window ()
     "If more than one window is open, delete the current window, otherwise kill current buffer"
     (interactive)
     (if (> (length (window-list)) 1)
         (delete-window)
       (kill-buffer)))
 
-  (evil-ex-define-cmd "q" 'ts/kill-buffer-or-delete-window)
+  (evil-ex-define-cmd "q" 'ef-kill-buffer-or-delete-window)
 
-  (defun ts/indent-buffer ()
+  (defun ef-indent-buffer ()
     "Indent the currently visited buffer."
     (interactive)
     (indent-region (point-min) (point-max)))
 
-  (define-key evil-normal-state-map (kbd ", TAB") 'ts/indent-buffer)
+  (define-key evil-normal-state-map (kbd ", TAB") 'ef-indent-buffer)
 
   (define-key evil-visual-state-map (kbd "TAB") 'indent-region)
   (define-key evil-normal-state-map (kbd "TAB") 'indent-for-tab-command)
@@ -49,12 +49,12 @@
   (define-key evil-normal-state-map ",ws" 'delete-trailing-whitespace)
 
   ;; Alignment
-  (defun ts/align-to-= (begin end)
+  (defun ef-align-to-= (begin end)
     "Align region to = signs"
     (interactive "r")
     (align-regexp begin end "\\(\\s-*\\)=" 1 1 ))
 
-  (evil-define-key 'visual prog-mode-map ",=" 'ts/align-to-=)
+  (evil-define-key 'visual prog-mode-map ",=" 'ef-align-to-=)
 
   ;; Easier window navigation
   (define-key evil-normal-state-map (kbd "s-h") 'evil-window-left)

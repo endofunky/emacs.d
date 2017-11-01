@@ -6,7 +6,7 @@
   (evil-define-key 'normal go-mode-map ",." 'pop-tag-mark)
   (setq ac-delay 0.3)
   (sp-with-modes '(go-mode)
-    (sp-local-pair "{" nil :post-handlers '((ts/sp-create-newline-and-enter-sexp "RET")))))
+    (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))))
 
 (use-package go-rename
   :after go-mode

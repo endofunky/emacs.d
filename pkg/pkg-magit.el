@@ -9,13 +9,13 @@
              magit-status)
   :diminish auto-revert-mode
   :init
-  (defun ts/magit-diff-head ()
+  (defun ef-magit-diff-head ()
     "Execute `magit-diff' against current HEAD."
     (interactive)
     (magit-diff "HEAD"))
 
   (define-key evil-normal-state-map ",gd" 'magit-diff-popup)
-  (define-key evil-normal-state-map ",gD" 'ts/magit-diff-head)
+  (define-key evil-normal-state-map ",gD" 'ef-magit-diff-head)
   (define-key evil-normal-state-map ",gs" 'magit-status)
   (define-key evil-normal-state-map ",gl" 'magit-log-popup)
   (define-key evil-normal-state-map ",gL" 'magit-log-all)
@@ -36,23 +36,23 @@
     ad-do-it
     (delete-other-windows))
 
-  (defun ts/magit-quit-session ()
+  (defun ef-magit-quit-session ()
     "Restores the previous window configuration and kills the magit buffer"
     (interactive)
     (kill-buffer)
     (jump-to-register :magit-fullscreen))
 
-  (define-key magit-status-mode-map (kbd "q") 'ts/magit-quit-session)
+  (define-key magit-status-mode-map (kbd "q") 'ef-magit-quit-session)
 
-  (set-face-attribute 'magit-section-heading nil :background nil :foreground (ts/color :base0A) :weight 'medium)
-  (set-face-attribute 'magit-branch-local nil :background nil :foreground (ts/color :base0C))
-  (set-face-attribute 'magit-branch-remote nil :background nil :foreground (ts/color :base0B))
-  (set-face-attribute 'magit-hash nil :background nil :foreground (ts/color :base03))
-  (set-face-attribute 'magit-diff-file-heading nil :background nil :foreground (ts/color :base05))
-  (set-face-attribute 'magit-diff-added nil :background nil :foreground (ts/color :base0B))
-  (set-face-attribute 'magit-diff-added-highlight nil :background nil :foreground (ts/color :base0B))
-  (set-face-attribute 'magit-diff-removed nil :background nil :foreground (ts/color :base08))
-  (set-face-attribute 'magit-diff-removed-highlight nil :background nil :foreground (ts/color :base08)))
+  (set-face-attribute 'magit-section-heading nil :background nil :foreground (ef-color :base0A) :weight 'medium)
+  (set-face-attribute 'magit-branch-local nil :background nil :foreground (ef-color :base0C))
+  (set-face-attribute 'magit-branch-remote nil :background nil :foreground (ef-color :base0B))
+  (set-face-attribute 'magit-hash nil :background nil :foreground (ef-color :base03))
+  (set-face-attribute 'magit-diff-file-heading nil :background nil :foreground (ef-color :base05))
+  (set-face-attribute 'magit-diff-added nil :background nil :foreground (ef-color :base0B))
+  (set-face-attribute 'magit-diff-added-highlight nil :background nil :foreground (ef-color :base0B))
+  (set-face-attribute 'magit-diff-removed nil :background nil :foreground (ef-color :base08))
+  (set-face-attribute 'magit-diff-removed-highlight nil :background nil :foreground (ef-color :base08)))
 
 (use-package evil-magit
   :after magit

@@ -108,29 +108,29 @@
   :config
   (setq compilation-always-kill t)
 
-  (defun ts/compilation-exit-autoclose (status code msg)
+  (defun ef-compilation-exit-autoclose (status code msg)
     (when (and (eq status 'exit) (zerop code))
       (bury-buffer)
       (delete-window (get-buffer-window (get-buffer "*compilation*"))))
     (cons msg code))
 
-  (setq compilation-exit-message-function 'ts/compilation-exit-autoclose))
+  (setq compilation-exit-message-function 'ef-compilation-exit-autoclose))
 
 (use-package comint
   :defer t
   :config
   (setq comint-scroll-to-bottom-on-output 'others)
-  (defun ts/comint-mode-hook ()
+  (defun ef-comint-mode-hook ()
     (setq truncate-lines nil)
     (set (make-local-variable 'truncate-partial-width-windows) nil))
-  (add-hook 'comint-mode-hook 'ts/comint-mode-hook))
+  (add-hook 'comint-mode-hook 'ef-comint-mode-hook))
 
 ;; Never delete the scratch buffer
-(defun ts/get-scratch-buffer-create ()
+(defun ef-get-scratch-buffer-create ()
   "Get *scratch* buffer or create it."
   (get-buffer-create "*scratch*"))
 
-(run-with-idle-timer 1 t 'ts/get-scratch-buffer-create)
+(run-with-idle-timer 1 t 'ef-get-scratch-buffer-create)
 
 ;; Empty scratch buffer by default
 (setq initial-scratch-message "")

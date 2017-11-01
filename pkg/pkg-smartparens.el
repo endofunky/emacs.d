@@ -33,7 +33,7 @@
         (delete 'minibuffer-inactive-mode sp-ignore-modes-list))
   (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
 
-  (defun ts/sp-create-newline-and-enter-sexp (&rest _ignored)
+  (defun ef-sp-create-newline-and-enter-sexp (&rest _ignored)
     "Open a new brace or bracket expression, with relevant newlines and indent"
     (newline)
     (indent-according-to-mode)

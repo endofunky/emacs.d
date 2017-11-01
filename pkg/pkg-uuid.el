@@ -1,9 +1,9 @@
 (use-package uuid
   :ensure t
   :defer t
-  :commands (ts/insert-uuid)
+  :commands (ef-insert-uuid)
   :init
-  (defun ts/insert-uuid ()
+  (defun ef-insert-uuid ()
     (interactive)
     (require 'uuid)
     (insert (uuid-string))))

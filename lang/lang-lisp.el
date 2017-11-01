@@ -3,11 +3,11 @@
          ("\\.lisp\\'" . ruby-mode)
          ("\\.sbclrc\\'" . ruby-mode))
   :config
-  (defun ts/lisp-mode-hook ()
+  (defun ef-lisp-mode-hook ()
     (slime-mode t)
     (setq mode-name "λ"))
 
-  (add-hook 'lisp-mode-hook 'ts/lisp-mode-hook))
+  (add-hook 'lisp-mode-hook 'ef-lisp-mode-hook))
 
 (use-package slime
   :ensure t
@@ -24,7 +24,7 @@
 
   (slime-setup '(slime-fancy slime-asdf slime-quicklisp slime-company))
 
-  (ts/shackle '(sldb-mode :align bottom :size .4 :popup t :select t)
+  (ef-shackle '(sldb-mode :align bottom :size .4 :popup t :select t)
               '("*slime-compilation*" :align bottom :size .4 :popup t :select t)
               '("*slime-description*" :align bottom :size .4 :popup t :select t)
               '("*slime-apropos*" :align bottom :size .4 :popup t :select t))
@@ -37,9 +37,9 @@
   (evil-define-key 'normal slime-mode-map ",cc" 'slime-compile-and-load-file)
   (evil-define-key 'region slime-mode-map ",cr" 'slime-compile-region)
 
-  (ts/define-repl ts/repl-slime "*slime-repl sbcl*" 'slime-repl)
-  (evil-define-key 'normal lisp-mode-map ",r" 'ts/repl-slime)
-  (evil-define-key 'normal slime-repl-mode-map ",r" 'ts/repl-slime)
+  (ef-define-repl ef-repl-slime "*slime-repl sbcl*" 'slime-repl)
+  (evil-define-key 'normal lisp-mode-map ",r" 'ef-repl-slime)
+  (evil-define-key 'normal slime-repl-mode-map ",r" 'ef-repl-slime)
 
   (evil-define-key 'insert slime-repl-mode-map (kbd "<up>") 'slime-repl-previous-input)
   (evil-define-key 'insert slime-repl-mode-map (kbd "<down>") 'slime-repl-next-input))
@@ -55,35 +55,35 @@
   (evil-define-key 'normal emacs-lisp-mode-map ",eb" 'eval-buffer)
   (evil-define-key 'normal emacs-lisp-mode-map ",ee" 'eval-expression)
   (evil-define-key 'visual emacs-lisp-mode-map ",er" 'eval-region)
-  (evil-define-key 'normal emacs-lisp-mode-map ",r" 'ts/repl-ielm)
+  (evil-define-key 'normal emacs-lisp-mode-map ",r" 'ef-repl-ielm)
   (evil-define-key 'normal lisp-interaction-mode-map ",eb" 'eval-buffer)
   (evil-define-key 'normal lisp-interaction-mode-map ",ee" 'eval-expression)
   (evil-define-key 'visual lisp-interaction-mode-map ",er" 'eval-region)
-  (evil-define-key 'normal lisp-interaction-mode-map ",r" 'ts/repl-ielm)
-  (evil-define-key 'normal ielm-map ",r" 'ts/repl-ielm)
+  (evil-define-key 'normal lisp-interaction-mode-map ",r" 'ef-repl-ielm)
+  (evil-define-key 'normal ielm-map ",r" 'ef-repl-ielm)
 
-  (defun ts/emacs-lisp-recompile ()
+  (defun ef-emacs-lisp-recompile ()
     "Recompile elc file correspinding to buffer-file-name, if it exists."
     (interactive)
     (when (file-exists-p (byte-compile-dest-file buffer-file-name))
       (emacs-lisp-byte-compile)))
 
-  (defun ts/emacs-lisp-mode-hook ()
-    (add-hook 'after-save-hook 'ts/emacs-lisp-recompile nil t)
+  (defun ef-emacs-lisp-mode-hook ()
+    (add-hook 'after-save-hook 'ef-emacs-lisp-recompile nil t)
     (setq mode-name "Emacs λ"))
 
-  (add-hook 'emacs-lisp-mode-hook 'ts/emacs-lisp-mode-hook))
+  (add-hook 'emacs-lisp-mode-hook 'ef-emacs-lisp-mode-hook))
 
 (use-package ielm
   :defer t
   :commands (ielm)
   :init
-  (ts/define-repl ts/repl-ielm "*ielm*" 'ielm)
+  (ef-define-repl ef-repl-ielm "*ielm*" 'ielm)
   :config
-  (defun ts/inferior-emacs-lisp-mode-hook ()
+  (defun ef-inferior-emacs-lisp-mode-hook ()
     (eldoc-mode t))
 
-  (add-hook 'ielm-mode-hook 'ts/inferior-emacs-lisp-mode-hook))
+  (add-hook 'ielm-mode-hook 'ef-inferior-emacs-lisp-mode-hook))
 
 (use-package elisp-slime-nav
   :defer t

@@ -8,14 +8,14 @@
   (setq tab-width 8)
   (setq indent-tabs-mode t)
 
-  (defun ts/c-mode-hook ()
+  (defun ef-c-mode-hook ()
     (sp-with-modes '(c-mode cc-mode)
       (sp-local-pair "#include <" ">")
-      (sp-local-pair "[" nil :post-handlers '((ts/sp-create-newline-and-enter-sexp "RET")))
-      (sp-local-pair "{" nil :post-handlers '((ts/sp-create-newline-and-enter-sexp "RET")))
-      (sp-local-pair "(" nil :post-handlers '((ts/sp-create-newline-and-enter-sexp "RET")))))
+      (sp-local-pair "[" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
+      (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
+      (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))))
 
-  (add-hook 'c-mode-hook 'ts/c-mode-hook))
+  (add-hook 'c-mode-hook 'ef-c-mode-hook))
 
 (use-package company-c-headers
   :after cc-mode

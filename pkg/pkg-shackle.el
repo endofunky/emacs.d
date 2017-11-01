@@ -9,19 +9,19 @@
   (when (not shackle-rules)
     (setq shackle-rules '()))
 
-  (defun ts/shackle (shackle &rest shackles)
+  (defun ef-shackle (shackle &rest shackles)
     "Adds one or more shackle rules to `shackle-rules'"
     (dolist (rule (cons shackle shackles))
        (add-to-list 'shackle-rules rule)))
 
-  (ts/shackle '(" *undo-tree*" :align below :size .4 :popup t :select t)
+  (ef-shackle '(" *undo-tree*" :align below :size .4 :popup t :select t)
               '("*company-documentation*" :align below :size .4 :popup t :noselect t)
               '("*compilation*" :align below :size .4 :popup t :noselect t)
               '("*Help*" :align below :size .4 :popup t :select t))
 
   (shackle-mode t)
 
-  (defmacro ts/define-repl (name buf fn)
+  (defmacro ef-define-repl (name buf fn)
     "Define a shackle REPL wrapper function with `name' for buffer `buf'
 created by calling function `fn'"
     `(progn

@@ -12,7 +12,7 @@
          ("\\.txt\\'" . gfm-mode))
   :config
   (setq markdown-hide-urls nil)
-  (defun ts/sp-skip-asterisk (ms mb me)
+  (defun ef-sp-skip-asterisk (ms mb me)
     "Skip asterisk if at begging of line"
     (save-excursion
       (goto-char mb)
@@ -21,7 +21,7 @@
   (sp-local-pair 'gfm-mode "'" nil :actions nil)
   (sp-local-pair 'markdown-mode "'" nil :actions nil)
 
-  (defun ts/gfm-mode-hook ()
+  (defun ef-gfm-mode-hook ()
     (turn-on-orgtbl)
     (sp-with-modes '(gfm-mode)
       (sp-local-pair "`" "`"
@@ -29,10 +29,10 @@
                      :post-handlers '(("[d1]" "SPC")))
       (sp-local-pair "*" "*"
                      :unless '(sp-point-after-word-p sp-point-at-bol-p)
-                     :skip-match 'ts/sp-skip-asterisk
+                     :skip-match 'ef-sp-skip-asterisk
                      :post-handlers '(("[d1]" "SPC")))
       (sp-local-pair "_" "_")))
 
-  (add-hook 'gfm-mode-hook 'ts/gfm-mode-hook))
+  (add-hook 'gfm-mode-hook 'ef-gfm-mode-hook))
 
 (provide 'lang-markdown)

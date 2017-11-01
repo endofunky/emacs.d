@@ -1,17 +1,17 @@
-(defconst ts/emacs-start-time (current-time))
+(defconst ef-emacs-start-time (current-time))
 
 ;; Less warnings unless we're in debug mode.
 (unless (getenv "EMACS_INIT_DEBUG")
   (setq-default warning-minimum-level :error))
 
-(defconst ts/initial-gc-cons-threshold gc-cons-threshold
+(defconst ef-initial-gc-cons-threshold gc-cons-threshold
   "Initial value of `gc-cons-threshold' at start-up time.")
 
-(defun ts/reset-gc-cons-threshold ()
+(defun ef-reset-gc-cons-threshold ()
   "Resets `gc-cons-threshold` to it's initial value"
-  (setq gc-cons-threshold ts/initial-gc-cons-threshold))
+  (setq gc-cons-threshold ef-initial-gc-cons-threshold))
 
-(add-hook 'after-init-hook 'ts/reset-gc-cons-threshold)
+(add-hook 'after-init-hook 'ef-reset-gc-cons-threshold)
 
 (setq gc-cons-threshold (* 128 1024 1024))
 
@@ -53,7 +53,7 @@
 
 (add-to-list 'load-path (expand-file-name "vendor" user-emacs-directory))
 
-(defun ts/require-directory-files (dir)
+(defun ef-require-directory-files (dir)
   (mapc (lambda (name)
           (require (intern (file-name-sans-extension name))))
         (directory-files dir nil "\\.el$")))
@@ -61,10 +61,10 @@
 (dolist (path '("core" "pkg" "lang"))
   (let ((absolute-path (expand-file-name path user-emacs-directory)))
     (add-to-list 'load-path absolute-path)
-    (ts/require-directory-files absolute-path)))
+    (ef-require-directory-files absolute-path)))
 
 (let ((elapsed (float-time (time-subtract (current-time)
-                                          ts/emacs-start-time))))
+                                          ef-emacs-start-time))))
   (message "Loading %s...done (%.3fs)" load-file-name elapsed))
 
 (provide 'init)
