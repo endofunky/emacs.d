@@ -123,13 +123,6 @@
     (set (make-local-variable 'truncate-partial-width-windows) nil))
   (add-hook 'comint-mode-hook 'ef-comint-mode-hook))
 
-;; Never delete the scratch buffer
-(defun ef-get-scratch-buffer-create ()
-  "Get *scratch* buffer or create it."
-  (get-buffer-create "*scratch*"))
-
-(run-with-idle-timer 1 t 'ef-get-scratch-buffer-create)
-
 ;; Empty scratch buffer by default
 (setq initial-scratch-message "")
 
