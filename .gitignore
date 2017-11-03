@@ -4,3 +4,4 @@ custom.el
 private.el
 var/
 etc/
+network-security.data
