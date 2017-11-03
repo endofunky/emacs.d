@@ -127,7 +127,7 @@
 (defun ef-get-scratch-buffer-create ()
   "Get *scratch* buffer or create it."
   (unless (get-buffer "*scratch*")
-    (with-current-buffer (generate-new-buffer "*scratch")
+    (with-current-buffer (generate-new-buffer "*scratch*")
       (insert initial-scratch-message)
       (set-buffer-modified-p nil)
       (funcall initial-major-mode))))
