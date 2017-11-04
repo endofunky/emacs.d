@@ -48,11 +48,9 @@
   (add-hook 'ruby-mode-hook 'ef-ruby-mode-hook)
 
   (defun ef-inf-ruby-mode-hook ()
-    (comint-read-input-ring 'silent)
-    (make-local-variable 'company-backends)
-    (setq company-backends (remq 'company-capf company-backends)))
+    (comint-read-input-ring 'silent))
 
-  (add-hook 'inf-ruby-mode 'ef-inf-ruby-mode-hook))
+  (add-hook 'inf-ruby-mode-hook 'ef-inf-ruby-mode-hook))
 
 (use-package bundler
   :after ruby-mode
