@@ -6,6 +6,8 @@
   (setq org-confirm-babel-evaluate nil
         org-src-fontify-natively t
         org-fontify-quote-and-verse-blocks t
+        org-return-follows-link t
+        org-hide-emphasis-markers t
         org-src-tab-acts-natively t)
 
   (set-face-attribute 'org-document-title nil :height 1.0 :weight 'medium)
@@ -39,8 +41,10 @@
         org-tree-slide-slide-in-effect nil)
 
   (defun ef-org-tree-slide-play-hook ()
-    (flyspell-mode nil)
-    (flyspell-delete-all-overlays)
+    (if (fboundp 'flyspell-mode)
+        (flyspell-mode -1)
+      (flyspell-delete-all-overlays))
+
     (let ((org-format-latex-options
            (plist-put (copy-tree org-format-latex-options)
 		      :scale 4)))
@@ -51,7 +55,9 @@
   (add-hook 'org-tree-slide-play-hook 'ef-org-tree-slide-play-hook)
 
   (defun ef-org-tree-slide-stop-hook ()
-    (flyspell-mode t)
+    (if (fboundp 'flyspell-mode)
+        (flyspell-mode t))
+
     (org-remove-latex-fragment-image-overlays)
     (setq-local global-hl-line-mode nil)
     (setq-local global-hl-line-mode t))
