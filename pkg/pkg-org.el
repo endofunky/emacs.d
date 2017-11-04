@@ -67,6 +67,13 @@
 (use-package demo-it
   :ensure t
   :config
+  (defun ef-demo-it-title-screen (file)
+    (find-file file)
+    (show-all)
+    (setq cursor-type nil)
+    (variable-pitch-mode 1)
+    (text-scale-set (demo-it--get-text-scale :huge)))
+
   (setq demo-it--text-scale 5
         demo-it--presentation-hide-mode-line nil
         demo-it--presentation-variable-width t))
