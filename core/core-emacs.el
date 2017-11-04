@@ -104,7 +104,8 @@
 (use-package compile
   :defer t
   :config
-  (setq compilation-always-kill t)
+  (setq compilation-always-kill t
+        compilation-message-face 'default)
 
   (defun ef-compilation-exit-autoclose (status code msg)
     (when (and (eq status 'exit) (zerop code))
