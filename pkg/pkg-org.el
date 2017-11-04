@@ -74,7 +74,9 @@
     (variable-pitch-mode 1)
     (text-scale-set (demo-it--get-text-scale :huge)))
 
-  (setq demo-it--text-scale 5
+  (setq demo-it--shell-or-eshell :eshell
+        demo-it--insert-text-speed :fast
+        demo-it--open-windows-size 100
         demo-it--presentation-hide-mode-line nil
         demo-it--presentation-variable-width t))
 
