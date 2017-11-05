@@ -8,9 +8,8 @@
         org-fontify-quote-and-verse-blocks t
         org-return-follows-link t
         org-hide-emphasis-markers t
-        org-src-tab-acts-natively t)
-
-  (set-face-attribute 'org-document-title nil :height 1.0 :weight 'medium)
+        org-src-tab-acts-natively t
+        org-log-done 'time)
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -20,7 +19,10 @@
      (ruby . t)))
 
   (when (display-graphic-p)
-    (define-key org-mode-map (kbd "M-RET") 'toggle-frame-fullscreen)))
+    (define-key org-mode-map (kbd "M-RET") 'toggle-frame-fullscreen))
+
+  (evil-define-key 'normal org-mode-map ",t" 'org-todo)
+  (evil-define-key 'normal org-mode-map ",c" 'org-toggle-checkbox))
 
 (use-package org-bullets
   :after org
