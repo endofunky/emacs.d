@@ -4,9 +4,9 @@ Lightweight [`use-package`](https://github.com/jwiegley/use-package) & [`evil-mo
 
 ## Directory Structure
 
-- `core/`: Core emacs & GUI configuration
-- `pkg/`: Non-`prog-mode` package configuration
-- `lang/`: Programming language specific configuration
+- `core/`: Core emacs configuration
+- `pkg/`: General package configuration
+- `lang/`: Programming language specific package configuration
 
 ## Debugging
 
