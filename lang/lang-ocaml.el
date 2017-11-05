@@ -8,9 +8,7 @@
   (evil-define-key 'visual tuareg-mode-map ",er" 'tuareg-eval-region)
   (evil-define-key 'normal tuareg-mode-map ",ep" 'tuareg-eval-phrase)
   (evil-define-key 'normal tuareg-mode-map ",r" 'ef-repl-ocaml)
-  (evil-define-key 'normal tuareg-interactive-mode-map ",r" 'ef-repl-ocaml)
-
-  (set-face-attribute 'tuareg-font-double-colon-face nil :foreground (ef-color :base04)))
+  (evil-define-key 'normal tuareg-interactive-mode-map ",r" 'ef-repl-ocaml))
 
 (use-package merlin
   :ensure t

@@ -32,4 +32,23 @@
   (set-face-attribute 'smerge-refined-added nil :background nil :foreground (ef-color :base0B))
   (set-face-attribute 'smerge-refined-removed nil :background nil :foreground (ef-color :base08)))
 
+(use-package magit
+  :defer t
+  :config
+  (set-face-attribute 'magit-section-heading nil :background nil :foreground (ef-color :base0A) :weight 'medium)
+  (set-face-attribute 'magit-branch-local nil :background nil :foreground (ef-color :base0C))
+  (set-face-attribute 'magit-branch-remote nil :background nil :foreground (ef-color :base0B))
+  (set-face-attribute 'magit-hash nil :background nil :foreground (ef-color :base03))
+  (set-face-attribute 'magit-diff-file-heading nil :background nil :foreground (ef-color :base05))
+  (set-face-attribute 'magit-diff-added nil :background nil :foreground (ef-color :base0B))
+  (set-face-attribute 'magit-diff-added-highlight nil :background (ef-color :base01) :foreground (ef-color :base0B))
+  (set-face-attribute 'magit-diff-removed nil :background nil :foreground (ef-color :base08))
+  (set-face-attribute 'magit-diff-removed-highlight nil :background (ef-color :base01) :foreground (ef-color :base08))
+  (set-face-attribute 'magit-diff-context-highlight nil :background (ef-color :base01)))
+
+(use-package tuareg
+  :defer t
+  :config
+  (set-face-attribute 'tuareg-font-double-colon-face nil :foreground (ef-color :base04)))
+
 (provide 'pkg-theme)
