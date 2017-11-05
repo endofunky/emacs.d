@@ -23,6 +23,19 @@
         company-require-match 'never
         company-frontends '(company-pseudo-tooltip-frontend))
 
+  (define-key company-active-map (kbd "C-n") #'company-select-next-or-abort)
+  (define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort)
+  (define-key company-active-map (kbd "C-f") 'company-complete-selection)
+  (define-key company-active-map (kbd "RET") 'company-complete-selection)
+  (define-key company-active-map (kbd "TAB")
+    'company-select-next-if-tooltip-visible-or-complete-selection)
+
+  (global-company-mode t))
+
+(use-package evil
+  :after company
+  :defer t
+  :config
   (defun ef-check-expansion ()
     (save-excursion
       (if (looking-at "\\_>") t
@@ -46,14 +59,6 @@
   (setq evil-complete-next-func 'ef-evil-complete-lambda)
   (setq evil-complete-previous-func 'ef-evil-complete-lambda)
 
-  (define-key evil-insert-state-map (kbd "TAB") 'ef-tab-indent-or-complete)
-  (define-key company-active-map (kbd "C-n") #'company-select-next-or-abort)
-  (define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort)
-  (define-key company-active-map (kbd "C-f") 'company-complete-selection)
-  (define-key company-active-map (kbd "RET") 'company-complete-selection)
-  (define-key company-active-map (kbd "TAB")
-    'company-select-next-if-tooltip-visible-or-complete-selection)
-
-  (global-company-mode t))
+  (define-key evil-insert-state-map (kbd "TAB") 'ef-tab-indent-or-complete))
 
 (provide 'pkg-company)
