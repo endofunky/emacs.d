@@ -20,6 +20,8 @@
 
   (add-hook 'prog-mode-hook 'ef-theme-add-watchwords)
 
+  (set-face-attribute 'org-document-title nil :height 1.0 :weight 'medium)
+  (set-face-attribute 'org-block nil :foreground (ef-color :base04))
   (set-face-attribute 'font-lock-doc-face nil :foreground (ef-color :base03))
   (set-face-attribute 'fringe nil :background (ef-color :base00))
   (set-face-attribute 'vertical-border nil :foreground (ef-color :base01)))
