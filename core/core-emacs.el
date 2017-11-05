@@ -83,14 +83,20 @@
 ;; Empty scratch buffer by default
 (setq initial-scratch-message "")
 
-;; Re-enable disabled commands
+;;; Enable disabled commands
+
 (setq disabled-command-function nil)
-(put 'set-goal-column 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(put 'scroll-left 'disabled nil)
-(put 'erase-buffer 'disabled nil)
+(put 'LaTeX-narrow-to-environment 'disabled nil)
+(put 'TeX-narrow-to-group         'disabled nil)
+(put 'company-coq-fold            'disabled nil)
+(put 'downcase-region             'disabled nil)   ; Let downcasing work
+(put 'erase-buffer                'disabled nil)
+(put 'eval-expression             'disabled nil)   ; Let ESC-ESC work
+(put 'narrow-to-page              'disabled nil)   ; Let narrowing work
+(put 'narrow-to-region            'disabled nil)   ; Let narrowing work
+(put 'scroll-left                 'disabled nil)
+(put 'set-goal-column             'disabled nil)
+(put 'upcase-region               'disabled nil)   ; Let upcasing work
 
 ;; Never use TUI pagers in sub-processes
 (setenv "PAGER" (executable-find "cat"))
