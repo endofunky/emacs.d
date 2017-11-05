@@ -26,4 +26,10 @@
   (set-face-attribute 'fringe nil :background (ef-color :base00))
   (set-face-attribute 'vertical-border nil :foreground (ef-color :base01)))
 
+(use-package smerge-mode
+  :defer t
+  :config
+  (set-face-attribute 'smerge-refined-added nil :background nil :foreground (ef-color :base0B))
+  (set-face-attribute 'smerge-refined-removed nil :background nil :foreground (ef-color :base08)))
+
 (provide 'pkg-theme)
