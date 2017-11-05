@@ -9,6 +9,11 @@
 
   (add-hook 'lisp-mode-hook 'ef-lisp-mode-hook))
 
+(use-package slime-company
+  :ensure t
+  :defer t
+  :commands slime-company)
+
 (use-package slime
   :ensure t
   :defer t
@@ -43,11 +48,6 @@
 
   (evil-define-key 'insert slime-repl-mode-map (kbd "<up>") 'slime-repl-previous-input)
   (evil-define-key 'insert slime-repl-mode-map (kbd "<down>") 'slime-repl-next-input))
-
-(use-package slime-company
-  :ensure t
-  :defer t
-  :commands slime-company)
 
 (use-package elisp-mode
   :commands (emacs-lisp-mode lisp-interaction-mode)
