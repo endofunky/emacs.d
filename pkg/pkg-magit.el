@@ -50,6 +50,9 @@
   :config
   (evil-magit-init))
 
+(use-package gitattributes-mode
+  :ensure t)
+
 (use-package gitconfig-mode
   :ensure t
   :mode ("/\\.gitconfig\\'" "/\\.git/config\\'" "/git/config\\'" "/\\.gitmodules\\'"))
