@@ -1,7 +1,11 @@
 (defconst ef-emacs-start-time (current-time))
 
+(defun ef-init-debug-p ()
+  "Returns true if the EMACS_INIT_DEBUG environment variable is set."
+  (stringp (getenv "EMACS_INIT_DEBUG")))
+
 ;; Less warnings unless we're in debug mode.
-(unless (getenv "EMACS_INIT_DEBUG")
+(when (ef-init-debug-p)
   (setq-default warning-minimum-level :error))
 
 (defconst ef-initial-gc-cons-threshold gc-cons-threshold
@@ -48,7 +52,7 @@
   (package-install 'use-package))
 (require 'use-package)
 
-(if (getenv "EMACS_INIT_DEBUG")
+(if (ef-init-debug-p)
     (setq use-package-verbose t))
 
 (add-to-list 'load-path (expand-file-name "vendor" user-emacs-directory))
