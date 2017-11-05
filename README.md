@@ -1,6 +1,6 @@
 # .emacs.d
 
-[`use-package`](https://github.com/jwiegley/use-package)-based emacs config.
+Lightweight [`use-package`](https://github.com/jwiegley/use-package) & [`evil-mode`](https://github.com/emacs-evil/evil) based emacs config.
 
 ## Directory Structure
 
