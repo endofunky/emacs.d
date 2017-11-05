@@ -42,12 +42,6 @@
 (setq buffer-file-coding-system 'utf-8)
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
-;; Never prettify symbols
-(global-prettify-symbols-mode -1)
-
-;; Highlight current line
-(global-hl-line-mode 1)
-
 ;; Show columns in mode-line
 (column-number-mode t)
 

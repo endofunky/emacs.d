@@ -1,8 +1,6 @@
 (use-package paren
   :config
-  (show-paren-mode)
-  (setq show-paren-delay 0
-        show-paren-when-point-inside-paren t
-        show-paren-when-point-in-periphery t))
+  (setq show-paren-delay 0)
+  (show-paren-mode t))
 
 (provide 'pkg-paren)
