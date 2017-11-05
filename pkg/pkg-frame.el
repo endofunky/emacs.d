@@ -6,6 +6,7 @@
         blink-cursor-blinks 0)
 
   (set-frame-font "Inconsolata-11")
+  (blink-cursor-mode -1)
   (global-set-key (kbd "M-RET") 'toggle-frame-fullscreen)
   (add-to-list 'initial-frame-alist '(fullscreen . fullboth)))
 

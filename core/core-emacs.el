@@ -11,14 +11,6 @@
 ;; Treat an Emacs region much like a typical selection outside of Emacs
 (delete-selection-mode t)
 
-;; Don't have a blinking cursor
-(blink-cursor-mode -1)
-
-;; Paren highlighting
-(setq-default show-paren-delay 0)
-(show-paren-mode 1)
-(setq blink-matching-paren nil)
-
 ;; Enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
 
