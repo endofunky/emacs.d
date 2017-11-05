@@ -93,6 +93,7 @@
       (message "No buffer to switch back to.")))
 
   (defun ef-toggle-scratch ()
+    "Toggle between *scratch* buffer and the current buffer."
     (interactive)
     (if (equal (buffer-name) "*scratch*")
         (ef-toggle-scratch--goto-prev-buffer)
