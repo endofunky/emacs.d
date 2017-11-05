@@ -1,7 +1,7 @@
 ;; Sensible setup for Macs
 (when (memq window-system '(mac ns))
   ;; Load PATH from shell unless we inherited an environment.
-  (when (not (getenv "TERM_PROGRAM"))
+  (unless (getenv "TERM_PROGRAM")
     (use-package exec-path-from-shell
       :ensure t
       :config
@@ -29,7 +29,7 @@
 
   ;; Enable emoji
   (if (fboundp 'set-fontset-font)
-    (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
+      (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
 
   (setq default-input-method "MacOSX"))
 
