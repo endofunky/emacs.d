@@ -1,7 +1,6 @@
 (use-package evil
   :ensure t
   :config
-
   (evil-mode 1)
 
   (setq-default evil-auto-indent t
@@ -61,9 +60,6 @@
   (define-key evil-normal-state-map (kbd "s-j") 'evil-window-down)
   (define-key evil-normal-state-map (kbd "s-k") 'evil-window-up)
   (define-key evil-normal-state-map (kbd "s-l") 'evil-window-right)
-
-  ;; Undo
-  (define-key evil-normal-state-map (kbd ",u") 'undo-tree-visualize)
 
   ;; Text-scaling
   (define-key evil-normal-state-map ",-" 'text-scale-adjust)
@@ -139,6 +135,8 @@
   (setq undo-tree-visualizer-lazy-drawing nil)
   (setq undo-tree-auto-save-history t)
   (let ((undo-dir (expand-file-name "undo" user-emacs-directory)))
-    (setq undo-tree-history-directory-alist (list (cons "." undo-dir)))))
+    (setq undo-tree-history-directory-alist (list (cons "." undo-dir))))
+
+  (define-key evil-normal-state-map (kbd ",u") 'undo-tree-visualize))
 
 (provide 'pkg-evil)
