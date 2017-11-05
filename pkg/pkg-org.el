@@ -1,4 +1,5 @@
 (use-package org
+  :defer t
   :ensure org-plus-contrib
   :pin melpa
   :config
@@ -67,6 +68,7 @@
   (add-hook 'org-tree-slide-stop-hook 'ef-org-tree-slide-stop-hook))
 
 (use-package demo-it
+  :after org
   :ensure t
   :config
   (defun ef-demo-it-title-screen (file)
