@@ -27,6 +27,7 @@
   (setq ruby-deep-indent-paren nil)
 
   (ef-define-repl ef-repl-ruby "*ruby*" 'inf-ruby)
+
   (evil-define-key 'normal ruby-mode-map ",r" 'ef-repl-ruby)
   (evil-define-key 'normal inf-ruby-mode-map ",r" 'ef-repl-ruby)
   (evil-define-key 'normal ruby-mode-map ",eb" 'ruby-send-buffer)
