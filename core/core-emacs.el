@@ -69,63 +69,6 @@
 (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 
-(use-package savehist
-  :defer 1
-  :config
-  (savehist-mode t)
-  (setq savehist-file (expand-file-name "savehist" user-emacs-directory)
-        savehist-additional-variables '(search ring regexp-search-ring)
-        savehist-autosave-interval 60
-        history-length 1000))
-
-(use-package saveplace
-  :config
-  (require 'saveplace)
-  (setq save-place-file (expand-file-name "saveplace" user-emacs-directory))
-  (setq-default save-place t))
-
-(use-package abbrev
-  :diminish abbrev-mode
-  :defer t)
-
-(use-package whitespace
-  :config
-  (global-whitespace-mode 1)
-  (setq-default show-trailing-whitespace nil)
-  (setq whitespace-style (quote (face trailing)))
-  :diminish (whitespace-mode global-whitespace-mode))
-
-(use-package eldoc
-  :diminish eldoc-mode
-  :config
-  (setq eldoc-idle-delay 0.5)
-
-  ;; Eldoc massively slows down cursor movement. This advice fixes that.
-  (advice-add 'eldoc-pre-command-refresh-echo-area :override #'ignore))
-
-(use-package compile
-  :defer t
-  :config
-  (setq compilation-always-kill t
-        compilation-message-face 'default)
-
-  (defun ef-compilation-exit-autoclose (status code msg)
-    (when (and (eq status 'exit) (zerop code))
-      (bury-buffer)
-      (delete-window (get-buffer-window (get-buffer "*compilation*"))))
-    (cons msg code))
-
-  (setq compilation-exit-message-function 'ef-compilation-exit-autoclose))
-
-(use-package comint
-  :defer t
-  :config
-  (setq comint-scroll-to-bottom-on-output 'others)
-  (defun ef-comint-mode-hook ()
-    (setq truncate-lines nil)
-    (set (make-local-variable 'truncate-partial-width-windows) nil))
-  (add-hook 'comint-mode-hook 'ef-comint-mode-hook))
-
 ;; Never delete the scratch buffer
 (defun ef-get-scratch-buffer-create ()
   "Get *scratch* buffer or create it."
