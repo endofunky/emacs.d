@@ -63,8 +63,9 @@
     (add-to-list 'load-path absolute-path)
     (ef-require-directory-files absolute-path)))
 
-(let ((elapsed (float-time (time-subtract (current-time)
-                                          ef-emacs-start-time))))
-  (message "Loading %s...done (%.3fs)" load-file-name elapsed))
+(unless noninteractive
+  (let ((elapsed (float-time (time-subtract (current-time)
+                                            ef-emacs-start-time))))
+    (message "Loading %s...done (%.3fs)" load-file-name elapsed)))
 
 (provide 'init)
