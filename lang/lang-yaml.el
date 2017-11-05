@@ -1,5 +1,6 @@
 (use-package yaml-mode
   :ensure t
-  :mode ("\\.yml\\'" "\\.yaml\\'"))
+  :defer t
+  :mode ("\\.ya?ml\\'" . yaml-mode))
 
 (provide 'lang-yaml)
