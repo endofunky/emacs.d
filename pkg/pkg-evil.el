@@ -62,7 +62,13 @@
   (define-key evil-normal-state-map (kbd "s-k") 'evil-window-up)
   (define-key evil-normal-state-map (kbd "s-l") 'evil-window-right)
 
+  ;; Undo
   (define-key evil-normal-state-map (kbd ",u") 'undo-tree-visualize)
+
+  ;; Text-scaling
+  (define-key evil-normal-state-map ",-" 'text-scale-adjust)
+  (define-key evil-normal-state-map ",+" 'text-scale-adjust)
+  (define-key evil-normal-state-map ",=" 'text-scale-adjust)
 
   ;; Comint history
   (evil-define-key 'insert comint-mode-map (kbd "<up>") 'comint-previous-input)
