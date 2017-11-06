@@ -84,4 +84,7 @@
 ;; Never use TUI pagers in sub-processes
 (setenv "PAGER" (executable-find "cat"))
 
+;; Ignore unsafe local variables
+(setq enable-local-variables :safe)
+
 (provide 'core-emacs)
