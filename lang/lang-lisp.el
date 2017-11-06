@@ -108,4 +108,9 @@
   (evil-define-key 'normal lisp-interaction-mode-map ",xe" 'macrostep-expand)
   (evil-define-key 'normal macrostep-keymap "q" 'macrostep-collapse-all))
 
+(use-package package-lint
+  :ensure t
+  :defer t
+  :commands package-lint-current-buffer)
+
 (provide 'lang-lisp)
