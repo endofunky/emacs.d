@@ -33,6 +33,9 @@
                      :post-handlers '(("[d1]" "SPC")))
       (sp-local-pair "_" "_")))
 
-  (add-hook 'gfm-mode-hook 'ef-gfm-mode-hook))
+  (add-hook 'gfm-mode-hook 'ef-gfm-mode-hook)
+
+  (when (display-graphic-p)
+    (define-key markdown-mode-map (kbd "M-RET") 'toggle-frame-fullscreen)))
 
 (provide 'lang-markdown)
