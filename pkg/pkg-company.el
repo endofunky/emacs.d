@@ -32,6 +32,12 @@
 
   (global-company-mode t))
 
+(use-package company-statistics
+  :ensure t
+  :after company
+  :config
+  (company-statistics-mode))
+
 (use-package evil
   :after company
   :defer t
