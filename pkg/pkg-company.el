@@ -9,8 +9,9 @@
 
   (setq company-auto-complete #'ef-company-visible-and-explicit-action-p
         company-global-modes '(not message-mode help-mode)
-        company-begin-commands '()
-        company-minimum-prefix-length 1
+        company-begin-commands '(self-insert-command)
+        company-minimum-prefix-length 2
+        company-idle-delay 0.3
         company-dabbrev-ignore-case nil
         company-dabbrev-downcase nil
         company-selection-wrap-around t
@@ -26,8 +27,6 @@
   (define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort)
   (define-key company-active-map (kbd "C-f") 'company-complete-selection)
   (define-key company-active-map (kbd "RET") 'company-complete-selection)
-  (define-key company-active-map [tab]
-    'company-select-next-if-tooltip-visible-or-complete-selection)
   (define-key company-active-map (kbd "TAB")
     'company-select-next-if-tooltip-visible-or-complete-selection)
 
