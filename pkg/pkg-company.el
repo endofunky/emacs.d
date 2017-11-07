@@ -65,6 +65,18 @@
   (setq evil-complete-next-func 'ef-evil-complete-lambda)
   (setq evil-complete-previous-func 'ef-evil-complete-lambda)
 
-  (define-key evil-insert-state-map (kbd "TAB") 'ef-tab-indent-or-complete))
+  (define-key evil-insert-state-map (kbd "TAB") 'ef-tab-indent-or-complete)
+
+  (define-key minibuffer-local-map [tab] 'company-complete)
+  (define-key minibuffer-local-map (kbd "TAB") 'company-complete)
+  (define-key evil-ex-completion-map [tab] 'company-complete)
+  (define-key evil-ex-completion-map (kbd "TAB") 'company-complete)
+  (define-key evil-ex-completion-map [remap completion-at-point] 'company-complete)
+
+  (defun ef-minibuffer-completion-hook ()
+    (setq-local company-frontends '(company-preview-frontend))
+    (company-mode t))
+
+  (add-hook 'minibuffer-setup-hook 'ef-minibuffer-completion-hook))
 
 (provide 'pkg-company)
