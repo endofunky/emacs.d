@@ -1,7 +1,6 @@
 (use-package company
   :diminish company-mode
   :ensure t
-  :defer 1
   :config
   (defun ef-company-visible-and-explicit-action-p ()
     (and (company-tooltip-visible-p)
