@@ -80,6 +80,7 @@
   :ensure t
   :config
   (add-hook 'ruby-mode-hook 'ruby-test-mode)
+  (setq ruby-test-rspec-options "")
   (evil-define-key 'normal ruby-test-mode-map ",tp" 'ruby-test-run-at-point)
 
   (defun ef-file-or-nil (filename)
