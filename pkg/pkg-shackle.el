@@ -17,13 +17,17 @@
   (ef-shackle '(" *undo-tree*" :align below :size .4 :popup t :select t)
               '("*company-documentation*" :align below :size .4 :popup t :noselect t)
               '("*compilation*" :align below :size .4 :popup t :noselect t)
+              '("*Checkdoc Status*" :align below :size .3 :popup t :no-select t)
               '("*Help*" :align below :size .4 :popup t :select t))
 
   (shackle-mode t))
 
 (defmacro ef-define-repl (name buf fn)
-  "Define a shackle REPL wrapper function with `name' for buffer `buf'
-created by calling function `fn'"
+  "Define a shackle REPL wrapper function.
+
+Define a new function `NAME' for buffer `BUF' created by calling function `FN'
+When `shackle-rules' is bound, will add a popup & select rule for the given
+buffer."
   `(progn
      (when (boundp 'shackle-rules)
        (add-to-list 'shackle-rules
