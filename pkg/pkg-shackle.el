@@ -33,13 +33,15 @@ created by calling function `fn'"
                (window (get-buffer-window ,buf t)))
            (cond ((null buffer)
                   (funcall ,fn)
-                  (evil-change-state 'normal))
+                  (when (fboundp 'evil-change-state)
+                    (evil-change-state 'normal)))
                  (window
                   (delete-window window)
                   (bury-buffer buffer))
                  (t
                   (pop-to-buffer ,buf)
-                  (evil-change-state 'normal))))))))
+                  (when (fboundp 'evil-change-state)
+                    (evil-change-state 'normal)))))))))
 
 
 (provide 'pkg-shackle)
