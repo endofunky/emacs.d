@@ -111,7 +111,7 @@
 
 (use-package evil-nerd-commenter
   :after evil
-  :defer 1
+  :defer t
   :ensure t
   :commands (evilnc-comment-or-uncomment-lines)
   :init
@@ -124,6 +124,13 @@
   :ensure t
   :config
   (global-evil-surround-mode 1))
+
+(use-package evil-exchange
+  :after evil
+  :defer 1
+  :ensure t
+  :config
+  (evil-exchange-install))
 
 (use-package undo-tree
   :after evil
