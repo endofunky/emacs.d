@@ -5,7 +5,6 @@
   :init
   (evil-define-key 'normal global-map ",f" 'projectile-find-file)
   (evil-define-key 'normal global-map ",p" 'projectile-switch-project)
-  (evil-define-key 'normal global-map ",/" 'projectile-ag)
   :config
   (projectile-global-mode t)
   (setq projectile-completion-system 'ido)
