@@ -32,11 +32,14 @@ created by calling function `fn'"
          (let ((buffer (get-buffer ,buf))
                (window (get-buffer-window ,buf t)))
            (cond ((null buffer)
-                  (funcall ,fn))
+                  (funcall ,fn)
+                  (evil-change-state 'normal))
                  (window
-                  (delete-window window))
+                  (delete-window window)
+                  (bury-buffer buffer))
                  (t
-                  (pop-to-buffer ,buf))))))))
+                  (pop-to-buffer ,buf)
+                  (evil-change-state 'normal))))))))
 
 
 (provide 'pkg-shackle)
