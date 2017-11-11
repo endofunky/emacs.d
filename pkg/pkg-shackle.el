@@ -12,36 +12,36 @@
   (defun ef-shackle (shackle &rest shackles)
     "Adds one or more shackle rules to `shackle-rules'"
     (dolist (rule (cons shackle shackles))
-       (add-to-list 'shackle-rules rule)))
+      (add-to-list 'shackle-rules rule)))
 
   (ef-shackle '(" *undo-tree*" :align below :size .4 :popup t :select t)
               '("*company-documentation*" :align below :size .4 :popup t :noselect t)
               '("*compilation*" :align below :size .4 :popup t :noselect t)
               '("*Help*" :align below :size .4 :popup t :select t))
 
-  (shackle-mode t)
+  (shackle-mode t))
 
-  (defmacro ef-define-repl (name buf fn)
-    "Define a shackle REPL wrapper function with `name' for buffer `buf'
+(defmacro ef-define-repl (name buf fn)
+  "Define a shackle REPL wrapper function with `name' for buffer `buf'
 created by calling function `fn'"
-    `(progn
+  `(progn
+     (when (boundp 'shackle-rules)
        (add-to-list 'shackle-rules
-                    '(,buf :align bottom :size .4 :popup t :select t))
-       (defun ,name ()
-         (interactive)
-         (let ((buffer (get-buffer ,buf))
-               (window (get-buffer-window ,buf t)))
-           (cond ((null buffer)
-                  (funcall ,fn)
-                  (when (fboundp 'evil-change-state)
-                    (evil-change-state 'normal)))
-                 (window
-                  (delete-window window)
-                  (bury-buffer buffer))
-                 (t
-                  (pop-to-buffer ,buf)
-                  (when (fboundp 'evil-change-state)
-                    (evil-change-state 'normal)))))))))
-
+                    '(,buf :align bottom :size .4 :popup t :select t)))
+     (defun ,name ()
+       (interactive)
+       (let ((buffer (get-buffer ,buf))
+             (window (get-buffer-window ,buf t)))
+         (cond ((null buffer)
+                (funcall ,fn)
+                (when (fboundp 'evil-change-state)
+                  (evil-change-state 'normal)))
+               (window
+                (delete-window window)
+                (bury-buffer buffer))
+               (t
+                (pop-to-buffer ,buf)
+                (when (fboundp 'evil-change-state)
+                  (evil-change-state 'normal))))))))
 
 (provide 'pkg-shackle)
