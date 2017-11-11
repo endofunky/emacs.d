@@ -40,7 +40,23 @@
     (kill-buffer)
     (jump-to-register :magit-fullscreen))
 
-  (define-key magit-status-mode-map (kbd "q") 'ef-magit-quit-session))
+  (define-key magit-status-mode-map (kbd "q") 'ef-magit-quit-session)
+
+  (defun ef-magit-wip-all ()
+    "Create a wip commit with all changes on HEAD"
+    (interactive)
+    (magit-stage-modified t)
+    (magit-commit '("-m" "wip [ci skip]")))
+
+  (define-key magit-status-mode-map (kbd ", w") 'ef-magit-wip-all)
+
+  (defun ef-magit-undo-commit ()
+    "Undo the HEAD~1 commit"
+    (interactive)
+    (when (yes-or-no-p "Reset the last commit?")
+      (magit-reset "HEAD~1")))
+
+  (define-key magit-status-mode-map (kbd ", u") 'ef-magit-undo-commit))
 
 (use-package evil-magit
   :after magit
