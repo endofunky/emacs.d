@@ -4,6 +4,7 @@
   :commands (ef-insert-uuid)
   :init
   (defun ef-insert-uuid ()
+    "Insert a UUID at point."
     (interactive)
     (require 'uuid)
     (insert (uuid-string))))

@@ -1,6 +1,7 @@
 (use-package python
   :config
   (defun ef-set-python-shell-interpreter ()
+    "Check for ipython in PATH and update python-mode config."
     (if (executable-find "ipython")
         (setq-default python-shell-interpreter "ipython"
                       python-shell-interpreter-args "--simple-prompt -i")

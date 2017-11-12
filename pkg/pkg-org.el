@@ -72,6 +72,7 @@
   :ensure t
   :config
   (defun ef-demo-it-title-screen (file)
+    "Render `FILE' as demo title screen."
     (find-file file)
     (show-all)
     (setq cursor-type nil)

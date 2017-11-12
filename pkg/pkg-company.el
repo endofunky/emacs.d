@@ -52,6 +52,7 @@
           (if (looking-at "->") t nil)))))
 
   (defun ef-tab-indent-or-complete ()
+    "Either indent or start company completion."
     (interactive)
     (if (minibufferp)
         (minibuffer-complete)
