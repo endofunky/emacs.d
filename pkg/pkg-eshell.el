@@ -28,6 +28,7 @@
 
   (evil-define-key 'normal eshell-mode-map (kbd "C-r") 'ef-eshell-ido-history)
   (evil-define-key 'insert eshell-mode-map (kbd "C-r") 'ef-eshell-ido-history)
+  (evil-define-key 'normal eshell-mode-map ",!" 'bury-buffer)
 
   (defun ef-eshell-mode-hook ()
     (setq-local global-hl-line-mode nil)
