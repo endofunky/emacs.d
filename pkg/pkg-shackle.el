@@ -36,14 +36,15 @@ buffer."
      (defun ,name ()
        (interactive)
        (let ((buffer (get-buffer ,buf))
-             (window (get-buffer-window ,buf t)))
+             (window (get-buffer-window ,buf)))
          (cond ((null buffer)
                 (funcall ,fn)
                 (when (fboundp 'evil-change-state)
                   (evil-change-state 'normal)))
                (window
-                (delete-window window)
-                (bury-buffer buffer))
+                (if (one-window-p)
+                    (switch-to-prev-buffer nil t)
+                  (delete-window window)))
                (t
                 (pop-to-buffer ,buf)
                 (when (fboundp 'evil-change-state)
