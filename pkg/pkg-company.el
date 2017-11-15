@@ -7,7 +7,7 @@
          (company-explicit-action-p)))
 
   (setq company-auto-complete #'ef-company-visible-and-explicit-action-p
-        company-global-modes '(not message-mode help-mode)
+        company-global-modes '(not message-mode help-mode eshell-mode)
         company-begin-commands '(self-insert-command)
         company-minimum-prefix-length 2
         company-idle-delay 0.3

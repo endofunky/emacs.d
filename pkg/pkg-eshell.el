@@ -21,6 +21,11 @@
   (setq eshell-hist-ignoredups t
         eshell-history-size 10000))
 
+(use-package em-basic
+  :defer t
+  :config
+  (setq eshell-plain-echo-behavior t))
+
 (use-package esh-mode
   :defer t
   :config
@@ -107,6 +112,17 @@ is achieved by adding the relevant text properties."
         epe-git-dirty-char "●"
         eshell-prompt-function 'epe-theme-lambda))
 
+(use-package esh-help
+  :ensure t
+  :config
+  (setup-esh-help-eldoc))
+
+(use-package fish-completion
+  :if (executable-find "fish")
+  :ensure t
+  :config
+  (add-hook 'eshell-mode-hook 'fish-completion-mode))
+
 (defun eshell/tig (&rest args)
   "Open magit-log-all at root."
   (magit-log-all (pop args) nil)
@@ -118,7 +134,7 @@ is achieved by adding the relevant text properties."
   (eshell/echo))
 
 (defun eshell/cdg ()
-  "Change directory to the project's root."
+  "Change directory to the closest git root."
   (eshell/cd (locate-dominating-file default-directory ".git")))
 
 (defun eshell/clear ()
