@@ -1,35 +1,20 @@
 (use-package eshell
-  :commands (eshell eshell-command)
   :init
-  (evil-define-key 'normal global-map ",!" 'eshell))
-
-(use-package em-term
-  :defer t
+  (evil-define-key 'normal global-map ",!" 'eshell)
   :config
+  (require 'em-term)
+  (require 'em-prompt)
+
   (add-to-list 'eshell-visual-commands "ssh")
   (add-to-list 'eshell-visual-commands "htop")
-  (add-to-list 'eshell-visual-commands "tail"))
+  (add-to-list 'eshell-visual-commands "tail")
 
-(use-package em-ls
-  :defer t
-  :config
-  (setq eshell-ls-use-colors t))
+  (setq eshell-ls-use-colors t
+        eshell-plain-echo-behavior t
+        eshell-hist-ignoredups t
+        eshell-history-size 10000
+        eshell-scroll-to-bottom-on-input 'all)
 
-(use-package em-hist
-  :defer t
-  :config
-  (setq eshell-hist-ignoredups t
-        eshell-history-size 10000))
-
-(use-package em-basic
-  :defer t
-  :config
-  (setq eshell-plain-echo-behavior t))
-
-(use-package esh-mode
-  :defer t
-  :config
-  (setq eshell-scroll-to-bottom-on-input 'all)
   (defun ef-eshell-ido-history ()
     (interactive)
     (insert
@@ -59,11 +44,8 @@
   (when (fboundp 'xterm-color-filter)
     (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
     (setq eshell-output-filter-functions
-          (remove 'eshell-handle-ansi-color eshell-output-filter-functions))))
+          (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
 
-(use-package em-prompt
-  :defer t
-  :config
   ;; This is supposedly included in Emacs 26, but it still seems broken.
   (defun eshell-next-prompt (n)
     "Move to end of Nth next prompt in the buffer.
