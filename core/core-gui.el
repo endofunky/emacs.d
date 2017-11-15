@@ -38,8 +38,6 @@
 
 (use-package exec-path-from-shell
   :ensure t
-  :after ns-win
-  :defer-install t
   :if (and (ef-nsp)
            (null (getenv "TERM_PROGRAM")))
   :config
