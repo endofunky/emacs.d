@@ -3,7 +3,14 @@
   :defer 2
   :commands (projectile-switch-project projectile-find-file projectile-ag)
   :init
-  (evil-define-key 'normal global-map ",f" 'projectile-find-file)
+  (defun ef-projectile-find-file ()
+    (interactive)
+    (projectile-reset-cached-project-root)
+    (if (projectile-project-p)
+        (projectile-find-file)
+      (ido-find-file)))
+
+  (evil-define-key 'normal global-map ",f" 'ef-projectile-find-file)
   (evil-define-key 'normal global-map ",p" 'projectile-switch-project)
   :config
   (projectile-global-mode t)

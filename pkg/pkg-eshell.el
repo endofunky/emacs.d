@@ -131,4 +131,8 @@ is achieved by adding the relevant text properties."
   "Open file via find-file."
   (find-file file))
 
+(defun eshell/ff ()
+  "Smart find-file."
+  (ef-projectile-find-file))
+
 (provide 'pkg-eshell)
