@@ -8,6 +8,7 @@
   (add-to-list 'eshell-visual-commands "ssh")
   (add-to-list 'eshell-visual-commands "htop")
   (add-to-list 'eshell-visual-commands "tail")
+  (add-to-list 'eshell-visual-commands "foreman")
 
   (setq eshell-ls-use-colors t
         eshell-plain-echo-behavior t
