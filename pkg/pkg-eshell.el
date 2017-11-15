@@ -95,6 +95,7 @@ is achieved by adding the relevant text properties."
   (add-hook 'eshell-after-prompt-hook 'ef-protect-eshell-prompt))
 
 (use-package eshell-prompt-extras
+  :if (display-graphic-p)
   :ensure t
   :after eshell
   :init
