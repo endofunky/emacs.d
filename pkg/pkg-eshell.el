@@ -15,9 +15,16 @@
   :config
   (setq eshell-ls-use-colors t))
 
+(use-package em-hist
+  :defer t
+  :config
+  (setq eshell-hist-ignoredups t
+        eshell-history-size 10000))
+
 (use-package esh-mode
   :defer t
   :config
+  (setq eshell-scroll-to-bottom-on-input 'all)
   (defun ef-eshell-ido-history ()
     (interactive)
     (insert
