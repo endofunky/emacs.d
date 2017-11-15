@@ -80,6 +80,22 @@
   (add-hook 'find-file-hook 'ef-enable-smerge-maybe t)
   (add-hook 'after-revert-hook 'sm-try-smerge t))
 
+(use-package term
+  :config
+  (defun ef-term-mode-hook ()
+    (setq ansi-term-color-vector
+          [term
+           term-color-black
+           term-color-red
+           term-color-green
+           term-color-yellow
+           term-color-blue
+           term-color-magenta
+           term-color-cyan
+           term-color-white]))
+
+  (add-hook 'term-mode-hook 'ef-term-mode-hook))
+
 (use-package whitespace
   :diminish (whitespace-mode global-whitespace-mode)
   :config
