@@ -22,3 +22,4 @@ rake.cache
 company-statistics-cache.el
 .python-environments/
 anaconda-mode/
+tramp
