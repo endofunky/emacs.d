@@ -1,6 +1,5 @@
 (use-package projectile
   :ensure t
-  :defer 2
   :commands (projectile-switch-project projectile-find-file projectile-ag)
   :init
   (defun ef-projectile-find-file ()
