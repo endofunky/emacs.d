@@ -52,6 +52,9 @@
   (package-install 'use-package))
 (require 'use-package)
 
+;; Ensure the :diminish keyword passed to use-package gets respected
+(use-package diminish :ensure t)
+
 (if (ef-init-debug-p)
     (setq use-package-verbose t))
 
