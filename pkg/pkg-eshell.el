@@ -5,10 +5,11 @@
   (require 'em-term)
   (require 'em-prompt)
 
-  (add-to-list 'eshell-visual-commands "ssh")
-  (add-to-list 'eshell-visual-commands "htop")
-  (add-to-list 'eshell-visual-commands "tail")
+  (add-to-list 'eshell-visual-commands "fakes3")
   (add-to-list 'eshell-visual-commands "foreman")
+  (add-to-list 'eshell-visual-commands "htop")
+  (add-to-list 'eshell-visual-commands "ssh")
+  (add-to-list 'eshell-visual-commands "tail")
 
   (setq eshell-ls-use-colors t
         eshell-plain-echo-behavior t
