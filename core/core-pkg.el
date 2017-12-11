@@ -78,7 +78,7 @@
         (smerge-mode t))))
 
   (add-hook 'find-file-hook 'ef-enable-smerge-maybe t)
-  (add-hook 'after-revert-hook 'sm-try-smerge t))
+  (add-hook 'after-revert-hook 'ef-enable-smerge-maybe t))
 
 (use-package term
   :config
