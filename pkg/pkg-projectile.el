@@ -1,6 +1,9 @@
 (use-package projectile
   :ensure t
-  :commands (projectile-switch-project projectile-find-file projectile-ag)
+  :commands (projectile-switch-project
+             projectile-find-file
+             projectile-ag
+             projectile-reset-cached-project-root)
   :init
   (defun ef-projectile-find-file ()
     (interactive)
