@@ -44,7 +44,6 @@
   :after python
   :ensure t
   :commands (pyvenv-mode)
-  :defer-install t
   :init
   (add-hook 'python-mode-hook 'pyvenv-mode))
 
