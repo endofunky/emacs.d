@@ -1,4 +1,5 @@
 (use-package eshell
+  :after evil
   :init
   (evil-define-key 'normal global-map ",!" 'eshell)
   :config
