@@ -69,12 +69,12 @@
 (use-package ycmd
   :ensure t
   :config
-  (setq ycmd-parse-conditions '(save new-line buffer-focus))
-  (setq ycmd-idle-change-delay 0.1)
-  (setq url-show-status nil)
   (setq ycmd-request-message-level -1)
-  (setq ycmd-server-command '("python"))
+  (setq ycmd-parse-conditions '(save buffer-focus new-line mode-enabled))
+  (setq ycmd-idle-change-delay 0)
+  (setq ycmd-force-semantic-completion nil)
 
+  (setq ycmd-server-command '("python"))
   (add-to-list 'ycmd-server-command (expand-file-name "~/.emacs.d/ycmd/ycmd/") t)
 
   (add-hook 'c++-mode-hook 'ycmd-mode))
@@ -84,6 +84,7 @@
   :config
   (setq company-backends
         (remove 'company-clang company-backends))
+  (setq company-ycmd-request-sync-timeout 1.0)
   (add-to-list 'company-backends 'company-ycmd)
   (company-ycmd-setup))
 
