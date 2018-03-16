@@ -9,10 +9,9 @@
         frame-resize-pixelwise t
         blink-cursor-blinks 0)
 
-  (set-frame-font "Inconsolata-11")
+  (set-frame-font "Inconsolata-10")
   (blink-cursor-mode -1)
-  (global-set-key (kbd "M-RET") 'toggle-frame-fullscreen)
-  (add-to-list 'initial-frame-alist '(fullscreen . fullboth)))
+  (global-set-key (kbd "M-RET") 'toggle-frame-fullscreen))
 
 (use-package ns-win
   :if (ef-nsp)
