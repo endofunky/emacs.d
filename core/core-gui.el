@@ -9,7 +9,7 @@
         frame-resize-pixelwise t
         blink-cursor-blinks 0)
 
-  (set-frame-font "Inconsolata-10")
+  (set-frame-font "DejaVu Sans Mono-9")
   (blink-cursor-mode -1)
   (global-set-key (kbd "M-RET") 'toggle-frame-fullscreen))
 
