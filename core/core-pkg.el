@@ -39,6 +39,17 @@
   :config
   (global-hl-line-mode 1))
 
+(use-package minibuffer
+  :config
+  (defun ef-minibuffer-setup-hook ()
+    (setq gc-cons-threshold most-positive-fixnum))
+
+  (defun ef-minibuffer-exit-hook ()
+    (setq gc-cons-threshold ef-initial-gc-cons-threshold))
+
+  (add-hook 'minibuffer-setup-hook #'ef-minibuffer-setup-hook)
+  (add-hook 'minibuffer-exit-hook #'ef-minibuffer-exit-hook))
+
 (use-package paren
   :config
   (setq show-paren-delay 0)
