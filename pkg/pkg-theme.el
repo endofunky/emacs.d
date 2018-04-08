@@ -50,9 +50,4 @@
   (set-face-attribute 'magit-diff-removed-highlight nil :background (ef-color :base01) :foreground (ef-color :base08))
   (set-face-attribute 'magit-diff-context-highlight nil :background (ef-color :base01)))
 
-(use-package tuareg
-  :defer t
-  :config
-  (set-face-attribute 'tuareg-font-double-colon-face nil :foreground (ef-color :base04)))
-
 (provide 'pkg-theme)
