@@ -125,13 +125,6 @@
   :config
   (global-evil-surround-mode 1))
 
-(use-package evil-exchange
-  :after evil
-  :defer 1
-  :ensure t
-  :config
-  (evil-exchange-install))
-
 (use-package undo-tree
   :after evil
   :ensure t
