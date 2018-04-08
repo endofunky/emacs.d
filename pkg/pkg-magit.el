@@ -64,19 +64,4 @@
   :config
   (evil-magit-init))
 
-(use-package gitattributes-mode
-  :defer t
-  :ensure t
-  :mode ("/\\.gitattributes\\'" "/info/attributes\\'" "/git/attributes\\'"))
-
-(use-package gitconfig-mode
-  :defer t
-  :ensure t
-  :mode ("/\\.gitconfig\\'" "/\\.git/config\\'" "/git/config\\'" "/\\.gitmodules\\'"))
-
-(use-package gitignore-mode
-  :defer t
-  :ensure t
-  :mode ("/\\.gitignore\\'" "/\\.git/info/exclude\\'" "/git/ignore\\'"))
-
 (provide 'pkg-magit)
