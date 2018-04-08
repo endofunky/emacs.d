@@ -17,7 +17,7 @@
 
 (add-hook 'after-init-hook 'ef-reset-gc-cons-threshold)
 
-(setq gc-cons-threshold (* 128 1024 1024))
+(setq gc-cons-threshold most-positive-fixnum)
 
 ;; Increase *Messages* buffer size
 (setq message-log-max 16384)
