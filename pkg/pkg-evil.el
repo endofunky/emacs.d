@@ -78,10 +78,10 @@
 
   (defun ef-toggle-scratch--goto-scratch ()
     (if-let* ((scratch-buffer (get-buffer "*scratch*")))
-        (progn
-          (setq ef-toggle-scratch--prev-buffer (current-buffer))
-          (switch-to-buffer scratch-buffer))
-      (message "No *scratch* buffer found.")))
+             (progn
+               (setq ef-toggle-scratch--prev-buffer (current-buffer))
+               (switch-to-buffer scratch-buffer))
+             (message "No *scratch* buffer found.")))
 
   (defun ef-toggle-scratch--goto-prev-buffer ()
     (if (buffer-live-p ef-toggle-scratch--prev-buffer)
@@ -115,8 +115,12 @@
   :ensure t
   :commands (evilnc-comment-or-uncomment-lines)
   :init
-  (define-key evil-normal-state-map (kbd "\\") 'evilnc-comment-or-uncomment-lines)
-  (define-key evil-visual-state-map (kbd "\\") 'evilnc-comment-or-uncomment-lines))
+  (cond ((ef-nsp)
+         (define-key evil-normal-state-map (kbd "\\") 'evilnc-comment-or-uncomment-lines)
+         (define-key evil-visual-state-map (kbd "\\") 'evilnc-comment-or-uncomment-lines))
+        (t
+         (define-key evil-normal-state-map (kbd "#") 'evilnc-comment-or-uncomment-lines)
+         (define-key evil-visual-state-map (kbd "#") 'evilnc-comment-or-uncomment-lines))))
 
 (use-package evil-surround
   :after evil
