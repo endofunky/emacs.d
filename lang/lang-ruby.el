@@ -15,6 +15,7 @@
          ("\\.gemspec\\'" . ruby-mode)
          ("\\.jbuilder\\'" . ruby-mode)
          ("\\.podspec\\'" . ruby-mode)
+         ("\\.pryrc\\'" . ruby-mode)
          ("\\.rabl\\'" . ruby-mode)
          ("\\.rake\\'" . ruby-mode)
          ("\\.rb\\'" . ruby-mode)
