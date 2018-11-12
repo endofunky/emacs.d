@@ -45,6 +45,7 @@
   (define-key evil-normal-state-map (kbd "TAB") 'indent-for-tab-command)
 
   (define-key evil-normal-state-map ",i" 'imenu)
+  (define-key evil-normal-state-map ",d" 'dired)
   (define-key evil-normal-state-map ",ws" 'delete-trailing-whitespace)
 
   ;; Alignment
