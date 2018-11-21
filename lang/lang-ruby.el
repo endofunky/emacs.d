@@ -39,7 +39,6 @@
   (defun ef-ruby-mode-hook ()
     (yard-mode 1)
     (eldoc-mode 1)
-    (global-rbenv-mode 1)
 
     (require 'smartparens-ruby)
     (sp-with-modes '(ruby-mode)
@@ -67,13 +66,6 @@
   :after ruby-mode
   :ensure t
   :diminish yard-mode)
-
-(use-package rbenv
-  :after ruby-mode
-  :ensure t
-  :config
-  (global-rbenv-mode 1)
-  (setq rbenv-modeline-function 'rbenv--modeline-plain))
 
 (use-package ruby-test-mode
   :after ruby-mode
