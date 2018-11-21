@@ -71,19 +71,11 @@
   :after org
   :ensure t
   :config
-  (defun ef-demo-it-title-screen (file)
-    "Render `FILE' as demo title screen."
-    (find-file file)
-    (show-all)
-    (setq cursor-type nil)
-    (variable-pitch-mode 1)
-    (text-scale-set (demo-it--get-text-scale :huge)))
-
-  (setq demo-it--shell-or-eshell :eshell
-        demo-it--insert-text-speed :fast
-        demo-it--open-windows-size 100
-        demo-it--presentation-hide-mode-line nil
-        demo-it--presentation-variable-width t))
+  (evil-define-key 'normal demo-it-mode-map (kbd "<SPC>") 'demo-it-step)
+  (evil-define-key 'normal demo-it-mode-map (kbd "<right>") 'demo-it-step)
+  (evil-define-key 'normal demo-it-mode-map (kbd "<left>") 'demo-it-restep)
+  (evil-define-key 'normal demo-it-mode-map (kbd "q") 'demo-it-end)
+  (evil-define-key 'normal demo-it-mode-map (kbd "<tab>") 'show-all))
 
 (use-package expand-region
   :after demo-it
