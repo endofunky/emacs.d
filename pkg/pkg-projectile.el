@@ -7,7 +7,6 @@
   :init
   (defun ef-projectile-find-file ()
     (interactive)
-    (projectile-reset-cached-project-root)
     (if (projectile-project-p)
         (projectile-find-file)
       (ido-find-file)))
