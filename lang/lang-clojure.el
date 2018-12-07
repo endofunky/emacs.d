@@ -3,8 +3,8 @@
   :mode (("\\.clj\\'" . clojure-mode))
   :config
   (add-hook 'clojure-mode-hook 'evil-cleverparens-mode)
+  (evil-define-key 'normal clojure-mode-map ",cjq" 'cider-quit)
   (evil-define-key 'normal clojure-mode-map ",cji" 'cider-jack-in))
-(evil-define-key 'normal clojure-mode-map ",cjq" 'cider-quit)
 
 (use-package cider
   :ensure t
