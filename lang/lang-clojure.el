@@ -12,6 +12,7 @@
   (setq cider-prompt-for-symbol nil)
 
   (add-hook 'cider-mode-hook #'eldoc-mode)
+  (add-hook 'cider-repl-mode-hook #'eldoc-mode)
 
   (ef-shackle '(cider-repl-mode :align bottom :size .4 :popup t :select t))
   (ef-shackle '("*cider-error*" :align bottom :size .4 :popup t :select t))
