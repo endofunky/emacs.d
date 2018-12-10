@@ -105,10 +105,22 @@
   :after evil
   :ensure t
   :diminish evil-cleverparens-mode
-  :commands (evil-cleverparens-mode)
+  :commands (evil-cleverparens-mode
+             evil-cp-wrap-previous-round
+             evil-cp-wrap-next-round
+             evil-cp-wrap-previous-square
+             evil-cp-wrap-next-square
+             evil-cp-wrap-previous-curly
+             evil-cp-wrap-next-curly)
   :init
   (add-hook 'emacs-lisp-mode-hook 'evil-cleverparens-mode)
-  (setq evil-cleverparens-use-additional-movement-keys nil))
+  (setq evil-cleverparens-use-additional-movement-keys nil)
+  (evil-define-key 'normal prog-mode-map (kbd "M-(") 'evil-cp-wrap-next-round)
+  (evil-define-key 'normal prog-mode-map (kbd "M-)") 'evil-cp-wrap-previous-round)
+  (evil-define-key 'normal prog-mode-map (kbd "M-[") 'evil-cp-wrap-next-square)
+  (evil-define-key 'normal prog-mode-map (kbd "M-]") 'evil-cp-wrap-previous-square)
+  (evil-define-key 'normal prog-mode-map (kbd "M-{") 'evil-cp-wrap-next-curly)
+  (evil-define-key 'normal prog-mode-map (kbd "M-}") 'evil-cp-wrap-previous-curly))
 
 (use-package evil-nerd-commenter
   :after evil
