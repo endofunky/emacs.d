@@ -13,4 +13,11 @@
    'org-babel-load-languages
    '((restclient . t))))
 
+(use-package company-restclient
+  :ensure t
+  :after restclient
+  :config
+  (add-to-list 'company-backend 'company-restclient)
+  (add-hook 'restclient-mode-hook 'company-mode-on))
+
 (provide 'pkg-restclient)
