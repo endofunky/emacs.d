@@ -9,7 +9,8 @@
   (defun ef-cider-jack-in (params)
     "Quit cider if running and jack in again"
     (interactive "P")
-    (cider-quit)
+    (if (cider-connected-p)
+      (cider-quit))
     (cider-jack-in params))
 
   (add-hook 'clojure-mode-hook 'evil-cleverparens-mode)
