@@ -35,12 +35,14 @@
     "Re-evaluate buffer and run test at point"
     (interactive)
     (cider-eval-buffer)
+    (cider-ns-reload-all)
     (cider-test-run-test))
 
   (defun ef-cider-run-ns-tests ()
     "Re-evaluate buffer and run tests for namespace"
     (interactive)
     (cider-eval-buffer)
+    (cider-ns-reload-all)
     (cider-test-run-ns-tests nil))
 
   (evil-define-key 'normal cider-mode-map ",," 'cider-find-var)
