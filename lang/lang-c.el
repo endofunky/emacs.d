@@ -14,30 +14,30 @@
   (add-hook 'c++-mode-hook 'ef-cc-mode-hook)
   (add-hook 'c-mode-hook 'ef-cc-mode-hook)
 
-  (evil-define-key 'normal 'c++-mode-map ",o" 'ff-find-other-file)
+  (evil-define-key 'normal ",o" 'c++-mode-map 'ff-find-other-file)
   (evil-define-key 'normal 'c-mode-map ",o" 'ff-find-other-file)
 
   (defun ef-c-mode-hook ()
-    (setq c-default-style "k&r")
-    (setq c-basic-offset 8)
-    (setq tab-width 8)
-    (setq indent-tabs-mode t))
+    (setq-local c-default-style "k&r")
+    (setq-local c-basic-offset 8)
+    (setq-local tab-width 8)
+    (setq-local indent-tabs-mode t))
 
   (add-hook 'c-mode-hook 'ef-c-mode-hook)
 
   (defun ef-c++-mode-hook ()
-    (setq c-default-style "k&r")
-    (setq c-basic-offset 2)
-    (setq tab-width 2)
-    (setq indent-tabs-mode nil)
-    (setq company-clang-arguments '("-std=c++11")))
+    (setq-local c-default-style "k&r")
+    (setq-local c-basic-offset 2)
+    (setq-local tab-width 2)
+    (setq-local indent-tabs-mode nil)
+    (setq-local company-clang-arguments '("-std=c++11")))
 
   (add-hook 'c++-mode-hook 'ef-c++-mode-hook)
 
   ;; https://stackoverflow.com/questions/23553881/emacs-indenting-of-c11-lambda-functions-cc-mode
   (defadvice c-lineup-arglist (around my activate)
     "Improve indentation of continued C++11 lambda function opened as argument."
-    (setq ad-return-value
+    (setq-local ad-return-value
           (if (and (equal major-mode 'c++-mode)
                    (ignore-errors
                      (save-excursion
@@ -68,23 +68,22 @@
 
 (use-package ycmd
   :ensure t
+  :custom
+  (ycmd-request-message-level -1)
+  (ycmd-parse-conditions '(save buffer-focus new-line mode-enabled))
+  (ycmd-idle-change-delay 0)
+  (ycmd-force-semantic-completion nil)
+  (ycmd-server-command '("python"))
   :config
-  (setq ycmd-request-message-level -1)
-  (setq ycmd-parse-conditions '(save buffer-focus new-line mode-enabled))
-  (setq ycmd-idle-change-delay 0)
-  (setq ycmd-force-semantic-completion nil)
-
-  (setq ycmd-server-command '("python"))
   (add-to-list 'ycmd-server-command (expand-file-name "~/.emacs.d/ycmd/ycmd/") t)
-
   (add-hook 'c++-mode-hook 'ycmd-mode))
 
 (use-package company-ycmd
   :ensure t
+  :custom
+  (company-backends (remove 'company-clang company-backends))
+  (company-ycmd-request-sync-timeout 1.0)
   :config
-  (setq company-backends
-        (remove 'company-clang company-backends))
-  (setq company-ycmd-request-sync-timeout 1.0)
   (add-to-list 'company-backends 'company-ycmd)
   (company-ycmd-setup))
 

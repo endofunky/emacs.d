@@ -22,11 +22,11 @@
          ("\\.ru\\'" . ruby-mode)
          ("\\.thor\\'" . ruby-mode))
   :interpreter ("ruby" . ruby-mode)
+  :custom
+  (ruby-insert-encoding-magic-comment nil)
+  (ruby-deep-arglist nil)
+  (ruby-deep-indent-paren nil)
   :config
-  (setq ruby-insert-encoding-magic-comment nil)
-  (setq ruby-deep-arglist nil)
-  (setq ruby-deep-indent-paren nil)
-
   (ef-define-repl ef-repl-ruby "*ruby*" 'inf-ruby)
 
   (evil-define-key 'normal ruby-mode-map ",r" 'ef-repl-ruby)
@@ -72,9 +72,10 @@
   :after ruby-mode
   :diminish ruby-test-mode
   :ensure t
+  :custom
+  (ruby-test-rspec-options "")
   :config
   (add-hook 'ruby-mode-hook 'ruby-test-mode)
-  (setq ruby-test-rspec-options "")
   (evil-define-key 'normal ruby-test-mode-map ",tp" 'ruby-test-run-at-point)
 
   (defun ef-file-or-nil (filename)

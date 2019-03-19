@@ -23,7 +23,7 @@
 (setq message-log-max 16384)
 
 ;; Silence ad-handle-definition about advised functions getting redefined.
-(setq ad-redefinition-action 'accept)
+(customize-set-variable 'ad-redefinition-action 'accept)
 
 ;; Remove menu items early to avoid flickering.
 (when (display-graphic-p)
@@ -37,13 +37,13 @@
     (make-directory default-directory))
   (normal-top-level-add-subdirs-to-load-path))
 
-(setq package-enable-at-startup nil
-      package-archives
-      '(("melpa-stable" . "http://stable.melpa.org/packages/")
-        ("melpa"        . "http://melpa.org/packages/")
-        ("marmalade"    . "http://marmalade-repo.org/packages/")
-        ("org"          . "http://orgmode.org/elpa/")
-        ("gnu"          . "http://elpa.gnu.org/packages/")))
+(customize-set-variable 'package-enable-at-startup nil)
+(customize-set-variable 'package-archives
+                        '(("melpa-stable" . "http://stable.melpa.org/packages/")
+                          ("melpa" . "http://melpa.org/packages/")
+                          ("marmalade" . "http://marmalade-repo.org/packages/")
+                          ("org" . "http://orgmode.org/elpa/")
+                          ("gnu" . "http://elpa.gnu.org/packages/")))
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -54,7 +54,7 @@
 (use-package diminish :ensure t)
 
 (if (ef-init-debug-p)
-    (setq use-package-verbose t))
+    (customize-set-variable 'use-package-verbose t))
 
 (add-to-list 'load-path (expand-file-name "vendor" user-emacs-directory))
 

@@ -10,8 +10,9 @@
          ("\\.mkdn$" . gfm-mode)
          ("\\.text\\'" . gfm-mode)
          ("\\.txt\\'" . gfm-mode))
+  :custom
+  (markdown-hide-urls nil)
   :config
-  (setq markdown-hide-urls nil)
   (defun ef-sp-skip-asterisk (ms mb me)
     "Skip asterisk if at begging of line"
     (save-excursion

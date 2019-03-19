@@ -13,14 +13,13 @@
 
   (evil-define-key 'normal global-map ",f" 'ef-projectile-find-file)
   (evil-define-key 'normal global-map ",p" 'projectile-switch-project)
+  :custom
+  (projectile-completion-system 'ido)
+  (projectile-mode-line '(:eval (format " proj[%s]" (projectile-project-name))))
   :config
   (projectile-global-mode t)
-  (setq projectile-completion-system 'ido)
   ;; Workaround for slow down caused by modeline updates of projectile
   ;; See: https://github.com/bbatsov/projectile/issues/1183
-  (setq projectile-mode-line
-        '(:eval (format " proj[%s]"
-                        (projectile-project-name))))
   (add-to-list 'projectile-globally-ignored-directories "elpa")
   (add-to-list 'projectile-globally-ignored-directories ".cache")
   (add-to-list 'projectile-globally-ignored-directories "node_modules")

@@ -22,10 +22,11 @@
   (define-key evil-normal-state-map ",gb" 'magit-blame-popup)
   (define-key evil-normal-state-map ",gc" 'magit-checkout)
   (define-key evil-normal-state-map ",gc" 'magit-checkout)
+  :custom
+  (magit-commit-show-diff nil)
+  (magit-completing-read-function 'magit-ido-completing-read)
   :config
   (setenv "GIT_PAGER" "")
-  (setq magit-commit-show-diff nil
-        magit-completing-read-function 'magit-ido-completing-read)
 
   ;; Don't let magit-status mess up window configurations
   ;; http://whattheemacsd.com/setup-magit.el-01.html
@@ -63,5 +64,9 @@
   :ensure t
   :config
   (evil-magit-init))
+
+(use-package forge
+  :after magit
+  :ensure t)
 
 (provide 'pkg-magit)
