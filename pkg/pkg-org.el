@@ -2,16 +2,16 @@
   :defer t
   :ensure org-plus-contrib
   :pin melpa
-  :custom
-  (org-confirm-babel-evaluate nil)
-  (org-src-fontify-natively t)
-  (org-fontify-quote-and-verse-blocks t)
-  (org-return-follows-link t)
-  (org-hide-emphasis-markers t)
-  (org-src-tab-acts-natively t)
-  (org-log-done 'time)
   :config
   (require 'org-install)
+  (setq org-confirm-babel-evaluate nil
+        org-src-fontify-natively t
+        org-fontify-quote-and-verse-blocks t
+        org-return-follows-link t
+        org-hide-emphasis-markers t
+        org-src-tab-acts-natively t
+        org-log-done 'time)
+
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((shell . t)
@@ -34,14 +34,14 @@
 (use-package org-tree-slide
   :after org
   :ensure t
-  :custom
-  (org-tree-slide-deactivate-message "")
-  (org-tree-slide-activate-message "")
-  (org-tree-slide-header nil)
-  (org-tree-slide-slide-in-effect nil)
   :config
   (require 'ox)
   (require 'ox-latex)
+
+  (setq org-tree-slide-deactivate-message ""
+        org-tree-slide-activate-message ""
+        org-tree-slide-header nil
+        org-tree-slide-slide-in-effect nil)
 
   (defun ef-org-tree-slide-play-hook ()
     (if (fboundp 'flyspell-mode)

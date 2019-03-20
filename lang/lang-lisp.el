@@ -5,7 +5,7 @@
   :config
   (defun ef-lisp-mode-hook ()
     (slime-mode t)
-    (setq-local mode-name "λ"))
+    (setq mode-name "λ"))
 
   (add-hook 'lisp-mode-hook 'ef-lisp-mode-hook))
 
@@ -18,14 +18,14 @@
   :ensure t
   :defer t
   :commands (slime slime-lisp-mode-hook slime-mode)
-  :custom
-  (inferior-lisp-program "sbcl")
-  (slime-net-coding-system 'utf-8-unix)
-  (slime-complete-symbol*-fancy t)
-  (slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
   :config
   (setq slime-contribs
         '(slime-fancy slime-asdf slime-quicklisp slime-cl-indent))
+
+  (setq inferior-lisp-program "sbcl"
+        slime-net-coding-system 'utf-8-unix
+        slime-complete-symbol*-fancy t
+        slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
 
   (slime-setup '(slime-fancy slime-asdf slime-quicklisp slime-company))
 
@@ -72,7 +72,7 @@
 
   (defun ef-emacs-lisp-mode-hook ()
     (add-hook 'after-save-hook 'ef-emacs-lisp-recompile nil t)
-    (setq-local mode-name "Emacs λ"))
+    (setq mode-name "Emacs λ"))
 
   (add-hook 'emacs-lisp-mode-hook 'ef-emacs-lisp-mode-hook))
 
@@ -115,9 +115,9 @@
 
 (use-package eldoc
   :diminish eldoc-mode
-  :custom
-  (eldoc-idle-delay 0.5)
   :config
+  (setq eldoc-idle-delay 0.5)
+
   ;; Eldoc massively slows down cursor movement. This advice fixes that.
   (advice-add 'eldoc-pre-command-refresh-echo-area :override #'ignore))
 

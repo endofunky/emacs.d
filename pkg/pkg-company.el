@@ -1,26 +1,26 @@
 (use-package company
   :diminish company-mode
   :ensure t
-  :custom
-  (company-auto-complete #'ef-company-visible-and-explicit-action-p)
-  (company-global-modes '(not message-mode help-mode eshell-mode))
-  (company-begin-commands '(self-insert-command))
-  (company-minimum-prefix-length 2)
-  (company-idle-delay 0.3)
-  (company-dabbrev-ignore-case nil)
-  (company-dabbrev-downcase nil)
-  (company-selection-wrap-around t)
-  (company-show-numbers t)
-  (company-tooltip-align-annotations t)
-  (company-tooltip-flip-when-above t)
-  (company-tooltip-margin 2)
-  (company-tooltip-limit 12)
-  (company-require-match 'never)
-  (company-frontends '(company-pseudo-tooltip-frontend))
   :config
   (defun ef-company-visible-and-explicit-action-p ()
     (and (company-tooltip-visible-p)
          (company-explicit-action-p)))
+
+  (setq company-auto-complete #'ef-company-visible-and-explicit-action-p
+        company-global-modes '(not message-mode help-mode eshell-mode)
+        company-begin-commands '(self-insert-command)
+        company-minimum-prefix-length 2
+        company-idle-delay 0.3
+        company-dabbrev-ignore-case nil
+        company-dabbrev-downcase nil
+        company-selection-wrap-around t
+        company-show-numbers t
+        company-tooltip-align-annotations t
+        company-tooltip-flip-when-above t
+        company-tooltip-margin 2
+        company-tooltip-limit 12
+        company-require-match 'never
+        company-frontends '(company-pseudo-tooltip-frontend))
 
   (define-key company-active-map (kbd "C-n") #'company-select-next-or-abort)
   (define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort)
@@ -42,9 +42,6 @@
 (use-package evil
   :after company
   :defer t
-  :custom
-  (evil-complete-next-func 'ef-evil-complete-lambda)
-  (evil-complete-previous-func 'ef-evil-complete-lambda)
   :config
   (defun ef-check-expansion ()
     (save-excursion
@@ -66,6 +63,9 @@
   (defun ef-evil-complete-lambda (arg)
     "Ignores passed in arg like a lambda and runs company-complete"
     (company-complete))
+
+  (setq evil-complete-next-func 'ef-evil-complete-lambda)
+  (setq evil-complete-previous-func 'ef-evil-complete-lambda)
 
   (define-key evil-insert-state-map (kbd "TAB") 'ef-tab-indent-or-complete)
 

@@ -1,12 +1,14 @@
 (use-package shackle
   :ensure t
-  :custom
-  (shackle-select-reused-windows nil)
-  (shackle-default-alignment 'below)
-  (shackle-default-size 0.4)
-  (shackle-default-rule '(:same t))
-  (shackle-rules '())
   :config
+  (setq shackle-select-reused-windows nil
+        shackle-default-alignment 'below
+        shackle-default-size 0.4
+        shackle-default-rule '(:same t))
+
+  (when (not shackle-rules)
+    (setq shackle-rules '()))
+
   (defun ef-shackle (shackle &rest shackles)
     "Adds one or more shackle rules to `shackle-rules'"
     (dolist (rule (cons shackle shackles))

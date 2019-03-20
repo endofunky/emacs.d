@@ -1,10 +1,11 @@
 (use-package base16-theme
   :ensure t
-  :custom
-  (custom-safe-themes t)
-  (ef-base16-enabled-theme 'base16-tomorrow-night)
-  (ef-base16-enabled-theme-colors 'base16-tomorrow-night-colors)
   :config
+  (setq custom-safe-themes t)
+
+  (setq ef-base16-enabled-theme 'base16-tomorrow-night)
+  (setq ef-base16-enabled-theme-colors 'base16-tomorrow-night-colors)
+
   (load-theme ef-base16-enabled-theme t)
 
   (defun ef-color (name)

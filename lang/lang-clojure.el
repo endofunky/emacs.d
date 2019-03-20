@@ -2,14 +2,15 @@
   :ensure t
   :mode (("\\.clj\\'" . clojure-mode)
          ("\\.edn$" . clojure-mode))
-  :custom
-  (clojure--prettify-symbols-alist '(("fn" . ?λ)))
   :config
+  (setq clojure--prettify-symbols-alist
+        '(("fn" . ?λ)))
+
   (defun ef-cider-jack-in (params)
     "Quit cider if running and jack in again"
     (interactive "P")
     (if (cider-connected-p)
-        (cider-quit))
+      (cider-quit))
     (cider-jack-in params))
 
   (add-hook 'clojure-mode-hook 'evil-cleverparens-mode)
@@ -18,11 +19,10 @@
 
 (use-package cider
   :ensure t
-  :custom
-  (cider-prompt-for-symbol nil)
-  (cider-repl-display-help-banner nil)
-  (cider-repl-use-pretty-printing t)
   :config
+  (setq cider-prompt-for-symbol nil
+        cider-repl-display-help-banner nil
+        cider-repl-use-pretty-printing t)
 
   (add-hook 'cider-mode-hook #'eldoc-mode)
   (add-hook 'cider-repl-mode-hook #'eldoc-mode)

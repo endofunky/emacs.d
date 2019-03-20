@@ -10,11 +10,10 @@
          ("zshrc\\'" . sh-mode))
   :init
   (ef-define-repl ef-repl-zsh "*ansi-term*" #'(lambda () (ansi-term (getenv "SHELL"))))
-  :custom
-  (sh-basic-offset 2)
-  (sh-indent-for-case-label 0)
-  (sh-indent-for-case-alt '+)
   :config
-  (evil-define-key 'normal sh-mode-map ",r" 'ef-repl-zsh))
+  (evil-define-key 'normal sh-mode-map ",r" 'ef-repl-zsh)
+  (setq sh-basic-offset 2)
+  (setq sh-indent-for-case-label 0)
+  (setq sh-indent-for-case-alt '+))
 
 (provide 'lang-shell)

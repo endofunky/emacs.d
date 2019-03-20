@@ -1,6 +1,6 @@
 (use-package css-mode
   :mode "\\.css$"
-  :custom
-  (css-indent-offset 2))
+  :config
+  (setq css-indent-offset 2))
 
 (provide 'lang-css)
