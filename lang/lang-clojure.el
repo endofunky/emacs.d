@@ -62,10 +62,4 @@
   (evil-define-key 'insert cider-repl-mode-map (kbd "<up>") 'cider-repl-previous-input)
   (evil-define-key 'insert cider-repl-mode-map (kbd "<down>") 'cider-repl-next-input))
 
-(use-package clj-refactor
-  :ensure t
-  :after cider
-  :init
-  (add-hook 'clojure-mode-hook 'clj-refactor-mode 1))
-
 (provide 'lang-clojure)

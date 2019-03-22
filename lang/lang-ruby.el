@@ -38,14 +38,12 @@
   (ef-define-dumb-jump-bindings ruby-mode-map)
 
   (defun ef-ruby-mode-hook ()
-    (yard-mode 1)
-    (eldoc-mode 1)
-
     (require 'smartparens-ruby)
     (sp-with-modes '(ruby-mode)
       (sp-local-pair "[" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
       (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
-      (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))))
+      (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET"))))
+    (lsp))
 
   (add-hook 'ruby-mode-hook 'ef-ruby-mode-hook)
 
@@ -62,11 +60,6 @@
   :after ruby-mode
   :ensure t
   :diminish ruby-interpolation-mode)
-
-(use-package yard-mode
-  :after ruby-mode
-  :ensure t
-  :diminish yard-mode)
 
 (use-package ruby-test-mode
   :after ruby-mode

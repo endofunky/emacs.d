@@ -25,3 +25,5 @@ anaconda-mode/
 tramp
 ycmd/
 .org-id-locations
+.lsp-session-v1
+transient/
