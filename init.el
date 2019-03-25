@@ -45,6 +45,9 @@
         ("org"          . "http://orgmode.org/elpa/")
         ("gnu"          . "http://elpa.gnu.org/packages/")))
 
+(unless (fboundp 'package-installed-p)
+  (package-initialize t))
+
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
