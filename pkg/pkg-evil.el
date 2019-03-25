@@ -1,18 +1,21 @@
 (use-package evil
   :ensure t
+  :custom
+  (evil-auto-indent t)
+  (evil-cross-lines t)
+  (evil-default-cursor t)
+  (evil-default-state 'normal)
+  (evil-echo-state nil)
+  (evil-ex-search-case 'smart)
+  (evil-ex-search-vim-style-regexp t)
+  (evil-magic 'very-magic)
+  (evil-search-module 'evil-search)
+  (evil-shift-width 2)
+  ;; Required for evil-collection:
+  (evil-want-integration t)
+  (evil-want-keybinding nil)
   :config
   (evil-mode 1)
-
-  (setq-default evil-auto-indent t
-                evil-cross-lines t
-                evil-default-cursor t
-                evil-default-state 'normal
-                evil-echo-state nil
-                evil-ex-search-case 'smart
-                evil-ex-search-vim-style-regexp t
-                evil-magic 'very-magic
-                evil-search-module 'evil-search
-                evil-shift-width 2)
 
   ;; Avoid dropping into insert mode in compilation windows
   (add-hook 'compilation-start-hook 'evil-normal-state)
@@ -79,10 +82,10 @@
 
   (defun ef-toggle-scratch--goto-scratch ()
     (if-let* ((scratch-buffer (get-buffer "*scratch*")))
-             (progn
-               (setq ef-toggle-scratch--prev-buffer (current-buffer))
-               (switch-to-buffer scratch-buffer))
-             (message "No *scratch* buffer found.")))
+        (progn
+          (setq ef-toggle-scratch--prev-buffer (current-buffer))
+          (switch-to-buffer scratch-buffer))
+      (message "No *scratch* buffer found.")))
 
   (defun ef-toggle-scratch--goto-prev-buffer ()
     (if (buffer-live-p ef-toggle-scratch--prev-buffer)
@@ -96,10 +99,14 @@
         (ef-toggle-scratch--goto-prev-buffer)
       (ef-toggle-scratch--goto-scratch)))
 
-  (define-key evil-normal-state-map ",S" 'ef-toggle-scratch)
+  (define-key evil-normal-state-map ",S" 'ef-toggle-scratch))
 
-  (evil-add-hjkl-bindings package-menu-mode-map 'emacs
-    "H" 'package-menu-quick-help))
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :defer 1
+  :config
+  (evil-collection-init))
 
 (use-package evil-cleverparens
   :after evil
@@ -112,9 +119,10 @@
              evil-cp-wrap-next-square
              evil-cp-wrap-previous-curly
              evil-cp-wrap-next-curly)
+  :custom
+  (evil-cleverparens-use-additional-movement-keys nil)
   :init
   (add-hook 'emacs-lisp-mode-hook 'evil-cleverparens-mode)
-  (setq evil-cleverparens-use-additional-movement-keys nil)
   (evil-define-key 'normal prog-mode-map (kbd "M-(") 'evil-cp-wrap-next-round)
   (evil-define-key 'normal prog-mode-map (kbd "M-)") 'evil-cp-wrap-previous-round)
   (evil-define-key 'normal prog-mode-map (kbd "M-[") 'evil-cp-wrap-next-square)
@@ -146,11 +154,12 @@
   :after evil
   :ensure t
   :diminish undo-tree-mode
+  :custom
+  (undo-tree-visualizer-timestamps t)
+  (undo-tree-visualizer-lazy-drawing nil)
+  (undo-tree-auto-save-history t)
   :config
   (global-undo-tree-mode)
-  (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-lazy-drawing nil)
-  (setq undo-tree-auto-save-history t)
   (let ((undo-dir (expand-file-name "undo" user-emacs-directory)))
     (setq undo-tree-history-directory-alist (list (cons "." undo-dir))))
 
