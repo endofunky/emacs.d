@@ -35,7 +35,6 @@
   (evil-define-key 'visual ruby-mode-map ",er" 'ruby-send-region)
 
   (ef-shackle '("*rake-compilation*" :align below :size .4 :popup t :select t))
-  (ef-define-dumb-jump-bindings ruby-mode-map)
 
   (defun ef-ruby-mode-hook ()
     (require 'smartparens-ruby)
