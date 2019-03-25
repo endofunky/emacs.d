@@ -3,10 +3,12 @@
   :defer t)
 
 (use-package autorevert
+  :custom
+  (auto-revert-interval 1)
+  (auto-revert-verbose nil)
+  (global-auto-revert-non-file-buffers t)
   :config
-  (global-auto-revert-mode 1)
-  (setq auto-revert-verbose nil
-        global-auto-revert-non-file-buffers t))
+  (global-auto-revert-mode 1))
 
 (use-package comint
   :defer t
