@@ -1,4 +1,5 @@
 (use-package magit
+  :disabled
   :ensure t
   :commands (magit-blame-popup
              magit-checkout
@@ -60,6 +61,7 @@
 
 (use-package evil-magit
   :after magit
+  :disabled
   :ensure t
   :config
   (evil-magit-init))
