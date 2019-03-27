@@ -32,6 +32,7 @@
   (evil-define-key 'normal ruby-mode-map ",r" 'ef-repl-ruby)
   (evil-define-key 'normal inf-ruby-mode-map ",r" 'ef-repl-ruby)
   (evil-define-key 'normal ruby-mode-map ",eb" 'ruby-send-buffer)
+  (evil-define-key 'normal ruby-mode-map ",ed" 'ruby-send-definition)
   (evil-define-key 'visual ruby-mode-map ",er" 'ruby-send-region)
 
   (ef-shackle '("*rake-compilation*" :align below :size .4 :popup t :select t))
