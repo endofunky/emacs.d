@@ -101,13 +101,6 @@
 
   (define-key evil-normal-state-map ",S" 'ef-toggle-scratch))
 
-(use-package evil-collection
-  :after evil
-  :ensure t
-  :defer 1
-  :config
-  (evil-collection-init))
-
 (use-package evil-cleverparens
   :after evil
   :ensure t
