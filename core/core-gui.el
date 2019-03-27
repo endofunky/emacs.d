@@ -4,12 +4,20 @@
 
 (use-package frame
   :if window-system
+  :custom
+  (frame-title-format '(multiple-frames "%b" "%b"))
+  (frame-resize-pixelwise t)
+  (blink-cursor-blinks 0)
   :config
-  (setq frame-title-format '(multiple-frames "%b" "%b")
-        frame-resize-pixelwise t
-        blink-cursor-blinks 0)
+  (require 'f)
+  (require 'subr-x)
 
-  (set-frame-font "DejaVu Sans Mono-9")
+  (let ((file (expand-file-name "~/.emacs-font-size")))
+    (if (file-exists-p file)
+        (set-frame-font (format "DejaVu Sans Mono-%s"
+                                (string-trim (f-read-text file))))
+      (set-frame-font "DejaVu Sans Mono-12")))
+
   (blink-cursor-mode -1)
   (global-set-key (kbd "M-RET") 'toggle-frame-fullscreen))
 
