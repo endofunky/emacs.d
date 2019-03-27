@@ -158,4 +158,12 @@
 
   (define-key evil-normal-state-map (kbd ",u") 'undo-tree-visualize))
 
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :custom
+  (evil-collection-company-use-tng nil)
+  :config
+  (evil-collection-init))
+
 (provide 'pkg-evil)
