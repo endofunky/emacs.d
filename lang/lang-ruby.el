@@ -22,12 +22,14 @@
          ("\\.ru\\'" . ruby-mode)
          ("\\.thor\\'" . ruby-mode))
   :interpreter ("ruby" . ruby-mode)
+  :custom
+  (inf-ruby-default-implementation "pry")
   :config
   (setq ruby-insert-encoding-magic-comment nil)
   (setq ruby-deep-arglist nil)
   (setq ruby-deep-indent-paren nil)
 
-  (ef-define-repl ef-repl-ruby "*ruby*" 'inf-ruby)
+  (ef-define-repl ef-repl-ruby "*ruby*" 'run-ruby)
 
   (evil-define-key 'normal ruby-mode-map ",r" 'ef-repl-ruby)
   (evil-define-key 'normal inf-ruby-mode-map ",r" 'ef-repl-ruby)
