@@ -34,6 +34,7 @@
   (evil-define-key 'normal ruby-mode-map ",eb" 'ruby-send-buffer)
   (evil-define-key 'normal ruby-mode-map ",ed" 'ruby-send-definition)
   (evil-define-key 'visual ruby-mode-map ",er" 'ruby-send-region)
+  (evil-define-key 'normal ruby-mode-map ",m" 'yari)
 
   (ef-shackle '("*rake-compilation*" :align below :size .4 :popup t :select t))
 
@@ -116,5 +117,9 @@ current buffer's file, if it exists"
   (evil-define-key 'normal ruby-mode-map ",x:" 'ruby-tools-to-symbol)
   (evil-define-key 'normal ruby-mode-map ",x\"" 'ruby-tools-to-double-quote-string)
   (evil-define-key 'normal ruby-mode-map ",x\'" 'ruby-tools-to-single-quote-string))
+
+(use-package yari
+  :commands yari
+  :load-path "vendor/yari.el")
 
 (provide 'lang-ruby)
