@@ -33,6 +33,8 @@
 (use-package ido-completing-read+
   :after ido
   :ensure t
+  :custom
+  (ido-cr+-auto-update-blacklist t)
   :config
   (ido-ubiquitous-mode 1))
 
