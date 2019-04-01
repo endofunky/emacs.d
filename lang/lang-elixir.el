@@ -2,12 +2,10 @@
   :mode (("\\.ex\\'" . elixir-mode)
          ("\\.exs\\'" . elixir-mode))
   :commands elixir-mode
-  :defer t
   :ensure t)
 
 (use-package alchemist
   :ensure t
-  :defer t
   :commands (alchemist-mode alchemist-iex-project-run)
   :init
   (add-hook 'elixir-mode-hook 'alchemist-mode)

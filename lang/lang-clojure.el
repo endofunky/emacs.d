@@ -2,6 +2,7 @@
   :ensure t
   :mode (("\\.clj\\'" . clojure-mode)
          ("\\.edn$" . clojure-mode))
+  :custom
   :config
   (setq clojure--prettify-symbols-alist
         '(("fn" . ?λ)))
@@ -19,11 +20,11 @@
 
 (use-package cider
   :ensure t
+  :custom
+  (cider-prompt-for-symbol nil)
+  (cider-repl-display-help-banner nil)
+  (cider-repl-use-pretty-printing t)
   :config
-  (setq cider-prompt-for-symbol nil
-        cider-repl-display-help-banner nil
-        cider-repl-use-pretty-printing t)
-
   (add-hook 'cider-mode-hook #'eldoc-mode)
   (add-hook 'cider-repl-mode-hook #'eldoc-mode)
 
