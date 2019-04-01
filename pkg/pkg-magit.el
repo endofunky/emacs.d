@@ -29,7 +29,8 @@
   ;; http://whattheemacsd.com/setup-magit.el-01.html
   (defadvice magit-status (around magit-fullscreen activate)
     (window-configuration-to-register :magit-fullscreen)
-    (shackle-mode -1)
+    (if (fboundp 'shackle-mode)
+        (shackle-mode -1))
     ad-do-it
     (delete-other-windows))
 
@@ -38,7 +39,8 @@
     (interactive)
     (kill-buffer)
     (jump-to-register :magit-fullscreen)
-    (shackle-mode t))
+    (if (fboundp 'shackle-mode)
+        (shackle-mode t)))
 
   (define-key magit-status-mode-map (kbd "q") 'ef-magit-quit-session)
 
