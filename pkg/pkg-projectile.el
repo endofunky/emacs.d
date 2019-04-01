@@ -1,6 +1,7 @@
 (use-package projectile
   :ensure t
-  :commands (projectile-switch-project
+  :commands (projectile-project-p
+	     projectile-switch-project
              projectile-find-file
              projectile-ag
              projectile-reset-cached-project-root)
