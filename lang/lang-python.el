@@ -1,7 +1,9 @@
 (use-package python
   :ensure t
   :mode (("\\.py\\'" . python-mode)
-         ("\\.wsgi$" . python-mode))
+         ("\\.wsgi$" . python-mode)
+         ("SConstruct\\'" . python-mode)
+         ("SConscript\\'" . python-mode))
   :interpreter ("python" . python-mode)
   :custom
   (python-shell-interpreter "ipython")
