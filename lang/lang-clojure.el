@@ -2,7 +2,6 @@
   :ensure t
   :mode (("\\.clj\\'" . clojure-mode)
          ("\\.edn$" . clojure-mode))
-  :custom
   :config
   (setq clojure--prettify-symbols-alist
         '(("fn" . ?λ)))
