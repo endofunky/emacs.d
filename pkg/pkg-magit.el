@@ -1,12 +1,10 @@
 (use-package magit
-  :disabled
   :ensure t
-  :commands (magit-blame-popup
+  :commands (magit-blame
              magit-checkout
              magit-diff
-             magit-diff-popup
              magit-log-all
-             magit-log-popup
+             magit-log
              magit-status)
   :diminish auto-revert-mode
   :init
@@ -15,13 +13,12 @@
     (interactive)
     (magit-diff "HEAD"))
 
-  (define-key evil-normal-state-map ",gd" 'magit-diff-popup)
+  (define-key evil-normal-state-map ",gd" 'magit-diff)
   (define-key evil-normal-state-map ",gD" 'ef-magit-diff-head)
   (define-key evil-normal-state-map ",gs" 'magit-status)
-  (define-key evil-normal-state-map ",gl" 'magit-log-popup)
+  (define-key evil-normal-state-map ",gl" 'magit-log)
   (define-key evil-normal-state-map ",gL" 'magit-log-all)
-  (define-key evil-normal-state-map ",gb" 'magit-blame-popup)
-  (define-key evil-normal-state-map ",gc" 'magit-checkout)
+  (define-key evil-normal-state-map ",gb" 'magit-blame)
   (define-key evil-normal-state-map ",gc" 'magit-checkout)
   :config
   (setenv "GIT_PAGER" "")
@@ -32,6 +29,7 @@
   ;; http://whattheemacsd.com/setup-magit.el-01.html
   (defadvice magit-status (around magit-fullscreen activate)
     (window-configuration-to-register :magit-fullscreen)
+    (shackle-mode -1)
     ad-do-it
     (delete-other-windows))
 
@@ -39,7 +37,8 @@
     "Restores the previous window configuration and kills the magit buffer"
     (interactive)
     (kill-buffer)
-    (jump-to-register :magit-fullscreen))
+    (jump-to-register :magit-fullscreen)
+    (shackle-mode t))
 
   (define-key magit-status-mode-map (kbd "q") 'ef-magit-quit-session)
 
@@ -61,7 +60,6 @@
 
 (use-package evil-magit
   :after magit
-  :disabled
   :ensure t
   :config
   (evil-magit-init))
