@@ -9,13 +9,18 @@
   (frame-resize-pixelwise t)
   (blink-cursor-blinks 0)
   :config
-  (require 'f)
   (require 'subr-x)
+
+  (defun ef-read-file (filename)
+    "Return the contents of FILENAME."
+    (with-temp-buffer
+      (insert-file-contents filename)
+      (buffer-string)))
 
   (let ((file (expand-file-name "~/.emacs-font-size")))
     (if (file-exists-p file)
         (set-frame-font (format "DejaVu Sans Mono-%s"
-                                (string-trim (f-read-text file))))
+                                (string-trim (ef-read-file file))))
       (set-frame-font "DejaVu Sans Mono-12")))
 
   (blink-cursor-mode -1)
