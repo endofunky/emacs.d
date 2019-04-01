@@ -7,6 +7,8 @@
              magit-log
              magit-status)
   :diminish auto-revert-mode
+  :custom
+  (magit-completing-read-function 'magit-ido-completing-read)
   :init
   (defun ef-magit-diff-head ()
     "Execute `magit-diff' against current HEAD."
@@ -22,8 +24,6 @@
   (define-key evil-normal-state-map ",gc" 'magit-checkout)
   :config
   (setenv "GIT_PAGER" "")
-  (setq magit-commit-show-diff nil
-        magit-completing-read-function 'magit-ido-completing-read)
 
   ;; Don't let magit-status mess up window configurations
   ;; http://whattheemacsd.com/setup-magit.el-01.html
