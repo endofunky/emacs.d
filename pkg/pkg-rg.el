@@ -1,15 +1,9 @@
-(use-package rg
+(use-package deadgrep
   :ensure t
-  :commands (rg rg-project)
+  :commands deadgrep
   :init
-  (defun ef-rg ()
-    "Run rg-project if in a project, otherwise rg"
-    (interactive)
-    (call-interactively
-     (if (projectile-project-p)
-         #'rg-project
-       #'rg)))
-
-  (define-key evil-normal-state-map ",/" #'ef-rg))
+  (define-key evil-normal-state-map ",/" #'deadgrep)
+  :config
+  (setq deadgrep-project-root-function #'projectile-project-root))
 
 (provide 'pkg-rg)
