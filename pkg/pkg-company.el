@@ -32,6 +32,11 @@
     'company-select-next-if-tooltip-visible-or-complete-selection)
   (global-company-mode t))
 
+(use-package company-tng
+  :after company
+  :config
+  (company-tng-configure-default))
+
 (use-package company-statistics
   :ensure t
   :defer 1
