@@ -6,7 +6,7 @@
   (company-global-modes '(not message-mode help-mode eshell-mode))
   (company-begin-commands '(self-insert-command))
   (company-minimum-prefix-length 2)
-  (company-idle-delay 0.05)
+  (company-idle-delay 0.3)
   (company-dabbrev-ignore-case nil)
   (company-dabbrev-downcase nil)
   (company-selection-wrap-around t)
