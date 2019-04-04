@@ -7,7 +7,7 @@
     (locate-file "editorconfig" exec-path))
 
   (unless ef-editorconfig-location
-    (warn "editorconfig executable missing from PATH"))
+    (warn "editorconfig executable missing from PATH. editorconfig-mode will not be enabled"))
 
   :if ef-editorconfig-location
   :config
