@@ -34,6 +34,7 @@
 
 (use-package company-statistics
   :ensure t
+  :defer 1
   :after company
   :config
   (company-statistics-mode))
