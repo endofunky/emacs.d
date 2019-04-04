@@ -11,6 +11,6 @@
 
   :if ef-editorconfig-location
   :config
-  (editorconfig-mode))
+  (editorconfig-mode 1))
 
 (provide 'pkg-editorconfig)
