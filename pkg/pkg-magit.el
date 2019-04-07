@@ -25,25 +25,6 @@
   :config
   (setenv "GIT_PAGER" "")
 
-  ;; Don't let magit-status mess up window configurations
-  ;; http://whattheemacsd.com/setup-magit.el-01.html
-  (defadvice magit-status (around magit-fullscreen activate)
-    (window-configuration-to-register :magit-fullscreen)
-    (if (fboundp 'shackle-mode)
-        (shackle-mode -1))
-    ad-do-it
-    (delete-other-windows))
-
-  (defun ef-magit-quit-session ()
-    "Restores the previous window configuration and kills the magit buffer"
-    (interactive)
-    (kill-buffer)
-    (jump-to-register :magit-fullscreen)
-    (if (fboundp 'shackle-mode)
-        (shackle-mode t)))
-
-  (define-key magit-status-mode-map (kbd "q") 'ef-magit-quit-session)
-
   (defun ef-magit-wip-all ()
     "Create a wip commit with all changes on HEAD"
     (interactive)
@@ -61,9 +42,28 @@
   (define-key magit-status-mode-map (kbd ", u") 'ef-magit-undo-commit))
 
 (use-package evil-magit
-  :after magit
+  :after (evil magit)
   :ensure t
   :config
-  (evil-magit-init))
+  (evil-magit-init)
+  ;; Don't let magit-status mess up window configurations
+  ;; http://whattheemacsd.com/setup-magit.el-01.html
+  (defadvice magit-status (around magit-fullscreen activate)
+    (window-configuration-to-register :magit-fullscreen)
+    (if (fboundp 'shackle-mode)
+        (shackle-mode -1))
+    ad-do-it
+    (delete-other-windows))
+
+  (defun ef-magit-quit-session ()
+    "Restores the previous window configuration and kills the magit buffer"
+    (interactive)
+    (kill-buffer)
+    (jump-to-register :magit-fullscreen)
+    (if (fboundp 'shackle-mode)
+        (shackle-mode t)))
+
+  (evil-define-key 'normal magit-status-mode-map "q" #'ef-magit-quit-session)
+  (evil-define-key 'visual magit-status-mode-map "q" #'ef-magit-quit-session))
 
 (provide 'pkg-magit)
