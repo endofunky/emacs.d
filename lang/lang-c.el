@@ -14,6 +14,8 @@
   (add-hook 'c++-mode-hook 'ef-cc-mode-hook)
   (add-hook 'c-mode-hook 'ef-cc-mode-hook)
 
+  (evil-define-key 'normal 'c++-mode-map ",." 'pop-tag-mark)
+  (evil-define-key 'normal 'c-mode-map ",." 'pop-tag-mark)
   (evil-define-key 'normal 'c++-mode-map ",o" 'ff-find-other-file)
   (evil-define-key 'normal 'c-mode-map ",o" 'ff-find-other-file)
 
