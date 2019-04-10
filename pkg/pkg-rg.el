@@ -6,6 +6,9 @@
   :config
   (setq deadgrep-project-root-function #'projectile-project-root)
 
+  (unless (locate-file "rg" exec-path)
+    (warn "rg executable missing from PATH."))
+
   (defadvice deadgrep (before my activate)
     (xref-push-marker-stack))
 
