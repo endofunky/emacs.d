@@ -23,23 +23,7 @@
   (define-key evil-normal-state-map ",gb" 'magit-blame)
   (define-key evil-normal-state-map ",gc" 'magit-checkout)
   :config
-  (setenv "GIT_PAGER" "")
-
-  (defun ef-magit-wip-all ()
-    "Create a wip commit with all changes on HEAD"
-    (interactive)
-    (magit-stage-modified t)
-    (magit-commit '("-m" "wip [ci skip]")))
-
-  (define-key magit-status-mode-map (kbd ", w") 'ef-magit-wip-all)
-
-  (defun ef-magit-undo-commit ()
-    "Undo the HEAD~1 commit"
-    (interactive)
-    (when (yes-or-no-p "Reset the last commit?")
-      (magit-reset "HEAD~1")))
-
-  (define-key magit-status-mode-map (kbd ", u") 'ef-magit-undo-commit))
+  (setenv "GIT_PAGER" ""))
 
 (use-package evil-magit
   :after (evil magit)
