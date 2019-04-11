@@ -25,13 +25,12 @@
   (setq compilation-always-kill t
         compilation-message-face 'default)
 
-  (defun ef-compilation-exit-autoclose (status code msg)
-    (when (and (eq status 'exit) (zerop code))
+  (defun ef-compilation-exit-autoclose (buffer msg)
+    (when (string-match-p (regexp-quote "finished") msg)
       (bury-buffer)
-      (delete-window (get-buffer-window (get-buffer "*compilation*"))))
-    (cons msg code))
+      (delete-window (get-buffer-window (get-buffer "*compilation*")))))
 
-  (setq compilation-exit-message-function 'ef-compilation-exit-autoclose))
+  (add-to-list 'compilation-finish-functions #'ef-compilation-exit-autoclose))
 
 (use-package fringe
   :config
