@@ -127,4 +127,18 @@ current buffer's file, if it exists"
   :commands yari
   :load-path "vendor/yari.el")
 
+(use-package rubocop
+  :ensure t
+  :commands (rubocop-check-project
+             rubocop-check-directory
+             rubocop-check-current-file
+             rubocop-autocorrect-project
+             rubocop-autocorrect-directory
+             rubocop-autocorrect-current-file)
+  :config
+  (defun rubocop-buffer-name (file-or-dir)
+    "Generate a name for the RuboCop buffer from FILE-OR-DIR."
+    "*rubocop*")
+  (ef-shackle '("*rubocop*" :align below :size .4 :popup t :select t)))
+
 (provide 'lang-ruby)
