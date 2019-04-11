@@ -29,6 +29,9 @@
   (setq ruby-deep-arglist nil)
   (setq ruby-deep-indent-paren nil)
 
+  ;; Suppress warnings
+  (setenv "RUBYOPT" "-W0")
+
   (ef-define-repl ef-repl-ruby "*ruby*" 'run-ruby)
 
   (evil-define-key 'normal ruby-mode-map ",r" 'ef-repl-ruby)
