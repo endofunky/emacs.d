@@ -78,10 +78,11 @@
   :if (file-exists-p "/usr/local/bin/ccls")
   :init
   (defun ef-c-mode-lsp-hook ()
+    (require 'ccls)
     (if (or (file-exists-p (expand-file-name "compile_commands.json" (projectile-project-root)))
             (file-exists-p (expand-file-name ".ccls" (projectile-project-root))))
         (lsp)))
-  :hook ((c++-mode c-mode objc-mode) . #'ef-c-mode-lsp-hook)
+  :hook ((c-mode c++-mode objc-mode) . ef-c-mode-lsp-hook)
   :custom
   (ccls-executable "/usr/local/bin/ccls")
   (ccls-sem-highlight-method nil))
