@@ -89,4 +89,8 @@
   (ccls-executable "/usr/local/bin/ccls")
   (ccls-sem-highlight-method nil))
 
+(use-package ruby-style
+  :after (cc-mode)
+  :load-path "vendor/ruby-style.el")
+
 (provide 'lang-c)
