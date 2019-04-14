@@ -66,28 +66,6 @@
   :config
   (modern-c++-font-lock-global-mode t))
 
-(use-package ycmd
-  :ensure t
-  :custom
-  (ycmd-request-message-level -1)
-  (ycmd-parse-conditions '(save buffer-focus new-line mode-enabled))
-  (ycmd-idle-change-delay 0)
-  (ycmd-force-semantic-completion nil)
-  (ycmd-server-command '("python"))
-  :config
-  (add-to-list 'ycmd-server-command (expand-file-name "~/.emacs.d/ycmd/ycmd/") t)
-  (add-hook 'c++-mode-hook 'ycmd-mode))
-
-(use-package company-ycmd
-  :ensure t
-  :custom
-  (company-backends
-        (remove 'company-clang company-backends))
-  (company-ycmd-request-sync-timeout 1.0)
-  :config
-  (add-to-list 'company-backends 'company-ycmd)
-  (company-ycmd-setup))
-
 (use-package bazel-mode
   :ensure t
   :mode ("BUILD\\|WORKSPACE\\|CROSSTOOL\\|\\.bazel\\'" . bazel-mode)
@@ -95,12 +73,5 @@
   (defun ef-bazel-mode-hook ()
     (add-hook 'before-save-hook 'bazel-format nil t))
   (add-hook 'bazel-mode-hook 'ef-bazel-mode-hook))
-
-(use-package clang-format
-  :ensure t
-  :config
-  (fset 'c-indent-region 'clang-format-region)
-  (evil-define-key 'normal c++-mode-map (kbd ", TAB") 'clang-format-region)
-  (evil-define-key 'normal c-mode-map (kbd ", TAB") 'clang-format-region))
 
 (provide 'lang-c)
