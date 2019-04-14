@@ -29,8 +29,7 @@
     (setq-local c-default-style "k&r")
     (setq-local c-basic-offset 2)
     (setq-local tab-width 2)
-    (setq-local indent-tabs-mode nil)
-    (setq-local company-clang-arguments '("-std=c++11")))
+    (setq-local indent-tabs-mode nil))
 
   (add-hook 'c++-mode-hook 'ef-c++-mode-hook)
 

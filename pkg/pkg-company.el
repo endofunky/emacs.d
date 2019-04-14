@@ -18,6 +18,8 @@
   (company-require-match 'never)
   (company-frontends '(company-pseudo-tooltip-frontend))
   :config
+  (setq company-backends (remove 'company-clang company-backends))
+
   (defun ef-company-visible-and-explicit-action-p ()
     (and (company-tooltip-visible-p)
          (company-explicit-action-p)))
