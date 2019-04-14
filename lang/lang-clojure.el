@@ -19,6 +19,7 @@
 
 (use-package cider
   :ensure t
+  :commands (cider-connected-p cider-quit cider-jack-in)
   :custom
   (cider-prompt-for-symbol nil)
   (cider-repl-display-help-banner nil)
