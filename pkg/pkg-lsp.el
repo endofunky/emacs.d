@@ -15,10 +15,12 @@
 
 (use-package company-lsp
   :commands company-lsp
+  :after (lsp-mode)
   :ensure t)
 
 (use-package xref
   :defer t
+  :after (lsp-mode)
   :config
   (if (fboundp #'ef-shackle)
       (ef-shackle '("*xref*" :align below :size .4 :popup t :select t)))
