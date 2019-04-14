@@ -76,7 +76,10 @@
 
 (use-package ccls
   :ensure t
-  :if (file-exists-p "/usr/local/bin/ccls")
+  :preface
+  (defconst ef-ccls-location
+    (locate-file "ccls" exec-path))
+  :if ef-ccls-location
   :init
   (defun ef-c-mode-lsp-hook ()
     (require 'ccls)
@@ -85,7 +88,7 @@
         (lsp)))
   :hook ((c-mode c++-mode objc-mode) . ef-c-mode-lsp-hook)
   :custom
-  (ccls-executable "/usr/local/bin/ccls")
+  (ccls-executable ef-ccls-location)
   (ccls-sem-highlight-method nil))
 
 (use-package ruby-style
