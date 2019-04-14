@@ -74,4 +74,18 @@
     (add-hook 'before-save-hook 'bazel-format nil t))
   (add-hook 'bazel-mode-hook 'ef-bazel-mode-hook))
 
+(use-package ccls
+  :after (lsp-mode)
+  :ensure t
+  :if (file-exists-p "/usr/local/bin/ccls")
+  :init
+  (defun ef-c-mode-lsp-hook ()
+    (if (file-exists-p (expand-file-name "compile_commands.json" (projectile-project-root)))
+        (lsp)))
+  (add-hook 'c++-mode-hook #'ef-c-mode-lsp-hook)
+  (add-hook 'c-mode-hook #'ef-c-mode-lsp-hook)
+  :custom
+  (ccls-executable "/usr/local/bin/ccls")
+  (ccls-sem-highlight-method nil))
+
 (provide 'lang-c)
