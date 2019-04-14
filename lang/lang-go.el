@@ -5,7 +5,6 @@
   (gofmt-command "goimports")
   :config
   (evil-define-key 'normal go-mode-map ",," 'godef-jump)
-  (evil-define-key 'normal go-mode-map ",." 'pop-tag-mark)
 
   (sp-with-modes '(go-mode)
     (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET"))))

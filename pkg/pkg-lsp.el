@@ -7,7 +7,6 @@
   (lsp-enable-symbol-highlighting nil)
   :config
   (evil-define-key 'normal lsp-mode-map ",," 'lsp-find-definition)
-  (evil-define-key 'normal lsp-mode-map ",." 'pop-tag-mark)
 
   (defun ef-lsp-mode-hook ()
     (setq-local company-backends (remove 'company-capf company-backends)))

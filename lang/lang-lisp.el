@@ -97,9 +97,7 @@
     (add-hook hook 'elisp-slime-nav-mode))
   :config
   (evil-define-key 'normal emacs-lisp-mode-map ",," 'elisp-slime-nav-find-elisp-thing-at-point)
-  (evil-define-key 'normal emacs-lisp-mode-map ",." 'pop-tag-mark)
-  (evil-define-key 'normal lisp-interaction-mode-map ",," 'elisp-slime-nav-find-elisp-thing-at-point)
-  (evil-define-key 'normal lisp-interaction-mode-map ",." 'pop-tag-mark))
+  (evil-define-key 'normal lisp-interaction-mode-map ",," 'elisp-slime-nav-find-elisp-thing-at-point))
 
 (use-package macrostep
   :ensure t

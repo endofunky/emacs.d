@@ -74,6 +74,9 @@
   (evil-define-key 'insert comint-mode-map (kbd "<up>") 'comint-previous-input)
   (evil-define-key 'insert comint-mode-map (kbd "<down>") 'comint-next-input)
 
+  ;; Xref
+  (evil-define-key 'normal prog-mode-map ",." 'pop-tag-mark)
+
   ;; Unset some annoying keys
   (define-key evil-motion-state-map "K" nil)
   (define-key evil-normal-state-map "K" nil)
