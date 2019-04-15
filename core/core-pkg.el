@@ -40,6 +40,11 @@
   :config
   (global-hl-line-mode 1))
 
+(use-package hideshow
+  :commands hs-minor-mode
+  :diminish hs-minor-mode
+  :hook (prog-mode . hs-minor-mode))
+
 (use-package minibuffer
   :config
   (defun ef-minibuffer-setup-hook ()
