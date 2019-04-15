@@ -9,6 +9,7 @@
   :diminish auto-revert-mode
   :custom
   (magit-completing-read-function 'magit-ido-completing-read)
+  (magit-display-buffer-function #'display-buffer)
   :init
   (defun ef-magit-diff-head ()
     "Execute `magit-diff' against current HEAD."
