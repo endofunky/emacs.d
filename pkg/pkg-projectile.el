@@ -13,14 +13,6 @@
   (evil-define-key 'normal global-map ",f" 'ef-projectile-find-file)
   (evil-define-key 'normal global-map ",p" 'projectile-switch-project)
 
-  (projectile-global-mode t)
-
-  ;; Workaround for slow down caused by modeline updates of projectile
-  ;; See: https://github.com/bbatsov/projectile/issues/1183
-  (add-to-list 'projectile-globally-ignored-directories "elpa")
-  (add-to-list 'projectile-globally-ignored-directories ".cache")
-  (add-to-list 'projectile-globally-ignored-directories "node_modules")
-  (add-to-list 'projectile-globally-ignored-directories ".bundle")
-  (add-to-list 'projectile-globally-ignored-directories ".git"))
+  (projectile-global-mode t))
 
 (provide 'pkg-projectile)
