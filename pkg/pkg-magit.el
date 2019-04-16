@@ -10,13 +10,7 @@
   :custom
   (magit-completing-read-function 'magit-ido-completing-read)
   :init
-  (defun ef-magit-diff-head ()
-    "Execute `magit-diff' against current HEAD."
-    (interactive)
-    (magit-diff "HEAD"))
-
   (define-key evil-normal-state-map ",gd" 'magit-diff)
-  (define-key evil-normal-state-map ",gD" 'ef-magit-diff-head)
   (define-key evil-normal-state-map ",gs" 'magit-status)
   (define-key evil-normal-state-map ",gl" 'magit-log)
   (define-key evil-normal-state-map ",gL" 'magit-log-all)
