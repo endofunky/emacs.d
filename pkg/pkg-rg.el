@@ -11,7 +11,8 @@
   :init
   (define-key evil-normal-state-map ",/" #'deadgrep)
   :config
-  (setq deadgrep-project-root-function #'projectile-project-root)
+  (setq-default deadgrep-project-root-function #'projectile-project-root)
+  (setq-default deadgrep--search-type 'regexp)
 
   (defadvice deadgrep (before my activate)
     (xref-push-marker-stack))
