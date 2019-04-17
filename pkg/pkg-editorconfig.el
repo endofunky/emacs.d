@@ -1,6 +1,7 @@
 (use-package editorconfig
   :ensure t
   :diminish editorconfig-mode
+  :commands editorconfig-mode
   :mode ("\\.editorconfig\\'" . conf-unix-mode)
   :preface
   (defconst ef-editorconfig-location
@@ -9,8 +10,9 @@
   (unless ef-editorconfig-location
     (warn "editorconfig executable missing from PATH. editorconfig-mode will not be enabled"))
 
+  :custom
+  (editorconfig-exec-path ef-editorconfig-location)
   :if ef-editorconfig-location
-  :config
-  (editorconfig-mode 1))
+  :hook (find-file . editorconfig-mode))
 
 (provide 'pkg-editorconfig)
