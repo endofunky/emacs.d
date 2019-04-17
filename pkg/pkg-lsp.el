@@ -2,9 +2,10 @@
   :commands lsp
   :ensure t
   :custom
-  (lsp-prefer-flymake :none)
   (lsp-auto-guess-root t)
+  (lsp-eldoc-enable-hover nil)
   (lsp-enable-symbol-highlighting nil)
+  (lsp-prefer-flymake :none)
   :config
   (evil-define-key 'normal lsp-mode-map ",," 'lsp-find-definition)
 
