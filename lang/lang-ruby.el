@@ -130,12 +130,11 @@ current buffer's file, if it exists"
 
 (use-package rubocop
   :ensure t
-  :commands (rubocop-check-project
-             rubocop-check-directory
-             rubocop-check-current-file
-             rubocop-autocorrect-project
-             rubocop-autocorrect-directory
+  :commands (rubocop-autocorrect-project
              rubocop-autocorrect-current-file)
+  :init
+  (evil-define-key 'normal ruby-mode-map ",clf" 'rubocop-autocorrect-current-file)
+  (evil-define-key 'normal ruby-mode-map ",clp" 'rubocop-autocorrect-project)
   :config
   (defun rubocop-buffer-name (file-or-dir)
     "Generate a name for the RuboCop buffer from FILE-OR-DIR."
