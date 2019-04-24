@@ -67,6 +67,13 @@
   :ensure t
   :diminish ruby-interpolation-mode)
 
+(use-package rake
+  :commands rake
+  :hook (rake-compilation-mode . ef-rake-compilation-mode-hook)
+  :config
+  (defun ef-rake-compilation-mode-hook ()
+    (setq-local compilation-scroll-output t)))
+
 (use-package ruby-test-mode
   :after ruby-mode
   :diminish ruby-test-mode
