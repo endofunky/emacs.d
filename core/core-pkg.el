@@ -21,6 +21,7 @@
 
 (use-package compile
   :defer t
+  :hook (compilation-mode . ef-compilation-mode-hook)
   :config
   (setq compilation-always-kill t
         compilation-message-face 'default)
@@ -30,7 +31,11 @@
       (bury-buffer)
       (delete-window (get-buffer-window (get-buffer "*compilation*")))))
 
-  (add-to-list 'compilation-finish-functions #'ef-compilation-exit-autoclose))
+  (add-to-list 'compilation-finish-functions #'ef-compilation-exit-autoclose)
+
+  (defun ef-compilation-mode-hook ()
+    (setq-local bidi-display-reordering nil)
+    (visual-line-mode t)))
 
 (use-package fringe
   :config
