@@ -22,6 +22,9 @@
 (use-package compile
   :defer t
   :hook (compilation-mode . ef-compilation-mode-hook)
+  :custom
+  (compilation-ask-about-save nil)
+  (compilation-always-kill t)
   :config
   (setq compilation-always-kill t
         compilation-message-face 'default)
