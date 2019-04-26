@@ -54,8 +54,8 @@
   (add-to-list 'company-backends 'company-c-headers))
 
 (use-package cmake-mode
-  :after cc-mode
   :ensure t
+  :commands cmake-mode
   :mode (("CMakeLists\\.txt\\'" . cmake-mode)
          ("\\.cmake\\'" . cmake-mode)))
 
