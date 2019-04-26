@@ -7,9 +7,7 @@
          ("\\.mdt$" . gfm-mode)
          ("\\.mdwn$" . gfm-mode)
          ("\\.mkd$" . gfm-mode)
-         ("\\.mkdn$" . gfm-mode)
-         ("\\.text\\'" . gfm-mode)
-         ("\\.txt\\'" . gfm-mode))
+         ("\\.mkdn$" . gfm-mode))
   :custom
   (markdown-hide-urls nil)
   :config
