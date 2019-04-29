@@ -65,6 +65,7 @@
   (evil-define-key 'normal lisp-interaction-mode-map ",r" 'ef-repl-ielm)
   (evil-define-key 'normal lisp-interaction-mode-map ",cc" 'emacs-lisp-byte-compile-and-load)
   (evil-define-key 'normal ielm-map ",r" 'ef-repl-ielm)
+  (evil-define-key 'normal ielm-map ",m" 'apropos)
 
   (defun ef-emacs-lisp-recompile ()
     "Recompile elc file correspinding to buffer-file-name, if it exists."
