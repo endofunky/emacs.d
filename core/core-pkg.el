@@ -25,6 +25,7 @@
   :custom
   (compilation-ask-about-save nil)
   (compilation-always-kill t)
+  (compilation-scroll-output 'first-error)
   :config
   (setq compilation-always-kill t
         compilation-message-face 'default)
