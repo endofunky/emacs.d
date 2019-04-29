@@ -23,13 +23,11 @@
   :defer t
   :hook (compilation-mode . ef-compilation-mode-hook)
   :custom
-  (compilation-ask-about-save nil)
   (compilation-always-kill t)
+  (compilation-ask-about-save nil)
+  (compilation-message-face 'default)
   (compilation-scroll-output 'first-error)
   :config
-  (setq compilation-always-kill t
-        compilation-message-face 'default)
-
   (defun ef-compilation-exit-autoclose (buffer msg)
     (when (string-match-p (regexp-quote "finished") msg)
       (bury-buffer)
