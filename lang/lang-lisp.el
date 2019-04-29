@@ -68,7 +68,7 @@
   (evil-define-key 'normal ielm-map ",m" 'apropos)
 
   (defun ef-emacs-lisp-recompile ()
-    "Recompile elc file correspinding to buffer-file-name, if it exists."
+    "Recompile elc file corresponding to buffer-file-name, if it exists."
     (interactive)
     (when (file-exists-p (byte-compile-dest-file buffer-file-name))
       (emacs-lisp-byte-compile)))
