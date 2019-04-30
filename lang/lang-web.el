@@ -15,7 +15,7 @@
   (web-mode-enable-current-element-highlight t)
   (web-mode-enable-current-column-highlight nil)
   :config
-  (ef-add-hook web-mode-hook ()
+  (ef-add-hook web-mode-hook
     (setq web-mode-enable-auto-pairing nil)
     (sp-local-pair 'web-mode "{ " " }")
     (sp-local-pair 'web-mode "<% " " %>")
