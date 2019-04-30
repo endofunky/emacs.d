@@ -13,13 +13,11 @@
     "Returns the base color for `name'"
     (plist-get base16-tomorrow-night-colors name))
 
-  (defun ef-theme-add-watchwords ()
+  (ef-add-hook prog-mode-hook :fn ef-theme-add-watchwords
     "Highlight FIXME, TODO, and NOCOMMIT in code"
     (font-lock-add-keywords
      nil '(("\\<\\(FIXME\\|BUG\\|XXX\\|TODO\\|NOCOMMIT\\)\\>"
             1 '((:foreground "#cc6666") (:weight bold)) t))))
-
-  (add-hook 'prog-mode-hook 'ef-theme-add-watchwords)
 
   (set-face-attribute 'font-lock-doc-face nil :foreground (ef-color :base03))
   (set-face-attribute 'fringe nil :background (ef-color :base00))

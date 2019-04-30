@@ -76,10 +76,8 @@
   (define-key evil-ex-completion-map (kbd "TAB") 'company-complete)
   (define-key evil-ex-completion-map [remap completion-at-point] 'company-complete)
 
-  (defun ef-minibuffer-completion-hook ()
+  (ef-add-hook minibuffer-setup-hook :fn ef-minibuffer-completion-hook
     (setq-local company-frontends '(company-preview-frontend))
-    (company-mode t))
-
-  (add-hook 'minibuffer-setup-hook 'ef-minibuffer-completion-hook))
+    (company-mode t)))
 
 (provide 'pkg-company)

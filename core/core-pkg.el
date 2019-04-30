@@ -1,3 +1,5 @@
+(require 'core-lib)
+
 (use-package abbrev
   :diminish abbrev-mode
   :defer t)
@@ -14,10 +16,9 @@
   :defer t
   :config
   (setq comint-scroll-to-bottom-on-output 'others)
-  (defun ef-comint-mode-hook ()
+  (ef-add-hook comint-mode-hook
     (setq truncate-lines nil)
-    (set (make-local-variable 'truncate-partial-width-windows) nil))
-  (add-hook 'comint-mode-hook 'ef-comint-mode-hook))
+    (set (make-local-variable 'truncate-partial-width-windows) nil)))
 
 (use-package compile
   :defer t
@@ -54,14 +55,11 @@
 
 (use-package minibuffer
   :config
-  (defun ef-minibuffer-setup-hook ()
+  (ef-add-hook minibuffer-setup-hook
     (setq gc-cons-threshold most-positive-fixnum))
 
-  (defun ef-minibuffer-exit-hook ()
-    (setq gc-cons-threshold ef-initial-gc-cons-threshold))
-
-  (add-hook 'minibuffer-setup-hook #'ef-minibuffer-setup-hook)
-  (add-hook 'minibuffer-exit-hook #'ef-minibuffer-exit-hook))
+  (ef-add-hook minibuffer-exit-hook
+    (setq gc-cons-threshold ef-initial-gc-cons-threshold)))
 
 (use-package paren
   :config
@@ -94,19 +92,16 @@
   :init
   (setq smerge-command-prefix (kbd "C-s"))
 
-  (defun ef-enable-smerge-maybe ()
+  (ef-add-hook (find-file-hook after-revert-hook) :fn ef-enable-smerge-maybe
     "Auto-enable `smerge-mode' when merge conflict is detected."
     (save-excursion
       (goto-char (point-min))
       (when (re-search-forward "^<<<<<<< " nil :noerror)
-        (smerge-mode t))))
-
-  (add-hook 'find-file-hook 'ef-enable-smerge-maybe t)
-  (add-hook 'after-revert-hook 'ef-enable-smerge-maybe t))
+        (smerge-mode t)))))
 
 (use-package term
   :config
-  (defun ef-term-mode-hook ()
+  (ef-add-hook term-mode-hook
     (setq ansi-term-color-vector
           [term
            term-color-black
@@ -116,9 +111,7 @@
            term-color-blue
            term-color-magenta
            term-color-cyan
-           term-color-white]))
-
-  (add-hook 'term-mode-hook 'ef-term-mode-hook))
+           term-color-white])))
 
 (use-package whitespace
   :diminish (whitespace-mode global-whitespace-mode)

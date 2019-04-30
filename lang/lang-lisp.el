@@ -3,11 +3,9 @@
          ("\\.lisp\\'" . ruby-mode)
          ("\\.sbclrc\\'" . ruby-mode))
   :config
-  (defun ef-lisp-mode-hook ()
+  (ef-add-hook lisp-mode-hook
     (slime-mode t)
-    (setq-local mode-name "λ"))
-
-  (add-hook 'lisp-mode-hook 'ef-lisp-mode-hook))
+    (setq-local mode-name "λ")))
 
 (use-package slime-company
   :ensure t
@@ -73,11 +71,9 @@
     (when (file-exists-p (byte-compile-dest-file buffer-file-name))
       (emacs-lisp-byte-compile)))
 
-  (defun ef-emacs-lisp-mode-hook ()
+  (ef-add-hook emacs-lisp-mode-hook
     (add-hook 'after-save-hook 'ef-emacs-lisp-recompile nil t)
-    (setq-local mode-name "Emacs λ"))
-
-  (add-hook 'emacs-lisp-mode-hook 'ef-emacs-lisp-mode-hook))
+    (setq-local mode-name "Emacs λ")))
 
 (use-package ielm
   :defer t
@@ -85,10 +81,8 @@
   :init
   (ef-define-repl ef-repl-ielm "*ielm*" 'ielm)
   :config
-  (defun ef-inferior-emacs-lisp-mode-hook ()
-    (eldoc-mode t))
-
-  (add-hook 'ielm-mode-hook 'ef-inferior-emacs-lisp-mode-hook))
+  (ef-add-hook ielm-mode-hook
+    (eldoc-mode t)))
 
 (use-package elisp-slime-nav
   :defer t

@@ -9,10 +9,8 @@
   :config
   (evil-define-key 'normal lsp-mode-map ",," 'lsp-find-definition)
 
-  (defun ef-lsp-mode-hook ()
-    (setq-local company-backends (remove 'company-capf company-backends)))
-
-  (add-hook 'lsp-mode-hook #'ef-lsp-mode-hook))
+  (ef-add-hook lsp-mode-hook
+    (setq-local company-backends (remove 'company-capf company-backends))))
 
 (use-package company-lsp
   :commands company-lsp

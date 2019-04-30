@@ -14,12 +14,10 @@
 
   (add-hook 'before-save-hook #'gofmt-before-save)
 
-  (defun ef-go-mode-hook ()
+  (ef-add-hook go-mode-hook
     (if (not (string-match "go" compile-command))
         (set (make-local-variable 'compile-command)
-             "go build -v && go vet")))
-
-  (add-hook 'go-mode-hook 'ef-go-mode-hook))
+             "go build -v && go vet"))))
 
 (use-package go-rename
   :after go-mode

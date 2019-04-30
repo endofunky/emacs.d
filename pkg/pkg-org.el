@@ -44,7 +44,7 @@
   (require 'ox)
   (require 'ox-latex)
 
-  (defun ef-org-tree-slide-play-hook ()
+  (ef-add-hook org-tree-slide-play-hook
     (if (fboundp 'flyspell-mode)
         (flyspell-mode -1)
       (flyspell-delete-all-overlays))
@@ -56,17 +56,13 @@
 
     (setq-local global-hl-line-mode nil))
 
-  (add-hook 'org-tree-slide-play-hook 'ef-org-tree-slide-play-hook)
-
-  (defun ef-org-tree-slide-stop-hook ()
+  (ef-add-hook org-tree-slide-stop-hook
     (if (fboundp 'flyspell-mode)
         (flyspell-mode t))
 
     (org-remove-latex-fragment-image-overlays)
     (setq-local global-hl-line-mode nil)
-    (setq-local global-hl-line-mode t))
-
-  (add-hook 'org-tree-slide-stop-hook 'ef-org-tree-slide-stop-hook))
+    (setq-local global-hl-line-mode t)))
 
 (use-package demo-it
   :after org

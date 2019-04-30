@@ -15,7 +15,7 @@
   (web-mode-enable-current-element-highlight t)
   (web-mode-enable-current-column-highlight nil)
   :config
-  (defun ef-web-mode-hook ()
+  (ef-add-hook web-mode-hook ()
     (setq web-mode-enable-auto-pairing nil)
     (sp-local-pair 'web-mode "{ " " }")
     (sp-local-pair 'web-mode "<% " " %>")
@@ -28,8 +28,6 @@
     (sp-local-pair 'web-mode "{{ "  " }}")
     (sp-local-pair 'web-mode "{% "  " %}")
     (sp-local-pair 'web-mode "{%- "  " %}")
-    (sp-local-pair 'web-mode "{# "  " #}"))
-
-  (add-hook 'web-mode-hook 'ef-web-mode-hook))
+    (sp-local-pair 'web-mode "{# "  " #}")))
 
 (provide 'lang-web)

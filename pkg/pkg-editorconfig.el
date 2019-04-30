@@ -14,9 +14,8 @@
   (editorconfig-exec-path ef-editorconfig-location)
   :if ef-editorconfig-location
   :init
-  (defun ef-editorconfig-mode ()
+  (ef-add-hook find-file-hook :fn ef-editorconfig-mode
     (editorconfig-mode 1)
-    (editorconfig-apply))
-  :hook (find-file . ef-editorconfig-mode))
+    (editorconfig-apply)))
 
 (provide 'pkg-editorconfig)

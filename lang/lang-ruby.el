@@ -43,7 +43,7 @@
 
   (ef-shackle '("*rake-compilation*" :align below :size .4 :popup t :select t))
 
-  (defun ef-ruby-mode-hook ()
+  (ef-add-hook ruby-mode-hook
     (require 'smartparens-ruby)
     (sp-with-modes '(ruby-mode)
       (sp-local-pair "[" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
@@ -51,12 +51,8 @@
       (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET"))))
     (lsp))
 
-  (add-hook 'ruby-mode-hook 'ef-ruby-mode-hook)
-
-  (defun ef-inf-ruby-mode-hook ()
-    (comint-read-input-ring 'silent))
-
-  (add-hook 'inf-ruby-mode-hook 'ef-inf-ruby-mode-hook))
+  (ef-add-hook inf-ruby-mode-hook
+    (comint-read-input-ring 'silent)))
 
 (use-package hideshow
   :after ruby-mode
@@ -79,9 +75,8 @@
 
 (use-package rake
   :commands rake
-  :hook (rake-compilation-mode . ef-rake-compilation-mode-hook)
   :config
-  (defun ef-rake-compilation-mode-hook ()
+  (ef-add-hook rake-compilation-mode-hook
     (setq-local compilation-scroll-output t)))
 
 (use-package ruby-test-mode

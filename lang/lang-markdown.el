@@ -20,7 +20,7 @@
   (sp-local-pair 'gfm-mode "'" nil :actions nil)
   (sp-local-pair 'markdown-mode "'" nil :actions nil)
 
-  (defun ef-gfm-mode-hook ()
+  (ef-add-hook gfm-mode-hook
     (turn-on-orgtbl)
     (sp-with-modes '(gfm-mode)
       (sp-local-pair "`" "`"
@@ -31,8 +31,6 @@
                      :skip-match 'ef-sp-skip-asterisk
                      :post-handlers '(("[d1]" "SPC")))
       (sp-local-pair "_" "_")))
-
-  (add-hook 'gfm-mode-hook 'ef-gfm-mode-hook)
 
   (when (display-graphic-p)
     (define-key markdown-mode-map (kbd "M-RET") 'toggle-frame-fullscreen)))
