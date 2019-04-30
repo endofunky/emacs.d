@@ -58,6 +58,16 @@
 
   (add-hook 'inf-ruby-mode-hook 'ef-inf-ruby-mode-hook))
 
+(use-package hideshow
+  :after ruby-mode
+  :config
+  (add-to-list 'hs-special-modes-alist
+               `(ruby-mode
+                 ,(rx (or "def" "class" "module" "do" "{" "["))
+                 ,(rx (or "}" "]" "end"))
+                 ,(rx (or "#" "=begin"))
+                 ruby-forward-sexp nil)))
+
 (use-package bundler
   :after ruby-mode
   :ensure t)
