@@ -143,7 +143,10 @@ current buffer's file, if it exists"
 
 (use-package yari
   :commands yari
-  :load-path "vendor/yari.el")
+  :load-path "vendor/yari.el"
+  :config
+  (ef-shackle '(yari-mode :align below :size .4 :popup t :select t))
+  (evil-define-key 'normal yari-mode-map "q" 'quit-window))
 
 (use-package rubocop
   :ensure t
