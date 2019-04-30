@@ -28,6 +28,12 @@
     (evil-define-key 'insert eshell-mode-map (kbd "C-r") 'eshell-insert-history)
     (local-set-key (quote [f1]) 'quit-window))
 
+  (defun eshell/j (&rest args)
+    (let ((file (buffer-file-name (other-buffer (current-buffer) 1))))
+      (if file
+          (eshell/cd (file-name-directory file))
+        (eshell/echo "No jump target for previous buffer"))))
+
   (defun eshell/magit (&rest args)
     (magit-status (projectile-project-root))
     (eshell/echo))
@@ -36,5 +42,6 @@
     "EShell wrapper around the ‘find’ executable."
     (let ((cmd (concat "find " (string-join args " "))))
       (shell-command-to-string cmd))))
+
 
 (provide 'pkg-eshell)
