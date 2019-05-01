@@ -74,7 +74,7 @@
     (locate-file "ccls" exec-path))
   :if ef-ccls-location
   :init
-  (ef-add-hook (c-mode c++-mode objc-mode) :fn ef-c-mode-lsp-hook
+  (ef-add-hook (c-mode c++-mode objc-mode) :fn ef-c-mode-lsp-hook :interactive t
     (require 'ccls)
     (if (or (file-exists-p (expand-file-name "compile_commands.json" (projectile-project-root)))
             (file-exists-p (expand-file-name ".ccls" (projectile-project-root))))
