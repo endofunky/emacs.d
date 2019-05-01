@@ -165,6 +165,8 @@
   :custom
   (evil-collection-company-use-tng nil)
   :config
-  (evil-collection-init))
+  (evil-collection-init)
+  ;; Overrides
+  (evil-define-key '(normal visual) dired-mode-map "q" #'kill-this-buffer))
 
 (provide 'pkg-evil)
