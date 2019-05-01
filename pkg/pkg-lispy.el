@@ -9,8 +9,8 @@
          (lfe-mode . lispy-mode)
          (clojure-mode . lispy-mode))
   :config
+  (lispy-set-key-theme '(paredit))
   (ef-add-hook lispy-mode-hook
-    (lispy-set-key-theme '(paredit))
     (if (fboundp 'turn-off-smartparens-mode)
         (turn-off-smartparens-mode))))
 
