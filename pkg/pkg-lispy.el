@@ -22,7 +22,13 @@
   (lispyville-set-key-theme
    '((operators normal)
      c-w
+     commentary
      additional-wrap
-     slurp/barf-cp)))
+     slurp/barf-cp))
+  (evil-define-key 'normal lispyville-mode-map "#" #'lispyville-comment-or-uncomment-line)
+  (evil-define-key 'normal lispyville-mode-map "\\" #'lispyville-comment-or-uncomment-line)
+  (evil-define-key 'visual lispyville-mode-map "#" #'lispyville-comment-or-uncomment)
+  (evil-define-key 'visual lispyville-mode-map "\\" #'lispyville-comment-or-uncomment))
+
 
 (provide 'pkg-lispy)
