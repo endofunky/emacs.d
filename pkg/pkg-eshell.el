@@ -58,6 +58,12 @@
           (eshell/cd (file-name-directory file))
         (eshell/echo "No jump target for previous buffer"))))
 
+  (defun eshell/jp (&rest args)
+    (let ((file (buffer-file-name (other-buffer (current-buffer) 1))))
+      (if file
+          (eshell/cd (projectile-project-root file))
+        (eshell/echo "No jump target for previous buffer"))))
+
   (defun eshell/magit (&rest args)
     (magit-status (projectile-project-root))
     (eshell/echo)))
