@@ -18,6 +18,7 @@
                (let ((prev eshell-buffer-name))
                  (setq eshell-buffer-name bufn)
                  (eshell)
+                 (setenv "TERM" "linux")
                  (setq eshell-buffer-name prev)
                  (evil-insert 0)))))
 
