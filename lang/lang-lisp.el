@@ -106,6 +106,8 @@
 (use-package package-lint
   :ensure t
   :defer t
+  :init
+  (evil-define-key 'normal emacs-lisp-mode-map ",clf" 'package-lint-current-buffer)
   :commands package-lint-current-buffer)
 
 (use-package eldoc
