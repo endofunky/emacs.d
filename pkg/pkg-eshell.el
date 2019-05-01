@@ -3,19 +3,30 @@
 (use-package eshell
   :commands eshell
   :init
-  (defun ef-eshell-hud ()
-    "Create a eshell HUD."
-    (interactive)
-    (require 'eshell)
-    (let ((prev eshell-buffer-name))
-      (setq eshell-buffer-name "*eshell-hud*")
-      (eshell)
-      (evil-insert 0)
-      (setq eshell-buffer-name prev)))
+  (defmacro ef-defshell (bind name)
+    (let* ((name (symbol-name name))
+           (buf (concat "*" name "*"))
+           (fn (intern (concat "ef-" name))))
+      `(progn
+         (defun ,fn ()
+           (interactive)
+           (require 'eshell)
+           (let* ((bufn ,buf)
+                  (buf (get-buffer bufn)))
+             (if (eq (current-buffer) buf)
+                 (bury-buffer)
+               (let ((prev eshell-buffer-name))
+                 (setq eshell-buffer-name bufn)
+                 (eshell)
+                 (setq eshell-buffer-name prev)
+                 (evil-insert 0)))))
 
-  (ef-shackle '("*eshell-hud*" :align below :size .4 :popup t :select t))
+         (global-set-key ,bind #',fn))))
 
-  (global-set-key (quote [f1]) 'ef-eshell-hud)
+  (ef-defshell (kbd "M-1") eshell-1)
+  (ef-defshell (kbd "M-2") eshell-2)
+  (ef-defshell (kbd "M-3") eshell-3)
+  (ef-defshell (kbd "M-4") eshell-4)
 
   (defun eshell-insert-history ()
     "Displays the eshell history to select and insert back into your eshell."
@@ -25,8 +36,20 @@
                                   (ring-elements eshell-history-ring)))))
 
   (ef-add-hook eshell-mode-hook
-    (evil-define-key 'insert eshell-mode-map (kbd "C-r") 'eshell-insert-history)
-    (local-set-key (quote [f1]) 'quit-window))
+    (evil-define-key 'insert eshell-mode-map (kbd "C-r") 'eshell-insert-history))
+
+  (defun eshell/cdg (&rest args)
+    (let* ((path default-directory)
+           (backend (vc-responsible-backend path)))
+      (eshell/cd (vc-call-backend backend 'root path))))
+
+  (defun eshell/cdp (&rest args)
+    (eshell/cd (or (projectile-project-root) ".")))
+
+  (defun eshell/find (&rest args)
+    "EShell wrapper around the ‘find’ executable."
+    (let ((cmd (concat "find " (string-join args " "))))
+      (shell-command-to-string cmd)))
 
   (defun eshell/j (&rest args)
     (let ((file (buffer-file-name (other-buffer (current-buffer) 1))))
@@ -36,12 +59,6 @@
 
   (defun eshell/magit (&rest args)
     (magit-status (projectile-project-root))
-    (eshell/echo))
-
-  (defun eshell/find (&rest args)
-    "EShell wrapper around the ‘find’ executable."
-    (let ((cmd (concat "find " (string-join args " "))))
-      (shell-command-to-string cmd))))
-
+    (eshell/echo)))
 
 (provide 'pkg-eshell)
