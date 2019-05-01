@@ -43,13 +43,14 @@
 
   (ef-shackle '("*rake-compilation*" :align below :size .4 :popup t :select t))
 
-  (ef-add-hook ruby-mode-hook
+  (ef-add-hook ruby-mode-hook :interactive t
     (require 'smartparens-ruby)
     (sp-with-modes '(ruby-mode)
       (sp-local-pair "[" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
       (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
       (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET"))))
-    (lsp))
+    (if (file-exists-p (expand-file-name ".solargraph.yml" (projectile-project-root)))
+        (lsp)))
 
   (ef-add-hook inf-ruby-mode-hook
     (comint-read-input-ring 'silent)))
