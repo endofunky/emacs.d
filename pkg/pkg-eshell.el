@@ -35,6 +35,9 @@
   (ef-defshell (kbd "M-2") eshell-2)
   (ef-defshell (kbd "M-3") eshell-3)
   (ef-defshell (kbd "M-4") eshell-4)
+  :config
+  ;; Require this early so we can override commands
+  (require 'esh-mode)
 
   (defun eshell-insert-history ()
     "Displays the eshell history to select and insert back into your eshell."
@@ -44,6 +47,7 @@
                                   (ring-elements eshell-history-ring)))))
 
   (ef-add-hook eshell-mode-hook
+    (visual-line-mode t)
     (evil-define-key 'insert eshell-mode-map (kbd "C-r") 'eshell-insert-history))
 
   (defun eshell/clear (&rest args)
