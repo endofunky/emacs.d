@@ -123,7 +123,7 @@
 
 (use-package lispy
   :ensure t
-  :diminish lispy-mode 
+  :diminish lispy-mode
   :hook ((common-lisp-mode . lispy-mode)
          (emacs-lisp-mode . lispy-mode)
          (scheme-mode . lispy-mode)
