@@ -46,6 +46,10 @@
   (ef-add-hook eshell-mode-hook
     (evil-define-key 'insert eshell-mode-map (kbd "C-r") 'eshell-insert-history))
 
+  (defun eshell/clear (&rest args)
+    (interactive)
+    (eshell/clear-scrollback))
+
   (defun eshell/cdg (&rest args)
     (let* ((path default-directory)
            (backend (vc-responsible-backend path)))
