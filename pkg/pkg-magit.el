@@ -18,11 +18,10 @@
   (define-key evil-normal-state-map ",gc" 'magit-checkout)
   :config
   (ef-add-hook git-commit-setup-hook :fn ef-git-commit-jira-ticket-hook
-    (let* ((branch (magit-get-current-branch))
-           (words (s-split-words branch)))
-      (when (string-match "^[A-Z]+-[0-9]+" branch)
-        (insert (format "[%s-%s] " (car words) (car (cdr words))))
-        (kill-line))))
+    (if-let* ((branch (magit-get-current-branch))
+              (segments (split-string branch "[\\.-]"))
+              (_ (string-match "^[A-Z]+-[0-9]+" branch)))
+        (insert (format "[%s-%s] " (car segments) (cadr segments)))))
 
   (ef-shackle '(magit-diff-mode :align right :size .5 :popup t :select nil))
 
