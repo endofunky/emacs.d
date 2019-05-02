@@ -18,7 +18,8 @@
                (let ((prev eshell-buffer-name))
                  (setq eshell-buffer-name bufn)
                  (eshell)
-                 (setenv "TERM" "linux")
+                 (setenv "TERM" "xterm-256color")
+                 (setenv "PAGER" "cat")
                  (setq eshell-buffer-name prev)
                  (evil-insert 0)))))
 
