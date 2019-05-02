@@ -3,6 +3,7 @@
 (use-package eshell
   :commands eshell
   :custom
+  (eshell-buffer-shorthand t)
   (eshell-error-if-no-glob t)
   (eshell-glob-case-insensitive t)
   (eshell-kill-processes-on-exit t)
@@ -48,6 +49,7 @@
 
   (ef-add-hook eshell-mode-hook
     (visual-line-mode t)
+    (evil-define-key 'insert eshell-mode-map (kbd "TAB") 'pcomplete)
     (evil-define-key 'insert eshell-mode-map (kbd "C-r") 'eshell-insert-history))
 
   (defun eshell/clear (&rest args)
