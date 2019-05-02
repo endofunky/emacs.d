@@ -1,5 +1,4 @@
 (use-package ido
-  :ensure t
   :custom
   (ido-enable-flex-matching t)
   (ido-create-new-buffer 'always)

@@ -87,7 +87,6 @@
   (setq-default save-place t))
 
 (use-package smerge-mode
-  :ensure t
   :commands smerge-mode
   :init
   (setq smerge-command-prefix (kbd "C-s"))
