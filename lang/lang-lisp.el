@@ -123,7 +123,7 @@
 
 (use-package lispy
   :ensure t
-  :diminish t
+  :diminish lispy-mode 
   :hook ((common-lisp-mode . lispy-mode)
          (emacs-lisp-mode . lispy-mode)
          (scheme-mode . lispy-mode)
@@ -139,7 +139,7 @@
 
 (use-package lispyville
   :ensure t
-  :diminish t
+  :diminish lispyville-mode
   :hook (lispy-mode . lispyville-mode)
   :config
   (lispyville-set-key-theme
