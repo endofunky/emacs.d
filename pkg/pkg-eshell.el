@@ -2,6 +2,12 @@
 
 (use-package eshell
   :commands eshell
+  :custom
+  (eshell-error-if-no-glob t)
+  (eshell-glob-case-insensitive t)
+  (eshell-kill-processes-on-exit t)
+  (eshell-scroll-to-bottom-on-input 'all)
+  (eshell-scroll-to-bottom-on-output 'all)
   :init
   (defmacro ef-defshell (bind name)
     (let* ((name (symbol-name name))
