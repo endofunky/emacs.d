@@ -17,6 +17,13 @@
   (define-key evil-normal-state-map ",gb" 'magit-blame)
   (define-key evil-normal-state-map ",gc" 'magit-checkout)
   :config
+  (ef-add-hook git-commit-setup-hook :fn ef-git-commit-jira-ticket-hook
+    (let* ((branch (magit-get-current-branch))
+           (words (s-split-words branch)))
+      (when (string-match "^[A-Z]+-[0-9]+" branch)
+        (insert (format "[%s-%s] " (car words) (car (cdr words))))
+        (kill-line))))
+
   (ef-shackle '(magit-diff-mode :align right :size .5 :popup t :select nil))
 
   (setenv "GIT_PAGER" ""))
