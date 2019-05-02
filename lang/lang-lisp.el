@@ -153,5 +153,4 @@
   (evil-define-key 'visual lispyville-mode-map "#" #'lispyville-comment-or-uncomment)
   (evil-define-key 'visual lispyville-mode-map "\\" #'lispyville-comment-or-uncomment))
 
-
 (provide 'lang-lisp)
