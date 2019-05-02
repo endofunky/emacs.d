@@ -108,7 +108,9 @@
   :defer t
   :init
   (evil-define-key 'normal emacs-lisp-mode-map ",clf" 'package-lint-current-buffer)
-  :commands package-lint-current-buffer)
+  :commands package-lint-current-buffer
+  :config
+  (ef-shackle '("*Package-Lint*" :align bottom :size .4 :popup t :select t)))
 
 (use-package eldoc
   :diminish eldoc-mode
