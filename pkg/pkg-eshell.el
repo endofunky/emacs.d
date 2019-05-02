@@ -69,4 +69,12 @@
     (magit-status (projectile-project-root))
     (eshell/echo)))
 
+(use-package em-banner
+  :after eshell
+  :custom
+  (eshell-banner-message
+   '(if (executable-find "fortune")
+        (concat (shell-command-to-string "fortune -s") "\n")
+      (concat "Welcome to the Emacs shell " user-login-name "\n\n"))))
+
 (provide 'pkg-eshell)
