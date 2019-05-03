@@ -79,6 +79,8 @@
     (if (executable-find cmd)
         (fmakunbound (intern (concat "eshell/" cmd)))))
 
+  (defalias 'eshell/ff 'find-file)
+
   (defun eshell/clear (&rest args)
     (interactive)
     (eshell/clear-scrollback))
@@ -90,6 +92,9 @@
 
   (defun eshell/cdp (&rest args)
     (eshell/cd (or (projectile-project-root) ".")))
+
+  (defun eshell/d (&rest args)
+    (dired (or (car args) ".")))
 
   (if (executable-find "find")
       (defun eshell/find (&rest args)
@@ -108,6 +113,9 @@
       (if file
           (eshell/cd (projectile-project-root file))
         (eshell/echo "No jump target for previous buffer"))))
+
+  (defun eshell/q ()
+    (bury-buffer))
 
   (defun eshell/magit (&rest args)
     (magit-status (projectile-project-root))
