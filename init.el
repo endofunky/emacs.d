@@ -13,11 +13,17 @@
 
 (defun ef-reset-gc-cons-threshold ()
   "Resets `gc-cons-threshold` to it's initial value"
-  (setq-default gc-cons-threshold ef-initial-gc-cons-threshold))
+  (setq gc-cons-threshold ef-initial-gc-cons-threshold))
 
 (add-hook 'after-init-hook 'ef-reset-gc-cons-threshold)
 
-(setq-default gc-cons-threshold most-positive-fixnum)
+(setq gc-cons-threshold most-positive-fixnum)
+
+;; Increase *Messages* buffer size
+(setq message-log-max 16384)
+
+;; Silence ad-handle-definition about advised functions getting redefined.
+(setq ad-redefinition-action 'accept)
 
 ;; Remove menu items early to avoid flickering.
 (when (display-graphic-p)
@@ -25,11 +31,6 @@
   (scroll-bar-mode -1))
 
 (menu-bar-mode -1)
-
-(setq-default
- ad-redefinition-action 'accept
- byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local)
- message-log-max 16384)
 
 (let ((default-directory (expand-file-name "elpa" user-emacs-directory)))
   (unless (file-exists-p default-directory)
