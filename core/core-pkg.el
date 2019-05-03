@@ -22,7 +22,6 @@
 
 (use-package compile
   :defer t
-  :hook (compilation-mode . ef-compilation-mode-hook)
   :custom
   (compilation-always-kill t)
   (compilation-ask-about-save nil)
@@ -37,7 +36,7 @@
 
   (add-to-list 'compilation-finish-functions #'ef-compilation-exit-autoclose)
 
-  (defun ef-compilation-mode-hook ()
+  (ef-add-hook compilation-mode-hook
     (setq-local bidi-display-reordering nil)
     (visual-line-mode t)))
 
