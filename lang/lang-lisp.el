@@ -60,6 +60,7 @@
   (evil-define-key 'normal lisp-interaction-mode-map ",eb" 'eval-buffer)
   (evil-define-key 'normal lisp-interaction-mode-map ",ee" 'eval-expression)
   (evil-define-key 'visual lisp-interaction-mode-map ",er" 'eval-region)
+  (evil-define-key 'normal lisp-interaction-mode-map ",es" 'eval-print-last-sexp)
   (evil-define-key 'normal lisp-interaction-mode-map ",r" 'ef-repl-ielm)
   (evil-define-key 'normal lisp-interaction-mode-map ",cc" 'emacs-lisp-byte-compile-and-load)
   (evil-define-key 'normal ielm-map ",r" 'ef-repl-ielm)
