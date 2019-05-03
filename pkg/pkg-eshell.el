@@ -107,16 +107,18 @@
           (shell-command-to-string cmd))))
 
   (defun eshell/j (&rest args)
-    (let ((file (buffer-file-name (other-buffer (current-buffer) 1))))
-      (if file
-          (eshell/cd (file-name-directory file))
-        (eshell/echo "No jump target for previous buffer"))))
+    (when-let ((file (buffer-file-name (other-buffer (current-buffer) 1))))
+      (eshell/cd (file-name-directory file))))
+
+  (defun eshell/jg (&rest args)
+    (when-let* ((file (buffer-file-name (other-buffer (current-buffer) 1)))
+                (path (file-name-directory file))
+                (backend (vc-responsible-backend path)))
+      (eshell/cd (vc-call-backend backend 'root path))))
 
   (defun eshell/jp (&rest args)
-    (let ((file (buffer-file-name (other-buffer (current-buffer) 1))))
-      (if file
-          (eshell/cd (projectile-project-root file))
-        (eshell/echo "No jump target for previous buffer"))))
+    (when-let ((file (buffer-file-name (other-buffer (current-buffer) 1))))
+      (eshell/cd (projectile-project-root file))))
 
   (defun eshell/q ()
     (bury-buffer))
