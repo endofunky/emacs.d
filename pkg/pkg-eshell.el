@@ -80,6 +80,11 @@
   (defun eshell/cdp (&rest args)
     (eshell/cd (or (projectile-project-root) ".")))
 
+  (defun eshell/cp (&rest args)
+    "EShell wrapper around the ‘cp’ executable."
+    (let ((cmd (concat "cp " (string-join args " "))))
+      (shell-command-to-string cmd)))
+
   (defun eshell/find (&rest args)
     "EShell wrapper around the ‘find’ executable."
     (let ((cmd (concat "find " (string-join args " "))))
