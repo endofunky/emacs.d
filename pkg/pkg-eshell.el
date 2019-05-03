@@ -66,10 +66,14 @@
              (branch (downcase branch)))
         (concat "(" (propertize  (format "%s" branch) 'face `(:foreground "magenta")) ")"))))
 
+  (defun ef-eshell-prompt-sign ()
+    (let ((sym (if (= (user-uid) 0) "#" "λ")))
+      (concat " " (propertize sym 'face `(:foreground "white")) " ")))
+
   (defun ef-eshell-prompt ()
     (concat (eshell/basename (abbreviate-file-name (eshell/pwd)))
             (ef-eshell-prompt-vc-info)
-	    (if (= (user-uid) 0) " # " " λ ")))
+            (ef-eshell-prompt-sign)))
 
   ;; Prefer system versions, if available
   (dolist (cmd '("rm" "cp" "mv" "ln" "mkdir" "rmdir"))
