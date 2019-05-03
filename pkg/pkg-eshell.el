@@ -6,6 +6,8 @@
   (eshell-buffer-shorthand t)
   (eshell-error-if-no-glob t)
   (eshell-glob-case-insensitive t)
+  (eshell-hist-ignoredups t)
+  (eshell-history-size 2000)
   (eshell-kill-processes-on-exit t)
   (eshell-prompt-function #'ef-eshell-prompt)
   (eshell-prompt-regexp "^[^#$λ\n]* [#$λ] ")
