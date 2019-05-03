@@ -27,3 +27,4 @@ ycmd/
 .org-id-locations
 .lsp-session-v1
 transient/
+package-quickstart.el
