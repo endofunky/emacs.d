@@ -31,8 +31,9 @@
   :config
   (defun ef-compilation-exit-autoclose (buffer msg)
     (when (string-match-p (regexp-quote "finished") msg)
-      (bury-buffer)
-      (delete-window (get-buffer-window (get-buffer "*compilation*")))))
+      (if (> (length (window-list)) 1)
+          (delete-window (get-buffer-window buffer))
+        (bury-buffer buffer))))
 
   (add-to-list 'compilation-finish-functions #'ef-compilation-exit-autoclose)
 
