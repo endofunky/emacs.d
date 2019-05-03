@@ -41,8 +41,9 @@
   (ef-defshell (kbd "M-3") eshell-3)
   (ef-defshell (kbd "M-4") eshell-4)
   :config
-  ;; Require this early so we can override commands
+  ;; Require these early so we can override commands
   (require 'esh-mode)
+  (require 'em-unix)
 
   (ef-add-hook eshell-mode-hook
     (visual-line-mode t)
@@ -70,6 +71,11 @@
             (ef-eshell-prompt-vc-info)
 	    (if (= (user-uid) 0) " # " " λ ")))
 
+  ;; Prefer system versions, if available
+  (dolist (cmd '("rm" "cp" "mv" "ln" "mkdir" "rmdir"))
+    (if (executable-find cmd)
+        (fmakunbound (intern (concat "eshell/" cmd)))))
+
   (defun eshell/clear (&rest args)
     (interactive)
     (eshell/clear-scrollback))
@@ -81,12 +87,6 @@
 
   (defun eshell/cdp (&rest args)
     (eshell/cd (or (projectile-project-root) ".")))
-
-  (if (executable-find "cp")
-      (defun eshell/cp (&rest args)
-        "EShell wrapper around the ‘cp’ executable."
-        (let ((cmd (concat "cp " (string-join args " "))))
-          (shell-command-to-string cmd))))
 
   (if (executable-find "find")
       (defun eshell/find (&rest args)
