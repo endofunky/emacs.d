@@ -62,8 +62,7 @@
     (when-let* ((path (projectile-project-root))
                 (backend (vc-responsible-backend path)))
       (vc-file-clearprops path)
-      (let* ((branch (vc-call-backend backend 'mode-line-string path))
-             (branch (downcase branch)))
+      (let ((branch (vc-call-backend backend 'mode-line-string path)))
         (concat "(" (propertize  (format "%s" branch) 'face `(:foreground "magenta")) ")"))))
 
   (defun ef-eshell-prompt-sign ()
