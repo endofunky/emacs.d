@@ -43,6 +43,7 @@
   :config
   ;; Require these early so we can override commands
   (require 'esh-mode)
+  (require 'em-term)
   (require 'em-unix)
 
   (ef-add-hook eshell-mode-hook
@@ -50,6 +51,9 @@
     (setq-local global-hl-line-mode nil)
     (evil-define-key 'insert eshell-mode-map (kbd "TAB") 'pcomplete)
     (evil-define-key 'insert eshell-mode-map (kbd "C-r") 'eshell-insert-history))
+
+  (dolist (x '("el" "elinks" "htop" "less" "ssh" "tmux" "tig" "top"))
+    (add-to-list 'eshell-visual-commands x))
 
   (defun eshell-insert-history ()
     "Displays the eshell history to select and insert back into your eshell."
