@@ -40,20 +40,13 @@
     (make-directory default-directory))
   (normal-top-level-add-subdirs-to-load-path))
 
-(setq package-enable-at-startup nil
-      package-archives
-      '(("melpa-stable" . "http://stable.melpa.org/packages/")
-        ("melpa"        . "http://melpa.org/packages/")
-        ("marmalade"    . "http://marmalade-repo.org/packages/")
-        ("org"          . "http://orgmode.org/elpa/")
-        ("gnu"          . "http://elpa.gnu.org/packages/")))
-
 (unless (fboundp 'package-installed-p)
   (package-initialize t))
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+(customize-set-variable 'use-package-enable-imenu-support t)
 (require 'use-package)
 
 ;; Ensure the :diminish keyword passed to use-package gets respected
