@@ -13,17 +13,20 @@
 
 (defun ef-reset-gc-cons-threshold ()
   "Resets `gc-cons-threshold` to it's initial value"
-  (setq gc-cons-threshold ef-initial-gc-cons-threshold))
+  (setq-default gc-cons-threshold ef-initial-gc-cons-threshold))
 
 (add-hook 'after-init-hook 'ef-reset-gc-cons-threshold)
 
-(setq gc-cons-threshold most-positive-fixnum)
-
-;; Increase *Messages* buffer size
-(setq message-log-max 16384)
-
-;; Silence ad-handle-definition about advised functions getting redefined.
-(setq ad-redefinition-action 'accept)
+(setq-default
+;   Less GC breaks during start-up
+ gc-cons-threshold most-positive-fixnum
+;;  Increase *Messages* buffer size
+ message-log-max 16384
+ ;; Silence ad-handle-definition about advised functions getting redefined.
+ ad-redefinition-action 'accept
+ ;; Less byte-compiler noise
+ byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local)
+ byte-compile-verbose (ef-init-debug-p))
 
 ;; Remove menu items early to avoid flickering.
 (when (display-graphic-p)
@@ -57,7 +60,7 @@
 (use-package diminish :ensure t)
 
 (if (ef-init-debug-p)
-    (setq use-package-verbose t))
+    (setq-default use-package-verbose t))
 
 (add-to-list 'load-path (expand-file-name "vendor" user-emacs-directory))
 
