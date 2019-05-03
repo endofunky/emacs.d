@@ -7,6 +7,8 @@
   (eshell-error-if-no-glob t)
   (eshell-glob-case-insensitive t)
   (eshell-kill-processes-on-exit t)
+  (eshell-prompt-function #'ef-eshell-prompt)
+  (eshell-prompt-regexp "^[^#$λ\n]* [#$λ] ")
   (eshell-scroll-to-bottom-on-input 'all)
   (eshell-scroll-to-bottom-on-output 'all)
   :init
@@ -40,6 +42,12 @@
   ;; Require this early so we can override commands
   (require 'esh-mode)
 
+  (ef-add-hook eshell-mode-hook
+    (visual-line-mode t)
+    (setq-local global-hl-line-mode nil)
+    (evil-define-key 'insert eshell-mode-map (kbd "TAB") 'pcomplete)
+    (evil-define-key 'insert eshell-mode-map (kbd "C-r") 'eshell-insert-history))
+
   (defun eshell-insert-history ()
     "Displays the eshell history to select and insert back into your eshell."
     (interactive)
@@ -47,11 +55,18 @@
                                  (delete-dups
                                   (ring-elements eshell-history-ring)))))
 
-  (ef-add-hook eshell-mode-hook
-    (visual-line-mode t)
-    (setq-local global-hl-line-mode nil)
-    (evil-define-key 'insert eshell-mode-map (kbd "TAB") 'pcomplete)
-    (evil-define-key 'insert eshell-mode-map (kbd "C-r") 'eshell-insert-history))
+  (defun ef-eshell-prompt-vc-info ()
+    (when-let* ((path (projectile-project-root))
+                (backend (vc-responsible-backend path)))
+      (vc-file-clearprops path)
+      (let* ((branch (vc-call-backend backend 'mode-line-string path))
+             (branch (downcase branch)))
+        (concat "(" (propertize  (format "%s" branch) 'face `(:foreground "magenta")) ")"))))
+
+  (defun ef-eshell-prompt ()
+    (concat (eshell/basename (abbreviate-file-name (eshell/pwd)))
+            (ef-eshell-prompt-vc-info)
+	    (if (= (user-uid) 0) " # " " λ ")))
 
   (defun eshell/clear (&rest args)
     (interactive)
