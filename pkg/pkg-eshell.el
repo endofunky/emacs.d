@@ -135,12 +135,4 @@
         (concat (shell-command-to-string "fortune -s") "\n")
       (concat "Welcome to the Emacs shell " user-login-name "\n\n"))))
 
-(use-package fish-completion
-  :after eshell
-  :ensure t
-  :if (executable-find "fish")
-  :commands global-fish-completion-mode
-  :config
-  (global-fish-completion-mode))
-
 (provide 'pkg-eshell)
