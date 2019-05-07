@@ -49,6 +49,9 @@
   (ef-add-hook eshell-mode-hook
     (visual-line-mode t)
     (setq-local global-hl-line-mode nil)
+    (evil-define-key 'insert eshell-mode-map (kbd "C-p") 'eshell-previous-matching-input-from-input)
+    (evil-define-key 'insert eshell-mode-map (kbd "C-n") 'eshell-next-matching-input-from-input)
+    (evil-define-key 'insert eshell-mode-map (kbd "TAB") 'pcomplete)
     (evil-define-key 'insert eshell-mode-map (kbd "TAB") 'pcomplete)
     (evil-define-key 'insert eshell-mode-map (kbd "C-r") 'eshell-insert-history))
 
