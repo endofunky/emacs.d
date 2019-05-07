@@ -20,8 +20,13 @@
   (ef-add-hook git-commit-setup-hook :fn ef-git-commit-jira-ticket-hook
     (if-let* ((branch (magit-get-current-branch))
               (segments (split-string branch "[\\.-]"))
-              (_ (string-match "^[A-Z]+-[0-9]+" branch)))
-        (insert (format "[%s-%s] " (car segments) (cadr segments)))))
+              (_ (string-match "^[A-Z]+-[0-9]+" branch))
+              (label (format "[%s-%s] " (car segments) (cadr segments))))
+        (save-excursion
+          (save-match-data
+            (goto-char (point-min))
+            (unless (search-forward label nil t)
+              (insert label))))))
 
   (ef-shackle '(magit-diff-mode :align right :size .5 :popup t :select nil))
 
