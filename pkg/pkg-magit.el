@@ -22,11 +22,8 @@
               (segments (split-string branch "[\\.-]"))
               (_ (string-match "^[A-Z]+-[0-9]+" branch))
               (label (format "[%s-%s] " (car segments) (cadr segments))))
-        (save-excursion
-          (save-match-data
-            (goto-char (point-min))
-            (unless (search-forward label nil t)
-              (insert label))))))
+        (unless (string-match (regexp-quote label) (buffer-string))
+            (insert label))))
 
   (ef-shackle '(magit-diff-mode :align right :size .5 :popup t :select nil))
 
