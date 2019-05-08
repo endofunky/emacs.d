@@ -1,5 +1,3 @@
-(require 'pkg-shackle)
-
 (use-package eshell
   :commands eshell
   :custom
@@ -29,9 +27,6 @@
                (let ((prev eshell-buffer-name))
                  (setq eshell-buffer-name bufn)
                  (eshell)
-                 (setenv "TERM" "xterm-256color")
-                 (when (executable-find "cat")
-                   (setenv "PAGER" "cat"))
                  (setq eshell-buffer-name prev)
                  (evil-insert 0)))))
 
@@ -49,16 +44,18 @@
 
   (ef-add-hook eshell-mode-hook
     (visual-line-mode t)
+    (goto-address-mode t)
     (company-mode -1)
     (setq-local global-hl-line-mode nil)
+    (eshell/export "TERM=xterm-256color")
+    (when (executable-find "cat")
+      (eshell/export "GIT_PAGER=cat")
+      (eshell/export "PAGER=cat"))
     (evil-define-key 'insert eshell-mode-map (kbd "C-p") 'eshell-previous-matching-input-from-input)
     (evil-define-key 'insert eshell-mode-map (kbd "C-n") 'eshell-next-matching-input-from-input)
     (evil-define-key 'insert eshell-mode-map (kbd "TAB") 'pcomplete)
     (evil-define-key 'insert eshell-mode-map (kbd "TAB") 'pcomplete)
     (evil-define-key 'insert eshell-mode-map (kbd "C-r") 'eshell-insert-history))
-
-  (dolist (x '("el" "elinks" "htop" "less" "ssh" "tmux" "tig" "top"))
-    (add-to-list 'eshell-visual-commands x))
 
   (defun eshell-insert-history ()
     "Displays the eshell history to select and insert back into your eshell."
