@@ -11,6 +11,10 @@
   (eshell-prompt-regexp "^[^#$λ\n]* [#$λ] ")
   (eshell-scroll-to-bottom-on-input 'all)
   (eshell-scroll-to-bottom-on-output 'all)
+  (eshell-visual-commands '("el" "elinks" "elm" "htop" "less" "less" "lynx"
+                            "more" "ncftp" "pine" "screen" "ssh" "tig" "tin"
+                            "tmux" "top" "top" "trn" "vi" "vim"))
+  (eshell-visual-options '(("git" "--help" "--paginate")))
   :init
   (defmacro ef-defshell (bind name)
     (let* ((name (symbol-name name))
