@@ -128,6 +128,10 @@
   (defun eshell/q ()
     (bury-buffer))
 
+  (defun eshell/sff (f)
+    (insert (format "ff /sudo:root@localhost:%s" (expand-file-name f)))
+    (eshell-send-input))
+
   (defun eshell/magit (&rest args)
     (magit-status (projectile-project-root))
     (eshell/echo)))
