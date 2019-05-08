@@ -4,6 +4,7 @@
   :custom
   (lsp-auto-guess-root t)
   (lsp-eldoc-enable-hover nil)
+  (lsp-enable-snippet nil)
   (lsp-enable-symbol-highlighting nil)
   (lsp-prefer-flymake :none)
   :config
