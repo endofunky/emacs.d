@@ -1,5 +1,5 @@
 (use-package eshell
-  :commands eshell
+  :commands (eshell eshell-command)
   :custom
   (eshell-buffer-shorthand t)
   (eshell-error-if-no-glob t)
