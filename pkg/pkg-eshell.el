@@ -143,8 +143,7 @@
 
   (defun eshell/sff (file)
     "Use tramp to open FILE using sudo"
-    (insert (format "ff /sudo:root@localhost:%s" (expand-file-name file)))
-    (eshell-send-input))
+    (find-file (format "/sudo:root@localhost:%s" (expand-file-name file))))
 
   (defun eshell/magit (&rest args)
     "Open magit for projectile-project-root"
