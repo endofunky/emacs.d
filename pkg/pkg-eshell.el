@@ -172,7 +172,6 @@
 
 (use-package bash-completion
   :ensure t
-  :after eshell
   :if (executable-find "bash")
   :commands bash-completion-dynamic-complete
   :init
@@ -180,12 +179,11 @@
 
 (use-package fish-completion
   :ensure t
-  :after eshell
   :if (executable-find "fish")
-  :commands global-fish-completion-mode
+  :commands  fish-completion-mode
   :custom
   (fish-completion-fallback-on-bash-p (executable-find "bash"))
-  :config
-  (global-fish-completion-mode))
+  :init
+  (add-hook 'eshell-mode-hook #'fish-completion-mode))
 
 (provide 'pkg-eshell)
