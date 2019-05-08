@@ -60,7 +60,6 @@
     (evil-define-key 'insert eshell-mode-map (kbd "C-p") 'eshell-previous-matching-input-from-input)
     (evil-define-key 'insert eshell-mode-map (kbd "C-n") 'eshell-next-matching-input-from-input)
     (evil-define-key 'insert eshell-mode-map (kbd "TAB") 'pcomplete)
-    (evil-define-key 'insert eshell-mode-map (kbd "TAB") 'pcomplete)
     (evil-define-key 'insert eshell-mode-map (kbd "C-r") 'eshell-insert-history))
 
   (defun eshell-insert-history ()
