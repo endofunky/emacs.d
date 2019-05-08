@@ -28,6 +28,9 @@
 
   (ef-shackle '(magit-diff-mode :align right :size .5 :popup t :select nil))
 
+  (transient-append-suffix 'magit-pull "C"
+    '("A" "Autostash" "--autostash"))
+
   (setenv "GIT_PAGER" ""))
 
 (use-package transient
