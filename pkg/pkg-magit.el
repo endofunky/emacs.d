@@ -23,7 +23,8 @@
               (_ (string-match "^[A-Z]+-[0-9]+" branch))
               (label (format "[%s-%s] " (car segments) (cadr segments))))
         (unless (string-match (regexp-quote label) (buffer-string))
-            (insert label))))
+          (insert label)))
+    (end-of-line))
 
   (ef-shackle '(magit-diff-mode :align right :size .5 :popup t :select nil))
 
