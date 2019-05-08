@@ -21,6 +21,8 @@
 (use-package xref
   :defer t
   :after (lsp-mode)
+  :custom
+  (xref-marker-ring-length 1024)
   :config
   (if (fboundp #'ef-shackle)
       (ef-shackle '("*xref*" :align below :size .4 :popup t :select t)))
