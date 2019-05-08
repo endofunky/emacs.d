@@ -77,6 +77,7 @@
              (mss (split-string ms "[\\-\\:\\@\\!\\?]"))
              (vc (downcase (car mss)))
              (branch (car (cdr mss))))
+        (set-text-properties 0 (length branch) nil branch)
         (concat
          "("
          (propertize vc 'face `(:foreground "magenta"))
