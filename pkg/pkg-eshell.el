@@ -93,21 +93,25 @@
   (defalias 'eshell/ff 'find-file)
 
   (defun eshell/browse (file)
+    "Open FILE in browser"
     (browse-url-of-file file))
 
   (defun eshell/clear (&rest args)
-    (interactive)
+    "Clear console"
     (eshell/clear-scrollback))
 
   (defun eshell/cdg (&rest args)
+    "Change directory to VC root"
     (let* ((path default-directory)
            (backend (vc-responsible-backend path)))
       (eshell/cd (vc-call-backend backend 'root path))))
 
   (defun eshell/cdp (&rest args)
+    "Change directory to projectile-project-root"
     (eshell/cd (or (projectile-project-root) ".")))
 
   (defun eshell/d (&rest args)
+    "Open directory in dired"
     (dired (or (car args) ".")))
 
   (if (executable-find "find")
@@ -117,27 +121,33 @@
           (shell-command-to-string cmd))))
 
   (defun eshell/j (&rest args)
+    "Jump to directory of the previous buffer file"
     (when-let ((file (buffer-file-name (other-buffer (current-buffer) 1))))
       (eshell/cd (file-name-directory file))))
 
   (defun eshell/jg (&rest args)
+    "Jump to VC root of the previous buffer file"
     (when-let* ((file (buffer-file-name (other-buffer (current-buffer) 1)))
                 (path (file-name-directory file))
                 (backend (vc-responsible-backend path)))
       (eshell/cd (vc-call-backend backend 'root path))))
 
   (defun eshell/jp (&rest args)
+    "Jump to VC proctile-project-root of the previous buffer file"
     (when-let ((file (buffer-file-name (other-buffer (current-buffer) 1))))
       (eshell/cd (projectile-project-root file))))
 
   (defun eshell/q ()
+    "Bury current eshell buffer"
     (bury-buffer))
 
-  (defun eshell/sff (f)
-    (insert (format "ff /sudo:root@localhost:%s" (expand-file-name f)))
+  (defun eshell/sff (file)
+    "Use tramp to open FILE using sudo"
+    (insert (format "ff /sudo:root@localhost:%s" (expand-file-name file)))
     (eshell-send-input))
 
   (defun eshell/magit (&rest args)
+    "Open magit for projectile-project-root"
     (magit-status (projectile-project-root))
     (eshell/echo)))
 
