@@ -73,8 +73,16 @@
     (when-let* ((path (projectile-project-root))
                 (backend (vc-responsible-backend path)))
       (vc-file-clearprops path)
-      (let ((branch (vc-call-backend backend 'mode-line-string path)))
-        (concat "(" (propertize  (format "%s" branch) 'face `(:foreground "magenta")) ")"))))
+      (let* ((ms (vc-call-backend backend 'mode-line-string path))
+             (mss (split-string ms "[\\-\\:\\@\\!\\?]"))
+             (vc (downcase (car mss)))
+             (branch (car (cdr mss))))
+        (concat
+         "("
+         (propertize vc 'face `(:foreground "magenta"))
+         "|"
+         (propertize branch 'face `(:foreground "magenta"))
+         ")"))))
 
   (defun ef-eshell-prompt-sign ()
     (let ((sym (if (= (user-uid) 0) "#" "λ")))
@@ -146,8 +154,11 @@
     (find-file (format "/sudo:root@localhost:%s" (expand-file-name file))))
 
   (defun eshell/magit (&rest args)
-    "Open magit for projectile-project-root"
-    (magit-status (projectile-project-root))
+    "Open magit"
+    (when-let* ((file (buffer-file-name (other-buffer (current-buffer) 1)))
+                (path (file-name-directory file))
+                (backend (vc-responsible-backend path)))
+      (magit (vc-call-backend backend 'root path)))
     (eshell/echo)))
 
 (use-package em-banner
