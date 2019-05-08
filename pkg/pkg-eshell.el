@@ -48,6 +48,7 @@
 
   (ef-add-hook eshell-mode-hook
     (visual-line-mode t)
+    (company-mode -1)
     (setq-local global-hl-line-mode nil)
     (evil-define-key 'insert eshell-mode-map (kbd "C-p") 'eshell-previous-matching-input-from-input)
     (evil-define-key 'insert eshell-mode-map (kbd "C-n") 'eshell-next-matching-input-from-input)
@@ -137,5 +138,23 @@
    '(if (executable-find "fortune")
         (concat (shell-command-to-string "fortune -s") "\n")
       (concat "Welcome to the Emacs shell " user-login-name "\n\n"))))
+
+(use-package bash-completion
+  :ensure t
+  :after eshell
+  :if (executable-find "bash")
+  :commands bash-completion-dynamic-complete
+  :init
+  (add-hook 'shell-dynamic-complete-functions #'bash-completion-dynamic-complete))
+
+(use-package fish-completion
+  :ensure t
+  :after eshell
+  :if (executable-find "fish")
+  :commands global-fish-completion-mode
+  :custom
+  (fish-completion-fallback-on-bash-p (executable-find "bash"))
+  :config
+  (global-fish-completion-mode))
 
 (provide 'pkg-eshell)
