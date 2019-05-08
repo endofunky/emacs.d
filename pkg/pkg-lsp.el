@@ -8,10 +8,7 @@
   (lsp-enable-symbol-highlighting nil)
   (lsp-prefer-flymake :none)
   :config
-  (evil-define-key 'normal lsp-mode-map ",," 'lsp-find-definition)
-
-  (ef-add-hook lsp-mode-hook
-    (setq-local company-backends (remove 'company-capf company-backends))))
+  (evil-define-key 'normal lsp-mode-map ",," 'lsp-find-definition))
 
 (use-package company-lsp
   :commands company-lsp
