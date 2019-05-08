@@ -88,6 +88,7 @@
   (add-hook 'ruby-mode-hook 'ruby-test-mode)
   (setq ruby-test-rspec-options "")
   (evil-define-key 'normal ruby-test-mode-map ",tp" 'ruby-test-run-at-point)
+  (evil-define-key 'normal ruby-test-mode-map ",o" 'ruby-test-toggle-implementation-and-specification)
 
   (defun ef-file-or-nil (filename)
     "Return `filename' if `file-exists-p' returns non-nil, else nil"
