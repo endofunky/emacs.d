@@ -87,6 +87,9 @@
 
   (defalias 'eshell/ff 'find-file)
 
+  (defun eshell/browse (file)
+    (browse-url-of-file file))
+
   (defun eshell/clear (&rest args)
     (interactive)
     (eshell/clear-scrollback))
