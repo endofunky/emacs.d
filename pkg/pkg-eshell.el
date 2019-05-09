@@ -90,8 +90,14 @@
     (let ((sym (if (= (user-uid) 0) "#" "λ")))
       (concat " " (propertize sym 'face `(:foreground "white")) " ")))
 
+  (defun ef-eshell-prompt-path ()
+    (let (pwd (eshell/pwd))
+      (if pwd
+          (eshell/basename (abbreviate-file-name (eshell/pwd)))
+        "/")))
+
   (defun ef-eshell-prompt ()
-    (concat (eshell/basename (abbreviate-file-name (eshell/pwd)))
+    (concat (ef-eshell-prompt-path)
             (ef-eshell-prompt-vc-info)
             (ef-eshell-prompt-sign)))
 
