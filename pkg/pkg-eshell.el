@@ -65,7 +65,7 @@
   (defun eshell-insert-history ()
     "Displays the eshell history to select and insert back into your eshell."
     (interactive)
-    (insert (ido-completing-read "Eshell history: "
+    (insert (ivy-completing-read "Eshell history: "
                                  (delete-dups
                                   (ring-elements eshell-history-ring)))))
 

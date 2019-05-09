@@ -28,3 +28,4 @@ ycmd/
 .lsp-session-v1
 transient/
 package-quickstart.el
+recentf

@@ -55,8 +55,8 @@
   (evil-define-key 'visual emacs-lisp-mode-map ",er" 'eval-region)
   (evil-define-key 'normal emacs-lisp-mode-map ",r" 'ef-repl-ielm)
   (evil-define-key 'normal emacs-lisp-mode-map ",cc" 'emacs-lisp-byte-compile-and-load)
-  (evil-define-key 'normal emacs-lisp-mode-map ",m" 'apropos)
-  (evil-define-key 'normal lisp-interaction-mode-map ",m" 'apropos)
+  (evil-define-key 'normal emacs-lisp-mode-map ",m" 'counsel-apropos)
+  (evil-define-key 'normal lisp-interaction-mode-map ",m" 'counsel-apropos)
   (evil-define-key 'normal lisp-interaction-mode-map ",eb" 'eval-buffer)
   (evil-define-key 'normal lisp-interaction-mode-map ",ee" 'eval-expression)
   (evil-define-key 'visual lisp-interaction-mode-map ",er" 'eval-region)
@@ -64,7 +64,7 @@
   (evil-define-key 'normal lisp-interaction-mode-map ",r" 'ef-repl-ielm)
   (evil-define-key 'normal lisp-interaction-mode-map ",cc" 'emacs-lisp-byte-compile-and-load)
   (evil-define-key 'normal ielm-map ",r" 'ef-repl-ielm)
-  (evil-define-key 'normal ielm-map ",m" 'apropos)
+  (evil-define-key 'normal ielm-map ",m" 'counsel-apropos)
 
   (defun ef-emacs-lisp-recompile ()
     "Recompile elc file corresponding to buffer-file-name, if it exists."

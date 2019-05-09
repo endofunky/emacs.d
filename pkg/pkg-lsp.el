@@ -3,7 +3,7 @@
   :ensure t
   :custom
   (lsp-auto-guess-root t)
-  (lsp-eldoc-enable-hover nil)
+  (lsp-eldoc-enable-hover t)
   (lsp-enable-snippet nil)
   (lsp-enable-symbol-highlighting nil)
   (lsp-prefer-flymake :none)
@@ -13,7 +13,9 @@
 (use-package company-lsp
   :commands company-lsp
   :after (lsp-mode)
-  :ensure t)
+  :ensure t
+  :config
+  (push 'company-lsp company-backends))
 
 (use-package xref
   :defer t

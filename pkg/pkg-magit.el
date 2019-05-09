@@ -7,8 +7,6 @@
              magit-log
              magit-status)
   :diminish auto-revert-mode
-  :custom
-  (magit-completing-read-function 'magit-ido-completing-read)
   :init
   (define-key evil-normal-state-map ",gd" 'magit-diff)
   (define-key evil-normal-state-map ",gs" 'magit-status)
