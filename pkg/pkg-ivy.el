@@ -37,4 +37,9 @@
   (evil-define-key 'normal global-map ",?" 'counsel-descbinds)
   (evil-define-key 'normal global-map ",s" 'counsel-switch-buffer))
 
+(use-package ivy-xref
+  :ensure t
+  :after ivy
+  :init (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
+
 (provide 'pkg-ivy)
