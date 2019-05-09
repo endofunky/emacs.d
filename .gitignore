@@ -10,7 +10,7 @@ saveplace
 projectile-bookmarks.eld
 smex-items
 ido.last
-private.el
+private/
 undo
 projectile.cache
 network-security.data

@@ -62,7 +62,7 @@
           (require (intern (file-name-sans-extension name))))
         (directory-files dir nil "\\.el$")))
 
-(dolist (path '("core" "pkg" "lang"))
+(dolist (path '("core" "pkg" "lang" "private"))
   (let ((absolute-path (expand-file-name path user-emacs-directory)))
     (add-to-list 'load-path absolute-path)
     (ef-require-directory-files absolute-path)))
