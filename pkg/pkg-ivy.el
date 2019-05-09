@@ -6,7 +6,6 @@
   (ivy-format-function #'ivy-format-function-line)
   (ivy-height 12)
   (ivy-magic-slash-non-match-action nil)
-  (ivy-use-virtual-buffers t)
   (ivy-wrap t)
   :config
   (ivy-mode t)
