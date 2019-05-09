@@ -31,11 +31,17 @@
   (global-set-key (kbd "M-x") 'counsel-M-x)
   (if (executable-find "ripgrep")
       (evil-define-key 'normal global-map ",/" 'counsel-rg))
-  (global-set-key "\C-s" 'swiper)
+  (global-set-key (kbd "M-y") 'counsel-yank-pop)
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
-  (evil-define-key 'normal global-map ",I" 'swiper)
   (evil-define-key 'normal global-map ",?" 'counsel-descbinds)
   (evil-define-key 'normal global-map ",s" 'counsel-switch-buffer))
+
+(use-package swiper
+  :after ivy
+  :ensure t
+  :config
+  (global-set-key (kbd "C-s" ) 'swiper)
+  (evil-define-key 'normal global-map ",I" 'swiper))
 
 (use-package ivy-xref
   :ensure t
