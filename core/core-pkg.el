@@ -54,7 +54,10 @@
   :hook (prog-mode . hs-minor-mode))
 
 (use-package minibuffer
+  :custom
+  (enable-recursive-minibuffers t)
   :config
+
   (ef-add-hook minibuffer-setup-hook
     (setq gc-cons-threshold most-positive-fixnum))
 

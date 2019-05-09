@@ -32,8 +32,6 @@
 ;; Don't mess with the init.el
 (setq custom-file "~/.emacs.d/custom.el")
 
-(setq enable-recursive-minibuffers t)
-
 ;; UTF-8
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
