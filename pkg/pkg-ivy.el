@@ -31,6 +31,9 @@
   (global-set-key (kbd "M-x") 'counsel-M-x)
   (if (executable-find "ripgrep")
       (evil-define-key 'normal global-map ",/" 'counsel-rg))
+  (global-set-key "\C-s" 'swiper)
+  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+  (evil-define-key 'normal global-map ",I" 'swiper)
   (evil-define-key 'normal global-map ",?" 'counsel-descbinds)
   (evil-define-key 'normal global-map ",s" 'counsel-switch-buffer))
 
