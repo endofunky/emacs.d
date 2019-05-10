@@ -164,10 +164,7 @@
 
   (defun eshell/magit (&rest args)
     "Open magit"
-    (when-let* ((file (buffer-file-name (other-buffer (current-buffer) 1)))
-                (path (file-name-directory file))
-                (backend (vc-responsible-backend path)))
-      (magit (vc-call-backend backend 'root path)))
+    (magit)
     (eshell/echo)))
 
 (use-package shrink-path
