@@ -91,10 +91,11 @@
       (concat " " (propertize sym 'face `(:foreground "white")) " ")))
 
   (defun ef-eshell-prompt-path ()
-    (let (pwd (eshell/pwd))
-      (if pwd
-          (eshell/basename (abbreviate-file-name (eshell/pwd)))
-        "/")))
+    (let ((path (shrink-path-prompt default-directory)))
+      (concat (propertize (car path)
+                          'face 'font-lock-comment-face)
+              (propertize (cdr path)
+                          'face 'font-lock-default-face))))
 
   (defun ef-eshell-prompt ()
     (concat (ef-eshell-prompt-path)
@@ -168,6 +169,11 @@
                 (backend (vc-responsible-backend path)))
       (magit (vc-call-backend backend 'root path)))
     (eshell/echo)))
+
+(use-package shrink-path
+  :after eshell
+  :ensure t
+  :demand t)
 
 (use-package em-banner
   :after eshell
