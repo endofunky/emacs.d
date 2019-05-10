@@ -95,7 +95,7 @@
       (concat (propertize (car path)
                           'face 'font-lock-comment-face)
               (propertize (cdr path)
-                          'face 'font-lock-default-face))))
+                          'face 'font-lock-keyword-face))))
 
   (defun ef-eshell-prompt ()
     (concat (ef-eshell-prompt-path)
