@@ -81,9 +81,9 @@
           (set-text-properties 0 (length branch) nil branch)
           (concat
            "("
-           (propertize vc 'face `(:foreground "magenta"))
+           (propertize vc 'face 'font-lock-keyword-face)
            "|"
-           (propertize branch 'face `(:foreground "magenta"))
+           (propertize branch 'face 'font-lock-keyword-face)
            ")")))))
 
   (defun ef-eshell-prompt-sign ()
@@ -95,7 +95,7 @@
       (concat (propertize (car path)
                           'face 'font-lock-comment-face)
               (propertize (cdr path)
-                          'face 'font-lock-keyword-face))))
+                          'face 'font-lock-builtin-face))))
 
   (defun ef-eshell-prompt ()
     (concat (ef-eshell-prompt-path)
