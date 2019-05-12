@@ -40,7 +40,7 @@ buffer."
        (let ((buffer (get-buffer ,buf))
              (window (get-buffer-window ,buf)))
          (cond ((null buffer)
-                (funcall ,fn)
+                (call-interactively ,fn)
                 (when (fboundp 'evil-change-state)
                   (evil-change-state 'normal)))
                (window
