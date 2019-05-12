@@ -130,7 +130,7 @@
              geiser-eval-region
              geiser-eval-last-sexp)
   :custom
-  (geiser-active-implementations '(guile mit))
+  (geiser-active-implementations '(mit guile))
   :hook
   (scheme-mode . geiser-mode)
   :config
