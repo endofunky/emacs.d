@@ -9,13 +9,13 @@
 (defconst ef-initial-file-name-handler-alist file-name-handler-alist
   "Initial value of `file-name-handler-alist' at start-up time.")
 
-(defun ef-reset-gc-cons-threshold ()
+(defun ef-reset-startup-values ()
   "Resets `gc-cons-threshold` to it's initial value"
   (setq-default file-name-handler-alist ef-initial-file-name-handler-alist
                 gc-cons-threshold ef-initial-gc-cons-threshold
                 gc-cons-percentage ef-initial-gc-cons-percentage))
 
-(add-hook 'after-init-hook 'ef-reset-gc-cons-threshold)
+(add-hook 'after-init-hook 'ef-reset-startup-values)
 
 (setq-default file-name-handler-alist nil
               gc-cons-threshold most-positive-fixnum
@@ -30,7 +30,7 @@
                 ("marmalade"    . "http://marmalade-repo.org/packages/")
                 ("org"          . "http://orgmode.org/elpa/")
                 ("gnu"          . "http://elpa.gnu.org/packages/"))
-              site-run-file) nil
+              site-run-file nil)
 
 (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
 (add-to-list 'default-frame-alist '(vertical-scroll-bars))
