@@ -4,7 +4,7 @@
   :custom
   (haskell-font-lock-symbols t)
   :config
-  (evil-define-key 'visual haskell-mode-map ",cc" 'haskell-compile))
+  (evil-define-key 'normal haskell-mode-map ",cc" 'haskell-compile))
 
 (use-package haskell-doc
   :after haskell-mode
