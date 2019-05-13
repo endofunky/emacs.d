@@ -9,6 +9,7 @@
   :diminish auto-revert-mode
   :custom
   (magit-completing-read-function 'ivy-completing-read)
+  (magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
   :init
   (define-key evil-normal-state-map ",gd" 'magit-diff)
   (define-key evil-normal-state-map ",gs" 'magit-status)
