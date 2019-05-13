@@ -8,7 +8,7 @@
   (eshell-history-size 2000)
   (eshell-kill-processes-on-exit t)
   (eshell-prompt-function #'ef-eshell-prompt)
-  (eshell-prompt-regexp "^[^#$λ\n]* [#$λ] ")
+  (eshell-prompt-regexp "^.* [#λ] ")
   (eshell-scroll-to-bottom-on-input 'all)
   (eshell-scroll-to-bottom-on-output 'all)
   (eshell-visual-commands '("el" "elinks" "elm" "htop" "less" "less" "lynx"
