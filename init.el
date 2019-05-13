@@ -1,5 +1,3 @@
-(defconst ef-emacs-start-time (current-time))
-
 (defun ef-init-debug-p ()
   "Returns true if the EMACS_INIT_DEBUG environment variable is set."
   (stringp (getenv "EMACS_INIT_DEBUG")))
@@ -8,18 +6,7 @@
 (when (ef-init-debug-p)
   (setq-default warning-minimum-level :error))
 
-(defconst ef-initial-gc-cons-threshold gc-cons-threshold
-  "Initial value of `gc-cons-threshold' at start-up time.")
-
-(defun ef-reset-gc-cons-threshold ()
-  "Resets `gc-cons-threshold` to it's initial value"
-  (setq-default gc-cons-threshold ef-initial-gc-cons-threshold))
-
-(add-hook 'after-init-hook 'ef-reset-gc-cons-threshold)
-
 (setq-default
-;   Less GC breaks during start-up
- gc-cons-threshold most-positive-fixnum
 ;;  Increase *Messages* buffer size
  message-log-max 16384
  ;; Silence ad-handle-definition about advised functions getting redefined.
@@ -27,13 +14,6 @@
  ;; Less byte-compiler noise
  byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local)
  byte-compile-verbose (ef-init-debug-p))
-
-;; Remove menu items early to avoid flickering.
-(when (display-graphic-p)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1))
-
-(menu-bar-mode -1)
 
 (let ((default-directory (expand-file-name "elpa" user-emacs-directory)))
   (unless (file-exists-p default-directory)
