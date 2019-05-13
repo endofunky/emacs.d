@@ -29,7 +29,7 @@
   :config
   (counsel-mode t)
   (global-set-key (kbd "M-x") 'counsel-M-x)
-  (if (executable-find "ripgrep")
+  (if (executable-find "rg")
       (evil-define-key 'normal global-map ",/" 'counsel-rg))
   (global-set-key (kbd "M-y") 'counsel-yank-pop)
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
