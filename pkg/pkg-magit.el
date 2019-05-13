@@ -53,6 +53,14 @@
       (shackle-mode t)
       (remove-hook 'post-transient-hook 'ef-transient-resume-shackle-mode))))
 
+(use-package magit-todos
+  :after magit
+  :ensure t
+  :config
+  (setq magit-todos-require-colon nil)
+  (define-key magit-todos-section-map "j" nil)
+  (magit-todos-mode +1))
+
 (use-package evil-magit
   :after (evil magit)
   :ensure t
