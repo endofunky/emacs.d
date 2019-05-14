@@ -23,6 +23,13 @@
   (set-face-attribute 'fringe nil :background (ef-color :base00))
   (set-face-attribute 'vertical-border nil :foreground (ef-color :base01)))
 
+(use-package flycheck
+  :defer t
+  :config
+  (set-face-attribute 'flycheck-error nil :underline `(:color ,(ef-color :base08) :style line))
+  (set-face-attribute 'flycheck-info nil :underline `(:color ,(ef-color :base0B) :style line))
+  (set-face-attribute 'flycheck-warning nil :underline `(:color ,(ef-color :base09) :style line)))
+
 (use-package org
   :defer t
   :config
