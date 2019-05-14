@@ -160,10 +160,11 @@ current buffer's file, if it exists"
 
 (defun ef-spring-server ()
   (interactive)
-  (if-let* ((root (projectile-project-root))
-            (cmd (concat root
-                         (file-name-as-directory "bin")
-                         "spring server")))
-      (async-shell-command cmd "*spring-server*")))
+  (when-let* ((root (projectile-project-root))
+              (cmd (format "cd %s && %s" root  (concat
+                                                (file-name-as-directory "bin")
+                                                "spring server"))))
+    (message "Running spring server: %s" cmd)
+    (async-shell-command cmd "*spring-server*")))
 
 (provide 'lang-ruby)
