@@ -21,7 +21,7 @@
   (add-hook 'compilation-start-hook 'evil-normal-state)
 
   (defun ef-kill-other-buffers ()
-    "Kill all other buffers."
+    "Kill all other buffers except for special buffers."
     (interactive)
     (dolist (buf (delq (current-buffer) (buffer-list)))
       (unless (string-prefix-p "*" (string-trim (buffer-name buf)))
@@ -29,7 +29,16 @@
             (delete-window win))
         (kill-buffer buf))))
 
+  (defun ef-kill-all-other-buffers ()
+    "Kill all other buffers."
+    (interactive)
+    (dolist (buf (delq (current-buffer) (buffer-list)))
+      (if-let ((win (get-buffer-window buf)))
+          (delete-window win))
+      (kill-buffer buf)))
+
   (define-key evil-normal-state-map ",kob" 'ef-kill-other-buffers)
+  (define-key evil-normal-state-map ",kaob" 'ef-kill-all-other-buffers)
   (define-key evil-normal-state-map ",kb" 'kill-this-buffer)
 
   (defun ef-kill-buffer-or-delete-window ()
