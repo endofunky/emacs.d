@@ -23,7 +23,9 @@
   (defun ef-kill-other-buffers ()
     "Kill all other buffers."
     (interactive)
-    (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+    (dolist (buf (delq (current-buffer) (buffer-list)))
+      (unless (string-prefix-p "*" (string-trim (buffer-name buf)))
+        (kill-buffer buf))))
 
   (define-key evil-normal-state-map ",kob" 'ef-kill-other-buffers)
   (define-key evil-normal-state-map ",kb" 'kill-this-buffer)
