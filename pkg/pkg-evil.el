@@ -25,6 +25,8 @@
     (interactive)
     (dolist (buf (delq (current-buffer) (buffer-list)))
       (unless (string-prefix-p "*" (string-trim (buffer-name buf)))
+        (if-let ((win (get-buffer-window buf)))
+            (delete-window win))
         (kill-buffer buf))))
 
   (define-key evil-normal-state-map ",kob" 'ef-kill-other-buffers)
