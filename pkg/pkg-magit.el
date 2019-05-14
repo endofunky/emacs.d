@@ -69,6 +69,8 @@
   ;; Don't let magit-status mess up window configurations
   ;; http://whattheemacsd.com/setup-magit.el-01.html
   (defadvice magit-status (around magit-fullscreen activate)
+    (when (fboundp 'ef-flycheck-close-window)
+      (ef-flycheck-close-window))
     (window-configuration-to-register :magit-fullscreen)
     ad-do-it
     (delete-other-windows))
