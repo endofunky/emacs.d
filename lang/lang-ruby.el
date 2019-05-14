@@ -158,4 +158,12 @@ current buffer's file, if it exists"
     "*rubocop*")
   (ef-shackle '("*rubocop*" :align below :size .4 :popup t :select t)))
 
+(defun ef-spring-server ()
+  (interactive)
+  (if-let* ((root (projectile-project-root))
+            (cmd (concat root
+                         (file-name-as-directory "bin")
+                         "spring server")))
+      (async-shell-command cmd "*spring-server*")))
+
 (provide 'lang-ruby)
