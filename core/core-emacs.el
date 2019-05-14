@@ -35,13 +35,6 @@
 ;; Show columns in mode-line
 (column-number-mode t)
 
-;; Escape minibuffer with single escape
-(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-
 ;; Never delete the scratch buffer
 (defun ef-get-scratch-buffer-create ()
   "Get *scratch* buffer or create it."
