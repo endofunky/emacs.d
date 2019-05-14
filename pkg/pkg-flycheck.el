@@ -6,7 +6,7 @@
   :ensure t
   :custom
   (flycheck-check-syntax-automatically '(save mode-enabled))
-  (flycheck-disabled-checkers '(ruby-reek ruby-rubocop emacs-lisp-checkdoc))
+  (flycheck-disabled-checkers '(ruby-reek emacs-lisp-checkdoc))
   (flycheck-display-errors-delay 0.1)
   (flycheck-emacs-lisp-initialize-packages 'auto)
   (flycheck-emacs-lisp-load-path load-path)
