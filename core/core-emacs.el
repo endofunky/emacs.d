@@ -32,16 +32,6 @@
 ;; Don't mess with the init.el
 (setq custom-file "~/.emacs.d/custom.el")
 
-;; UTF-8
-(setq locale-coding-system 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(set-selection-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
-(set-language-environment "UTF-8")
-(setq buffer-file-coding-system 'utf-8)
-(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
-
 ;; Show columns in mode-line
 (column-number-mode t)
 
