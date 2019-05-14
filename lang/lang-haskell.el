@@ -19,14 +19,11 @@
 (use-package intero
   :ensure t
   :commands intero-mode
-  :diminish (intero-mode flycheck-mode)
+  :diminish intero-mode
   :init
   (add-hook 'haskell-mode-hook #'intero-mode)
   :config
   (ef-shackle '(intero-repl-mode :align below :size .4 :popup t :select t))
-
-  (ef-add-hook intero-mode-hook
-    (setq-local flycheck-check-syntax-automatically '()))
 
   (evil-define-key 'visual intero-mode-map ",er" 'intero-repl-eval-region)
   (evil-define-key 'normal intero-mode-map ",ef" 'intero-repl-load)
