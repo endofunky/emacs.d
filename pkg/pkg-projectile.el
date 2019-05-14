@@ -2,7 +2,7 @@
   :ensure t
   :custom
   (projectile-completion-system 'ivy)
-  (projectile-mode-line-prefix " proj")
+  (projectile-mode-line-prefix " P")
   :config
   (defun ef-projectile-find-file ()
     (interactive)
