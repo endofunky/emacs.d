@@ -54,4 +54,5 @@
 
 ;; Ignore unsafe local variables
 (setq enable-local-variables :safe)
+
 (provide 'core-emacs)
