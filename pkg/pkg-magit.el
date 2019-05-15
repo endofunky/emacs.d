@@ -34,6 +34,11 @@
 
   (setenv "GIT_PAGER" ""))
 
+(use-package magit-libgit
+  :after magit
+  :if module-file-suffix
+  :ensure t)
+
 (use-package transient
   :defer t
   :ensure t
@@ -83,5 +88,6 @@
 
   (evil-define-key 'normal magit-status-mode-map "q" #'ef-magit-quit-session)
   (evil-define-key 'visual magit-status-mode-map "q" #'ef-magit-quit-session))
+
 
 (provide 'pkg-magit)
