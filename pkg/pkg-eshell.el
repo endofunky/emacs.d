@@ -165,7 +165,9 @@
   (defun eshell/magit (&rest args)
     "Open magit"
     (magit)
-    (eshell/echo)))
+    (eshell/echo))
+
+  (defalias 'eshell/g 'magit))
 
 (use-package shrink-path
   :after eshell
