@@ -38,7 +38,7 @@
         (flycheck-list-errors)))
 
   (defun ef-flycheck-toggle-window-maybe ()
-    (if flycheck-current-errors
+    (if (and ef-flycheck-may-toggle flycheck-current-errors)
         (ef-flycheck-open-window)
       (ef-flycheck-close-window)))
 
