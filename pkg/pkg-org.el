@@ -14,8 +14,17 @@
   (org-return-follows-link t)
   (org-src-fontify-natively t)
   (org-src-tab-acts-natively t)
+  :commands (org-agenda org-capture)
   :hook
   (org-mode . flyspell-mode)
+  :init
+  (defun ef-org-notes ()
+    (interactive)
+    (find-file org-default-notes-file))
+
+  (evil-define-key 'normal global-map ",oo" 'ef-org-notes)
+  (evil-define-key 'normal global-map ",oa" 'org-agenda)
+  (evil-define-key 'normal global-map ",oc" 'org-capture)
   :config
   (require 'org-install)
 
