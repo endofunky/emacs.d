@@ -11,9 +11,6 @@
       (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
       (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))))
 
-  (evil-define-key 'normal 'c++-mode-map ",o" 'ff-find-other-file)
-  (evil-define-key 'normal 'c-mode-map ",o" 'ff-find-other-file)
-
   (ef-add-hook c-mode-hook
     (setq-local c-default-style "k&r")
     (setq-local c-basic-offset 8)
