@@ -37,6 +37,16 @@
   (evil-define-key 'normal org-mode-map ",t" 'org-todo)
   (evil-define-key 'normal org-mode-map ",c" 'org-toggle-checkbox))
 
+(use-package evil-org
+  :ensure t
+  :after org
+  :config
+  (add-hook 'org-mode-hook 'evil-org-mode)
+  (ef-add-hook evil-org-mode-hook
+    (evil-org-set-key-theme))
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
+
 (use-package org-bullets
   :after org
   :ensure t
