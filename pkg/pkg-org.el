@@ -47,12 +47,6 @@
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
-(use-package org-bullets
-  :after org
-  :ensure t
-  :config
-  (add-hook 'org-mode-hook 'org-bullets-mode))
-
 (use-package org-tree-slide
   :after org
   :ensure t
@@ -94,6 +88,12 @@
   (evil-define-key 'normal demo-it-mode-map (kbd "<left>") 'demo-it-restep)
   (evil-define-key 'normal demo-it-mode-map (kbd "q") 'demo-it-end)
   (evil-define-key 'normal demo-it-mode-map (kbd "<tab>") 'show-all))
+
+(use-package org-bullets
+  :after demo-it
+  :ensure t
+  :config
+  (add-hook 'demo-it-mode-hook 'org-bullets-mode))
 
 (use-package expand-region
   :after demo-it
