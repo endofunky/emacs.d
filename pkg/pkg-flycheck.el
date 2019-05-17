@@ -24,7 +24,7 @@
   (global-flycheck-mode t)
 
   (defvar ef-flycheck-may-toggle t)
-  (defvar ef-flycheck-last-file-buffer t)
+  (defvar ef-flycheck-last-file-buffer nil)
 
   (defun ef-flycheck-close-window ()
     (when ef-flycheck-may-toggle
