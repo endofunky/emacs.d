@@ -13,6 +13,8 @@
   (org-return-follows-link t)
   (org-src-fontify-natively t)
   (org-src-tab-acts-natively t)
+  :hook
+  (org-mode . flyspell-mode)
   :config
   (require 'org-install)
 
