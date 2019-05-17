@@ -37,15 +37,11 @@
 
 (add-to-list 'load-path (expand-file-name "vendor" user-emacs-directory))
 
-(defun ef-require-directory-files (dir)
-  (mapc (lambda (name)
-          (require (intern (file-name-sans-extension name))))
-        (directory-files dir nil "\\.el$")))
-
 (dolist (path '("core" "pkg" "lang" "private"))
-  (let ((absolute-path (expand-file-name path user-emacs-directory)))
-    (add-to-list 'load-path absolute-path)
-    (ef-require-directory-files absolute-path)))
+  (let ((path (expand-file-name path user-emacs-directory)))
+    (add-to-list 'load-path path)
+    (dolist (file (directory-files path nil "\\.el$"))
+      (require (intern (file-name-sans-extension file)) nil t))))
 
 (unless noninteractive
   (let ((elapsed (float-time (time-subtract (current-time)
