@@ -167,4 +167,25 @@ current buffer's file, if it exists"
     (message "Running spring server: %s" cmd)
     (async-shell-command cmd "*spring-server*")))
 
+(defun ruby-disasm (beginning end)
+  "Disassemble the selected region or contents of current buffer into YARV
+byte-code and display it in an `asm-mode' buffer."
+  (interactive "r")
+  (let ((f (make-temp-file "ruby-disasm"))
+        (buf (or (get-buffer "*ruby-disasm*")
+                 (generate-new-buffer "*ruby-disasm*"))))
+    (if (use-region-p)
+        (append-to-file beginning end f)
+      (append-to-file (point-min) (point-max) f))
+    (with-current-buffer buf
+      (erase-buffer)
+      (insert
+       (shell-command-to-string
+        (format "ruby -e \"STDOUT.puts \
+RubyVM::InstructionSequence.compile_file('%s').disasm\"" f)))
+      (beginning-of-buffer)
+      (asm-mode))
+    (switch-to-buffer buf)
+    (delete-file f)))
+
 (provide 'lang-ruby)
