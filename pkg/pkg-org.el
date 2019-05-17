@@ -34,8 +34,9 @@
   (when (display-graphic-p)
     (define-key org-mode-map (kbd "M-RET") 'toggle-frame-fullscreen))
 
-  (ef-shackle '(" *Agenda Commands*" :align below :size .5 :popup t :select t)
-              '("*Org Agenda*" :align below :size .5 :popup t :select t))
+  (ef-shackle '(" *Agenda Commands*" :align below :size .4 :popup t :select t)
+              '("*Org Select*" :align below :size .3 :popup t :select t)
+              '(" *Org Agenda*" :align below :size .4 :popup t :select t))
 
   (evil-define-key 'normal org-mode-map ",t" 'org-todo)
   (evil-define-key 'normal org-mode-map ",c" 'org-toggle-checkbox))
