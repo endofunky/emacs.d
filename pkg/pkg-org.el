@@ -3,15 +3,23 @@
   :ensure org-plus-contrib
   :pin melpa
   :custom
+  (org-agenda-files `(,(expand-file-name "~/Dropbox/org/")))
+  (org-agenda-restore-windows-after-quit nil)
+  (org-agenda-window-setup 'other-window)
   (org-confirm-babel-evaluate nil)
-  (org-src-fontify-natively t)
   (org-fontify-quote-and-verse-blocks t)
-  (org-return-follows-link t)
   (org-hide-emphasis-markers t)
-  (org-src-tab-acts-natively t)
   (org-log-done 'time)
+  (org-return-follows-link t)
+  (org-src-fontify-natively t)
+  (org-src-tab-acts-natively t)
   :config
   (require 'org-install)
+
+  (defun org-switch-to-buffer-other-window (&rest args)
+    (apply 'switch-to-buffer-other-window args))
+
+  (ef-keep-other-windows org-agenda)
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -22,6 +30,9 @@
 
   (when (display-graphic-p)
     (define-key org-mode-map (kbd "M-RET") 'toggle-frame-fullscreen))
+
+  (ef-shackle '(" *Agenda Commands*" :align below :size .5 :popup t :select t)
+              '("*Org Agenda*" :align below :size .5 :popup t :select t))
 
   (evil-define-key 'normal org-mode-map ",t" 'org-todo)
   (evil-define-key 'normal org-mode-map ",c" 'org-toggle-checkbox))
