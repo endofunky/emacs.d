@@ -7,6 +7,7 @@
   (org-agenda-restore-windows-after-quit nil)
   (org-agenda-window-setup 'other-window)
   (org-confirm-babel-evaluate nil)
+  (org-default-notes-file (expand-file-name "~/Dropbox/org/notes.org"))
   (org-fontify-quote-and-verse-blocks t)
   (org-hide-emphasis-markers t)
   (org-log-done 'time)
