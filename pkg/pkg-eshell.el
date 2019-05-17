@@ -43,7 +43,9 @@
   :config
   ;; Require these early so we can override commands
   (require 'esh-mode)
+  (require 'em-alias)
   (require 'em-term)
+  (require 'em-tramp)
   (require 'em-unix)
 
   (ef-add-hook eshell-mode-hook
@@ -161,6 +163,8 @@
   (defun eshell/sff (file)
     "Use tramp to open FILE using sudo"
     (find-file (format "/sudo:root@localhost:%s" (expand-file-name file))))
+
+  (eshell/alias "sudo" "eshell/sudo $*")
 
   (defun eshell/magit (&rest args)
     "Open magit"
