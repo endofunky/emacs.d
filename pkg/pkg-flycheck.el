@@ -67,10 +67,6 @@
   (ef-add-hook flycheck-after-syntax-check-hook
     (ef-flycheck-toggle-window-maybe)))
 
-(use-package flycheck-color-mode-line
-  :ensure t
-  :hook (flycheck-mode . flycheck-color-mode-line-mode))
-
 (use-package pkg-info
   :after flycheck
   :ensure)
