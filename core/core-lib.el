@@ -34,4 +34,11 @@ HOOKS is `some-hook'. Usage:
                      `(add-hook ',hook #',fn ,append ,local))
                  hooks))))
 
+(defmacro ef-keep-other-windows (fn)
+  "Temporarily disable delete-other-windows for FN."
+  `(defadvice ,fn (around ef-keep-other-windows activate)
+     (cl-letf (((symbol-function 'delete-other-windows)
+                (symbol-function 'ignore)))
+       ad-do-it)))
+
 (provide 'core-lib)
