@@ -121,7 +121,10 @@ current buffer's file, if it exists"
   :diminish projectile-rails-mode
   :ensure t
   :init
-  (ef-define-repl ef-repl-projectile-rails-console "*rails*" #'(lambda () (projectile-rails-console nil)))
+  (defun ef--projectile-rails-console ()
+    (interactive)
+    (projectile-rails-console nil))
+  (ef-define-repl ef-repl-projectile-rails-console "*rails*" #'ef--projectile-rails-console)
   :config
   (projectile-rails-global-mode t)
   (evil-define-key 'normal projectile-rails-mode-map ",r" 'ef-repl-projectile-rails-console))
