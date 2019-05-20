@@ -9,7 +9,7 @@
 (use-package haskell-doc
   :after haskell-mode
   :diminish haskell-doc-mode
-  :hook (haskell-mode . turn-on-haskell-doc-mode))
+  :hook (haskell-mode . haskell-doc-mode))
 
 (use-package haskell-indent
   :after haskell-mode
