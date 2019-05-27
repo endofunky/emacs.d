@@ -15,7 +15,7 @@
   (org-agenda-files `(,(expand-file-name "~/Dropbox/org/")))
   (org-agenda-restore-windows-after-quit nil)
   (org-agenda-window-setup 'other-window)
-  (org-archive-file-header-format "#+FILETAGS: ARCHIVE\nArchived entries from file %s\n")
+  (org-archive-location "%s_archive::datetree/* Archived Tasks")
   (org-confirm-babel-evaluate nil)
   (org-deadline-warning-days 7)
   (org-default-notes-file (expand-file-name "~/Dropbox/org/notes.org"))
