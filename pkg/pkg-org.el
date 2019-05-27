@@ -14,6 +14,10 @@
        (org-agenda-todo-ignore-scheduled 'all)))))
   (org-agenda-files `(,(expand-file-name "~/Dropbox/org/")))
   (org-agenda-restore-windows-after-quit nil)
+  (org-agenda-time-grid
+   '((daily today remove-match require-timed)
+     (600 800 1000 1200 1400 1600 1800 2000 2200)
+     "......" "----------------"))
   (org-agenda-window-setup 'other-window)
   (org-archive-location "%s_archive::datetree/* Archived Tasks")
   (org-confirm-babel-evaluate nil)
