@@ -3,10 +3,16 @@
   :ensure org-plus-contrib
   :pin melpa
   :custom
+  (org-agenda-custom-commands
+   '(("n" "Agenda and all TODOs" ((agenda "") (alltodo ""))
+      ((org-agenda-span 'week)
+       (org-deadline-warning-days 0)
+       (org-agenda-skip-deadline-prewarning-if-scheduled t)
+       (org-agenda-skip-scheduled-if-deadline-is-shown t)
+       (org-agenda-todo-ignore-deadlines 'all)
+       (org-agenda-todo-ignore-scheduled 'all)))))
   (org-agenda-files `(,(expand-file-name "~/Dropbox/org/")))
   (org-agenda-restore-windows-after-quit nil)
-  (org-agenda-skip-scheduled-if-deadline-is-shown t)
-  (org-agenda-span (quote fortnight))
   (org-agenda-window-setup 'other-window)
   (org-confirm-babel-evaluate nil)
   (org-deadline-warning-days 7)
@@ -27,8 +33,11 @@
 
   (evil-define-key 'normal global-map ",oo" 'ef-org-notes)
   (evil-define-key 'normal global-map ",oa" 'org-agenda)
-  (evil-define-key 'normal global-map ",oA" 'ef-org-agenda)
+  (evil-define-key 'normal global-map ",O" 'ef-org-agenda)
   (evil-define-key 'normal global-map ",oc" 'org-capture)
+  (evil-define-key 'normal global-map ",op" 'org-priority)
+  (evil-define-key 'normal global-map ",o," 'org-priority-up)
+  (evil-define-key 'normal global-map ",o." 'org-priority-down)
   :config
   (require 'org-install)
 
