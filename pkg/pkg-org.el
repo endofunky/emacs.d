@@ -51,6 +51,11 @@
   (evil-define-key 'normal org-mode-map ",t" 'org-todo)
   (evil-define-key 'normal org-mode-map ",c" 'org-toggle-checkbox))
 
+(use-package calendar
+  :defer t
+  :config
+  (ef-shackle '(calendar-mode :align below :size .4 :popup t :select t)))
+
 (use-package evil-org
   :ensure t
   :after org
