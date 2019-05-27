@@ -9,11 +9,13 @@
       ((org-agenda-span 'week)
        (org-deadline-warning-days 0)
        (org-agenda-skip-deadline-prewarning-if-scheduled t)
+       (org-agenda-skip-deadline-if-done t)
        (org-agenda-skip-scheduled-if-deadline-is-shown t)
        (org-agenda-todo-ignore-deadlines 'all)
        (org-agenda-todo-ignore-scheduled 'all)))))
   (org-agenda-files `(,(expand-file-name "~/Dropbox/org/")))
   (org-agenda-restore-windows-after-quit nil)
+  (org-agenda-start-on-weekday 1)
   (org-agenda-time-grid
    '((daily today remove-match require-timed)
      (600 800 1000 1200 1400 1600 1800 2000 2200)
@@ -23,7 +25,9 @@
   (org-confirm-babel-evaluate nil)
   (org-deadline-warning-days 7)
   (org-default-notes-file (expand-file-name "~/Dropbox/org/notes.org"))
+  (org-enforce-todo-dependencies t)
   (org-fontify-quote-and-verse-blocks t)
+  (org-habit-graph-column 80)
   (org-hide-emphasis-markers t)
   (org-log-done 'time)
   (org-return-follows-link t)
@@ -43,6 +47,7 @@
   (evil-define-key 'normal global-map ",oo" 'ef-org-notes)
   :config
   (require 'org-install)
+  (require 'org-habit)
 
   (defun org-switch-to-buffer-other-window (&rest args)
     (apply 'switch-to-buffer-other-window args))
