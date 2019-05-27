@@ -14,6 +14,7 @@
   (org-agenda-files `(,(expand-file-name "~/Dropbox/org/")))
   (org-agenda-restore-windows-after-quit nil)
   (org-agenda-window-setup 'other-window)
+  (org-archive-file-header-format "#+FILETAGS: ARCHIVE\nArchived entries from file %s\n")
   (org-confirm-babel-evaluate nil)
   (org-deadline-warning-days 7)
   (org-default-notes-file (expand-file-name "~/Dropbox/org/notes.org"))
@@ -31,13 +32,10 @@
     (interactive)
     (find-file org-default-notes-file))
 
-  (evil-define-key 'normal global-map ",oo" 'ef-org-notes)
-  (evil-define-key 'normal global-map ",oa" 'org-agenda)
   (evil-define-key 'normal global-map ",O" 'ef-org-agenda)
+  (evil-define-key 'normal global-map ",oa" 'org-agenda)
   (evil-define-key 'normal global-map ",oc" 'org-capture)
-  (evil-define-key 'normal global-map ",op" 'org-priority)
-  (evil-define-key 'normal global-map ",o," 'org-priority-up)
-  (evil-define-key 'normal global-map ",o." 'org-priority-down)
+  (evil-define-key 'normal global-map ",oo" 'ef-org-notes)
   :config
   (require 'org-install)
 
@@ -49,6 +47,14 @@
   (defun ef-org-agenda ()
     (interactive)
     (org-agenda nil "n"))
+
+  (defun ef-org-archive-done-tasks ()
+    (interactive)
+    (org-map-entries
+     (lambda ()
+       (org-archive-subtree)
+       (setq org-map-continue-from (outline-previous-heading)))
+     "/DONE" 'tree))
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -63,8 +69,12 @@
   (ef-shackle '(" *Agenda Commands*" :align below :size .4 :popup t :select t)
               '("*Org Select*" :align below :size .3 :popup t :select t))
 
-  (evil-define-key 'normal org-mode-map ",t" 'org-todo)
-  (evil-define-key 'normal org-mode-map ",c" 'org-toggle-checkbox))
+  (evil-define-key 'normal org-mode-map ",oc" 'org-toggle-checkbox)
+  (evil-define-key 'normal org-mode-map ",o," 'org-priority-up)
+  (evil-define-key 'normal org-mode-map ",o." 'org-priority-down)
+  (evil-define-key 'normal org-mode-map ",oA" 'ef-org-archive-done-tasks)
+  (evil-define-key 'normal org-mode-map ",op" 'org-priority)
+  (evil-define-key 'normal org-mode-map ",ot" 'org-todo))
 
 (use-package calendar
   :defer t
