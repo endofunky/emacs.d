@@ -5,8 +5,11 @@
   :custom
   (org-agenda-files `(,(expand-file-name "~/Dropbox/org/")))
   (org-agenda-restore-windows-after-quit nil)
+  (org-agenda-skip-scheduled-if-deadline-is-shown t)
+  (org-agenda-span (quote fortnight))
   (org-agenda-window-setup 'other-window)
   (org-confirm-babel-evaluate nil)
+  (org-deadline-warning-days 7)
   (org-default-notes-file (expand-file-name "~/Dropbox/org/notes.org"))
   (org-fontify-quote-and-verse-blocks t)
   (org-hide-emphasis-markers t)
@@ -14,7 +17,7 @@
   (org-return-follows-link t)
   (org-src-fontify-natively t)
   (org-src-tab-acts-natively t)
-  :commands (org-agenda org-capture)
+  :commands (org-agenda org-capture ef-org-agenda)
   :hook
   (org-mode . flyspell-mode)
   :init
@@ -24,6 +27,7 @@
 
   (evil-define-key 'normal global-map ",oo" 'ef-org-notes)
   (evil-define-key 'normal global-map ",oa" 'org-agenda)
+  (evil-define-key 'normal global-map ",oA" 'ef-org-agenda)
   (evil-define-key 'normal global-map ",oc" 'org-capture)
   :config
   (require 'org-install)
@@ -32,6 +36,10 @@
     (apply 'switch-to-buffer-other-window args))
 
   (ef-keep-other-windows org-agenda)
+
+  (defun ef-org-agenda ()
+    (interactive)
+    (org-agenda nil "n"))
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -44,9 +52,7 @@
     (define-key org-mode-map (kbd "M-RET") 'toggle-frame-fullscreen))
 
   (ef-shackle '(" *Agenda Commands*" :align below :size .4 :popup t :select t)
-              '("*Org Select*" :align below :size .3 :popup t :select t)
-              '("*Org Agenda*" :align below :size .4 :popup t :select t)
-              '(" *Org Agenda*" :align below :size .4 :popup t :select t))
+              '("*Org Select*" :align below :size .3 :popup t :select t))
 
   (evil-define-key 'normal org-mode-map ",t" 'org-todo)
   (evil-define-key 'normal org-mode-map ",c" 'org-toggle-checkbox))
