@@ -2,6 +2,7 @@
   :defer t
   :ensure org-plus-contrib
   :pin melpa
+  :mode (("\\.\\(org\\|org_archive\\)$" . org-mode))
   :custom
   (org-agenda-custom-commands
    '(("n" "Agenda and all TODOs" ((agenda "") (alltodo ""))
