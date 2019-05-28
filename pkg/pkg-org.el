@@ -22,6 +22,10 @@
      "......" "----------------"))
   (org-agenda-window-setup 'other-window)
   (org-archive-location "%s_archive::datetree/* Archived Tasks")
+  (org-capture-templates
+   (append org-capture-templates
+           '(("t" "Todo" entry (file+headline "~/Dropbox/org/notes.org" "Tasks")
+              "** TODO %^{Task} %?"))))
   (org-confirm-babel-evaluate nil)
   (org-deadline-warning-days 7)
   (org-default-notes-file (expand-file-name "~/Dropbox/org/notes.org"))
@@ -88,6 +92,31 @@
   :defer t
   :config
   (ef-shackle '(calendar-mode :align below :size .4 :popup t :select t)))
+
+(use-package org-gcal
+  :after org
+  :ensure t
+  :custom
+  (org-capture-templates
+   (append org-capture-templates
+           `(("a" "Appointment" entry (file "~/Dropbox/org/calendar.org")
+              ,(concat "* %^{Title}\n"
+                       "  :PROPERTIES:\n"
+                       "  :LOCATION: %^{Location}\n"
+                       "  :END:\n\n"
+                       "  %^T\n")))))
+  (org-gcal-client-id (ef-auth-user "calendar.google.com"))
+  (org-gcal-client-secret (ef-auth-password "calendar.google.com"))
+  (org-gcal-file-alist '(("tob@tobiassvensson.co.uk" .  "~/Dropbox/org/calendar.org")))
+  (org-gcal-header-alist '(("tob@tobiassvensson.co.uk" . "#+CATEGORY: calendar\n")))
+  (org-gcal-down-days 365)
+  :config
+  (defun ef-gcal-fetch ()
+    (interactive)
+    (org-gcal-sync nil t t))
+
+  (add-hook 'after-init-hook 'org-gcal-sync)
+  (add-hook 'kill-emacs-hook 'org-gcal-sync))
 
 (use-package evil-org
   :ensure t
