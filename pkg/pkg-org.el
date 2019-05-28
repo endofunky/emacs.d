@@ -27,7 +27,6 @@
   (org-default-notes-file (expand-file-name "~/Dropbox/org/notes.org"))
   (org-enforce-todo-dependencies t)
   (org-fontify-quote-and-verse-blocks t)
-  (org-habit-graph-column 80)
   (org-hide-emphasis-markers t)
   (org-log-done 'time)
   (org-return-follows-link t)
@@ -47,7 +46,6 @@
   (evil-define-key 'normal global-map ",oo" 'ef-org-notes)
   :config
   (require 'org-install)
-  (require 'org-habit)
 
   (defun org-switch-to-buffer-other-window (&rest args)
     (apply 'switch-to-buffer-other-window args))
