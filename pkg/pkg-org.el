@@ -22,10 +22,6 @@
      "......" "----------------"))
   (org-agenda-window-setup 'other-window)
   (org-archive-location "%s_archive::datetree/* Archived Tasks")
-  (org-capture-templates
-   (append org-capture-templates
-           '(("t" "Todo" entry (file+headline "~/Dropbox/org/notes.org" "Tasks")
-              "** TODO %^{Task} %?"))))
   (org-confirm-babel-evaluate nil)
   (org-deadline-warning-days 7)
   (org-default-notes-file (expand-file-name "~/Dropbox/org/notes.org"))
@@ -49,7 +45,13 @@
   (evil-define-key 'normal global-map ",oc" 'org-capture)
   (evil-define-key 'normal global-map ",oo" 'ef-org-notes)
   :config
+  (require 'org-capture)
   (require 'org-install)
+
+  (setq org-capture-templates
+        (append org-capture-templates
+                '(("t" "Todo" entry (file+headline "~/Dropbox/org/notes.org" "Tasks")
+                   "** TODO %^{Task} %?"))))
 
   (defun org-switch-to-buffer-other-window (&rest args)
     (apply 'switch-to-buffer-other-window args))
@@ -97,22 +99,24 @@
   :after org
   :ensure t
   :custom
-  (org-capture-templates
-   (append org-capture-templates
-           `(("a" "Appointment" entry (file "~/Dropbox/org/calendar.org")
-              ,(concat "* %^{Title}\n"
-                       "  :PROPERTIES:\n"
-                       "  :LOCATION: %^{Location}\n"
-                       "  :END:\n\n"
-                       "  %^T\n")))))
   (org-gcal-client-id (ef-auth-user "calendar.google.com"))
   (org-gcal-client-secret (ef-auth-password "calendar.google.com"))
   (org-gcal-file-alist '(("tob@tobiassvensson.co.uk" .  "~/Dropbox/org/calendar.org")))
   (org-gcal-header-alist '(("tob@tobiassvensson.co.uk" . "#+CATEGORY: calendar\n")))
   (org-gcal-down-days 365)
   :config
+  (setq org-capture-templates
+        (append org-capture-templates
+                `(("a" "Appointment" entry (file "~/Dropbox/org/calendar.org")
+                   ,(concat "* %^{Title}\n"
+                            "  :PROPERTIES:\n"
+                            "  :LOCATION: %^{Location}\n"
+                            "  :END:\n\n"
+                            "  %^T\n")))))
+
   (defun ef-gcal-fetch ()
     (interactive)
+    (org-gcal-refresh-token)
     (org-gcal-sync nil t t))
 
   (add-hook 'after-init-hook 'org-gcal-sync)
