@@ -6,13 +6,13 @@
 
 (use-package auth-source
   :ensure t
-  :commands (ef-auth-user ef-auth-password)
+  :commands (ef-auth-user ef-auth-password auth-source-search)
   :config
   (defun ef-auth-password (host)
     (funcall (plist-get (car (auth-source-search :host host)) :secret)))
 
   (defun ef-auth-user (host)
-    (plist-get (car (auth-source-search :host host)) :use)))
+    (plist-get (car (auth-source-search :host host)) :user)))
 
 (use-package autorevert
   :custom
