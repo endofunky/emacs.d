@@ -96,6 +96,7 @@
   (ef-shackle '(calendar-mode :align below :size .4 :popup t :select t)))
 
 (use-package org-gcal
+  :disabled
   :after org
   :ensure t
   :custom
