@@ -42,7 +42,8 @@
         (ef-flycheck-open-window)
       (ef-flycheck-close-window)))
 
-  (ef-add-hook post-command-hook :fn ef-flycheck-post-command-hook
+  (ef-add-hook (post-command-hook after-change-major-mode-hook)
+    :fn ef-flycheck-post-command-hook
     (let ((current (current-buffer)))
       (cond ((and (not buffer-file-name)
                   (not (minibufferp current))
@@ -58,8 +59,6 @@
                   ef-flycheck-may-toggle)
              (setq ef-flycheck-last-file-buffer current)
              (ef-flycheck-toggle-window-maybe)))))
-
-  (add-hook 'after-change-major-mode-hook 'ef-flycheck-post-command-hook)
 
   (ef-add-hook minibuffer-setup-hook :fn ef-flycheck-minibuffer-setup-hook
     (setq ef-flycheck-may-toggle nil))
