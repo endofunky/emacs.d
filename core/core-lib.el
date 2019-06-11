@@ -1,4 +1,5 @@
 (require 'cl-macs)
+(require 'subr-x)
 
 (cl-defmacro ef-add-hook(hooks &rest body
                                &key fn append local interactive
@@ -46,5 +47,15 @@ HOOKS is `some-hook'. Usage:
   `(lambda ()
      (interactive)
      (start-process-shell-command ,cmd nil ,cmd)))
+
+(defun ef-nsp ()
+  "Return t if running on macOS or NeXTSTEP"
+  (memq window-system '(mac ns)))
+
+(defun ef-read-file (filename)
+  "Return the contents of FILENAME."
+  (with-temp-buffer
+    (insert-file-contents filename)
+    (buffer-string)))
 
 (provide 'core-lib)

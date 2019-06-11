@@ -1,6 +1,4 @@
-(defun ef-nsp ()
-  "Return t if running on macOS or NeXTSTEP"
-  (memq window-system '(mac ns)))
+(require 'core-lib)
 
 (use-package frame
   :if window-system
@@ -9,19 +7,12 @@
   (frame-resize-pixelwise t)
   (blink-cursor-blinks 0)
   :config
-  (require 'subr-x)
-
-  (defun ef-read-file (filename)
-    "Return the contents of FILENAME."
-    (with-temp-buffer
-      (insert-file-contents filename)
-      (buffer-string)))
-
-  (let ((file (expand-file-name "~/.emacs-font-size")))
-    (if (file-exists-p file)
-        (set-frame-font (format "DejaVu Sans Mono-%s"
-                                (string-trim (ef-read-file file))))
-      (set-frame-font "DejaVu Sans Mono-12")))
+  (let* ((file (expand-file-name "~/.emacs-font-size"))
+         (font (if (file-exists-p file)
+                   (format "DejaVu Sans Mono-%s" (string-trim (ef-read-file file)))
+                 "DejaVu Sans Mono-12")))
+    (add-to-list 'default-frame-alist `(font .  ,font))
+    (set-frame-font font))
 
   (blink-cursor-mode -1)
   (global-set-key (kbd "M-RET") 'toggle-frame-fullscreen))
