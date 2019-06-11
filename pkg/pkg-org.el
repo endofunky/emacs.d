@@ -95,34 +95,6 @@
   :config
   (ef-shackle '(calendar-mode :align below :size .4 :popup t :select t)))
 
-(use-package org-gcal
-  :disabled
-  :after org
-  :ensure t
-  :custom
-  (org-gcal-client-id (ef-auth-user "calendar.google.com"))
-  (org-gcal-client-secret (ef-auth-password "calendar.google.com"))
-  (org-gcal-file-alist '(("tob@tobiassvensson.co.uk" .  "~/Dropbox/org/calendar.org")))
-  (org-gcal-header-alist '(("tob@tobiassvensson.co.uk" . "#+CATEGORY: calendar\n")))
-  (org-gcal-down-days 365)
-  :config
-  (setq org-capture-templates
-        (append org-capture-templates
-                `(("a" "Appointment" entry (file "~/Dropbox/org/calendar.org")
-                   ,(concat "* %^{Title}\n"
-                            "  :PROPERTIES:\n"
-                            "  :LOCATION: %^{Location}\n"
-                            "  :END:\n\n"
-                            "  %^T\n")))))
-
-  (defun ef-gcal-fetch ()
-    (interactive)
-    (org-gcal-refresh-token)
-    (org-gcal-sync nil t t))
-
-  (add-hook 'after-init-hook 'org-gcal-sync)
-  (add-hook 'kill-emacs-hook 'org-gcal-sync))
-
 (use-package evil-org
   :ensure t
   :after org
