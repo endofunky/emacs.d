@@ -5,11 +5,6 @@
   (exwm-input-line-mode-passthrough t)
   (exwm-workspace-number 6)
   :config
-  (defmacro ef-wrap-shell-command (cmd)
-    `(lambda ()
-       (interactive)
-       (start-process-shell-command ,cmd nil ,cmd)))
-
   (defun ef-exwm-workspace-next ()
     (interactive)
     (when (< (exwm-workspace--position exwm-workspace--current)

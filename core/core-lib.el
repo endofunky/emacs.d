@@ -41,4 +41,10 @@ HOOKS is `some-hook'. Usage:
                 (symbol-function 'ignore)))
        ad-do-it)))
 
+(defmacro ef-wrap-shell-command (cmd)
+  "Wrap CMD in an interactive lambda."
+  `(lambda ()
+     (interactive)
+     (start-process-shell-command ,cmd nil ,cmd)))
+
 (provide 'core-lib)
