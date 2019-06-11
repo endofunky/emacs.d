@@ -34,11 +34,6 @@
 
   (setenv "GIT_PAGER" ""))
 
-(use-package magit-libgit
-  :after magit
-  :if module-file-suffix
-  :ensure t)
-
 (use-package transient
   :defer t
   :ensure t
