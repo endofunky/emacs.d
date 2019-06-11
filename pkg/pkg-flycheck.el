@@ -51,12 +51,15 @@
              (setq ef-flycheck-last-file-buffer nil)
              (ef-flycheck-close-window))
             ((and buffer-file-name
+                  (not (eq major-mode 'exwm-mode))
                   (not (minibufferp current))
                   (not (eq ef-flycheck-last-file-buffer
                            current))
                   ef-flycheck-may-toggle)
              (setq ef-flycheck-last-file-buffer current)
              (ef-flycheck-toggle-window-maybe)))))
+
+  (add-hook 'after-change-major-mode-hook 'ef-flycheck-post-command-hook)
 
   (ef-add-hook minibuffer-setup-hook :fn ef-flycheck-minibuffer-setup-hook
     (setq ef-flycheck-may-toggle nil))
