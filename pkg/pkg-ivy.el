@@ -34,7 +34,7 @@
   (global-set-key (kbd "M-y") 'counsel-yank-pop)
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
   (evil-define-key 'normal global-map ",?" 'counsel-descbinds)
-  (evil-define-key 'normal global-map ",s" 'switch-to-buffer))
+  (evil-define-key 'normal global-map ",s" 'counsel-switch-buffer))
 
 (use-package swiper
   :after ivy
