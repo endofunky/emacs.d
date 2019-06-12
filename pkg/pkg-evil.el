@@ -41,6 +41,11 @@
   (define-key evil-normal-state-map ",kaob" 'ef-kill-all-other-buffers)
   (define-key evil-normal-state-map ",kb" 'kill-this-buffer)
 
+  (global-set-key (kbd "M-h") #'evil-window-left)
+  (global-set-key (kbd "M-j") #'evil-window-down)
+  (global-set-key (kbd "M-k") #'evil-window-up)
+  (global-set-key (kbd "M-l") #'evil-window-right)
+
   (defun ef-kill-buffer-or-delete-window ()
     "If more than one window is open, delete the current window, otherwise kill current buffer"
     (interactive)
