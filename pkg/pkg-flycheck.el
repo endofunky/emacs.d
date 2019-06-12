@@ -29,7 +29,7 @@
         (delete-window win)
       (flycheck-list-errors)))
 
-  (evil-define-key 'normal flycheck-mode-map ",E" #'ef-flycheck-toggle-errors))
+  (define-key flycheck-mode-map (kbd "M-e") #'ef-flycheck-toggle-errors))
 
 (use-package flycheck-color-mode-line
   :ensure t
