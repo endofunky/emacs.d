@@ -32,6 +32,8 @@
      (,(kbd "<XF86AudioMicMute>") . pulseaudio-control-toggle-current-source-mute)
      (,(kbd "<XF86AudioLowerVolume>") . pulseaudio-control-decrease-volume)
      (,(kbd "<XF86AudioRaiseVolume>") . pulseaudio-control-increase-volume)
+     (,(kbd "<XF86MonBrightnessDown>") . backlight-dec)
+     (,(kbd "<XF86MonBrightnessUp>") . backlight-inc)
      (,(kbd "C-M-l") . ef-exwm-workspace-next)
      (,(kbd "C-M-h") . ef-exwm-workspace-prev)
      (,(kbd "<print>") . (ef-wrap-shell-command "scrot -e 'mv $f ~/media/images/'"))
@@ -83,6 +85,6 @@
 (use-package backlight
   :ensure t
   :commands (backlight-inc
-             backlight-dev))
+             backlight-dec))
 
 (provide 'pkg-exwm)
