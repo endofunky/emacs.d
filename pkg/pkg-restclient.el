@@ -1,3 +1,5 @@
+(require 'pkg-shackle)
+
 (use-package restclient
   :mode "\\.rest$"
   :commands (restclient-mode)

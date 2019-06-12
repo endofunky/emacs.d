@@ -1,3 +1,5 @@
+(require 'pkg-shackle)
+
 (use-package org
   :defer t
   :ensure org-plus-contrib
