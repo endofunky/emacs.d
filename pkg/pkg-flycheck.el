@@ -23,28 +23,18 @@
 
   (global-flycheck-mode t)
 
-  (defvar ef-flycheck-may-toggle t)
-
-  (ef-add-hook (post-command-hook
-                buffer-list-update-hook
-                after-change-major-mode-hook)
-    :fn ef-flycheck-post-command-hook
-    (when (and ef-flycheck-may-toggle
-               (not flycheck-current-errors)
-               (not (minibufferp (current-buffer)))
-               (get-buffer flycheck-error-list-buffer))
-      (delete-windows-on flycheck-error-list-buffer)))
-
-  (ef-add-hook (flycheck-before-syntax-check-hook
-                flycheck-after-syntax-check-hook)
-    (when flycheck-current-errors
+  (defun ef-flycheck-toggle-errors ()
+    (interactive)
+    (if-let ((win (get-buffer-window flycheck-error-list-buffer)))
+        (delete-window win)
       (flycheck-list-errors)))
 
-  (ef-add-hook minibuffer-setup-hook :fn ef-flycheck-minibuffer-setup-hook
-    (setq ef-flycheck-may-toggle nil))
+  (evil-define-key 'normal flycheck-mode-map ",E" #'ef-flycheck-toggle-errors))
 
-  (ef-add-hook minibuffer-exit-hook :fn ef-flycheck-minibuffer-exit-hook
-    (setq ef-flycheck-may-toggle t)))
+(use-package flycheck-color-mode-line
+  :ensure t
+  :commands flycheck-color-mode-line-mode
+  :hook (flycheck-mode . flycheck-color-mode-line-mode))
 
 (use-package pkg-info
   :after flycheck
