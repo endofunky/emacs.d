@@ -9,14 +9,12 @@
     (interactive)
     (when (< (exwm-workspace--position exwm-workspace--current)
              (- (exwm-workspace--count) 1))
-      (ef-flycheck-close-window)
       (exwm-workspace-switch
        (+ (exwm-workspace--position exwm-workspace--current) 1))))
 
   (defun ef-exwm-workspace-prev ()
     (interactive)
     (when (> (exwm-workspace--position exwm-workspace--current) 0)
-      (ef-flycheck-close-window)
       (exwm-workspace-switch
        (- (exwm-workspace--position exwm-workspace--current) 1))))
 
