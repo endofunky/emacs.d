@@ -16,7 +16,7 @@
   (flycheck-navigation-minimum-level 'error)
   (flycheck-syntax-check-buffer)
   :config
-  (ef-shackle '("*Flycheck errors*" :align below :size .1 :popup t :no-select t))
+  (ef-shackle `(,flycheck-error-list-buffer :align below :size .1 :popup t :no-select t))
 
   (defun flycheck-may-use-echo-area-p ()
     nil)
