@@ -12,6 +12,7 @@
                    (format "DejaVu Sans Mono-%s" (string-trim (ef-read-file file)))
                  "DejaVu Sans Mono-12")))
     (add-to-list 'default-frame-alist `(font .  ,font))
+    (set-face-attribute 'default t :font font)
     (set-frame-font font))
 
   (blink-cursor-mode -1)
