@@ -5,6 +5,9 @@
   (exwm-input-line-mode-passthrough t)
   (exwm-workspace-number 6)
   :config
+  (require 'exwm-randr)
+  (exwm-randr-enable)
+
   (defun ef-exwm-workspace-next ()
     (interactive)
     (when (< (exwm-workspace--position exwm-workspace--current)
