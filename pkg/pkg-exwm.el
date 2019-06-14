@@ -41,10 +41,10 @@
      (,(kbd "M-<print>") . (ef-wrap-shell-command "scrot -s -e 'mv $f ~/media/images/'"))))
 
   (evil-define-key 'normal global-map
-    ",eL" (ef-wrap-shell-command "i3lock -e -c 000000 --nofork")
-    ",ef" (ef-wrap-shell-command "google-chrome-stable")
-    ",es" (ef-wrap-shell-command "spotify")
-    ",ex" (ef-wrap-shell-command "xterm"))
+    ",xL" (ef-wrap-shell-command "i3lock -e -c 000000 --nofork")
+    ",xf" (ef-wrap-shell-command "google-chrome-stable")
+    ",xs" (ef-wrap-shell-command "spotify")
+    ",xx" (ef-wrap-shell-command "xterm"))
 
   (evil-define-key 'normal exwm-mode-map (kbd "i") 'exwm-input-release-keyboard)
 
