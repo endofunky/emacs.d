@@ -35,6 +35,7 @@
      (,(kbd "<XF86AudioRaiseVolume>") . pulseaudio-control-increase-volume)
      (,(kbd "<XF86MonBrightnessDown>") . backlight-dec)
      (,(kbd "<XF86MonBrightnessUp>") . backlight-inc)
+     (,(kbd "<XF86Display>") . ef-toggle-display)
      (,(kbd "C-M-l") . ef-exwm-workspace-next)
      (,(kbd "C-M-h") . ef-exwm-workspace-prev)
      (,(kbd "<print>") . (ef-wrap-shell-command "scrot -e 'mv $f ~/media/images/'"))
@@ -85,7 +86,16 @@
 
 (use-package backlight
   :ensure t
+  :custom
+  (backlight-small-inc-amount 2)
   :commands (backlight-inc
-             backlight-dec))
+             backlight-dec
+             ef-toggle-display)
+  :config
+  (defun ef-toggle-display ()
+    (interactive)
+    (if (eq 0 backlight--current-brightness)
+        (backlight--set-brightness backlight--max-brightness)
+      (backlight--set-brightness 0))))
 
 (provide 'pkg-exwm)
