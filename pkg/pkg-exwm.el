@@ -1,6 +1,7 @@
 (use-package exwm
   :demand t
-  :if (equal (system-name) "xor")
+  :if (or (equal (system-name) "xor")
+          (equal (system-name) "jnz"))
   :custom
   (exwm-input-line-mode-passthrough t)
   (exwm-workspace-number 6)
