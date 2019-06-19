@@ -1,4 +1,5 @@
 (use-package exwm
+  :ensure t
   :demand t
   :if (or (equal (system-name) "xor")
           (equal (system-name) "jnz"))
