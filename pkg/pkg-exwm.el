@@ -5,10 +5,13 @@
           (equal (system-name) "jnz"))
   :custom
   (exwm-input-line-mode-passthrough t)
+  (exwm-systemtray-height 16)
   (exwm-workspace-number 6)
   :config
   (require 'exwm-randr)
+  (require 'exwm-systemtray)
   (exwm-randr-enable)
+  (exwm-systemtray-enable)
 
   (defun ef-exwm-workspace-next ()
     (interactive)
