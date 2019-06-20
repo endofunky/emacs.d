@@ -57,6 +57,8 @@
     (when (executable-find "cat")
       (eshell/export "GIT_PAGER=cat")
       (eshell/export "PAGER=cat"))
+    (define-key eshell-mode-map (kbd "C-M-l") nil)
+    (define-key eshell-mode-map (kbd "C-M-h") nil)
     (evil-define-key 'normal eshell-mode-map (kbd "C-p") 'eshell-previous-prompt)
     (evil-define-key 'normal eshell-mode-map (kbd "C-n") 'eshell-next-prompt)
     (evil-define-key 'insert eshell-mode-map (kbd "C-p") 'eshell-previous-matching-input-from-input)
