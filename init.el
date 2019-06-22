@@ -29,9 +29,6 @@
 (customize-set-variable 'use-package-enable-imenu-support t)
 (require 'use-package)
 
-;; Ensure the :diminish keyword passed to use-package gets respected
-(use-package diminish :ensure t)
-
 (if (ef-init-debug-p)
     (setq-default use-package-verbose t))
 

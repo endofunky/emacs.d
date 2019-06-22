@@ -1,6 +1,5 @@
 (use-package editorconfig
   :ensure t
-  :diminish editorconfig-mode
   :commands editorconfig-mode
   :mode ("\\.editorconfig\\'" . conf-unix-mode)
   :preface

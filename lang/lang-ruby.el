@@ -71,8 +71,7 @@
 
 (use-package ruby-interpolation
   :after ruby-mode
-  :ensure t
-  :diminish ruby-interpolation-mode)
+  :ensure t)
 
 (use-package rake
   :commands rake
@@ -82,7 +81,6 @@
 
 (use-package ruby-test-mode
   :after ruby-mode
-  :diminish ruby-test-mode
   :ensure t
   :config
   (add-hook 'ruby-mode-hook 'ruby-test-mode)
@@ -118,7 +116,6 @@ current buffer's file, if it exists"
 
 (use-package projectile-rails
   :after ruby-mode
-  :diminish projectile-rails-mode
   :ensure t
   :init
   (defun ef--projectile-rails-console ()
@@ -132,7 +129,6 @@ current buffer's file, if it exists"
 (use-package ruby-tools
   :after ruby-mode
   :ensure t
-  :diminish ruby-tools-mode
   :init
   (add-hook 'ruby-mode-hook 'ruby-tools-mode)
   :config

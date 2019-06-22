@@ -89,7 +89,6 @@
 (use-package elisp-slime-nav
   :defer t
   :ensure t
-  :diminish elisp-slime-nav-mode
   :commands (elisp-slime-nav-mode)
   :init
   (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook lisp-interaction-mode-hook))
@@ -115,7 +114,6 @@
   (ef-shackle '("*Package-Lint*" :align bottom :size .4 :popup t :select t)))
 
 (use-package eldoc
-  :diminish eldoc-mode
   :custom
   (eldoc-idle-delay 0.5)
   :config
@@ -159,7 +157,6 @@
 
 (use-package lispy
   :ensure t
-  :diminish lispy-mode
   :hook ((common-lisp-mode . lispy-mode)
          (emacs-lisp-mode . lispy-mode)
          (scheme-mode . lispy-mode)
@@ -175,7 +172,6 @@
 
 (use-package lispyville
   :ensure t
-  :diminish lispyville-mode
   :hook (lispy-mode . lispyville-mode)
   :config
   (lispyville-set-key-theme

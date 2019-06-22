@@ -1,6 +1,5 @@
 (use-package ivy
   :ensure t
-  :diminish ivy-mode
   :custom
   (ivy-fixed-height-minibuffer t)
   (ivy-format-function #'ivy-format-function-line)
@@ -25,7 +24,6 @@
 (use-package counsel
   :after ivy
   :ensure t
-  :diminish counsel-mode
   :config
   (counsel-mode t)
   (global-set-key (kbd "M-x") 'counsel-M-x)

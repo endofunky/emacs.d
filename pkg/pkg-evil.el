@@ -143,7 +143,6 @@
 (use-package undo-tree
   :after evil
   :ensure t
-  :diminish undo-tree-mode
   :custom
   (undo-tree-visualizer-timestamps t)
   (undo-tree-visualizer-lazy-drawing nil)

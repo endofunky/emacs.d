@@ -1,5 +1,4 @@
 (use-package company
-  :diminish company-mode
   :ensure t
   :custom
   (company-auto-complete #'ef-company-visible-and-explicit-action-p)

@@ -6,7 +6,6 @@
              magit-log-all
              magit-log
              magit-status)
-  :diminish auto-revert-mode
   :custom
   (magit-completing-read-function 'ivy-completing-read)
   (magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))

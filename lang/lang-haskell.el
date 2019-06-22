@@ -8,18 +8,15 @@
 
 (use-package haskell-doc
   :after haskell-mode
-  :diminish haskell-doc-mode
   :hook (haskell-mode . haskell-doc-mode))
 
 (use-package haskell-indent
   :after haskell-mode
-  :diminish haskell-indent-mode
   :hook (haskell-mode . turn-on-haskell-indent))
 
 (use-package intero
   :ensure t
   :commands intero-mode
-  :diminish intero-mode
   :init
   (add-hook 'haskell-mode-hook #'intero-mode)
   :config

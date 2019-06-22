@@ -1,7 +1,6 @@
 (require 'core-lib)
 
 (use-package abbrev
-  :diminish abbrev-mode
   :defer t)
 
 (use-package auth-source
@@ -60,7 +59,6 @@
 
 (use-package hideshow
   :commands hs-minor-mode
-  :diminish hs-minor-mode
   :hook (prog-mode . hs-minor-mode))
 
 (use-package minibuffer
@@ -133,7 +131,6 @@
            term-color-white])))
 
 (use-package whitespace
-  :diminish (whitespace-mode global-whitespace-mode)
   :config
   (global-whitespace-mode 1)
   (setq-default show-trailing-whitespace nil)

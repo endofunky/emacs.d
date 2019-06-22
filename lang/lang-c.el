@@ -52,7 +52,6 @@
 (use-package modern-cpp-font-lock
   :ensure t
   :after c++-mode
-  :diminish modern-c++-font-lock-mode
   :config
   (modern-c++-font-lock-global-mode t))
 
