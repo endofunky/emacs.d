@@ -40,8 +40,8 @@
      (,(kbd "<XF86Display>") . ef-toggle-display)
      (,(kbd "C-M-l") . ef-exwm-workspace-next)
      (,(kbd "C-M-h") . ef-exwm-workspace-prev)
-     (,(kbd "<print>") . (ef-wrap-shell-command "scrot -e 'mv $f ~/media/images/'"))
-     (,(kbd "M-<print>") . (ef-wrap-shell-command "scrot -s -e 'mv $f ~/media/images/'"))))
+     (,(kbd "<print>") . ,(ef-wrap-shell-command "scrot -e 'mv $f ~/media/images/'"))
+     (,(kbd "M-<print>") . ,(ef-wrap-shell-command "scrot -s -e 'mv $f ~/media/images/'"))))
 
   (evil-define-key 'normal global-map
     ",xL" (ef-wrap-shell-command "i3lock -e -c 000000 --nofork")
