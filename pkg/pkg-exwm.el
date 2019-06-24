@@ -82,8 +82,8 @@
 (use-package pulseaudio-control
   :ensure t
   :custom
-  (pulseaudio-control-default-sink "@DEFAULT_SINK@")
-  (pulseaudio-control-default-source "@DEFAULT_SOURCE@")
+  (pulseaudio-control-default-sink "0")
+  (pulseaudio-control-default-source "1")
   :commands (pulseaudio-control-increase-volume
              pulseaudio-control-decrease-volume
              pulseaudio-control-toggle-current-source-mute
