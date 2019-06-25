@@ -17,6 +17,7 @@
   (ef-shackle '(" *undo-tree*" :align below :size .4 :popup t :select t)
               '("*company-documentation*" :align below :size .4 :popup t :noselect t)
               '("*compilation*" :align below :size .4 :popup t :noselect t)
+              '(compilation-mode :align below :size .4 :popup t :noselect t)
               '("*Checkdoc Status*" :align below :size .3 :popup t :no-select t)
               '("*Completions*" :align below :size .3 :popup t :no-select t)
               '("*Warnings*" :align below :size .3 :popup t :select t)
