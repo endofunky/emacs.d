@@ -20,4 +20,9 @@
   (evil-define-key 'normal nix-mode-map ",r" 'ef-repl-nix)
   (evil-define-key 'normal nix-repl-mode-map ",r" 'ef-repl-nix))
 
+(use-package company-nixos-options
+  :ensure t
+  :config
+  (add-to-list 'company-backends 'company-nixos-options))
+
 (provide 'lang-nix)
