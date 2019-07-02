@@ -6,6 +6,8 @@
   :custom
   (exwm-input-line-mode-passthrough t)
   (exwm-workspace-number 6)
+  (exwm-workspace-show-all-buffers t)
+  (exwm-layout-show-all-buffers t)
   :config
   (require 'exwm-randr)
   (exwm-randr-enable)
