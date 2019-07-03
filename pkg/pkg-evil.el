@@ -24,7 +24,9 @@
     "Kill all other buffers except for special buffers."
     (interactive)
     (dolist (buf (delq (current-buffer) (buffer-list)))
-      (unless (string-prefix-p "*" (string-trim (buffer-name buf)))
+      (unless (or (eq 'exwm-mode (with-current-buffer buf
+                                   major-mode))
+                  (string-prefix-p "*" (string-trim (buffer-name buf))))
         (if-let ((win (get-buffer-window buf)))
             (delete-window win))
         (kill-buffer buf))))
