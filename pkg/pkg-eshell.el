@@ -73,23 +73,6 @@
                                  (delete-dups
                                   (ring-elements eshell-history-ring)))))
 
-  (defun ef-eshell-prompt-vc-info ()
-    (ignore-errors
-      (when-let* ((path (projectile-project-root))
-                  (backend (vc-responsible-backend path)))
-        (vc-file-clearprops path)
-        (let* ((ms (vc-call-backend backend 'mode-line-string path))
-               (mss (split-string ms "[\\-\\:\\@\\!\\?]"))
-               (vc (downcase (car mss)))
-               (branch (car (cdr mss))))
-          (set-text-properties 0 (length branch) nil branch)
-          (concat
-           "("
-           (propertize vc 'face 'font-lock-keyword-face)
-           "|"
-           (propertize branch 'face 'font-lock-keyword-face)
-           ")")))))
-
   (defun ef-eshell-prompt-sign ()
     (let ((sym (if (= (user-uid) 0) "#" "λ")))
       (concat " " (propertize sym 'face `(:foreground "white")) " ")))
@@ -103,7 +86,6 @@
 
   (defun ef-eshell-prompt ()
     (concat (ef-eshell-prompt-path)
-            (ef-eshell-prompt-vc-info)
             (ef-eshell-prompt-sign)))
 
   ;; Prefer system versions, if available
