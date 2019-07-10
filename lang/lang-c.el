@@ -4,6 +4,11 @@
   (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.hpp$" . c++-mode))
   :config
+  (define-key c-mode-map (kbd "C-M-l") nil)
+  (define-key c-mode-map (kbd "C-M-h") nil)
+  (define-key c++-mode-map (kbd "C-M-l") nil)
+  (define-key c++-mode-map (kbd "C-M-h") nil)
+
   (ef-add-hook (c++-mode-hook c-mode-hook) :fn ef-cc-mode-hook
     (sp-with-modes '(c-mode c++-mode cc-mode)
       (sp-local-pair "#include <" ">")
