@@ -5,8 +5,10 @@
   (evil-define-key 'normal rust-mode-map ",cr" #'rust-run)
   (evil-define-key 'normal rust-mode-map ",cc" #'rust-compile)
   (evil-define-key 'normal rust-mode-map ",tt" #'rust-test)
+  (evil-define-key 'normal rust-mode-map (kbd ", TAB") #'rust-format-buffer)
   (ef-add-hook rust-mode-hook
     (direnv-update-environment)
+    (rust-enable-format-on-save)
     (sp-with-modes '(rust-mode)
       (sp-local-pair "[" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
       (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
