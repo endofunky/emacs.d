@@ -68,21 +68,17 @@
     (add-hook 'before-save-hook 'bazel-format nil t)))
 
 (use-package ccls
-  :after (c-mode c++-mode objs-mode)
   :ensure t
-  :preface
-  (defconst ef-ccls-location
-    (locate-file "ccls" exec-path))
-  :if ef-ccls-location
-  :init
-  (ef-add-hook (c-mode c++-mode objc-mode) :fn ef-c-mode-lsp-hook :interactive t
-    (require 'ccls)
-    (if (or (file-exists-p (expand-file-name "compile_commands.json" (projectile-project-root)))
-            (file-exists-p (expand-file-name ".ccls" (projectile-project-root))))
-        (lsp)))
   :custom
-  (ccls-executable ef-ccls-location)
-  (ccls-sem-highlight-method nil))
+  (ccls-sem-highlight-method nil)
+  :config
+  (ef-add-hook (c-mode-hook c++-mode-hook objc-mode-hook) :fn ef-c-mode-lsp-hook :interactive t
+    (direnv-update-directory-environment)
+    (require 'ccls)
+    (if (and (file-exists-p (expand-file-name "compile_commands.json" (projectile-project-root)))
+             (locate-file "ccls" exec-path))
+        (lsp))))
+
 
 (use-package ruby-style
   :after (cc-mode)
