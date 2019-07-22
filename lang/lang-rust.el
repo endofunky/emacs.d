@@ -1,11 +1,17 @@
 (use-package rust-mode
   :ensure t
-  :hook (rust-mode . lsp)
   :mode "\\.rs\\'"
   :config
   (evil-define-key 'normal rust-mode-map ",cr" #'rust-run)
   (evil-define-key 'normal rust-mode-map ",cc" #'rust-compile)
-  (evil-define-key 'normal rust-mode-map ",tt" #'rust-test))
+  (evil-define-key 'normal rust-mode-map ",tt" #'rust-test)
+  (ef-add-hook rust-mode-hook
+    (direnv-update-environment)
+    (sp-with-modes '(rust-mode)
+      (sp-local-pair "[" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
+      (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
+      (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET"))))
+    (lsp)))
 
 (use-package flycheck-rust
   :ensure t
