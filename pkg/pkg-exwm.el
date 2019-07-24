@@ -40,6 +40,7 @@
      (,(kbd "<XF86MonBrightnessDown>") . backlight-dec)
      (,(kbd "<XF86MonBrightnessUp>") . backlight-inc)
      (,(kbd "<XF86Display>") . ef-toggle-display)
+     (,(kbd "s-q") . kill-this-buffer)
      (,(kbd "C-M-l") . ef-exwm-workspace-next)
      (,(kbd "C-M-h") . ef-exwm-workspace-prev)
      (,(kbd "<print>") . ,(ef-wrap-shell-command "scrot -e 'mv $f ~/media/images/'"))
