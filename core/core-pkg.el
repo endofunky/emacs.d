@@ -49,6 +49,10 @@
     (setq-local bidi-display-reordering nil)
     (visual-line-mode t)))
 
+(use-package files
+  :config
+  (setq save-silently t))
+
 (use-package fringe
   :config
   (set-fringe-mode 0))
