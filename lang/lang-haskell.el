@@ -10,8 +10,7 @@
   :after haskell-mode)
 
 (use-package haskell-doc
-  :after haskell-mode
-  :hook (haskell-mode . haskell-doc-mode))
+  :after haskell-mode)
 
 (use-package intero
   :ensure t
