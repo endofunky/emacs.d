@@ -21,4 +21,9 @@
   (evil-define-key 'normal alchemist-mode-map ",tt" 'alchemist-mix-test-file)
   (evil-define-key 'normal alchemist-iex-mode-map ",r" 'ef-repl-alchemist))
 
+(use-package flycheck-mix
+  :ensure t
+  :commands flycheck-mix-setup
+  :init (add-hook 'elixir-mode-hook 'flycheck-mix-setup))
+
 (provide 'lang-elixir)
