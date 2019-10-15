@@ -15,7 +15,7 @@
   (ef-shackle
    '("*alchemist help*" :align bottom :size .4 :popup t :select t)
    '("*alchemist-refcard*" :align bottom :size .4 :popup t :select t)
-   '("*alchemist test report*" :align bottom :size .4 :popup t :select t))
+   '("*alchemist test report*" :align bottom :size .4 :popup t :select nil))
 
   (ef-define-repl ef-repl-alchemist "*Alchemist-IEx*" 'alchemist-iex-project-run)
   (evil-define-key 'normal alchemist-mode-map ",m" 'alchemist-help)
