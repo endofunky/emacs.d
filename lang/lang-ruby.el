@@ -45,11 +45,15 @@
 
   (ef-add-hook ruby-mode-hook :interactive t
     (require 'smartparens-ruby)
+
     (sp-with-modes '(ruby-mode)
       (sp-local-pair "[" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
       (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
       (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET"))))
-    (if (file-exists-p (expand-file-name ".solargraph.yml" (projectile-project-root)))
+
+    (direnv-update-environment)
+
+    (if (locate-file "solargraph" exec-path exec-suffixes 1)
         (lsp)))
 
   (ef-add-hook inf-ruby-mode-hook
