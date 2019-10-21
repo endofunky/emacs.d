@@ -99,30 +99,7 @@
 
   ;; Unset some annoying keys
   (define-key evil-motion-state-map "K" nil)
-  (define-key evil-normal-state-map "K" nil)
-
-  (defvar ef-toggle-scratch--prev-buffer nil)
-
-  (defun ef-toggle-scratch--goto-scratch ()
-    (if-let* ((scratch-buffer (get-buffer "*scratch*")))
-        (progn
-          (setq ef-toggle-scratch--prev-buffer (current-buffer))
-          (switch-to-buffer scratch-buffer))
-      (message "No *scratch* buffer found.")))
-
-  (defun ef-toggle-scratch--goto-prev-buffer ()
-    (if (buffer-live-p ef-toggle-scratch--prev-buffer)
-        (switch-to-buffer ef-toggle-scratch--prev-buffer)
-      (message "No buffer to switch back to.")))
-
-  (defun ef-toggle-scratch ()
-    "Toggle between *scratch* buffer and the current buffer."
-    (interactive)
-    (if (equal (buffer-name) "*scratch*")
-        (ef-toggle-scratch--goto-prev-buffer)
-      (ef-toggle-scratch--goto-scratch)))
-
-  (define-key evil-normal-state-map ",S" 'ef-toggle-scratch))
+  (define-key evil-normal-state-map "K" nil))
 
 (use-package evil-nerd-commenter
   :after evil

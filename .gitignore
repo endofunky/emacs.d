@@ -2,6 +2,7 @@
 .cache
 .lsp-session-v1
 .org-id-locations
+.persistent-scratch
 .python-environments/
 ac-comphist.dat
 anaconda-mode/
