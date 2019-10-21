@@ -35,17 +35,6 @@
 ;; Show columns in mode-line
 (column-number-mode t)
 
-;; Never delete the scratch buffer
-(defun ef-get-scratch-buffer-create ()
-  "Get *scratch* buffer or create it."
-  (unless (get-buffer "*scratch*")
-    (with-current-buffer (generate-new-buffer "*scratch*")
-      (insert initial-scratch-message)
-      (set-buffer-modified-p nil)
-      (funcall initial-major-mode))))
-
-(run-with-idle-timer 1 t 'ef-get-scratch-buffer-create)
-
 ;; Empty scratch buffer by default
 (setq initial-scratch-message "")
 
