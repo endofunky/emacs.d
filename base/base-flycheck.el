@@ -1,4 +1,4 @@
-(require 'pkg-shackle)
+(require 'base-shackle)
 
 (use-package flycheck
   :ensure t
@@ -40,4 +40,4 @@
   :after flycheck
   :ensure)
 
-(provide 'pkg-flycheck)
+(provide 'base-flycheck)

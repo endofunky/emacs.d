@@ -34,7 +34,7 @@
 
 (add-to-list 'load-path (expand-file-name "vendor" user-emacs-directory))
 
-(dolist (path '("core" "pkg" "lang" "private"))
+(dolist (path '("core" "base" "lang" "private"))
   (let ((path (expand-file-name path user-emacs-directory)))
     (add-to-list 'load-path path)
     (dolist (file (directory-files path nil "\\.el$"))

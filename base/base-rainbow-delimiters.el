@@ -5,4 +5,4 @@
   ;; break diffs in magit.
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
-(provide 'pkg-rainbow-delimiters)
+(provide 'base-rainbow-delimiters)

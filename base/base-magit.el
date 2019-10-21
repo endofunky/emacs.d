@@ -76,4 +76,4 @@
   (evil-define-key 'visual magit-status-mode-map "q" #'ef-magit-quit-session))
 
 
-(provide 'pkg-magit)
+(provide 'base-magit)

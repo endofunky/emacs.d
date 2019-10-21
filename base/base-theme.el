@@ -58,4 +58,4 @@
   (set-face-attribute 'magit-diff-removed-highlight nil :background (ef-color :base01) :foreground (ef-color :base08))
   (set-face-attribute 'magit-diff-context-highlight nil :background (ef-color :base01)))
 
-(provide 'pkg-theme)
+(provide 'base-theme)

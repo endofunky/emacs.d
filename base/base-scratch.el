@@ -30,4 +30,4 @@
 
   (define-key evil-normal-state-map ",S" 'ef-toggle-scratch))
 
-(provide 'pkg-scratch)
+(provide 'base-scratch)

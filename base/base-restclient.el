@@ -1,4 +1,4 @@
-(require 'pkg-shackle)
+(require 'base-shackle)
 
 (use-package restclient
   :mode "\\.rest$"
@@ -22,4 +22,4 @@
   (add-to-list 'company-backend 'company-restclient)
   (add-hook 'restclient-mode-hook 'company-mode-on))
 
-(provide 'pkg-restclient)
+(provide 'base-restclient)

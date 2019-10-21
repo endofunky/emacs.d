@@ -29,4 +29,4 @@
   (defadvice xref-goto-xref (after my activate)
     (delete-window (get-buffer-window (get-buffer "*xref*")))))
 
-(provide 'pkg-lsp)
+(provide 'base-lsp)

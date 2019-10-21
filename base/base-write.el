@@ -11,4 +11,4 @@
   (writegood-mode t)
   (visual-line-mode t))
 
-(provide 'pkg-write)
+(provide 'base-write)

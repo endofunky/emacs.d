@@ -17,4 +17,4 @@
     (editorconfig-mode 1)
     (editorconfig-apply)))
 
-(provide 'pkg-editorconfig)
+(provide 'base-editorconfig)

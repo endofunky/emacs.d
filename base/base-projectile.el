@@ -15,4 +15,4 @@
 
   (projectile-global-mode t))
 
-(provide 'pkg-projectile)
+(provide 'base-projectile)

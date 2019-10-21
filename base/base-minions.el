@@ -7,4 +7,4 @@
   :config
   (minions-mode))
 
-(provide 'pkg-minions)
+(provide 'base-minions)

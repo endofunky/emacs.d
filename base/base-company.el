@@ -79,4 +79,4 @@
     (setq-local company-frontends '(company-preview-frontend))
     (company-mode t)))
 
-(provide 'pkg-company)
+(provide 'base-company)

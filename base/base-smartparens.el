@@ -39,4 +39,4 @@
     (forward-line -1)
     (indent-according-to-mode)))
 
-(provide 'pkg-smartparens)
+(provide 'base-smartparens)

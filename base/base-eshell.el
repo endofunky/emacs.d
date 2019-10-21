@@ -186,4 +186,4 @@
   :init
   (add-hook 'eshell-mode-hook #'fish-completion-mode))
 
-(provide 'pkg-eshell)
+(provide 'base-eshell)

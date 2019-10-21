@@ -9,4 +9,4 @@
     (direnv-update-directory-environment)
     (setq eshell-path-env (getenv "PATH"))))
 
-(provide 'pkg-direnv)
+(provide 'base-direnv)

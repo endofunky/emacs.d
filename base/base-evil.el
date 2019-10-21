@@ -143,4 +143,4 @@
   ;; Overrides
   (evil-define-key '(normal visual) dired-mode-map "q" #'kill-this-buffer))
 
-(provide 'pkg-evil)
+(provide 'base-evil)

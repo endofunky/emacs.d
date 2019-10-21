@@ -53,4 +53,4 @@ buffer."
                 (when (fboundp 'evil-change-state)
                   (evil-change-state 'normal))))))))
 
-(provide 'pkg-shackle)
+(provide 'base-shackle)

@@ -1,4 +1,4 @@
-(require 'pkg-shackle)
+(require 'base-shackle)
 
 (use-package org
   :defer t
@@ -163,4 +163,4 @@
   :after demo-it
   :ensure t)
 
-(provide 'pkg-org)
+(provide 'base-org)
