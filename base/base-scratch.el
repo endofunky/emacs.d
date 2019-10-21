@@ -1,8 +1,11 @@
 (use-package persistent-scratch
   :ensure t
   :defer 1
+  :custom
+  (persistent-scratch-autosave-interval 5)
   :config
-  (persistent-scratch-setup-default))
+  (persistent-scratch-setup-default)
+  (persistent-scratch-autosave-mode t))
 
 (use-package evil
   :defer t
