@@ -33,8 +33,8 @@
 
   (define-key evil-normal-state-map ",S" 'ef-toggle-scratch))
 
+;; Never delete the scratch buffer
 (ef-add-hook after-init-hook :fn ef-init-scratch-timer-hook
-  ;; Never delete the scratch buffer
   (defun ef-get-scratch-buffer-create ()
     "Get *scratch* buffer or create it."
     (unless (get-buffer "*scratch*")
