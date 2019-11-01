@@ -65,6 +65,9 @@
   :commands hs-minor-mode
   :hook (prog-mode . hs-minor-mode))
 
+(use-package ispell
+  :hook (text-mode . ispell-minor-mode))
+
 (use-package minibuffer
   :custom
   (enable-recursive-minibuffers t)
