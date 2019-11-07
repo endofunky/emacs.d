@@ -3,6 +3,8 @@
   :defer 1
   :custom
   (persistent-scratch-autosave-interval 5)
+  :hook
+  (after-init . persistent-scratch-restore)
   :config
   (persistent-scratch-setup-default)
   (persistent-scratch-autosave-mode t))
