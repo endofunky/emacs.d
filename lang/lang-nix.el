@@ -20,4 +20,11 @@
   (evil-define-key 'normal nix-mode-map ",r" 'ef-repl-nix)
   (evil-define-key 'normal nix-repl-mode-map ",r" 'ef-repl-nix))
 
+(use-package nix-update
+  :ensure t
+  :after nix-mode
+  :commands nix-update-fetch
+  :init
+  (evil-define-key 'normal nix-mode-map ",cu" #'nix-update-fetch))
+
 (provide 'lang-nix)
