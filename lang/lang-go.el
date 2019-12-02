@@ -15,6 +15,11 @@
   (add-hook 'before-save-hook #'gofmt-before-save)
 
   (ef-add-hook go-mode-hook
+    (direnv-update-environment)
+
+    (if (locate-file "gopls" exec-path exec-suffixes 1)
+        (lsp))
+
     (if (not (string-match "go" compile-command))
         (set (make-local-variable 'compile-command)
              "go build -v && go vet"))))
