@@ -58,4 +58,9 @@ HOOKS is `some-hook'. Usage:
     (insert-file-contents filename)
     (buffer-string)))
 
+(defun ef-insert-unix-time ()
+  "Insert UNIX timestamp at point."
+  (interactive)
+  (insert (format-time-string "%s")))
+
 (provide 'core-lib)
