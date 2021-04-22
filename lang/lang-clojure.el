@@ -48,6 +48,13 @@
     (cider-ns-reload-all)
     (cider-test-run-ns-tests nil))
 
+  (defun ef-cider-run-all-tests ()
+    "Re-evaluate buffer and run tests for namespace"
+    (interactive)
+    (cider-eval-buffer)
+    (cider-ns-reload-all)
+    (cider-test-run-project-tests nil))
+
   (evil-define-key 'normal cider-mode-map ",," 'cider-find-var)
   (evil-define-key 'normal cider-mode-map ",." 'cider-pop-back)
   (evil-define-key 'normal cider-mode-map ",eb" 'cider-eval-buffer)
@@ -58,6 +65,7 @@
   (evil-define-key 'normal cider-mode-map ",ns" 'cider-repl-set-ns)
   (evil-define-key 'normal cider-mode-map ",tt" 'ef-cider-run-ns-tests)
   (evil-define-key 'normal cider-mode-map ",tp" 'ef-cider-run-test)
+  (evil-define-key 'normal cider-mode-map ",ta" 'ef-cider-run-all-tests)
   (evil-define-key 'normal cider-test-report-mode-map "q" 'cider-popup-buffer-quit-function)
   (evil-define-key 'normal cider-stacktrace-mode-map "q" 'cider-popup-buffer-quit-function)
 
