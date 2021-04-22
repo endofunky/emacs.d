@@ -25,6 +25,8 @@
   (cider-repl-display-help-banner nil)
   (cider-repl-use-pretty-printing t)
   :config
+  (require 'cider-ns)
+
   (add-hook 'cider-mode-hook #'eldoc-mode)
   (add-hook 'cider-repl-mode-hook #'eldoc-mode)
 
