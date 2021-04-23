@@ -10,13 +10,6 @@
   :config
   (evil-define-key 'normal lsp-mode-map ",," 'lsp-find-definition))
 
-(use-package company-lsp
-  :commands company-lsp
-  :after (lsp-mode)
-  :ensure t
-  :config
-  (push 'company-lsp company-backends))
-
 (use-package xref
   :defer t
   :after (lsp-mode)
