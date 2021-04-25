@@ -3,9 +3,6 @@
   :mode (("\\.clj\\'" . clojure-mode)
          ("\\.edn$" . clojure-mode))
   :config
-  (setq clojure--prettify-symbols-alist
-        '(("fn" . ?λ)))
-
   (defun ef-cider-jack-in (params)
     "Quit cider if running and jack in again"
     (interactive "P")
