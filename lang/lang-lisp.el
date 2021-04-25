@@ -163,7 +163,6 @@
          (racket-mode . lispy-mode)
          (hy-mode . lispy-mode)
          (lfe-mode . lispy-mode)
-         (cider-mode . lispy-mode)
          (clojure-mode . lispy-mode))
   :config
   (lispy-set-key-theme '(paredit c-digits))

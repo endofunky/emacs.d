@@ -13,7 +13,6 @@
       (cider-quit))
     (cider-jack-in params))
 
-  (add-hook 'clojure-mode-hook 'evil-cleverparens-mode)
   (evil-define-key 'normal clojure-mode-map ",cjq" 'cider-quit)
   (evil-define-key 'normal clojure-mode-map ",cji" 'ef-cider-jack-in))
 
