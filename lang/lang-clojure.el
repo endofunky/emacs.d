@@ -74,4 +74,10 @@
   (evil-define-key 'insert cider-repl-mode-map (kbd "<up>") 'cider-repl-previous-input)
   (evil-define-key 'insert cider-repl-mode-map (kbd "<down>") 'cider-repl-next-input))
 
+(use-package flycheck-clj-kondo
+  :after clojure-mode
+  :ensure t
+  :config
+  (require 'flycheck-clj-kondo))
+
 (provide 'lang-clojure)
