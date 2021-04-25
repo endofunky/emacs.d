@@ -23,6 +23,7 @@
   (cider-prompt-for-symbol nil)
   (cider-repl-display-help-banner nil)
   (cider-repl-use-pretty-printing t)
+  (nrepl-log-message nil)
   :config
   (require 'cider-ns)
 
