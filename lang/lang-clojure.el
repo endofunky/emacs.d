@@ -50,7 +50,7 @@
     (cider-test-run-ns-tests nil))
 
   (defun ef-cider-run-all-tests ()
-    "Re-evaluate buffer and run tests for namespace"
+    "Re-evaluate buffer and run all tests"
     (interactive)
     (cider-eval-buffer)
     (cider-ns-reload-all)
