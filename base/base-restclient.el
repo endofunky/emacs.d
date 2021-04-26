@@ -1,7 +1,8 @@
 (require 'base-shackle)
 
 (use-package restclient
-  :mode "\\.rest$"
+  :mode (("\\.rest\\'" . restclient-mode)
+         ("\\.restclient\\'" . restclient-mode))
   :commands (restclient-mode)
   :ensure t
   :config
