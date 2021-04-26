@@ -19,7 +19,6 @@
   :ensure t
   :after (restclient company)
   :config
-  (add-to-list 'company-backend 'company-restclient)
-  (add-hook 'restclient-mode-hook 'company-mode-on))
+  (add-to-list 'company-backends 'company-restclient))
 
 (provide 'base-restclient)
