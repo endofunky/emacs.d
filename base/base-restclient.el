@@ -8,7 +8,7 @@
   (ef-shackle '("*HTTP Response*" :align bottom :size .4 :popup t :select t)))
 
 (use-package ob-restclient
-  :after org
+  :after (restclient org)
   :ensure t
   :config
   (org-babel-do-load-languages
@@ -17,7 +17,7 @@
 
 (use-package company-restclient
   :ensure t
-  :after restclient
+  :after (restclient company)
   :config
   (add-to-list 'company-backend 'company-restclient)
   (add-hook 'restclient-mode-hook 'company-mode-on))
