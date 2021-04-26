@@ -1,13 +1,13 @@
 (use-package markdown-mode
   :ensure t
-  :mode (("\\.mark$" . gfm-mode)
-         ("\\.markdown$" . gfm-mode)
-         ("\\.md$" . gfm-mode)
-         ("\\.mdown$" . gfm-mode)
-         ("\\.mdt$" . gfm-mode)
-         ("\\.mdwn$" . gfm-mode)
-         ("\\.mkd$" . gfm-mode)
-         ("\\.mkdn$" . gfm-mode))
+  :mode (("\\.mark$" . markdown-mode)
+         ("\\.markdown$" . markdown-mode)
+         ("\\.md$" . markdown-mode)
+         ("\\.mdown$" . markdown-mode)
+         ("\\.mdt$" . markdown-mode)
+         ("\\.mdwn$" . markdown-mode)
+         ("\\.mkd$" . markdown-mode)
+         ("\\.mkdn$" . markdown-mode))
   :custom
   (markdown-hide-urls nil)
   :config
@@ -17,12 +17,11 @@
       (goto-char mb)
       (save-match-data (looking-at "^\\* "))))
 
-  (sp-local-pair 'gfm-mode "'" nil :actions nil)
   (sp-local-pair 'markdown-mode "'" nil :actions nil)
 
-  (ef-add-hook gfm-mode-hook
+  (ef-add-hook markdown-mode-hook
     (turn-on-orgtbl)
-    (sp-with-modes '(gfm-mode)
+    (sp-with-modes '(markdown-mode)
       (sp-local-pair "`" "`"
                      :unless '(sp-point-after-word-p sp-point-at-bol-p)
                      :post-handlers '(("[d1]" "SPC")))
