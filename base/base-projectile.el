@@ -12,6 +12,7 @@
 
   (evil-define-key 'normal global-map ",f" 'ef-projectile-find-file)
   (evil-define-key 'normal global-map ",p" 'projectile-switch-project)
+  (evil-define-key 'normal projectile-mode-map ",l" 'projectile-toggle-between-implementation-and-test)
 
   (projectile-global-mode t))
 
