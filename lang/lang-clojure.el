@@ -30,6 +30,7 @@
 
   (ef-shackle '(cider-repl-mode :align bottom :size .4 :popup t :select t)
               '("*cider-test-report*" :align bottom :size .4 :popup t :select t)
+              '("*cider-doc*" :align bottom :size .4 :popup t :select t)
               '("*cider-error*" :align bottom :size .4 :popup t :select t))
 
   (defun ef-cider-run-test ()
