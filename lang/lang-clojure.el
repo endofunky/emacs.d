@@ -72,6 +72,16 @@
   (evil-define-key 'insert cider-repl-mode-map (kbd "<up>") 'cider-repl-previous-input)
   (evil-define-key 'insert cider-repl-mode-map (kbd "<down>") 'cider-repl-next-input))
 
+(use-package clj-refactor
+  :after (clojure-mode cider)
+  :ensure t
+  :config
+  (clj-refactor-mode 1)
+  (dolist (details cljr--all-helpers)
+    (let ((key (car details))
+          (fn (cadr details)))
+      (evil-define-key 'normal clj-refactor-map (concat ",cr" key) fn))))
+
 (use-package flycheck-clj-kondo
   :after clojure-mode
   :ensure t
