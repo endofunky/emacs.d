@@ -63,4 +63,13 @@ HOOKS is `some-hook'. Usage:
   (interactive)
   (insert (format-time-string "%s")))
 
+(defun ef-toggle-window-fullscreen ()
+  (interactive)
+  (if (get-register :ef-fullscreen)
+      (progn
+        (jump-to-register :ef-fullscreen)
+        (set-register :ef-fullscreen nil))
+    (window-configuration-to-register :ef-fullscreen)
+    (delete-other-windows)))
+
 (provide 'core-lib)
