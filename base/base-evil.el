@@ -1,6 +1,7 @@
 (use-package evil
   :ensure t
   :custom
+  (evil-undo-system 'undo-tree)
   (evil-auto-indent t)
   (evil-cross-lines t)
   (evil-default-cursor t)
