@@ -10,7 +10,7 @@
   "Initial value of `file-name-handler-alist' at start-up time.")
 
 (defun ef-reset-startup-values ()
-  "Resets `gc-cons-threshold` to it's initial value"
+  "Resets early-init.el performance overrides to their initial values"
   (setq-default file-name-handler-alist ef-initial-file-name-handler-alist
                 gc-cons-threshold ef-initial-gc-cons-threshold
                 gc-cons-percentage ef-initial-gc-cons-percentage))
