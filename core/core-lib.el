@@ -65,11 +65,14 @@ HOOKS is `some-hook'. Usage:
 
 (defun ef-toggle-window-fullscreen ()
   (interactive)
-  (if (get-register :ef-fullscreen)
-      (progn
-        (jump-to-register :ef-fullscreen)
-        (set-register :ef-fullscreen nil))
-    (window-configuration-to-register :ef-fullscreen)
-    (delete-other-windows)))
+  (let ((mode-line-str (propertize "FS" 'font-lock-face '(:foreground "orange red"))))
+    (if (get-register :ef-fullscreen)
+        (progn
+          (jump-to-register :ef-fullscreen)
+          (set-register :ef-fullscreen nil)
+          (setq global-mode-string (delete mode-line-str global-mode-string)))
+      (window-configuration-to-register :ef-fullscreen)
+      (delete-other-windows)
+      (setq global-mode-string (push mode-line-str global-mode-string)))))
 
 (provide 'core-lib)
