@@ -36,12 +36,16 @@
   (defun ef-cider-run-test ()
     "Re-evaluate buffer and run test at point"
     (interactive)
+    (cider-load-file
+     (projectile-find-implementation-or-test (buffer-file-name)))
     (cider-eval-buffer)
     (cider-test-run-test))
 
   (defun ef-cider-run-ns-tests ()
     "Re-evaluate buffer and run tests for namespace"
     (interactive)
+    (cider-load-file
+     (projectile-find-implementation-or-test (buffer-file-name)))
     (cider-eval-buffer)
     (cider-test-run-ns-tests nil))
 
