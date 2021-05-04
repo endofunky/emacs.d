@@ -91,6 +91,7 @@
   (define-key evil-normal-state-map ",-" 'text-scale-adjust)
   (define-key evil-normal-state-map ",+" 'text-scale-adjust)
   (define-key evil-normal-state-map ",=" 'text-scale-adjust)
+  (define-key evil-normal-state-map ",0" 'text-scale-adjust)
 
   ;; Comint history
   (evil-define-key 'insert comint-mode-map (kbd "<up>") 'comint-previous-input)
