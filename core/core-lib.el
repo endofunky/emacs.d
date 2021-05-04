@@ -35,6 +35,25 @@ HOOKS is `some-hook'. Usage:
                      `(add-hook ',hook #',fn ,append ,local))
                  hooks))))
 
+(defmacro ef-customize (&rest cvars)
+  "Generate custom-set-variables code for CVARS."
+  (declare (indent defun))
+  `(let ((custom--inhibit-theme-enable nil))
+     (unless (memq 'endomacs custom-known-themes)
+       (deftheme endomacs)
+       (enable-theme 'endomacs)
+       (setq custom-enabled-themes (remq 'endomacs custom-enabled-themes)))
+     (custom-theme-set-variables
+      'endomacs
+      ,@(mapcar #'(lambda (def)
+                    (let ((feature (or load-file-name (buffer-file-name)))
+                          (symbol (car def))
+                          (exp (cadr def))
+                          (comment (or (caddr def)
+                                       "Customized with ef-customize")))
+                      `'(,symbol ,exp nil nil ,comment)))
+                cvars))))
+
 (defmacro ef-keep-other-windows (fn)
   "Temporarily disable delete-other-windows for FN."
   `(defadvice ,fn (around ef-keep-other-windows activate)
