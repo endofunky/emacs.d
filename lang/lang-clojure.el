@@ -7,7 +7,7 @@
     "Quit cider if running and jack in again"
     (interactive "P")
     (if (cider-connected-p)
-      (cider-quit))
+        (cider-quit))
     (cider-jack-in params))
 
   (evil-define-key 'normal clojure-mode-map ",cjq" 'cider-quit)
@@ -15,7 +15,13 @@
 
 (use-package cider
   :ensure t
-  :commands (cider-connected-p cider-quit cider-jack-in)
+  :commands (cider-connected-p
+             cider-quit
+             cider-jack-in
+             cider-eval-buffer
+             cider-eval-file
+             cider-eval-defun-at-point
+             cider-eval-region)
   :custom
   (cider-prompt-for-symbol nil)
   (cider-repl-display-help-banner nil)
