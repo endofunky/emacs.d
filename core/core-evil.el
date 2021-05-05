@@ -12,6 +12,7 @@
 (use-package general
   :ensure t
   :config
+  (declare-function general-override-mode "general")
   (general-auto-unbind-keys)
   (general-override-mode t))
 
