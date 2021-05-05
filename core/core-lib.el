@@ -92,12 +92,6 @@ If FILTER is `nil' kill all buffers except the current one."
                 (symbol-function 'ignore)))
        ad-do-it)))
 
-(defmacro ef-wrap-shell-command (cmd)
-  "Wrap CMD in an interactive lambda."
-  `(lambda ()
-     (interactive)
-     (start-process-shell-command ,cmd nil ,cmd)))
-
 (defsubst ef-nsp ()
   "Return t if running on macOS or NeXTSTEP."
   (memq window-system '(mac ns)))
