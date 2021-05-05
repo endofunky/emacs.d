@@ -125,6 +125,11 @@ If FILTER is `nil' kill all buffers except the current one."
 	   ((lambda (x) (concat (substring x 0 3) ":" (substring x 3 5)))
 	    (format-time-string "%z")))))
 
+(defun ef-insert-ordinal-date ()
+  "Insert ordinal date at point."
+  (interactive)
+  (insert (format-time-string "%Y-%j")))
+
 (defun ef-toggle-window-fullscreen ()
   "Toggle current window fullscreen."
   (interactive)
