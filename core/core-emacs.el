@@ -82,6 +82,9 @@
   (compilation-scroll-output 'first-error)
   :functions (ef-compilation-mode-hook
 	      ef-compilation-exit-autoclose)
+  :hook
+  ;; Avoid dropping into insert mode in compilation windows
+  (compilation-start . evil-normal-state)
   :config
   (defun ef-compilation-exit-autoclose (buffer msg)
     (when (string-match-p (regexp-quote "finished") msg)

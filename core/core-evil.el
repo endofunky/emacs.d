@@ -54,10 +54,6 @@
   :config
   (require 'evil-ex)
   (evil-mode 1)
-
-  ;; Avoid dropping into insert mode in compilation windows
-  (add-hook 'compilation-start-hook 'evil-normal-state)
-
   (evil-ex-define-cmd "q" 'ef-kill-buffer-or-delete-window))
 
 (use-package eldoc

@@ -8,6 +8,8 @@
 (use-package flyspell-correct
   :ensure t
   :after flyspell
-  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
+  :general
+  (:keymaps 'flyspell-mode-map
+	    "C-;" 'flyspell-correct-wrapper))
 
 (provide 'core-spell)

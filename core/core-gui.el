@@ -1,3 +1,4 @@
+(require 'core-evil)
 (require 'core-lib)
 
 (use-package frame
@@ -6,6 +7,8 @@
   (blink-cursor-blinks 0)
   (frame-resize-pixelwise t)
   (frame-title-format '(multiple-frames "%b" "%b"))
+  :general
+  ("M-<return>" 'toggle-frame-fullscreen)
   :config
   (let* ((file (expand-file-name "~/.emacs-font-size"))
          (font (if (file-exists-p file)
@@ -15,8 +18,7 @@
     (set-face-attribute 'default t :font font)
     (set-frame-font font))
 
-  (blink-cursor-mode -1)
-  (global-set-key (kbd "M-RET") 'toggle-frame-fullscreen))
+  (blink-cursor-mode -1))
 
 (use-package ns-win
   :if (ef-nsp)
@@ -25,6 +27,8 @@
             ns-function-modifier
             ns-pop-up-frames
             ns-use-native-fullscreen)
+  :general
+  ("s-3" 'insertPound)
   :config
   (setq mac-command-modifier 'meta
         mac-option-modifier 'super
@@ -34,7 +38,6 @@
         default-input-method "MacOSX")
 
   (fset 'insertPound "#")
-  (define-key global-map (kbd "s-3") 'insertPound)
 
   (if (fboundp 'set-fontset-font)
       (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend)))
