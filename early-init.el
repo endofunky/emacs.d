@@ -1,5 +1,13 @@
 (defconst ef-emacs-start-time (current-time))
 
+(unless noninteractive
+  (add-hook
+   'after-init-hook
+   #'(lambda ()
+       (let ((elapsed (float-time (time-subtract (current-time)
+                                                 ef-emacs-start-time))))
+         (message "Loading emacs done in %.3fs" elapsed)))))
+
 (defconst ef-initial-gc-cons-threshold gc-cons-threshold
   "Initial value of `gc-cons-threshold' at start-up time.")
 

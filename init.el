@@ -40,9 +40,4 @@
     (dolist (file (directory-files path nil "\\.el$"))
       (require (intern (file-name-sans-extension file)) nil t))))
 
-(unless noninteractive
-  (let ((elapsed (float-time (time-subtract (current-time)
-                                            ef-emacs-start-time))))
-    (message "Loading %s...done (%.3fs)" load-file-name elapsed)))
-
 (provide 'init)
