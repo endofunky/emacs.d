@@ -20,6 +20,11 @@
 
 (use-package ns-win
   :if (ef-nsp)
+  :defines (mac-command-modifier
+            mac-option-modifier
+            ns-function-modifier
+            ns-pop-up-frames
+            ns-use-native-fullscreen)
   :config
   (setq mac-command-modifier 'meta
         mac-option-modifier 'super
