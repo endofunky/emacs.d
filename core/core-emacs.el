@@ -165,9 +165,11 @@
 
 (use-package saveplace
   :custom
+  (save-place-limit nil)
   (save-place-file (expand-file-name "saveplace" user-emacs-directory))
+  :init
+  (save-place-mode t)
   :config
-  (require 'saveplace)
   (setq-default save-place t))
 
 (use-package smerge-mode
