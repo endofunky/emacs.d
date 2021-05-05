@@ -2,20 +2,20 @@
   :ensure t
   :custom
   (company-auto-complete #'ef-company-visible-and-explicit-action-p)
-  (company-global-modes '(not message-mode help-mode))
   (company-begin-commands '(self-insert-command))
-  (company-minimum-prefix-length 2)
-  (company-idle-delay 0.3)
-  (company-dabbrev-ignore-case nil)
   (company-dabbrev-downcase nil)
+  (company-dabbrev-ignore-case nil)
+  (company-frontends '(company-pseudo-tooltip-frontend))
+  (company-global-modes '(not message-mode help-mode))
+  (company-idle-delay 0.3)
+  (company-minimum-prefix-length 2)
+  (company-require-match 'never)
   (company-selection-wrap-around t)
   (company-show-numbers t)
   (company-tooltip-align-annotations t)
   (company-tooltip-flip-when-above t)
-  (company-tooltip-margin 2)
   (company-tooltip-limit 12)
-  (company-require-match 'never)
-  (company-frontends '(company-pseudo-tooltip-frontend))
+  (company-tooltip-margin 2)
   :config
   (setq company-backends (remove 'company-clang company-backends))
 
