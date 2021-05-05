@@ -110,8 +110,7 @@
   (:states 'normal :prefix ef-prefix
 	   "+" 'text-scale-adjust
 	   "-" 'text-scale-adjust
-	   "0" 'text-scale-adjust
-	   "=" 'text-scale-adjust))
+	   "0" 'text-scale-adjust))
 
 (use-package files
   :unless noninteractive
