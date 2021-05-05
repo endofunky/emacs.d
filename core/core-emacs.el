@@ -129,8 +129,8 @@
 
 (use-package minibuffer
   :custom
-  (enable-recursive-minibuffers t)
   (ef-minibuffer-gc-cons-threshold gc-cons-threshold)
+  (enable-recursive-minibuffers t)
   :functions (ef-minibuffer-setup-hook
 	      ef-minibuffer-exit-hook)
   :config
@@ -162,17 +162,17 @@
 (use-package savehist
   :defer 1
   :custom
-  (savehist-file (expand-file-name "savehist" user-emacs-directory))
+  (history-length 1000)
   (savehist-additional-variables '(search ring regexp-search-ring))
   (savehist-autosave-interval 60)
-  (history-length 1000)
+  (savehist-file (expand-file-name "savehist" user-emacs-directory))
   :config
   (savehist-mode t))
 
 (use-package saveplace
   :custom
-  (save-place-limit nil)
   (save-place-file (expand-file-name "saveplace" user-emacs-directory))
+  (save-place-limit nil)
   :init
   (save-place-mode t)
   :config

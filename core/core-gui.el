@@ -3,9 +3,9 @@
 (use-package frame
   :if window-system
   :custom
-  (frame-title-format '(multiple-frames "%b" "%b"))
-  (frame-resize-pixelwise t)
   (blink-cursor-blinks 0)
+  (frame-resize-pixelwise t)
+  (frame-title-format '(multiple-frames "%b" "%b"))
   :config
   (let* ((file (expand-file-name "~/.emacs-font-size"))
          (font (if (file-exists-p file)
