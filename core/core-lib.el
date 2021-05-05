@@ -118,7 +118,7 @@ If FILTER is `nil' kill all buffers except the current one."
   (interactive)
   (if-let (uuidgen (executable-find "uuidgen"))
       (insert (string-trim (shell-command-to-string uuidgen)))
-    (error "uuidgen not found")))
+    (error "Binary 'uuidgen' not found in PATH.")))
 
 (defun ef-toggle-window-fullscreen ()
   "Toggle current window fullscreen."
