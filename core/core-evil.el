@@ -92,13 +92,13 @@
   (undo-tree-visualizer-timestamps t)
   (undo-tree-visualizer-lazy-drawing nil)
   (undo-tree-auto-save-history t)
+  (undo-tree-history-directory-alist
+   (list (cons "." (expand-file-name "undo" user-emacs-directory))))
   :general
   (:states 'normal :prefix ef-prefix
 	   "u" 'undo-tree-visualize)
   :config
-  (global-undo-tree-mode)
-  (let ((undo-dir (expand-file-name "undo" user-emacs-directory)))
-    (setq undo-tree-history-directory-alist (list (cons "." undo-dir)))))
+  (global-undo-tree-mode))
 
 (use-package evil-collection
   :after evil
