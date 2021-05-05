@@ -26,7 +26,7 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-(customize-set-variable 'use-package-enable-imenu-support t)
+(custom-set-variables '(use-package-enable-imenu-support t))
 (require 'use-package)
 
 (if (ef-init-debug-p)

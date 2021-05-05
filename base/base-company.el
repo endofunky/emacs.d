@@ -42,6 +42,9 @@
 (use-package evil
   :after company
   :defer t
+  :custom
+  (evil-complete-next-func 'ef-evil-complete-lambda)
+  (evil-complete-previous-func 'ef-evil-complete-lambda)
   :config
   (defun ef-check-expansion ()
     (save-excursion
@@ -63,9 +66,6 @@
   (defun ef-evil-complete-lambda (arg)
     "Ignores passed in arg like a lambda and runs company-complete"
     (company-complete))
-
-  (customize-set-variable 'evil-complete-next-func 'ef-evil-complete-lambda)
-  (customize-set-variable 'evil-complete-previous-func 'ef-evil-complete-lambda)
 
   (define-key evil-insert-state-map (kbd "TAB") 'ef-tab-indent-or-complete)
 
