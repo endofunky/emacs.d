@@ -53,12 +53,12 @@ HOOKS is `some-hook'. Usage:
   "Generate custom-set-variables code for CVARS."
   (declare (indent defun))
   `(let ((custom--inhibit-theme-enable nil))
-     (unless (memq 'endomacs custom-known-themes)
-       (deftheme endomacs)
-       (enable-theme 'endomacs)
-       (setq custom-enabled-themes (remq 'endomacs custom-enabled-themes)))
+     (unless (memq 'endomacs-customize custom-known-themes)
+       (deftheme endomacs-customize)
+       (enable-theme 'endomacs-customize)
+       (setq custom-enabled-themes (remq 'endomacs-customize custom-enabled-themes)))
      (custom-theme-set-variables
-      'endomacs
+      'endomacs-customize
       ,@(mapcar #'(lambda (def)
                     (let ((feature (or load-file-name (buffer-file-name)))
                           (symbol (car def))
