@@ -89,8 +89,8 @@ If FILTER is `nil' kill all buffers except the current one."
      (interactive)
      (start-process-shell-command ,cmd nil ,cmd)))
 
-(defun ef-nsp ()
-  "Return t if running on macOS or NeXTSTEP"
+(defsubst ef-nsp ()
+  "Return t if running on macOS or NeXTSTEP."
   (memq window-system '(mac ns)))
 
 (defun ef-read-file (filename)
