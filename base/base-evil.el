@@ -28,6 +28,7 @@
   (define-key evil-normal-state-map ",kob" 'ef-kill-other-buffers)
   (define-key evil-normal-state-map ",kaob" 'ef-kill-all-other-buffers)
   (define-key evil-normal-state-map ",kb" 'kill-this-buffer)
+  (define-key evil-normal-state-map ",b" 'ibuffer)
   (define-key evil-normal-state-map (kbd ", <return>") 'ef-toggle-window-fullscreen)
 
   (global-set-key (kbd "M-h") #'evil-window-left)
