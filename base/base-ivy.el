@@ -44,6 +44,7 @@
 (use-package ivy-xref
   :ensure t
   :after ivy
-  :init (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
+  :custom
+  (xref-show-xrefs-function #'ivy-xref-show-xrefs))
 
 (provide 'base-ivy)
