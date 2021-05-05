@@ -1,4 +1,4 @@
-(require 'base-shackle)
+(require 'core-shackle)
 
 (use-package restclient
   :mode (("\\.rest\\'" . restclient-mode)

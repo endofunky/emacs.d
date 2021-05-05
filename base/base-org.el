@@ -1,4 +1,4 @@
-(require 'base-shackle)
+(require 'core-shackle)
 
 (use-package org
   :defer t
