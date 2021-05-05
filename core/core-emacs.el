@@ -35,7 +35,8 @@
 
 (use-package delsel
   :config
-  ;; Treat an Emacs region much like a typical selection outside of Emacs
+  ;; Type over region: Treat an Emacs region much like a typical selection
+  ;; outside of Emacs
   (delete-selection-mode t))
 
 ;; Enable y/n answers
