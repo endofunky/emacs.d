@@ -51,15 +51,14 @@
            (null (getenv "TERM_PROGRAM")))
   :custom
   (exec-path-from-shell-check-startup-files nil)
+  (exec-path-from-shell-variables
+   (append exec-path-from-shell-variables
+           '("NIX_PATH"
+             "NIX_PROFILES"
+             "NIX_REMOTE"
+             "NIX_SSL_CERT_FILE"
+             "NIX_USER_PROFILE_DIR")))
   :config
-  (customize-set-variable 'exec-path-from-shell-variables
-                          (append exec-path-from-shell-variables
-                                  '("NIX_PATH"
-                                    "NIX_PROFILES"
-                                    "NIX_REMOTE"
-                                    "NIX_SSL_CERT_FILE"
-                                    "NIX_USER_PROFILE_DIR")))
-  (message "exec init")
   (exec-path-from-shell-initialize))
 
 (provide 'core-gui)
