@@ -93,8 +93,14 @@
   (delete-selection-mode t))
 
 (use-package files
+  :unless noninteractive
   :config
-  (setq save-silently t))
+  (setq save-silently t)
+  (ef-add-hook after-save-hook :fn ef-after-save-message-hook
+    (message "\"%s\" %dL, %dC written"
+	     (buffer-name)
+	     (count-lines (point-min) (point-max))
+	     (buffer-size))))
 
 (use-package fringe
   :if (display-graphic-p)
