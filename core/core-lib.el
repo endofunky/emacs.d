@@ -75,6 +75,7 @@ If FILTER is `nil' kill all buffers except the current one."
   "Kill all other buffers except special buffers."
   (interactive)
   (ef-kill-buffers-matching nil))
+
 (defmacro ef-keep-other-windows (fn)
   "Temporarily disable delete-other-windows for FN."
   `(defadvice ,fn (around ef-keep-other-windows activate)
