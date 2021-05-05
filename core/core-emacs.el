@@ -120,13 +120,6 @@
   :commands hs-minor-mode
   :hook (prog-mode . hs-minor-mode))
 
-(use-package flyspell
-  :hook ((text-mode . flyspell-mode)
-	 (prog-mode . flyspell-prog-mode)))
-
-(use-package ispell
-  :hook (text-mode . ispell-minor-mode))
-
 (use-package minibuffer
   :custom
   (ef-minibuffer-gc-cons-threshold gc-cons-threshold)
