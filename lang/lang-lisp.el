@@ -75,7 +75,7 @@
 
   (ef-add-hook emacs-lisp-mode-hook
     (add-hook 'after-save-hook 'ef-emacs-lisp-recompile nil t)
-    (setq-local mode-name "Emacs λ")))
+    (setq-local mode-name "E-λ")))
 
 (use-package ielm
   :defer t
