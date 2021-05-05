@@ -32,7 +32,6 @@
   ;; Ignore unsafe local variables
   (enable-local-variables :safe))
 
-
 ;; Enable y/n answers
 (fset 'yes-or-no-p #'y-or-n-p)
 
