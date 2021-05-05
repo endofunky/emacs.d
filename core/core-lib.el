@@ -117,6 +117,14 @@ If FILTER is `nil' kill all buffers except the current one."
       (insert (string-trim (shell-command-to-string uuidgen)))
     (error "Binary 'uuidgen' not found in PATH.")))
 
+(defun ef-insert-iso-datetime ()
+  "Insert ISO 8601 date/time at point."
+  (interactive)
+  (insert (concat
+	   (format-time-string "%Y-%m-%dT%T")
+	   ((lambda (x) (concat (substring x 0 3) ":" (substring x 3 5)))
+	    (format-time-string "%z")))))
+
 (defun ef-toggle-window-fullscreen ()
   "Toggle current window fullscreen."
   (interactive)
