@@ -32,6 +32,7 @@
         (delete-window win)
       (flycheck-list-errors)))
 
+  (define-key flycheck-error-list-mode-map (kbd "M-e") #'quit-window)
   (define-key flycheck-mode-map (kbd "M-e") #'ef-flycheck-toggle-errors))
 
 (use-package flycheck-color-mode-line
