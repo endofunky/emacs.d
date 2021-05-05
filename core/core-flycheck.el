@@ -3,6 +3,7 @@
 
 (use-package flycheck
   :ensure t
+  :demand t
   :custom
   (flycheck-check-syntax-automatically '(save mode-enabled idle-buffer-switch))
   (flycheck-buffer-switch-check-intermediate-buffers t)
@@ -22,9 +23,9 @@
 	    "M-e" 'quit-window)
   (:keymap 'flycheck--mode-map
 	    "M-e" 'ef-flycheck-toggle-errors)
-  :init
-  (declare-function flycheck-list-errors "flycheck")
   :config
+  (declare-function flycheck-list-errors "flycheck")
+
   (ef-shackle `(,flycheck-error-list-buffer :align below :size .1 :popup t :no-select t))
 
   (fset 'flycheck-may-use-echo-area-p 'ignore)
