@@ -1,4 +1,5 @@
-(require 'base-shackle)
+(require 'core-shackle)
+(require 'core-evil)
 
 (use-package flycheck
   :ensure t
@@ -16,6 +17,11 @@
   (flycheck-navigation-minimum-level 'error)
   (flycheck-syntax-check-buffer)
   :functions (ef-flycheck-toggle-errors)
+  :general
+  (:keymap 'flycheck-error-list-mode-map
+	    "M-e" 'quit-window)
+  (:keymap 'flycheck--mode-map
+	    "M-e" 'ef-flycheck-toggle-errors)
   :init
   (declare-function flycheck-list-errors "flycheck")
   :config
@@ -29,10 +35,7 @@
     (interactive)
     (if-let ((win (get-buffer-window flycheck-error-list-buffer)))
         (delete-window win)
-      (flycheck-list-errors)))
-
-  (define-key flycheck-error-list-mode-map (kbd "M-e") #'quit-window)
-  (define-key flycheck-mode-map (kbd "M-e") #'ef-flycheck-toggle-errors))
+      (flycheck-list-errors))))
 
 (use-package flycheck-color-mode-line
   :after flycheck
@@ -42,6 +45,6 @@
 
 (use-package pkg-info
   :after flycheck
-  :ensure)
+  :ensure t)
 
-(provide 'base-flycheck)
+(provide 'core-flycheck)
