@@ -1,6 +1,15 @@
 (require 'cl-macs)
 (require 'subr-x)
 
+(defgroup ef-theme nil
+  "Endomacs faces."
+  :group 'faces)
+
+(defcustom ef-fullscreen-indicator "orange red"
+  "Set foreground color for fullscreen indicator in mode-line."
+  :group 'ef-theme
+  :type 'string)
+
 (cl-defmacro ef-add-hook(hooks &rest body
                                &key fn append local interactive
                                &allow-other-keys)
@@ -114,7 +123,9 @@ If FILTER is `nil' kill all buffers except the current one."
 (defun ef-toggle-window-fullscreen ()
   "Toggle current window fullscreen."
   (interactive)
-  (let ((mode-line-str (propertize "FS" 'font-lock-face '(:foreground "orange red"))))
+  (let ((mode-line-str (propertize "FS"
+				   'font-lock-face
+				   (list :foreground ef-fullscreen-indicator))))
     (if (get-register :ef-fullscreen)
         (progn
           (jump-to-register :ef-fullscreen)
