@@ -105,12 +105,14 @@ If FILTER is `nil' kill all buffers except the current one."
   (insert (format-time-string "%s")))
 
 (defun ef-insert-uuid ()
+  "Insert UUID at point (requires uuidgen to be installed)."
   (interactive)
   (if-let (uuidgen (executable-find "uuidgen"))
       (insert (string-trim (shell-command-to-string uuidgen)))
     (error "uuidgen not found")))
 
 (defun ef-toggle-window-fullscreen ()
+  "Toggle current window fullscreen."
   (interactive)
   (let ((mode-line-str (propertize "FS" 'font-lock-face '(:foreground "orange red"))))
     (if (get-register :ef-fullscreen)
