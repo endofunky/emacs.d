@@ -8,20 +8,14 @@
                                                  ef-emacs-start-time))))
          (message "Loading emacs done in %.3fs" elapsed)))))
 
-(defconst ef-initial-gc-cons-threshold gc-cons-threshold
-  "Initial value of `gc-cons-threshold' at start-up time.")
-
-(defconst ef-initial-gc-cons-percentage gc-cons-percentage
-  "Initial value of `gc-cons-percentage' at start-up time.")
-
 (defconst ef-initial-file-name-handler-alist file-name-handler-alist
   "Initial value of `file-name-handler-alist' at start-up time.")
 
 (defun ef-reset-startup-values ()
   "Resets early-init.el performance overrides to their initial values"
   (setq-default file-name-handler-alist ef-initial-file-name-handler-alist
-                gc-cons-threshold ef-initial-gc-cons-threshold
-                gc-cons-percentage ef-initial-gc-cons-percentage))
+                gc-cons-threshold (car (get 'gc-cons-threshold 'standard-value))
+                gc-cons-percentage (car (get 'gc-cons-percentage 'standard-value))))
 
 (add-hook 'after-init-hook 'ef-reset-startup-values)
 
