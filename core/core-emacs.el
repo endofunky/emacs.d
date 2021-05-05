@@ -103,7 +103,7 @@
 	     (buffer-size))))
 
 (use-package fringe
-  :if (display-graphic-p)
+  :if window-system
   :custom
   (fringes-outside-margins nil)
   (indicate-buffer-boundaries nil)

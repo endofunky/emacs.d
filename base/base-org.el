@@ -79,7 +79,7 @@
      (latex . t)
      (ruby . t)))
 
-  (when (display-graphic-p)
+  (when window-system
     (define-key org-mode-map (kbd "M-RET") 'toggle-frame-fullscreen))
 
   (ef-shackle '(" *Agenda Commands*" :align below :size .4 :popup t :select t)

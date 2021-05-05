@@ -31,7 +31,7 @@
                      :post-handlers '(("[d1]" "SPC")))
       (sp-local-pair "_" "_")))
 
-  (when (display-graphic-p)
+  (when window-system
     (define-key markdown-mode-map (kbd "M-RET") 'toggle-frame-fullscreen)))
 
 (provide 'lang-markdown)
