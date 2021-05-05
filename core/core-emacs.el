@@ -116,7 +116,8 @@
   :hook (prog-mode . hs-minor-mode))
 
 (use-package flyspell
-  :hook (text-mode . flyspell-mode))
+  :hook ((text-mode . flyspell-mode)
+	 (prog-mode . flyspell-prog-mode)))
 
 (use-package ispell
   :hook (text-mode . ispell-minor-mode))
