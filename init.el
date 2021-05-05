@@ -7,7 +7,7 @@
   (setq-default warning-minimum-level :error))
 
 (setq-default
-;;  Increase *Messages* buffer size
+ ;; Increase *Messages* buffer size
  message-log-max 16384
  ;; Silence ad-handle-definition about advised functions getting redefined.
  ad-redefinition-action 'accept
