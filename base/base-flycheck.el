@@ -21,8 +21,7 @@
   :config
   (ef-shackle `(,flycheck-error-list-buffer :align below :size .1 :popup t :no-select t))
 
-  (defun flycheck-may-use-echo-area-p ()
-    nil)
+  (fset 'flycheck-may-use-echo-area-p 'ignore)
 
   (global-flycheck-mode t)
 
