@@ -33,8 +33,18 @@
                 ("gnu"          . "http://elpa.gnu.org/packages/"))
               site-run-file nil)
 
-(add-to-list 'default-frame-alist '(tool-bar-lines . 0))
-(add-to-list 'default-frame-alist '(vertical-scroll-bars))
-(add-to-list 'default-frame-alist '(menu-bar-lines . 0))
+;; Disable graphical elements here to avoid flickering during startup.
+(when (and (fboundp 'scroll-bar-mode) (not (eq scroll-bar-mode -1)))
+  (scroll-bar-mode -1))
+
+(when (and (fboundp 'tool-bar-mode) (not (eq tool-bar-mode -1)))
+  (tool-bar-mode -1))
+
+(unless (memq (window-system) '(mac ns))
+  (when (and (fboundp 'menu-bar-mode) (not (eq menu-bar-mode -1)))
+    (menu-bar-mode -1)))
+
+(when (and (fboundp 'tooltip-mode) (not (eq tooltip-mode -1)))
+  (tooltip-mode -1))
 
 (provide 'early-init)
