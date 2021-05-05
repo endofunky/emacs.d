@@ -1,3 +1,5 @@
+(require 'core-evil)
+
 (use-package ivy
   :ensure t
   :custom
@@ -24,22 +26,25 @@
 (use-package counsel
   :after ivy
   :ensure t
+  :demand t
+  :general
+  ("M-x" 'counsel-M-x)
+  ("M-y" 'counsel-yank-pop)
+  (:states 'normal :prefix ef-prefix
+	   "/" 'counsel-rg
+	   "?" 'counsel-descbinds
+	   "s" 'counsel-switch-buffer)
   :config
-  (counsel-mode t)
-  (global-set-key (kbd "M-x") 'counsel-M-x)
-  (if (executable-find "rg")
-      (evil-define-key 'normal global-map ",/" 'counsel-rg))
-  (global-set-key (kbd "M-y") 'counsel-yank-pop)
-  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
-  (evil-define-key 'normal global-map ",?" 'counsel-descbinds)
-  (evil-define-key 'normal global-map ",s" 'counsel-switch-buffer))
+  (counsel-mode t))
 
 (use-package swiper
   :after ivy
   :ensure t
-  :config
-  (global-set-key (kbd "C-s" ) 'swiper)
-  (evil-define-key 'normal global-map ",I" 'swiper))
+  :demand t
+  :general
+  ("C-s" 'swiper)
+  (:states 'normal :prefix ef-prefix
+	   "I" 'swiper))
 
 (use-package ivy-xref
   :ensure t
@@ -47,4 +52,4 @@
   :custom
   (xref-show-xrefs-function #'ivy-xref-show-xrefs))
 
-(provide 'base-ivy)
+(provide 'core-ivy)
