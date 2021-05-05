@@ -35,14 +35,19 @@ HOOKS is `some-hook'. Usage:
     (cl-remf body :append)
     (cl-remf body :local)
     (cl-remf body :interactive)
-    `(progn
-       (defun ,fn ()
-         ,@(remove nil `(,(concat "Custom handler for " hook-name)
-                         ,(if interactive `(interactive))
-                         ,@body)))
-       ,@(mapcar #'(lambda (hook)
-                     `(add-hook ',hook #',fn ,append ,local))
-                 hooks))))
+    (let ((docstr (if (stringp (car body))
+		      (prog1
+			  (car body)
+			(setq body (cdr body)))
+		    (concat "Custom handler for " hook-name))))
+      `(progn
+	 (defun ,fn ()
+           ,@(remove nil `(,docstr
+                           ,(if interactive `(interactive))
+                           ,@body)))
+	 ,@(mapcar #'(lambda (hook)
+                       `(add-hook ',hook #',fn ,append ,local))
+                   hooks)))))
 
 (defmacro ef-customize (&rest cvars)
   "Generate custom-set-variables code for CVARS."
