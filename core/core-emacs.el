@@ -94,6 +94,7 @@
 
 (use-package files
   :unless noninteractive
+  :functions (ef-after-save-message-hook)
   :config
   (setq save-silently t)
   (ef-add-hook after-save-hook :fn ef-after-save-message-hook
