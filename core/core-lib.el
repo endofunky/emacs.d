@@ -54,6 +54,27 @@ HOOKS is `some-hook'. Usage:
                       `'(,symbol ,exp nil nil ,comment)))
                 cvars))))
 
+(defun ef-kill-buffers-matching (filter)
+  "Kill all other buffers matching FILTER.
+
+If FILTER is `nil' kill all buffers except the current one."
+  (interactive "sFilter: ")
+  (dolist (buf (delq (current-buffer) (buffer-list)))
+    (when (or (not filter)
+              (string-match filter (string-trim (buffer-name buf))))
+      (if-let ((win (get-buffer-window buf)))
+          (delete-window win))
+      (kill-buffer buf))))
+
+(defun ef-kill-other-buffers ()
+  "Kill all other buffers except special buffers."
+  (interactive)
+  (ef-kill-buffers-matching "^[^\\*]"))
+
+(defun ef-kill-all-other-buffers ()
+  "Kill all other buffers except special buffers."
+  (interactive)
+  (ef-kill-buffers-matching nil))
 (defmacro ef-keep-other-windows (fn)
   "Temporarily disable delete-other-windows for FN."
   `(defadvice ,fn (around ef-keep-other-windows activate)

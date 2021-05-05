@@ -1,3 +1,5 @@
+(require 'core-lib)
+
 (use-package evil
   :ensure t
   :custom
@@ -20,25 +22,6 @@
 
   ;; Avoid dropping into insert mode in compilation windows
   (add-hook 'compilation-start-hook 'evil-normal-state)
-
-  (defun ef-kill-other-buffers ()
-    "Kill all other buffers except for special buffers."
-    (interactive)
-    (dolist (buf (delq (current-buffer) (buffer-list)))
-      (unless (or (eq 'exwm-mode (with-current-buffer buf
-                                   major-mode))
-                  (string-prefix-p "*" (string-trim (buffer-name buf))))
-        (if-let ((win (get-buffer-window buf)))
-            (delete-window win))
-        (kill-buffer buf))))
-
-  (defun ef-kill-all-other-buffers ()
-    "Kill all other buffers."
-    (interactive)
-    (dolist (buf (delq (current-buffer) (buffer-list)))
-      (if-let ((win (get-buffer-window buf)))
-          (delete-window win))
-      (kill-buffer buf)))
 
   (define-key evil-normal-state-map ",kob" 'ef-kill-other-buffers)
   (define-key evil-normal-state-map ",kaob" 'ef-kill-all-other-buffers)
