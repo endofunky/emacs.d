@@ -39,7 +39,7 @@
   (delete-selection-mode t))
 
 ;; Enable y/n answers
-(fset 'yes-or-no-p 'y-or-n-p)
+(fset 'yes-or-no-p #'y-or-n-p)
 
 ;; No GNU ads in minibuffer
 (fset #'display-startup-echo-area-message #'ignore)
