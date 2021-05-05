@@ -64,7 +64,7 @@
   (comint-move-point-for-output 'others)
   :functions (ef-comint-mode-hook)
   :general
-  (:states 'insert
+  (:states 'insert :keymaps 'comint-mode-map
 	   "<up>" 'comint-previous-input
 	   "<down>" 'comint-next-input)
   :config
@@ -104,6 +104,14 @@
   ;; Type over region: Treat an Emacs region much like a typical selection
   ;; outside of Emacs
   (delete-selection-mode t))
+
+(use-package face-remap
+  :general
+  (:states 'normal :prefix ef-prefix
+	   "+" 'text-scale-adjust
+	   "-" 'text-scale-adjust
+	   "0" 'text-scale-adjust
+	   "=" 'text-scale-adjust))
 
 (use-package files
   :unless noninteractive
@@ -174,15 +182,14 @@
 
 (use-package prog-mode
   :general
-  ("<tab>" 'indent-for-tab-command)
-  (:states 'normal
+  (:states 'normal :keymaps 'prog-mode-map
 	   "<tab>" 'indent-for-tab-command)
-  (:states 'normal :prefix ef-prefix
+  (:states 'normal :prefix ef-prefix :keymaps 'prog-mode-map
 	   "<tab>" 'ef-indent-buffer
 	   "." 'pop-tag-mark)
-  (:states 'visual :prefix ef-prefix
+  (:states 'visual :prefix ef-prefix :keymaps 'prog-mode-map
 	   "=" 'ef-align-to-=)
-  (:states 'visual
+  (:states 'visual :keymaps 'prog-mode-map
 	   "<tab>" 'indent-region)
   :config
   (global-prettify-symbols-mode -1))

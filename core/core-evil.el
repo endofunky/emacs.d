@@ -12,7 +12,8 @@
 (use-package general
   :ensure t
   :config
-  (general-auto-unbind-keys))
+  (general-auto-unbind-keys)
+  (general-override-mode t))
 
 (use-package evil
   :ensure t
@@ -23,11 +24,7 @@
   ("M-k" 'evil-window-up)
   ("M-l" 'evil-window-right)
   (:states 'normal :prefix ef-prefix
-	   "+" 'text-scale-adjust
-	   "-" 'text-scale-adjust
-	   "0" 'text-scale-adjust
 	   "<return>" 'ef-toggle-window-fullscreen
-	   "=" 'text-scale-adjust
 	   "kaob" 'ef-kill-all-other-buffers
 	   "kb" 'kill-this-buffer
 	   "kob" 'ef-kill-other-buffers
@@ -73,7 +70,7 @@
   :ensure t
   :commands (evilnc-comment-or-uncomment-lines)
   :general
-  (:states '(normal visual)
+  (:states '(normal visual) :keymaps 'prog-mode-map
 	   "\\" 'evilnc-comment-or-uncomment-lines
 	   "#" 'evilnc-comment-or-uncomment-lines))
 
