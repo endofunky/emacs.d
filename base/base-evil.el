@@ -111,7 +111,7 @@
   :custom
   (undo-tree-visualizer-timestamps t)
   (undo-tree-visualizer-lazy-drawing nil)
-  (undo-tree-auto-save-history nil)
+  (undo-tree-auto-save-history t)
   :config
   (global-undo-tree-mode)
   (let ((undo-dir (expand-file-name "undo" user-emacs-directory)))
