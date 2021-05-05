@@ -15,6 +15,9 @@
   (flycheck-mode-line-prefix "F")
   (flycheck-navigation-minimum-level 'error)
   (flycheck-syntax-check-buffer)
+  :functions (ef-flycheck-toggle-errors)
+  :init
+  (declare-function flycheck-list-errors "flycheck")
   :config
   (ef-shackle `(,flycheck-error-list-buffer :align below :size .1 :popup t :no-select t))
 
