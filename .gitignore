@@ -4,6 +4,7 @@
 .org-id-locations
 .persistent-scratch
 .python-environments/
+TODO.org
 ac-comphist.dat
 anaconda-mode/
 auto-save-list
