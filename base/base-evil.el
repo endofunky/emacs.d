@@ -3,17 +3,19 @@
 (use-package evil
   :ensure t
   :custom
-  (evil-undo-system 'undo-tree)
   (evil-auto-indent t)
   (evil-cross-lines t)
   (evil-default-cursor t)
   (evil-default-state 'normal)
   (evil-echo-state nil)
+  (evil-ex-interactive-search-highlight 'selected-window)
   (evil-ex-search-case 'smart)
   (evil-ex-search-vim-style-regexp t)
+  (evil-kbd-macro-suppress-motion-error t)
   (evil-magic 'very-magic)
   (evil-search-module 'evil-search)
   (evil-shift-width 2)
+  (evil-undo-system 'undo-tree)
   ;; Required for evil-collection:
   (evil-want-integration t)
   (evil-want-keybinding nil)
