@@ -68,6 +68,19 @@ HOOKS is `some-hook'. Usage:
                       `'(,symbol ,exp nil nil ,comment)))
                 cvars))))
 
+(defun ef-kill-buffer-or-delete-window ()
+  "If more than one window is open, delete the current window, otherwise kill
+current buffer."
+  (interactive)
+  (if (> (length (window-list)) 1)
+      (delete-window)
+    (kill-buffer)))
+
+(defun ef-indent-buffer ()
+  "Indent the currently visited buffer."
+  (interactive)
+  (indent-region (point-min) (point-max)))
+
 (defun ef-kill-buffers-matching (filter)
   "Kill all other buffers matching FILTER.
 
@@ -109,6 +122,11 @@ If FILTER is `nil' kill all buffers except the current one."
     (with-temp-buffer
       (insert-file-contents filename)
       (buffer-string))))
+
+(defun ef-align-to-= (begin end)
+  "Align region to = signs"
+  (interactive "r")
+  (align-regexp begin end "\\(\\s-*\\)=" 1 1 ))
 
 (defun ef-insert-unix-time ()
   "Insert UNIX timestamp at point."

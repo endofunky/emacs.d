@@ -1,3 +1,4 @@
+(require 'core-evil)
 (require 'core-lib)
 
 (ef-customize
@@ -52,11 +53,20 @@
   :config
   (global-auto-revert-mode 1))
 
+(use-package dired
+  :general
+  (:states 'normal :prefix ef-prefix
+	   "d" 'dired))
+
 (use-package comint
   :defer t
   :custom
   (comint-move-point-for-output 'others)
   :functions (ef-comint-mode-hook)
+  :general
+  (:states 'insert
+	   "<up>" 'comint-previous-input
+	   "<down>" 'comint-next-input)
   :config
   (ef-add-hook comint-mode-hook
     "Do not use `truncate-lines' in comint buffers.."
@@ -121,6 +131,16 @@
   :commands hs-minor-mode
   :hook (prog-mode . hs-minor-mode))
 
+(use-package ibuffer
+  :general
+  (:states 'normal :prefix ef-prefix
+	   "b" 'ibuffer))
+
+(use-package imenu
+  :general
+  (:states 'normal :prefix ef-prefix
+	   "i" 'imenu))
+
 (use-package minibuffer
   :custom
   (ef-minibuffer-gc-cons-threshold gc-cons-threshold)
@@ -150,6 +170,17 @@
   (show-paren-mode t))
 
 (use-package prog-mode
+  :general
+  ("<tab>" 'indent-for-tab-command)
+  (:states 'normal
+	   "<tab>" 'indent-for-tab-command)
+  (:states 'normal :prefix ef-prefix
+	   "<tab>" 'ef-indent-buffer
+	   "." 'pop-tag-mark)
+  (:states 'visual :prefix ef-prefix
+	   "=" 'ef-align-to-=)
+  (:states 'visual
+	   "<tab>" 'indent-region)
   :config
   (global-prettify-symbols-mode -1))
 
