@@ -1,4 +1,5 @@
-(defconst ef-emacs-start-time (current-time))
+(defconst ef-emacs-start-time (current-time)
+  "Emacs startup time before loading any configuration.")
 
 (unless noninteractive
   (add-hook
