@@ -36,8 +36,8 @@
 
 (dolist (path '("core" "base" "lang" "private"))
   (let ((path (expand-file-name path user-emacs-directory)))
-    (add-to-list 'load-path path)
-    (dolist (file (directory-files path nil "\\.el$"))
-      (require (intern (file-name-sans-extension file)) nil t))))
+    (dolist (file (directory-files-recursively path "\\.el$"))
+      (add-to-list 'load-path (file-name-directory file))
+      (require (intern (file-name-sans-extension (file-name-base file))) nil t))))
 
 (provide 'init)
