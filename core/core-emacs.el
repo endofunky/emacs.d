@@ -124,16 +124,6 @@
 	     (count-lines (point-min) (point-max))
 	     (buffer-size))))
 
-(use-package fringe
-  :if window-system
-  :custom
-  (fringes-outside-margins nil)
-  (indicate-buffer-boundaries nil)
-  (indicate-empty-lines nil)
-  (overflow-newline-into-fringe t)
-  :config
-  (fringe-mode nil))
-
 (use-package hl-line
   :config
   (global-hl-line-mode 1))

@@ -1,6 +1,16 @@
 (require 'core-evil)
 (require 'core-lib)
 
+(use-package fringe
+  :if window-system
+  :custom
+  (fringes-outside-margins nil)
+  (indicate-buffer-boundaries nil)
+  (indicate-empty-lines nil)
+  (overflow-newline-into-fringe t)
+  :config
+  (fringe-mode nil))
+
 (use-package frame
   :if window-system
   :custom
