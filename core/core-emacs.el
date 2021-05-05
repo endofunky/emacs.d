@@ -1,47 +1,53 @@
-;; Tabs are just awful
-(setq-default indent-tabs-mode nil)
+(require 'core-lib)
 
-;; Disable bell completely
-(setq ring-bell-function 'ignore)
+(ef-customize
+  ;; Tabs are just awful
+  (indent-tabe-mode nil)
 
-;; Keep the filesystem clean
-(setq make-backup-files nil)
-(setq auto-save-default nil)
+  ;; Disable bell completely
+  (ring-bell-function 'ignore)
 
-;; Treat an Emacs region much like a typical selection outside of Emacs
-(delete-selection-mode t)
+  ;; Keep the filesystem clean
+  (make-backup-files nil)
+  (auto-save-default nil)
+
+  ;; Scroll one line at a time
+  (scroll-margin 0)
+  (scroll-conservatively 100000)
+  (scroll-preserve-screen-position 1)
+
+  ;; Don't display splash screen after start up
+  (inhibit-splash-screen t)
+  (inhibit-startup-message t)
+
+  ;; Don't wrap long lines
+  (truncate-lines -1)
+
+  ;; Don't store customizations in init.el
+  (custom-file (expand-file-name "custom.el" user-emacs-directory))
+
+  ;; Empty scratch buffer by default
+  (initial-scratch-message "")
+
+  ;; Ignore unsafe local variables
+  (enable-local-variables :safe))
+
+
+(use-package delsel
+  :config
+  ;; Treat an Emacs region much like a typical selection outside of Emacs
+  (delete-selection-mode t))
 
 ;; Enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; Scroll one line at a time
-(setq scroll-margin 0)
-(setq scroll-conservatively 100000)
-(setq scroll-preserve-screen-position 1)
-
-;; No splash screen
-(setq inhibit-splash-screen t)
-(setq inhibit-startup-message t)
-
 ;; No GNU ads in minibuffer
 (fset #'display-startup-echo-area-message #'ignore)
-
-;; Don't wrap long lines
-(setq-default truncate-lines -1)
-
-;; Don't mess with the init.el
-(setq custom-file "~/.emacs.d/custom.el")
 
 ;; Show columns in mode-line
 (column-number-mode t)
 
-;; Empty scratch buffer by default
-(setq initial-scratch-message "")
-
 ;; Never use TUI pagers in sub-processes
 (setenv "PAGER" (executable-find "cat"))
-
-;; Ignore unsafe local variables
-(setq enable-local-variables :safe)
 
 (provide 'core-emacs)
