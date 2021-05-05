@@ -45,9 +45,6 @@
 ;; Never use TUI pagers in sub-processes
 (setenv "PAGER" (executable-find "cat"))
 
-(use-package abbrev
-  :defer t)
-
 (use-package autorevert
   :custom
   (auto-revert-interval 1)
