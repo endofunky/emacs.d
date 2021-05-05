@@ -104,9 +104,12 @@ If FILTER is `nil' kill all buffers except the current one."
 
 (defun ef-read-file (filename)
   "Return the contents of FILENAME."
-  (with-temp-buffer
-    (insert-file-contents filename)
-    (buffer-string)))
+  (interactive "f")
+  (if (called-interactively-p 'interactive)
+      (insert-file-contents filename)
+    (with-temp-buffer
+      (insert-file-contents filename)
+      (buffer-string))))
 
 (defun ef-insert-unix-time ()
   "Insert UNIX timestamp at point."
