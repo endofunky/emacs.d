@@ -32,6 +32,7 @@
   (define-key flycheck-mode-map (kbd "M-e") #'ef-flycheck-toggle-errors))
 
 (use-package flycheck-color-mode-line
+  :after flycheck
   :ensure t
   :commands flycheck-color-mode-line-mode
   :hook (flycheck-mode . flycheck-color-mode-line-mode))
