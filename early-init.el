@@ -18,7 +18,7 @@
                 gc-cons-threshold (car (get 'gc-cons-threshold 'standard-value))
                 gc-cons-percentage (car (get 'gc-cons-percentage 'standard-value))))
 
-(add-hook 'after-init-hook 'ef-reset-startup-values)
+(add-hook 'after-init-hook #'ef-reset-startup-values)
 
 (setq-default file-name-handler-alist nil
               gc-cons-threshold most-positive-fixnum
