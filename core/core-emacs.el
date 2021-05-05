@@ -63,7 +63,7 @@
   :functions (ef-comint-mode-hook)
   :config
   (ef-add-hook comint-mode-hook
-    "Do not truncate lines in comint buffers.."
+    "Do not use `truncate-lines' in comint buffers.."
     (setq-local truncate-lines nil)
     (set (make-local-variable 'truncate-partial-width-windows) nil)))
 
@@ -86,7 +86,7 @@
   (add-to-list 'compilation-finish-functions #'ef-compilation-exit-autoclose)
 
   (ef-add-hook compilation-mode-hook
-    "Enable visual-line-mode for compilation buffers."
+    "Enable `visual-line-mode' for compilation buffers."
     (setq-local bidi-display-reordering nil)
     (visual-line-mode t)))
 
@@ -139,11 +139,11 @@
   (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 
   (ef-add-hook minibuffer-setup-hook
-    "Increase garbage collector threshold while in minibuffer."
+    "Increase `gc-cons-threshold' while in minibuffer."
     (setq gc-cons-threshold most-positive-fixnum))
 
   (ef-add-hook minibuffer-exit-hook
-    "Restore garbage collector threshold to default."
+    "Restore `gc-cons-threshold' to default."
     (setq gc-cons-threshold (car (get 'gc-cons-threshold 'standard-value)))))
 
 (use-package paren
