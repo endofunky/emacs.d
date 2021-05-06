@@ -1,5 +1,11 @@
 (require 'core-evil)
 
+(use-package paren
+  :custom
+  (show-paren-delay 0)
+  :config
+  (show-paren-mode t))
+
 (use-package smartparens
   :ensure t
   :custom

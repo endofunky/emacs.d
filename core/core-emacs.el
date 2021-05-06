@@ -159,12 +159,6 @@
     "Restore `gc-cons-threshold' to default."
     (setq gc-cons-threshold (car (get 'gc-cons-threshold 'standard-value)))))
 
-(use-package paren
-  :custom
-  (show-paren-delay 0)
-  :config
-  (show-paren-mode t))
-
 (use-package prog-mode
   :general
   (:states 'normal :keymaps 'prog-mode-map
