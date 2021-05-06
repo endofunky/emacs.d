@@ -1,5 +1,6 @@
 (require 'core-evil)
 (require 'core-lib)
+(require 'core-shackle)
 
 (ef-customize
   ;; Tabs are just awful
@@ -221,5 +222,15 @@
   (whitespace-style (quote (face trailing)))
   :config
   (global-whitespace-mode 1))
+
+(use-package xref
+  :defer t
+  :custom
+  (xref-marker-ring-length 1024)
+  :config
+  (ef-shackle '("*xref*" :align below :size .4 :popup t :select t))
+
+  (defadvice xref-goto-xref (after my activate)
+    (delete-window (get-buffer-window (get-buffer "*xref*")))))
 
 (provide 'core-emacs)
