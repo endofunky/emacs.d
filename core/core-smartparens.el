@@ -8,6 +8,7 @@
   (sp-show-pair-delay 0)
   (sp-show-pair-from-inside t)
   :config
+  (declare-function sp-local-pair "smartparens")
   (show-smartparens-global-mode -1)
   (smartparens-global-mode t)
 
@@ -31,4 +32,4 @@
     (forward-line -1)
     (indent-according-to-mode)))
 
-(provide 'base-smartparens)
+(provide 'core-smartparens)
