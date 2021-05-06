@@ -6,8 +6,12 @@
   (defun ef-cider-jack-in (params)
     "Quit cider if running and jack in again"
     (interactive "P")
-    (if (cider-connected-p)
-        (cider-quit))
+    (when (cider-connected-p)
+      (if-let* ((buf (cider-current-repl))
+                (win (get-buffer-window buf))
+                (_ (window-parent win)))
+          (delete-window win))
+      (cider-quit))
     (cider-jack-in params))
 
   (evil-define-key 'normal clojure-mode-map ",cjq" 'cider-quit)
