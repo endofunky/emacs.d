@@ -4,7 +4,7 @@
 
 (ef-customize
   ;; Tabs are just awful
-  (indent-tabe-mode nil)
+  (indent-tabs-mode nil)
 
   ;; Disable bell completely
   (ring-bell-function 'ignore)
