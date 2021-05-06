@@ -46,7 +46,7 @@ HOOKS is `some-hook'. Usage:
                            ,(if interactive `(interactive))
                            ,@body)))
 	 ,@(mapcar #'(lambda (hook)
-                       `(add-hook ',hook #',fn ,append ,local))
+                       `(add-hook ',hook ',fn ,append ,local))
                    hooks)))))
 
 (defmacro ef-customize (&rest cvars)

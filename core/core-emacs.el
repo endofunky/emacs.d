@@ -63,7 +63,6 @@
   :defer t
   :custom
   (comint-move-point-for-output 'others)
-  :functions (ef-comint-mode-hook)
   :general
   (:states 'insert :keymaps 'comint-mode-map
 	   "<up>" 'comint-previous-input
@@ -81,8 +80,7 @@
   (compilation-ask-about-save nil)
   (compilation-message-face 'default)
   (compilation-scroll-output 'first-error)
-  :functions (ef-compilation-mode-hook
-	      ef-compilation-exit-autoclose)
+  :functions (ef-compilation-exit-autoclose)
   :hook
   ;; Avoid dropping into insert mode in compilation windows
   (compilation-start . evil-normal-state)
@@ -115,7 +113,6 @@
 
 (use-package files
   :unless noninteractive
-  :functions (ef-after-save-message-hook)
   :config
   (setq save-silently t)
   (ef-add-hook after-save-hook :fn ef-after-save-message-hook
@@ -146,8 +143,6 @@
   :custom
   (ef-minibuffer-gc-cons-threshold gc-cons-threshold)
   (enable-recursive-minibuffers t)
-  :functions (ef-minibuffer-setup-hook
-	      ef-minibuffer-exit-hook)
   :config
   ;; Escape minibuffer with single escape
   (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
@@ -207,7 +202,6 @@
   :commands smerge-mode
   :custom
   (smerge-command-prefix (kbd "C-s"))
-  :functions (ef-enable-smerge-maybe)
   :init
   (ef-add-hook (find-file-hook after-revert-hook) :fn ef-enable-smerge-maybe
     "Auto-enable `smerge-mode' when merge conflict is detected."
