@@ -27,6 +27,7 @@
              cider-eval-defun-at-point
              cider-eval-region)
   :custom
+  (cider-prompt-for-project-on-connect nil)
   (cider-prompt-for-symbol nil)
   (cider-repl-display-help-banner nil)
   (cider-repl-use-pretty-printing t)
