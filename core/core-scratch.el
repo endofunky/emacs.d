@@ -3,6 +3,7 @@
 (use-package persistent-scratch
   :ensure t
   :defer 1
+  :unless noninteractive
   :custom
   (persistent-scratch-autosave-interval 5)
   :hook
