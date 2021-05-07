@@ -9,7 +9,8 @@
   :hook
   (after-init . persistent-scratch-restore)
   :config
-  (persistent-scratch-setup-default)
+  (with-demoted-errors "Error: %S"
+    (persistent-scratch-setup-default))
   (persistent-scratch-autosave-mode t))
 
 (defvar ef-toggle-scratch--prev-buffer nil)
