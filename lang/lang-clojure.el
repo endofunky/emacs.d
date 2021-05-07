@@ -33,11 +33,11 @@
   (cider-repl-use-pretty-printing t)
   (nrepl-hide-special-buffers t)
   (nrepl-log-message nil)
+  :hooks
+  (cider-mode . eldoc-mode)
+  (cider-repl-mode . eldoc-mode)
   :config
   (require 'cider-ns)
-
-  (add-hook 'cider-mode-hook #'eldoc-mode)
-  (add-hook 'cider-repl-mode-hook #'eldoc-mode)
 
   (ef-shackle '(cider-repl-mode :align bottom :size .4 :popup t :select t)
               '("*cider-test-report*" :align bottom :size .4 :popup t :select t)
