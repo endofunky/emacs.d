@@ -204,6 +204,13 @@
       (when (re-search-forward "^<<<<<<< " nil :noerror)
         (smerge-mode t)))))
 
+(use-package uniquify
+  :custom
+  (uniquify-after-kill-buffer-p t)
+  (uniquify-buffer-name-style 'post-forward-angle-brackets)
+  (uniquify-ignore-buffers-re "^\\*")
+  (uniquify-separator ":"))
+
 (use-package whitespace
   :custom
   (show-trailing-whitespace nil)
