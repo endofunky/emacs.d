@@ -11,9 +11,12 @@
 
 (use-package transient
   :ensure t
+  :general
+  (:keymaps '(transient-map transient-edit-map)
+            "?" 'transient-show)
   :custom
   (transient-enable-popup-navigation t)
-  (transient-show-popup t))
+  (transient-show-popup nil))
 
 (defgroup ef-deflang nil
   "Endomacs deflang configuration."
