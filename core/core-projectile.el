@@ -5,12 +5,11 @@
   :custom
   (projectile-completion-system 'ivy)
   (projectile-mode-line-prefix " P")
+  :commands (projectile-toggle-between-implementation-and-test)
   :general
   (:states 'normal :prefix ef-prefix
 	   "f" 'ef-projectile-find-file
 	   "p" 'projectile-switch-project)
-  (:states 'normal :keymaps 'projectile-mode-map :prefix ef-prefix
-	   "l" 'projectile-toggle-between-implementation-and-test)
   :config
   (declare-function projectile-project-p "projectile")
   (defun ef-projectile-find-file ()

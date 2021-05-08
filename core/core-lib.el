@@ -95,13 +95,15 @@ Must be set before loading ef-deflang."
 
 (defconst ef-deflang-test-defs
   '((:test-all             (:key "a"  :desc "Test All"))
+    (:test-toggle          (:key "l"  :desc "Toggle test/implementation"))
     (:test-at-point        (:key "p"  :desc "Test at Point"))
     (:test-file            (:key "t"  :desc "Test File"))))
 
 (defconst ef-deflang-keybinds
   '((:compile-menu . "c")
     (:compile-menu-eval . "e")
-    (:compile-menu-test . "t")))
+    (:compile-menu-test . "t")
+    (:test-toggle . "l")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;

@@ -71,6 +71,7 @@
   :eval-expression eval-expression
   :eval-region eval-region
   :eval-sexp eval-print-last-sexp
-  :lint-file package-lint-current-buffer)
+  :lint-file package-lint-current-buffer
+  :test-toggle projectile-toggle-between-implementation-and-test)
 
 (provide 'lang-elisp)
