@@ -77,6 +77,7 @@ Must be set before loading ef-deflang."
 
 (defconst ef-deflang-compile-menu-defs
   '((:compile-menu-eval    (:key "e"  :desc "Evaluate"))
+    (:compile-menu-lint    (:key "l"  :desc "Lint"))
     (:compile-menu-manual  (:key "m"  :desc "Manual/Documentation"))
     (:compile-menu-test    (:key "t"  :desc "Test"))))
 
@@ -89,6 +90,9 @@ Must be set before loading ef-deflang."
     (:eval-region          (:key "r"  :desc "Eval Region"))
     (:eval-sexp            (:key "s"  :desc "Eval S-Expression"))))
 
+(defconst ef-deflang-lint-defs
+  '((:lint-file            (:key "f"  :desc "Lint File"))))
+
 (defconst ef-deflang-test-defs
   '((:test-all             (:key "a"  :desc "Test All"))
     (:test-at-point        (:key "p"  :desc "Test at Point"))
@@ -98,9 +102,6 @@ Must be set before loading ef-deflang."
   '((:compile-menu . "c")
     (:compile-menu-eval . "e")
     (:compile-menu-test . "t")))
-
-(defconst ef-deflang-submenus '((eval . ef-deflang-eval-defs)
-                                (test . ef-deflang-test-defs)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -443,6 +444,7 @@ If FILTER is `nil' kill all buffers except the current one."
   (thread-last args
     (ef-plist-merge ef-deflang-defaults)
     (ef-deflang-build-menu lang ef-deflang-eval-defs 'eval)
+    (ef-deflang-build-menu lang ef-deflang-lint-defs 'lint)
     (ef-deflang-build-menu lang ef-deflang-test-defs 'test)
     (ef-deflang-build-top-level lang)
     (ef-deflang-bind-keys lang)))
