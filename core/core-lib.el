@@ -13,9 +13,11 @@
   :ensure t
   :general
   (:keymaps '(transient-map transient-edit-map)
+            "<escape>" 'transient-quit-all
             "?" 'transient-show
             "C-h" 'transient-show
             "C-t" 'transient-help)
+  :commands (transient-define-prefix)
   :custom
   (transient-enable-popup-navigation t)
   (transient-show-popup 1))
@@ -440,9 +442,7 @@ If FILTER is `nil' kill all buffers except the current one."
     (eval `(transient-define-prefix ,dispatch ()
              ,(format "Compile (%s) commands for %s." name mode)
              ["Actions"
-              ,@actions]
-             ["Commands"
-              [("<escape>" "Quit all" transient-quit-all)]]))
+              ,@actions]))
     (plist-put args menu-name dispatch))
   args)
 
@@ -464,8 +464,7 @@ If FILTER is `nil' kill all buffers except the current one."
              ["Actions"
               ,@actions]
              ["Commands"
-              ,@menu-actions
-              [("<escape>" "Quit all" transient-quit-all)]]))
+              ,@menu-actions]))
     (plist-put args :compile-menu dispatch))
   args)
 
