@@ -10,6 +10,7 @@ anaconda-mode/
 auto-save-list
 bookmarks
 company-statistics-cache.el
+compiler-explorer
 custom.el
 el-get
 elpa
