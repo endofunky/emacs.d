@@ -429,12 +429,14 @@ If FILTER is `nil' kill all buffers except the current one."
   (dolist (def ef-deflang-keybinds)
     (when-let* ((menu (car def))
                 (key (cdr def))
-                (map (ef-mode-map lang))
+                (maps (ef-as-list (or (plist-get args :maps)
+                                      (ef-mode-map lang))))
                 (dispatch (plist-get args menu)))
-      (general-define-key :states '(normal visual)
-                          :keymaps map
-                          :prefix ef-prefix
-                          key dispatch)))
+      (dolist (map maps)
+        (general-define-key :states '(normal visual)
+                            :keymaps map
+                            :prefix ef-prefix
+                            key dispatch))))
   args)
 
 (defun ef-deflang-build (lang args)
