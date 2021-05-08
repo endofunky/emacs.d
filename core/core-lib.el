@@ -170,6 +170,30 @@ appended."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
+;;; lists
+;;
+
+(cl-defun ef-split-list (list parts &key (last-part-longer nil))
+  ;; Split LIST into PARTS parts.  They will all be the same
+  ;; length except the last one which will be shorter or, if
+  ;; LAST-PART-LONGER is true, longer.  Doesn't deal with the case
+  ;; where there are less than PARTS elements in LIST at all (it does
+  ;; something, but it may not be sensible).
+  (cl-loop with size = (if last-part-longer
+                           (floor (length list) parts)
+                         (ceiling (length list) parts))
+           and tail = list
+           for part upfrom 1
+           while tail
+           collect (cl-loop for pt on tail
+                            for i upfrom 0
+                            while (or (and last-part-longer (= part parts))
+                                      (< i size))
+                            collect (car pt)
+                            finally (setf tail pt))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
 ;;; Property lists
 ;;
 
@@ -401,14 +425,17 @@ If FILTER is `nil' kill all buffers except the current one."
 
 (defun ef-deflang-build-menu (lang keydefs name args)
   (when-let* ((defs (ef-deflang-match-defs keydefs args))
-              (actions (ef-deflang-actions defs args))
+              (actions (mapcar #'vconcat
+                               (ef-split-list
+                                (ef-deflang-actions defs args)
+                                3)))
               (menu-name (intern (format ":compile-menu-%s" name)))
               (mode (ef-mode lang))
               (dispatch (ef-deflang-dispatch-name lang name)))
     (eval `(transient-define-prefix ,dispatch ()
              ,(format "Compile (%s) commands for %s." name mode)
              ["Actions"
-              [,@actions]]
+              ,@actions]
              ["Commands"
               [("<escape>" "Quit all" transient-quit-all)]]))
     (plist-put args menu-name dispatch))
@@ -418,11 +445,15 @@ If FILTER is `nil' kill all buffers except the current one."
   (when-let* ((mode (ef-mode lang))
               (compile-keydefs (ef-deflang-match-defs ef-deflang-compile-defs args))
               (compile-menu-keydefs (ef-deflang-match-defs ef-deflang-compile-menu-defs args))
+              (actions (mapcar #'vconcat
+                               (ef-split-list
+                                (ef-deflang-actions compile-keydefs args)
+                                3)))
               (dispatch (ef-deflang-dispatch-name lang "compile")))
     (eval `(transient-define-prefix ,dispatch ()
              ,(format "Run code commands for %s." mode)
              ["Actions"
-              [,@(ef-deflang-actions compile-keydefs args)]]
+              ,@actions]
              ["Commands"
               [,@(ef-deflang-actions compile-menu-keydefs args)]
               [("<escape>" "Quit all" transient-quit-all)]]))
