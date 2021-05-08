@@ -1,21 +1,5 @@
 (require 'core-lib)
 
-(defgroup ef-keybinds nil
-  "Endomacs keybinds."
-  :group 'faces)
-
-(defcustom ef-prefix ","
-  "Prefix leader used for endomacs key-bindings."
-  :group 'ef-theme
-  :type 'string)
-
-(use-package general
-  :ensure t
-  :config
-  (declare-function general-override-mode "general")
-  (general-auto-unbind-keys)
-  (general-override-mode t))
-
 (use-package evil
   :ensure t
   :demand t

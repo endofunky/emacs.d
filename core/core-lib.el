@@ -1,5 +1,60 @@
 (require 'cl-macs)
+(require 'cl-seq)
 (require 'subr-x)
+
+(use-package general
+  :ensure t
+  :config
+  (declare-function general-override-mode "general")
+  (general-auto-unbind-keys)
+  (general-override-mode t))
+
+(use-package transient
+  :ensure t
+  :custom
+  (transient-show-popup t))
+
+(defgroup ef-deflang nil
+  "Endomacs deflang configuration."
+  :group 'startup)
+
+(defcustom ef-deflang-form-regexp-eval
+  `(concat ,(eval-when-compile
+              (concat "^\\s-*("
+                      (regexp-opt '("ef-deflang") t)
+                      "\\s-+\\("))
+           (or (bound-and-true-p lisp-mode-symbol-regexp)
+               "\\(?:\\sw\\|\\s_\\|\\\\.\\)+") "\\)")
+  "Sexp providing regexp for finding ef-deflang forms in user files."
+  :type 'sexp
+  :group 'ef-deflang)
+
+(defcustom ef-deflang-enable-imenu-support t
+  "If non-nil, cause `imenu' to see `ef-deflang' declarations.
+This is done by adjusting `lisp-imenu-generic-expression' to include
+support for finding `ef-deflang'.
+
+Must be set before loading ef-deflang."
+  :type 'boolean
+  :set
+  #'(lambda (_sym value)
+      (eval-after-load 'lisp-mode
+        (if value
+            `(add-to-list 'lisp-imenu-generic-expression
+                          (list "Languages" ,ef-deflang-form-regexp-eval 2))
+          `(setq lisp-imenu-generic-expression
+                 (remove (list "Languages" ,ef-deflang-form-regexp-eval 2)
+                         lisp-imenu-generic-expression)))))
+  :group 'ef-deflang)
+
+(defgroup ef-keybinds nil
+  "Endomacs keybinds."
+  :group 'faces)
+
+(defcustom ef-prefix ","
+  "Prefix leader used for endomacs key-bindings."
+  :group 'ef-theme
+  :type 'string)
 
 (defgroup ef-theme nil
   "Endomacs faces."
@@ -9,6 +64,153 @@
   "Set foreground color for fullscreen indicator in mode-line."
   :group 'ef-theme
   :type 'string)
+
+(defconst ef-deflang-defaults '())
+
+(defconst ef-deflang-compile-defs
+  '((:compile-buffer       (:key "b"  :desc "Compile Buffer"))
+    (:compile              (:key "c"  :desc "Compile"))
+    (:compile-defun        (:key "d"  :desc "Compile Defun at point"))
+    (:compile-file         (:key "f"  :desc "Compile File"))
+    (:compile-region       (:key "r"  :desc "Compile Region"))
+    (:compile-sexp         (:key "s"  :desc "Compile S-Expression"))))
+
+(defconst ef-deflang-compile-menu-defs
+  '((:compile-menu-eval    (:key "e"  :desc "Evaluate"))
+    (:compile-menu-manual  (:key "m"  :desc "Manual/Documentation"))
+    (:compile-menu-test    (:key "t"  :desc "Test"))))
+
+(defconst ef-deflang-eval-defs
+  '((:eval-all             (:key "a"  :desc "Eval All/Project"))
+    (:eval-buffer          (:key "b"  :desc "Eval Buffer"))
+    (:eval-expression      (:key "e"  :desc "Eval Expression"))
+    (:eval-file            (:key "f"  :desc "Eval File"))
+    (:eval-defun           (:key "d"  :desc "Eval Defun at point"))
+    (:eval-region          (:key "r"  :desc "Eval Region"))
+    (:eval-sexp            (:key "s"  :desc "Eval S-Expression"))))
+
+(defconst ef-deflang-test-defs
+  '((:test-all             (:key "a"  :desc "Test All"))
+    (:test-at-point        (:key "p"  :desc "Test at Point"))
+    (:test-file            (:key "t"  :desc "Test File"))))
+
+(defconst ef-deflang-keybinds
+  '((:compile-menu . "c")
+    (:compile-menu-eval . "e")
+    (:compile-menu-test . "t")))
+
+(defconst ef-deflang-submenus '((eval . ef-deflang-eval-defs)
+                                (test . ef-deflang-test-defs)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Utilities
+;;
+
+(defsubst ef-nsp ()
+  "Return t if running on macOS or NeXTSTEP."
+  (memq window-system '(mac ns)))
+
+(defsubst ef-apply-reverse (fn &rest args)
+  "Call FN with it's arguments ARGS reversed."
+  (apply fn (reverse args)))
+
+(defsubst ef-as-list (value-or-list)
+  "If VALUE-OR-LIST is already a string, return it.  Otherwise
+convert it to a list and return that."
+  (if (listp value-or-list)
+      value-or-list
+    (list value-or-list)))
+
+(defsubst ef-as-string (string-or-symbol)
+  "If STRING-OR-SYMBOL is already a string, return it.  Otherwise
+convert it to a string and return that."
+  (if (stringp string-or-symbol)
+      string-or-symbol
+    (symbol-name string-or-symbol)))
+
+(defsubst ef-as-symbol (string-or-symbol)
+  "If STRING-OR-SYMBOL is already a symbol, return it.  Otherwise
+convert it to a symbol and return that."
+  (if (symbolp string-or-symbol)
+      string-or-symbol
+    (intern string-or-symbol)))
+
+(defsubst ef-mode-name (name)
+  "If NAME ends in `-mode' (or its name does), return it as a
+string.  Otherwise, return it as a string with `-mode' appended."
+  (if-let* ((string (ef-as-string name))
+            (_ (string-match "-mode\\'" string)))
+      string
+    (concat string "-mode")))
+
+(defsubst ef-mode (name)
+  "If NAME ends in `-mode' (or its name does), return it as a
+symbol.  Otherwise, return it as a symbol with `-mode' appended."
+  (intern (ef-mode-name name)))
+
+(defsubst ef-mode-map-name (name)
+  "If NAME ends in `-mode-map' (or its name does), return it as a
+string.  Otherwise, return it as a string with `-mode-map'
+appended."
+  (if-let* ((string (ef-as-string name))
+            (_ (string-match "-map\\'" string)))
+      string
+    (concat (ef-mode-name string) "-map")))
+
+(defsubst ef-mode-map (name)
+  "If NAME ends in `-mode-map' (or its name does), return it as a
+symbol.  Otherwise, return it as a symbol with `-mode-map'
+appended."
+  (intern (ef-mode-map-name name)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Property lists
+;;
+
+(defun ef-plist-merge (&rest plists)
+  "Create a single property list from all plists in PLISTS.
+The process starts by copying the first list, and then setting
+properties from the other lists.  Settings in the last list
+are the most significant ones and overrule settings in the
+other lists.
+
+This is coming from `org-mode' (`org-combine-plists'). Requiring
+`org-mode' loads a 24k+ line Emacs Lisp file, which introduces
+significant overhead when used as a utility library, hence it
+has been extracted."
+  (let ((rtn (copy-sequence (pop plists)))
+        p v ls)
+    (while plists
+      (setq ls (pop plists))
+      (while ls
+        (setq p (pop ls) v (pop ls))
+        (setq rtn (plist-put rtn p v))))
+    rtn))
+
+(defun ef-plist-merge-reverse (&rest plists)
+  "Create a single property list from all plists in PLISTS.
+The process starts by copying the last list, and then setting
+properties from the other lists in reverse order.  Settings in
+the first list are the most significant ones and overrule
+settings in the other lists."
+  (apply #'ef-plist-merge (reverse plists)))
+
+(defmacro ef-eval-after-load (features &rest body)
+  "Evaluate BODY after FEATURES have been loaded by generating
+nested `eval-after-load' forms."
+  (declare (indent defun))
+  (unless (consp features)
+    (setq features (list features)))
+  (cl-flet ((acc (x xs)
+		 `(eval-after-load ',x ',(or xs (macroexp-progn body)))))
+    (cl-reduce #'acc features :initial-value '() :from-end t)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Configuration macros
+;;
 
 (cl-defmacro ef-add-hook(hooks &rest body
                                &key fn append local interactive
@@ -68,41 +270,6 @@ HOOKS is `some-hook'. Usage:
                       `'(,symbol ,exp nil nil ,comment)))
                 cvars))))
 
-(defun ef-kill-buffer-or-delete-window ()
-  "If more than one window is open, delete the current window, otherwise kill
-current buffer."
-  (interactive)
-  (if (> (length (window-list)) 1)
-      (delete-window)
-    (kill-buffer)))
-
-(defun ef-indent-buffer ()
-  "Indent the currently visited buffer."
-  (interactive)
-  (indent-region (point-min) (point-max)))
-
-(defun ef-kill-buffers-matching (filter)
-  "Kill all other buffers matching FILTER.
-
-If FILTER is `nil' kill all buffers except the current one."
-  (interactive "sFilter: ")
-  (dolist (buf (delq (current-buffer) (buffer-list)))
-    (when (or (not filter)
-              (string-match filter (string-trim (buffer-name buf))))
-      (if-let ((win (get-buffer-window buf)))
-          (delete-window win))
-      (kill-buffer buf))))
-
-(defun ef-kill-other-buffers ()
-  "Kill all other buffers except special buffers."
-  (interactive)
-  (ef-kill-buffers-matching "^[^\\*]"))
-
-(defun ef-kill-all-other-buffers ()
-  "Kill all other buffers except special buffers."
-  (interactive)
-  (ef-kill-buffers-matching nil))
-
 (defmacro ef-keep-other-windows (fn)
   "Temporarily disable delete-other-windows for FN."
   `(defadvice ,fn (around ef-keep-other-windows activate)
@@ -110,9 +277,25 @@ If FILTER is `nil' kill all buffers except the current one."
                 (symbol-function 'ignore)))
        ad-do-it)))
 
-(defsubst ef-nsp ()
-  "Return t if running on macOS or NeXTSTEP."
-  (memq window-system '(mac ns)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Commands
+;;
+
+(defun ef-toggle-window-fullscreen ()
+  "Toggle current window fullscreen."
+  (interactive)
+  (let ((mode-line-str (propertize "FS"
+				   'font-lock-face
+				   (list :foreground ef-fullscreen-indicator))))
+    (if (get-register :ef-fullscreen)
+        (progn
+          (jump-to-register :ef-fullscreen)
+          (set-register :ef-fullscreen nil)
+          (setq global-mode-string (delete mode-line-str global-mode-string)))
+      (window-configuration-to-register :ef-fullscreen)
+      (delete-other-windows)
+      (setq global-mode-string (push mode-line-str global-mode-string)))))
 
 (defun ef-read-file (filename)
   "Return the contents of FILENAME."
@@ -153,19 +336,118 @@ If FILTER is `nil' kill all buffers except the current one."
   (interactive)
   (insert (format-time-string "%Y-%j")))
 
-(defun ef-toggle-window-fullscreen ()
-  "Toggle current window fullscreen."
+(defun ef-kill-buffer-or-delete-window ()
+  "If more than one window is open, delete the current window, otherwise kill
+current buffer."
   (interactive)
-  (let ((mode-line-str (propertize "FS"
-				   'font-lock-face
-				   (list :foreground ef-fullscreen-indicator))))
-    (if (get-register :ef-fullscreen)
-        (progn
-          (jump-to-register :ef-fullscreen)
-          (set-register :ef-fullscreen nil)
-          (setq global-mode-string (delete mode-line-str global-mode-string)))
-      (window-configuration-to-register :ef-fullscreen)
-      (delete-other-windows)
-      (setq global-mode-string (push mode-line-str global-mode-string)))))
+  (if (> (length (window-list)) 1)
+      (delete-window)
+    (kill-buffer)))
+
+(defun ef-indent-buffer ()
+  "Indent the currently visited buffer."
+  (interactive)
+  (indent-region (point-min) (point-max)))
+
+(defun ef-kill-buffers-matching (filter)
+  "Kill all other buffers matching FILTER.
+
+If FILTER is `nil' kill all buffers except the current one."
+  (interactive "sFilter: ")
+  (dolist (buf (delq (current-buffer) (buffer-list)))
+    (when (or (not filter)
+              (string-match filter (string-trim (buffer-name buf))))
+      (if-let ((win (get-buffer-window buf)))
+          (delete-window win))
+      (kill-buffer buf))))
+
+(defun ef-kill-other-buffers ()
+  "Kill all other buffers except special buffers."
+  (interactive)
+  (ef-kill-buffers-matching "^[^\\*]"))
+
+(defun ef-kill-all-other-buffers ()
+  "Kill all other buffers except special buffers."
+  (interactive)
+  (ef-kill-buffers-matching nil))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Language mode definition
+;;
+
+(defsubst ef-deflang-dispatch-name (lang dispatch)
+  (intern (format "ef-%s-%s-dispatch" lang dispatch)))
+
+(defun ef-deflang-match-defs (keydefs args)
+  (cl-loop for (keydef . rest) on keydefs
+           when (plist-get args (car keydef))
+           collect keydef into matched-defs
+           finally (return matched-defs)))
+
+(defun ef-deflang-actions (keydefs args)
+  (mapcar (lambda (element)
+            (if-let* ((key (car element))
+                      (keydef (car (cdr element)))
+                      (fn (plist-get args key)))
+                (list (plist-get keydef :key)
+                      (plist-get keydef :desc)
+                      fn)))
+          keydefs))
+
+(defun ef-deflang-build-menu (lang keydefs name args)
+  (when-let* ((defs (ef-deflang-match-defs keydefs args))
+              (actions (ef-deflang-actions defs args))
+              (menu-name (intern (format ":compile-menu-%s" name)))
+              (mode (ef-mode lang))
+              (dispatch (ef-deflang-dispatch-name lang name)))
+    (eval `(transient-define-prefix ,dispatch ()
+             ,(format "Compile (%s) commands for %s." name mode)
+             ["Actions"
+              [,@actions]]))
+    (plist-put args menu-name dispatch))
+  args)
+
+(defun ef-deflang-build-top-level (lang args)
+  (when-let* ((mode (ef-mode lang))
+              (compile-keydefs (ef-deflang-match-defs ef-deflang-compile-defs args))
+              (compile-menu-keydefs (ef-deflang-match-defs ef-deflang-compile-menu-defs args))
+              (dispatch (ef-deflang-dispatch-name lang "compile")))
+    (eval `(transient-define-prefix ,dispatch ()
+             ,(format "Run code commands for %s." mode)
+             ["Actions"
+              [,@(ef-deflang-actions compile-keydefs args)]]
+             ["Commands"
+              [,@(ef-deflang-actions compile-menu-keydefs args)]]))
+    (plist-put args :compile-menu dispatch))
+  args)
+
+(defun ef-deflang-bind-keys (lang args)
+  (dolist (def ef-deflang-keybinds)
+    (when-let* ((menu (car def))
+                (key (cdr def))
+                (map (ef-mode-map lang))
+                (dispatch (plist-get args menu)))
+      (general-define-key :states '(normal visual)
+                          :keymaps map
+                          :prefix ef-prefix
+                          key dispatch)))
+  args)
+
+(defun ef-deflang-build (lang args)
+  (thread-last args
+    (ef-plist-merge ef-deflang-defaults)
+    (ef-deflang-build-menu lang ef-deflang-eval-defs 'eval)
+    (ef-deflang-build-menu lang ef-deflang-test-defs 'test)
+    (ef-deflang-build-top-level lang)
+    (ef-deflang-bind-keys lang)))
+
+(defmacro ef-deflang (lang &rest args)
+  (declare (indent defun))
+  (let* ((features (or (ef-as-list (plist-get args :after))
+                       (ef-mode lang))))
+    (cl-remf args :after)
+    (macroexpand
+     `(ef-eval-after-load ,features (ef-deflang-build ',lang ',args)))))
 
 (provide 'core-lib)
