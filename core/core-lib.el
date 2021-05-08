@@ -99,7 +99,8 @@ Must be set before loading ef-deflang."
     (:eval-sexp            (:key "s"  :desc "Eval S-Expression"))))
 
 (defconst ef-deflang-lint-defs
-  '((:lint-file            (:key "f"  :desc "Lint File"))))
+  '((:lint-file            (:key "f"  :desc "Lint File"))
+    (:lint-project         (:key "p"  :desc "Lint Project"))))
 
 (defconst ef-deflang-test-defs
   '((:test-all             (:key "a"  :desc "Test All"))
