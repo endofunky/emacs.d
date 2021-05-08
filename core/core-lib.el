@@ -449,13 +449,17 @@ If FILTER is `nil' kill all buffers except the current one."
                                (ef-split-list
                                 (ef-deflang-actions compile-keydefs args)
                                 3)))
+              (menu-actions (mapcar #'vconcat
+                                    (ef-split-list
+                                     (ef-deflang-actions compile-menu-keydefs args)
+                                     2)))
               (dispatch (ef-deflang-dispatch-name lang "compile")))
     (eval `(transient-define-prefix ,dispatch ()
              ,(format "Run code commands for %s." mode)
              ["Actions"
               ,@actions]
              ["Commands"
-              [,@(ef-deflang-actions compile-menu-keydefs args)]
+              ,@menu-actions
               [("<escape>" "Quit all" transient-quit-all)]]))
     (plist-put args :compile-menu dispatch))
   args)
