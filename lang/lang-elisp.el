@@ -1,5 +1,6 @@
 (require 'core-evil)
 (require 'core-lib)
+(require 'core-projectile)
 (require 'core-shackle)
 
 (use-package elisp-mode
@@ -9,6 +10,25 @@
   (evil-define-key 'normal emacs-lisp-mode-map ",m" 'counsel-apropos)
   (evil-define-key 'normal lisp-interaction-mode-map ",m" 'counsel-apropos)
   (evil-define-key 'normal lisp-interaction-mode-map ",r" 'ef-repl-ielm)
+
+  (defun ef-elisp-eval-project ()
+    (interactive)
+    (dolist (buf (buffer-list))
+      (let ((project-root (projectile-project-root))
+            (buffer-major-mode (with-current-buffer buf
+                                 major-mode))
+            (buffer-file (buffer-file-name buf)))
+        (when (and (or (string= buffer-major-mode "emacs-lisp-mode")
+                       (string= buffer-major-mode "lisp-interaction-mode"))
+                   ;; Skip files not part of the current project
+                   (string-prefix-p project-root buffer-file)
+                   ;; Skip special files (such as ./tramp)
+                   (string-suffix-p ".el" buffer-file)
+                   ;; Skip elpa directory
+                   (not (string-prefix-p (expand-file-name "elpa" project-root)
+                                         buffer-file)))
+          (message "Evaluating: %s" buffer-file)
+          (eval-buffer buf)))))
 
   (defun ef-emacs-lisp-recompile ()
     "Recompile elc file corresponding to `buffer-file-name', if it exists."
@@ -67,6 +87,7 @@
   :after elisp-mode
   :maps '(emacs-lisp-mode-map lisp-interaction-mode-map)
   :compile emacs-lisp-byte-compile-and-load
+  :eval-all ef-elisp-eval-project
   :eval-buffer eval-buffer
   :eval-expression eval-expression
   :eval-region eval-region
