@@ -20,10 +20,11 @@
   :functions (ef-flycheck-toggle-errors)
   :general
   (:keymap 'flycheck-error-list-mode-map
-	    "M-e" 'quit-window)
+	   "M-e" 'quit-window)
   (:keymap 'flycheck--mode-map
-	    "M-e" 'ef-flycheck-toggle-errors)
+	   "M-e" 'ef-flycheck-toggle-errors)
   :config
+  (declare-function flycheck-buffer "flycheck")
   (declare-function flycheck-list-errors "flycheck")
 
   (ef-shackle `(,flycheck-error-list-buffer :align below :size .1 :popup t :no-select t))
@@ -36,7 +37,26 @@
     (interactive)
     (if-let ((win (get-buffer-window flycheck-error-list-buffer)))
         (delete-window win)
-      (flycheck-list-errors))))
+      (flycheck-list-errors)))
+
+  (defconst ef-flycheck-need-update-commands
+    '(evil-change
+      evil-delete
+      evil-insert
+      evil-normal-state
+      evil-paste-after
+      evil-paste-before
+      evil-replace
+      evil-undo
+      evilnc-comment-or-uncomment-lines
+      lispyville-comment-or-uncomment-line
+      lispyville-comment-or-uncomment
+      lispyville-delete))
+
+  (ef-add-hook post-command-hook :fn ef-flycheck-post-command-hook
+    (when (and (bound-and-true-p flycheck-mode)
+               (member this-command ef-flycheck-need-update-commands))
+      (flycheck-buffer))))
 
 (use-package flycheck-color-mode-line
   :after flycheck
