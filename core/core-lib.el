@@ -404,7 +404,9 @@ If FILTER is `nil' kill all buffers except the current one."
     (eval `(transient-define-prefix ,dispatch ()
              ,(format "Compile (%s) commands for %s." name mode)
              ["Actions"
-              [,@actions]]))
+              [,@actions]]
+             ["Commands"
+              [("<escape>" "Quit all" transient-quit-all)]]))
     (plist-put args menu-name dispatch))
   args)
 
@@ -418,7 +420,8 @@ If FILTER is `nil' kill all buffers except the current one."
              ["Actions"
               [,@(ef-deflang-actions compile-keydefs args)]]
              ["Commands"
-              [,@(ef-deflang-actions compile-menu-keydefs args)]]))
+              [,@(ef-deflang-actions compile-menu-keydefs args)]
+              [("<escape>" "Quit all" transient-quit-all)]]))
     (plist-put args :compile-menu dispatch))
   args)
 
