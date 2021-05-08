@@ -13,7 +13,9 @@
   :ensure t
   :general
   (:keymaps '(transient-map transient-edit-map)
-            "?" 'transient-show)
+            "?" 'transient-show
+            "C-h" 'transient-show
+            "C-t" 'transient-help)
   :custom
   (transient-enable-popup-navigation t)
   (transient-show-popup 1))
