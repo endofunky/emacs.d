@@ -33,7 +33,7 @@
   (cider-repl-use-pretty-printing t)
   (nrepl-hide-special-buffers t)
   (nrepl-log-message nil)
-  :hooks
+  :hook
   (cider-mode . eldoc-mode)
   (cider-repl-mode . eldoc-mode)
   :config
