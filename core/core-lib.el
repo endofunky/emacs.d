@@ -16,7 +16,7 @@
             "?" 'transient-show)
   :custom
   (transient-enable-popup-navigation t)
-  (transient-show-popup nil))
+  (transient-show-popup 1))
 
 (defgroup ef-deflang nil
   "Endomacs deflang configuration."
