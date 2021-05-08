@@ -77,8 +77,8 @@ Must be set before loading ef-deflang."
 
 (defconst ef-deflang-compile-defs
   '((:compile-buffer       (:key "b"  :desc "Compile Buffer"))
-    (:compile              (:key "c"  :desc "Compile"))
-    (:compile-defun        (:key "d"  :desc "Compile Defun at point"))
+    (:compile              (:key "c"  :desc "Compile All/Project"))
+    (:compile-defun        (:key "d"  :desc "Compile Definition at Point"))
     (:compile-file         (:key "f"  :desc "Compile File"))
     (:compile-region       (:key "r"  :desc "Compile Region"))
     (:compile-sexp         (:key "s"  :desc "Compile S-Expression"))))
@@ -94,7 +94,7 @@ Must be set before loading ef-deflang."
     (:eval-buffer          (:key "b"  :desc "Eval Buffer"))
     (:eval-expression      (:key "e"  :desc "Eval Expression"))
     (:eval-file            (:key "f"  :desc "Eval File"))
-    (:eval-defun           (:key "d"  :desc "Eval Defun at point"))
+    (:eval-defun           (:key "d"  :desc "Eval Definition at Point"))
     (:eval-region          (:key "r"  :desc "Eval Region"))
     (:eval-sexp            (:key "s"  :desc "Eval S-Expression"))))
 
@@ -103,7 +103,7 @@ Must be set before loading ef-deflang."
     (:lint-project         (:key "p"  :desc "Lint Project"))))
 
 (defconst ef-deflang-test-defs
-  '((:test-all             (:key "a"  :desc "Test All"))
+  '((:test-all             (:key "a"  :desc "Test All/Project"))
     (:test-toggle          (:key "l"  :desc "Toggle test/implementation"))
     (:test-at-point        (:key "p"  :desc "Test at Point"))
     (:test-file            (:key "t"  :desc "Test File"))))
