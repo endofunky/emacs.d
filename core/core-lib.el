@@ -12,6 +12,7 @@
 (use-package transient
   :ensure t
   :custom
+  (transient-enable-popup-navigation t)
   (transient-show-popup t))
 
 (defgroup ef-deflang nil
