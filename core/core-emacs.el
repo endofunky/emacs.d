@@ -204,6 +204,10 @@
       (when (re-search-forward "^<<<<<<< " nil :noerror)
         (smerge-mode t)))))
 
+(use-package so-long
+  :config
+  (global-so-long-mode 1))
+
 (use-package uniquify
   :custom
   (uniquify-after-kill-buffer-p t)
