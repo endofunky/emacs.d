@@ -413,7 +413,7 @@ If FILTER is `nil' kill all buffers except the current one."
 ;;
 
 (defsubst ef-deflang-dispatch-name (lang dispatch)
-  (intern (format "ef-%s-%s-dispatch" lang dispatch)))
+  (intern (format "%s/%s" lang dispatch)))
 
 (defun ef-deflang-match-defs (keydefs args)
   (cl-loop for (keydef . rest) on keydefs
