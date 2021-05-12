@@ -87,6 +87,9 @@
   :after elisp-mode
   :maps '(emacs-lisp-mode-map lisp-interaction-mode-map)
   :compile emacs-lisp-byte-compile-and-load
+  :doc-apropos apropos
+  :doc-point elisp-slime-nav-describe-elisp-thing-at-point
+  :doc-search elisp-index-search
   :eval-all ef-elisp-eval-project
   :eval-buffer eval-buffer
   :eval-expression eval-expression
