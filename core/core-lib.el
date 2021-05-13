@@ -99,7 +99,7 @@ Must be set before loading ef-deflang."
     (:doc-guide            (:key "g"  :desc "Open Guide"))
     (:doc-manual           (:key "m"  :desc "Open Manual"))
     (:doc-cheatsheet       (:key "c"  :desc "Open Cheat Sheet"))
-    (:doc-search           (:key "s"  :desc "Search Manual"))))
+    (:doc-search           (:key "s"  :desc "Search"))))
 
 (defconst ef-deflang-eval-defs
   '((:eval-all             (:key "a"  :desc "Eval All/Project"))
