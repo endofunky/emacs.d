@@ -86,6 +86,12 @@
     (cider-eval-buffer)
     (cider-test-run-ns-tests nil))
 
+  (defun ef-cider-test-rerun-failed-tests ()
+    (cider-load-file
+     (projectile-find-implementation-or-test (buffer-file-name)))
+    (cider-eval-buffer)
+    (cider-test-run-test))
+
   (defun ef-cider-run-all-tests ()
     "Re-evaluate buffer and run all tests"
     (interactive)
@@ -138,6 +144,7 @@
   :macro-expand-all cider-macroexpand-all-inplace
   :macro-expand-one cider-macroexpand-1-inplace
   :macro-quit cider-macroexpand-undo
+  :test-errors ef-cider-test-rerun-failed-tests
   :test-file ef-cider-run-ns-tests
   :test-at-point ef-cider-run-test
   :test-all ef-cider-run-all-tests
