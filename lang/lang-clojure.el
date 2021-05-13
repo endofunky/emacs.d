@@ -22,6 +22,7 @@
 (use-package cider
   :ensure t
   :custom
+  (cider-print-fn 'fipp)
   (cider-prompt-for-project-on-connect nil)
   (cider-prompt-for-symbol nil)
   (cider-repl-display-help-banner nil)
