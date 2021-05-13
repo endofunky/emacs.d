@@ -48,17 +48,10 @@
   (dolist (hook '(emacs-lisp-mode-hook
                   ielm-mode-hook
                   lisp-interaction-mode-hook))
-    (add-hook hook 'elisp-slime-nav-mode))
-  :config
-  (evil-define-key 'normal emacs-lisp-mode-map ",," 'elisp-slime-nav-find-elisp-thing-at-point)
-  (evil-define-key 'normal lisp-interaction-mode-map ",," 'elisp-slime-nav-find-elisp-thing-at-point))
+    (add-hook hook 'elisp-slime-nav-mode)))
 
 (use-package macrostep
-  :ensure t
-  :config
-  (evil-define-key 'normal emacs-lisp-mode-map ",xe" 'macrostep-expand)
-  (evil-define-key 'normal lisp-interaction-mode-map ",xe" 'macrostep-expand)
-  (evil-define-key 'normal macrostep-keymap "q" 'macrostep-collapse-all))
+  :ensure t)
 
 (use-package package-lint
   :ensure t
@@ -87,7 +80,9 @@
   :after elisp-mode
   :maps '(emacs-lisp-mode-map lisp-interaction-mode-map)
   :compile emacs-lisp-byte-compile-and-load
-  :doc-apropos apropos
+  :compile-nav-jump elisp-slime-nav-find-elisp-thing-at-point
+  :compile-nav-pop-back pop-tag-mark
+  :doc-apropos counsel-apropos
   :doc-point elisp-slime-nav-describe-elisp-thing-at-point
   :doc-search elisp-index-search
   :eval-all ef-elisp-eval-project
@@ -96,6 +91,8 @@
   :eval-region eval-region
   :eval-sexp eval-print-last-sexp
   :lint-file package-lint-current-buffer
+  :macro-expand-all macrostep-expand
+  :macro-quit macrostep-collapse-all
   :test-toggle projectile-toggle-between-implementation-and-test)
 
 (provide 'lang-elisp)

@@ -83,12 +83,14 @@ Must be set before loading ef-deflang."
     (:compile-region       (:key "r"  :desc "Compile Region"))
     (:compile-sexp         (:key "s"  :desc "Compile S-Expression"))))
 
-(defconst ef-deflang-compile-menu-defs
-  '((:compile-menu-doc     (:key "d"  :desc "Documentation"))
-    (:compile-menu-eval    (:key "e"  :desc "Evaluate"))
-    (:compile-menu-lint    (:key "l"  :desc "Lint"))
-    (:compile-menu-manual  (:key "m"  :desc "Manual/Documentation"))
-    (:compile-menu-test    (:key "t"  :desc "Test"))))
+(defconst ef-deflang-compile-backend-defs
+  '((:compile-backend-connect   (:key "j"  :desc "Connect"))
+    (:compile-backend-reconnect (:key "J"  :desc "Reconnect"))
+    (:compile-backend-quit      (:key "q"  :desc "Quit"))))
+
+(defconst ef-deflang-compile-nav-defs
+  '((:compile-nav-jump     (:key ","  :desc "Jump to Definition"))
+    (:compile-nav-pop-back (:key "."  :desc "Pop Back"))))
 
 (defconst ef-deflang-doc-defs
   '((:doc-apropos          (:key "a"  :desc "Apropos"))
@@ -110,16 +112,34 @@ Must be set before loading ef-deflang."
   '((:lint-file            (:key "f"  :desc "Lint File"))
     (:lint-project         (:key "p"  :desc "Lint Project"))))
 
+(defconst ef-deflang-macroexp-defs
+  '((:macro-expand-all        (:key "e"  :desc "Expand All"))
+    (:macro-expand-one        (:key "1"  :desc "Expand One"))
+    (:macro-expand-expression (:key "E"  :desc "Expand Expression"))
+    (:macro-quit              (:key "q"  :desc "Quit Expansions"))))
+
 (defconst ef-deflang-test-defs
   '((:test-all             (:key "a"  :desc "Test All/Project"))
     (:test-toggle          (:key "l"  :desc "Toggle test/implementation"))
     (:test-at-point        (:key "p"  :desc "Test at Point"))
-    (:test-file            (:key "t"  :desc "Test File"))))
+    (:test-file            (:key "t"  :desc "Test File"))
+    (:test-report          (:key "r"  :desc "Show Test Report"))))
+
+(defconst ef-deflang-compile-menu-defs
+  '((:compile-menu-doc      (:key "d"  :desc "Documentation"))
+    (:compile-menu-eval     (:key "e"  :desc "Evaluate"))
+    (:compile-menu-lint     (:key "l"  :desc "Lint"))
+    (:compile-menu-manual   (:key "m"  :desc "Manual/Documentation"))
+    (:compile-menu-test     (:key "t"  :desc "Test"))
+    (:compile-menu-macroexp (:key "x"  :desc "Macro"))))
 
 (defconst ef-deflang-keybinds
   '((:compile-menu . "c")
     (:compile-menu-eval . "e")
     (:compile-menu-test . "t")
+    (:compile-menu-macroexp . "x")
+    (:compile-nav-jump . ",")
+    (:compile-nav-pop-back . ".")
     (:test-toggle . "l")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -456,22 +476,36 @@ If FILTER is `nil' kill all buffers except the current one."
   args)
 
 (defun ef-deflang-build-top-level (lang args)
-  (when-let* ((mode (ef-mode lang))
-              (compile-keydefs (ef-deflang-match-defs ef-deflang-compile-defs args))
-              (compile-menu-keydefs (ef-deflang-match-defs ef-deflang-compile-menu-defs args))
-              (actions (mapcar #'vconcat
+  (let* ((mode (ef-mode lang))
+         (compile-keydefs (ef-deflang-match-defs ef-deflang-compile-defs args))
+         (compile-backend-keydefs (ef-deflang-match-defs ef-deflang-compile-backend-defs args))
+         (compile-nav-keydefs (ef-deflang-match-defs ef-deflang-compile-nav-defs args))
+         (compile-menu-keydefs (ef-deflang-match-defs ef-deflang-compile-menu-defs args))
+         (actions (mapcar #'vconcat
+                          (ef-split-list
+                           (ef-deflang-actions compile-keydefs args)
+                           3)))
+         (backend-actions (mapcar #'vconcat
+                                  (ef-split-list
+                                   (ef-deflang-actions compile-backend-keydefs args)
+                                   3)))
+         (nav-actions (mapcar #'vconcat
+                                  (ef-split-list
+                                   (ef-deflang-actions compile-nav-keydefs args)
+                                   3)))
+         (menu-actions (mapcar #'vconcat
                                (ef-split-list
-                                (ef-deflang-actions compile-keydefs args)
+                                (ef-deflang-actions compile-menu-keydefs args)
                                 3)))
-              (menu-actions (mapcar #'vconcat
-                                    (ef-split-list
-                                     (ef-deflang-actions compile-menu-keydefs args)
-                                     2)))
-              (dispatch (ef-deflang-dispatch-name lang "compile")))
+         (dispatch (ef-deflang-dispatch-name lang "compile")))
     (eval `(transient-define-prefix ,dispatch ()
              ,(format "Run code commands for %s." mode)
              ["Actions"
               ,@actions]
+             ["Navigation"
+              ,@nav-actions]
+             ["Backend"
+              ,@backend-actions]
              ["Commands"
               ,@menu-actions]))
     (plist-put args :compile-menu dispatch))
@@ -497,6 +531,7 @@ If FILTER is `nil' kill all buffers except the current one."
     (ef-deflang-build-menu lang ef-deflang-doc-defs 'doc)
     (ef-deflang-build-menu lang ef-deflang-eval-defs 'eval)
     (ef-deflang-build-menu lang ef-deflang-lint-defs 'lint)
+    (ef-deflang-build-menu lang ef-deflang-macroexp-defs 'macroexp)
     (ef-deflang-build-menu lang ef-deflang-test-defs 'test)
     (ef-deflang-build-top-level lang)
     (ef-deflang-bind-keys lang)))
