@@ -6,18 +6,7 @@
 (use-package clojure-mode
   :ensure t
   :mode (("\\.clj\\'" . clojure-mode)
-         ("\\.edn$" . clojure-mode))
-  :config
-  (defun ef-cider-jack-in (params)
-    "Quit cider if running and jack in again"
-    (interactive "P")
-    (when (cider-connected-p)
-      (if-let* ((buf (cider-current-repl))
-                (win (get-buffer-window buf))
-                (_ (window-parent win)))
-          (delete-window win))
-      (cider-quit))
-    (cider-jack-in params)))
+         ("\\.edn$" . clojure-mode)))
 
 (use-package cider
   :ensure t
@@ -33,9 +22,7 @@
   (clojure-mode . cider-mode)
   (cider-mode . eldoc-mode)
   (cider-repl-mode . eldoc-mode)
-  :functions (cider-connected-p
-              cider-current-repl
-              cider-quit)
+  :functions (ef-cider-quit)
   :commands (cider-load-file
              cider-eval-buffer
              cider-test-run-test
@@ -53,9 +40,12 @@
   (:states 'normal :keymaps 'cider-repl-mode-map :prefix ef-prefix
            "r" 'quit-window)
   :config
-  (require 'cider-apropos)
-  (require 'cider-macroexpansion)
   (require 'cider-ns)
+
+  (declare-function cider-connected-p "cider")
+  (declare-function cider-jack-in "cider")
+  (declare-function cider-current-repl "cider")
+  (declare-function cider-quit "cider")
 
   (ef-shackle '(cider-repl-mode :align bottom :size .4 :popup t :select t)
               '("*cider-test-report*" :align bottom :size .4 :popup t :select t)
@@ -63,6 +53,22 @@
               '("*cider-apropos*" :align bottom :size .4 :popup t :select t)
               '("*cider-error*" :align bottom :size .4 :popup t :select t)
               '("*cider-macroexpansion*" :align bottom :size .4 :popup t :select t))
+
+  (defun ef-cider-jack-in (params)
+    "Quit CIDER if running and jack in again"
+    (interactive "P")
+    (ef-cider-quit)
+    (cider-jack-in params))
+
+  (defun ef-cider-quit ()
+    "Quit CIDER"
+    (interactive)
+    (when (cider-connected-p)
+      (if-let* ((buf (cider-current-repl))
+                (win (get-buffer-window buf))
+                (_ (window-parent win)))
+          (delete-window win))
+      (cider-quit)))
 
   (defun ef-cider-run-test ()
     "Re-evaluate buffer and run test at point"
@@ -89,6 +95,22 @@
   (evil-define-key 'normal cider-mode-map ",r" 'cider-switch-to-repl-buffer)
   (evil-define-key 'normal cider-mode-map ",ns" 'cider-repl-set-ns))
 
+(use-package cider-apropos
+  :after cider
+  :commands (cider-apropos
+             cider-apropos-select
+             cider-apropos-documentation))
+
+(use-package cider-macroexpansion
+  :after cider
+  :commands (cider-macroexpand-all-inplace
+             cider-macroexpand-1-inplace
+             cider-macroexpand-undo))
+
+(use-package cider-xref
+  :commands (cider-xref-fn-deps-select
+             cider-xref-fn-refs-select))
+
 (use-package flycheck-clj-kondo
   :after clojure-mode
   :ensure t
@@ -98,11 +120,14 @@
 (ef-deflang clojure
   :compile-backend-connect ef-cider-jack-in
   :compile-backend-reconnect ef-cider-jack-in
-  :compile-backend-quit cider-quit
+  :compile-backend-quit ef-cider-quit
   :compile-nav-jump cider-find-var
   :compile-nav-pop-back cider-pop-back
   :doc-apropos cider-apropos
   :doc-apropos-select cider-apropos-select
+  :doc-cheatsheet clojure-view-cheatsheet
+  :doc-guide clojure-view-guide
+  :doc-manual clojure-view-reference-section
   :doc-search cider-apropos-documentation
   :eval-buffer cider-eval-buffer
   :eval-all cider-ns-reload-all
@@ -116,6 +141,9 @@
   :test-file ef-cider-run-ns-tests
   :test-at-point ef-cider-run-test
   :test-all ef-cider-run-all-tests
-  :test-report cider-test-show-report)
+  :test-toggle projectile-toggle-between-implementation-and-test
+  :test-report cider-test-show-report
+  :xref-definitions cider-xref-fn-refs-select
+  :xref-dependencies cider-xref-fn-deps-select)
 
 (provide 'lang-clojure)

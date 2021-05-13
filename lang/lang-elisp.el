@@ -7,8 +7,6 @@
   :commands (emacs-lisp-mode lisp-interaction-mode)
   :config
   (evil-define-key 'normal emacs-lisp-mode-map ",r" 'ef-repl-ielm)
-  (evil-define-key 'normal emacs-lisp-mode-map ",m" 'counsel-apropos)
-  (evil-define-key 'normal lisp-interaction-mode-map ",m" 'counsel-apropos)
   (evil-define-key 'normal lisp-interaction-mode-map ",r" 'ef-repl-ielm)
 
   (defun ef-elisp-eval-project ()
@@ -72,7 +70,6 @@
   (ef-define-repl ef-repl-ielm "*ielm*" 'ielm)
   :config
   (evil-define-key 'normal ielm-map ",r" 'ef-repl-ielm)
-  (evil-define-key 'normal ielm-map ",m" 'counsel-apropos)
   (ef-add-hook ielm-mode-hook
     (eldoc-mode t)))
 
@@ -93,6 +90,9 @@
   :lint-file package-lint-current-buffer
   :macro-expand-all macrostep-expand
   :macro-quit macrostep-collapse-all
-  :test-toggle projectile-toggle-between-implementation-and-test)
+  :test-toggle projectile-toggle-between-implementation-and-test
+  :xref-apropos xref-find-apropos
+  :xref-definitions xref-find-definitions
+  :xref-references xref-find-references)
 
 (provide 'lang-elisp)
