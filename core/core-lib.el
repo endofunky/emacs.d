@@ -361,10 +361,9 @@ HOOKS is `some-hook'. Usage:
   (let ((mode-line-str (propertize "FS"
 				   'font-lock-face
 				   (list :foreground ef-fullscreen-indicator))))
-    (if (get-register :ef-fullscreen)
+    (if (= 1 (length (window-list)))
         (progn
           (jump-to-register :ef-fullscreen)
-          (set-register :ef-fullscreen nil)
           (setq global-mode-string (delete mode-line-str global-mode-string)))
       (window-configuration-to-register :ef-fullscreen)
       (delete-other-windows)
