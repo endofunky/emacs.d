@@ -122,6 +122,7 @@ Must be set before loading ef-deflang."
 
 (defconst ef-deflang-test-defs
   '((:test-all             (:key "a"  :desc "Test All/Project"))
+    (:test-errors          (:key "e"  :desc "Test Failed Tests"))
     (:test-toggle          (:key "l"  :desc "Toggle test/implementation"))
     (:test-at-point        (:key "p"  :desc "Test at Point"))
     (:test-file            (:key "t"  :desc "Test File"))
