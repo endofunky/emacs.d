@@ -112,7 +112,7 @@ Must be set before loading ef-deflang."
   '((:lint-file            (:key "f"  :desc "Lint File"))
     (:lint-project         (:key "p"  :desc "Lint Project"))))
 
-(defconst ef-deflang-macroexp-defs
+(defconst ef-deflang-macro-defs
   '((:macro-expand-all        (:key "e"  :desc "Expand All"))
     (:macro-expand-one        (:key "1"  :desc "Expand One"))
     (:macro-expand-expression (:key "E"  :desc "Expand Expression"))
@@ -126,18 +126,18 @@ Must be set before loading ef-deflang."
     (:test-report          (:key "r"  :desc "Show Test Report"))))
 
 (defconst ef-deflang-compile-menu-defs
-  '((:compile-menu-doc      (:key "d"  :desc "Documentation"))
-    (:compile-menu-eval     (:key "e"  :desc "Evaluate"))
-    (:compile-menu-lint     (:key "l"  :desc "Lint"))
-    (:compile-menu-manual   (:key "m"  :desc "Manual/Documentation"))
-    (:compile-menu-test     (:key "t"  :desc "Test"))
-    (:compile-menu-macroexp (:key "x"  :desc "Macro"))))
+  '((:compile-menu-doc    (:key "d"  :desc "Documentation"))
+    (:compile-menu-eval   (:key "e"  :desc "Evaluate"))
+    (:compile-menu-lint   (:key "l"  :desc "Lint"))
+    (:compile-menu-manual (:key "m"  :desc "Manual/Documentation"))
+    (:compile-menu-test   (:key "t"  :desc "Test"))
+    (:compile-menu-macro  (:key "x"  :desc "Macro"))))
 
 (defconst ef-deflang-keybinds
   '((:compile-menu . "c")
     (:compile-menu-eval . "e")
     (:compile-menu-test . "t")
-    (:compile-menu-macroexp . "x")
+    (:compile-menu-macro . "x")
     (:compile-nav-jump . ",")
     (:compile-nav-pop-back . ".")
     (:test-toggle . "l")))
@@ -531,7 +531,7 @@ If FILTER is `nil' kill all buffers except the current one."
     (ef-deflang-build-menu lang ef-deflang-doc-defs 'doc)
     (ef-deflang-build-menu lang ef-deflang-eval-defs 'eval)
     (ef-deflang-build-menu lang ef-deflang-lint-defs 'lint)
-    (ef-deflang-build-menu lang ef-deflang-macroexp-defs 'macroexp)
+    (ef-deflang-build-menu lang ef-deflang-macro-defs 'macro)
     (ef-deflang-build-menu lang ef-deflang-test-defs 'test)
     (ef-deflang-build-top-level lang)
     (ef-deflang-bind-keys lang)))
