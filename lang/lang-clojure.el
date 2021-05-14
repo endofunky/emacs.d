@@ -37,8 +37,6 @@
   (:states 'insert :keymaps 'cider-repl-mode-map
            "<down>" 'cider-repl-next-input
            "<up>" 'cider-repl-previous-input)
-  (:states 'normal :keymaps 'cider-repl-mode-map :prefix ef-prefix
-           "r" 'quit-window)
   :config
   (require 'cider-ns)
 
@@ -104,10 +102,7 @@
     (with-demoted-errors "Error: %S"
       (cider-load-file
        (projectile-find-implementation-or-test (buffer-file-name))))
-    (cider-test-run-project-tests nil))
-
-  (evil-define-key 'normal cider-mode-map ",r" 'cider-switch-to-repl-buffer)
-  (evil-define-key 'normal cider-mode-map ",ns" 'cider-repl-set-ns))
+    (cider-test-run-project-tests nil)))
 
 (use-package cider-apropos
   :after cider
@@ -133,32 +128,50 @@
 
 (ef-deflang clojure
   :after (clojure-mode cider)
+
+  ;; compile
   :compile-backend-connect ef-cider-jack-in
   :compile-backend-reconnect ef-cider-jack-in
   :compile-backend-quit ef-cider-quit
   :compile-nav-jump cider-find-var
   :compile-nav-pop-back cider-pop-back
+
+  ;; doc
   :doc-apropos cider-apropos
   :doc-apropos-select cider-apropos-select
   :doc-cheatsheet clojure-view-cheatsheet
   :doc-guide clojure-view-guide
   :doc-manual clojure-view-reference-section
   :doc-search cider-apropos-documentation
+
+  ;; eval
   :eval-buffer cider-eval-buffer
   :eval-all cider-ns-reload-all
   :eval-file cider-eval-file
   :eval-defun cider-eval-defun-at-point
   :eval-project cider-load-all-project-ns
   :eval-region cider-eval-region
+
+  ;; macro
   :macro-expand-all cider-macroexpand-all-inplace
   :macro-expand-one cider-macroexpand-1-inplace
   :macro-quit cider-macroexpand-undo
+
+  ;; repl
+  :repl-mode cider-repl-mode
+  :repl-context cider-repl-set-ns
+  :repl-toggle cider-switch-to-repl-buffer
+  :repl-quit cider-quit
+
+  ;; test
   :test-errors ef-cider-test-rerun-failed-tests
   :test-file ef-cider-run-ns-tests
   :test-at-point ef-cider-run-test
   :test-all ef-cider-run-all-tests
   :test-toggle projectile-toggle-between-implementation-and-test
   :test-report cider-test-show-report
+
+  ;; xref
   :xref-definitions cider-xref-fn-refs-select
   :xref-dependencies cider-xref-fn-deps-select)
 

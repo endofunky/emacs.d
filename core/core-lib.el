@@ -120,6 +120,12 @@ Must be set before loading ef-deflang."
     (:macro-expand-expression (:key "E"  :desc "Expand Expression"))
     (:macro-quit              (:key "q"  :desc "Quit Expansions"))))
 
+(defconst ef-deflang-repl-defs
+  '((:repl-context         (:key "c"  :desc "Change REPL Context"))
+    (:repl-info            (:key "i"  :desc "REPL Info"))
+    (:repl-toggle          (:key "r"  :desc "Toggle REPL Window"))
+    (:repl-quit            (:key "!"  :desc "Quit REPL"))))
+
 (defconst ef-deflang-test-defs
   '((:test-all             (:key "a"  :desc "Test All/Project"))
     (:test-errors          (:key "e"  :desc "Test Failed Tests"))
@@ -140,6 +146,7 @@ Must be set before loading ef-deflang."
     (:compile-menu-lint   (:key "l"  :desc "Lint"))
     (:compile-menu-test   (:key "t"  :desc "Test"))
     (:compile-menu-macro  (:key "m"  :desc "Macro"))
+    (:compile-menu-repl   (:key "r"  :desc "REPL"))
     (:compile-menu-xref   (:key "x"  :desc "Xref"))))
 
 (defconst ef-deflang-keybinds
@@ -147,6 +154,7 @@ Must be set before loading ef-deflang."
     (:compile-menu-eval . "e")
     (:compile-menu-test . "t")
     (:compile-menu-macro . "m")
+    (:compile-menu-repl . "r")
     (:compile-menu-xref . "x")
     (:compile-nav-jump . ",")
     (:compile-nav-pop-back . ".")
@@ -579,6 +587,14 @@ LANG based on declared menus in ARGS matched against
                             key dispatch))))
   args)
 
+(defun ef-deflang-bind-repl-keys (args)
+  (when-let ((mode (plist-get args :repl-mode)))
+    (general-define-key :states '(normal visual)
+                        :keymaps (ef-mode-map mode)
+                        :prefix ef-prefix
+                        "r r" 'quit-window))
+  args)
+
 (defun ef-deflang-build (lang args)
   (thread-last args
     (ef-plist-merge ef-deflang-defaults)
@@ -586,9 +602,11 @@ LANG based on declared menus in ARGS matched against
     (ef-deflang-build-menu lang ef-deflang-eval-defs 'eval)
     (ef-deflang-build-menu lang ef-deflang-lint-defs 'lint)
     (ef-deflang-build-menu lang ef-deflang-macro-defs 'macro)
+    (ef-deflang-build-menu lang ef-deflang-repl-defs 'repl)
     (ef-deflang-build-menu lang ef-deflang-test-defs 'test)
     (ef-deflang-build-menu lang ef-deflang-xref-defs 'xref)
     (ef-deflang-build-top-level lang)
+    (ef-deflang-bind-repl-keys)
     (ef-deflang-bind-keys lang)))
 
 (defmacro ef-deflang (lang &rest args)

@@ -6,9 +6,6 @@
 (use-package elisp-mode
   :commands (emacs-lisp-mode lisp-interaction-mode)
   :config
-  (evil-define-key 'normal emacs-lisp-mode-map ",r" 'ef-repl-ielm)
-  (evil-define-key 'normal lisp-interaction-mode-map ",r" 'ef-repl-ielm)
-
   (defun ef-elisp-eval-project ()
     (interactive)
     (dolist (buf (buffer-list))
@@ -70,28 +67,45 @@
   :init
   (ef-define-repl ef-repl-ielm "*ielm*" 'ielm)
   :config
-  (evil-define-key 'normal ielm-map ",r" 'ef-repl-ielm)
   (ef-add-hook ielm-mode-hook
     (eldoc-mode t)))
 
 (ef-deflang emacs-lisp
   :after (elisp-mode elisp-slime-nav)
   :maps '(emacs-lisp-mode-map lisp-interaction-mode-map)
+
+  ;; compile
   :compile emacs-lisp-byte-compile-and-load
   :compile-nav-jump elisp-slime-nav-find-elisp-thing-at-point
   :compile-nav-pop-back pop-tag-mark
+
+  ;; doc
   :doc-apropos counsel-apropos
   :doc-point elisp-slime-nav-describe-elisp-thing-at-point
   :doc-search elisp-index-search
+
+  ;; eval
   :eval-all ef-elisp-eval-project
   :eval-buffer eval-buffer
   :eval-expression eval-expression
   :eval-region eval-region
   :eval-sexp eval-print-last-sexp
+
+  ;; lint
   :lint-file package-lint-current-buffer
+
+  ;; macro
   :macro-expand-all macrostep-expand
   :macro-quit macrostep-collapse-all
+
+  ;; repl
+  :repl-toggle ef-repl-ielm
+  :repl-mode inferior-emacs-lisp-mode
+
+  ;; test
   :test-toggle projectile-toggle-between-implementation-and-test
+
+  ;; xref
   :xref-apropos xref-find-apropos
   :xref-definitions xref-find-definitions
   :xref-references xref-find-references)
