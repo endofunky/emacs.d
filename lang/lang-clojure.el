@@ -124,6 +124,7 @@
   (require 'flycheck-clj-kondo))
 
 (ef-deflang clojure
+  :after (clojure-mode cider)
   :compile-backend-connect ef-cider-jack-in
   :compile-backend-reconnect ef-cider-jack-in
   :compile-backend-quit ef-cider-quit

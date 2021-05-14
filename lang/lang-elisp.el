@@ -39,9 +39,10 @@
     (setq-local mode-name "E-λ")))
 
 (use-package elisp-slime-nav
-  :defer t
   :ensure t
-  :commands (elisp-slime-nav-mode)
+  :after elisp-mode
+  :commands (elisp-slime-nav-mode
+             elisp-slime-nav-find-elisp-thing-at-point)
   :init
   (dolist (hook '(emacs-lisp-mode-hook
                   ielm-mode-hook
@@ -74,7 +75,7 @@
     (eldoc-mode t)))
 
 (ef-deflang emacs-lisp
-  :after elisp-mode
+  :after (elisp-mode elisp-slime-nav)
   :maps '(emacs-lisp-mode-map lisp-interaction-mode-map)
   :compile emacs-lisp-byte-compile-and-load
   :compile-nav-jump elisp-slime-nav-find-elisp-thing-at-point
