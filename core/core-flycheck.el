@@ -20,8 +20,8 @@
   :functions (ef-flycheck-toggle-errors
               ef-flycheck-buffer-maybe)
   :hook
-  (evil-insert-state-exit . flycheck-buffer)
-  (evil-replace-state-exit . flycheck-buffer)
+  (evil-insert-state-exit . ef-flycheck-check-buffer-maybe)
+  (evil-replace-state-exit . ef-flycheck-check-buffer-maybe)
   :general
   (:keymap 'flycheck-error-list-mode-map
 	   "M-e" 'quit-window)
@@ -40,6 +40,10 @@
   (fset 'flycheck-may-use-echo-area-p 'ignore)
 
   (global-flycheck-mode t)
+
+  (defun ef-flycheck-check-buffer-maybe ()
+    (when (bound-and-true-p flycheck-mode)
+      (flycheck-buffer)))
 
   (defun ef-flycheck-toggle-errors ()
     (interactive)
