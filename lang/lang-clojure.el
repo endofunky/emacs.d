@@ -52,6 +52,7 @@
               '("*cider-doc*" :align bottom :size .4 :popup t :select t)
               '("*cider-apropos*" :align bottom :size .4 :popup t :select t)
               '("*cider-error*" :align bottom :size .4 :popup t :select t)
+              '("*cider-spec-browser*" :align bottom :size .4 :popup t :select t)
               '("*cider-macroexpansion*" :align bottom :size .4 :popup t :select t))
 
   (defun ef-cider-jack-in (params)
