@@ -472,12 +472,15 @@ wrappers use a `let' expression to rebind `display-buffer-alist' before
           (apply ',fn args))))))
 
 (defun ef-deflang-match-defs (keydefs args)
+  "Returns a list of keydefs from KEYDEFS that exist in ARGS."
   (cl-loop for (keydef . rest) on keydefs
            when (plist-get args (car keydef))
            collect keydef into matched-defs
            finally (return matched-defs)))
 
 (defun ef-deflang-actions (keydefs args)
+  "Returns a list of `transient' actions from KEYDEFS using commands
+defined in ARGS."
   (mapcar (lambda (element)
             (if-let* ((key (car element))
                       (keydef (car (cdr element)))
@@ -489,6 +492,8 @@ wrappers use a `let' expression to rebind `display-buffer-alist' before
           keydefs))
 
 (defun ef-deflang-build-menu (lang keydefs name args)
+  "Builds a `transient' prefix menu for LANG based on KEYDEFS and NAME
+matched against actions declared in ARGS."
   (when-let* ((defs (ef-deflang-match-defs keydefs args))
               (actions (mapcar #'vconcat
                                (ef-split-list
@@ -505,6 +510,8 @@ wrappers use a `let' expression to rebind `display-buffer-alist' before
   args)
 
 (defun ef-deflang-build-top-level (lang args)
+  "Builds the top-level `transient' prefix menu for LANG using actions
+declared in ARGS."
   (let* ((mode (ef-mode lang))
          (compile-keydefs (ef-deflang-match-defs ef-deflang-compile-defs args))
          (compile-backend-keydefs (ef-deflang-match-defs ef-deflang-compile-backend-defs args))
@@ -541,6 +548,9 @@ wrappers use a `let' expression to rebind `display-buffer-alist' before
   args)
 
 (defun ef-deflang-bind-keys (lang args)
+  "Binds global keyboard chords from definitions in `ef-deflang-keybinds' for
+LANG based on declared menus in ARGS matched against
+`ef-deflang-compile-menu-defs'."
   (dolist (def ef-deflang-keybinds)
     (when-let* ((menu (car def))
                 (key (cdr def))
