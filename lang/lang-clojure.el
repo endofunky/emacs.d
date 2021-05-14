@@ -73,31 +73,36 @@
   (defun ef-cider-run-test ()
     "Re-evaluate buffer and run test at point"
     (interactive)
-    (cider-load-file
-     (projectile-find-implementation-or-test (buffer-file-name)))
+    (with-demoted-errors "Error: %S"
+      (cider-load-file
+       (projectile-find-implementation-or-test (buffer-file-name))))
     (cider-eval-buffer)
     (cider-test-run-test))
 
   (defun ef-cider-run-ns-tests ()
     "Re-evaluate buffer and run tests for namespace"
     (interactive)
-    (cider-load-file
-     (projectile-find-implementation-or-test (buffer-file-name)))
+    (with-demoted-errors "Error: %S"
+      (cider-load-file
+       (projectile-find-implementation-or-test (buffer-file-name))))
     (cider-eval-buffer)
     (cider-test-run-ns-tests nil))
 
   (defun ef-cider-test-rerun-failed-tests ()
     "Re-evaluate buffer and re-run all failed tests"
     (interactive)
-    (cider-load-file
-     (projectile-find-implementation-or-test (buffer-file-name)))
+    (with-demoted-errors "Error: %S"
+      (cider-load-file
+       (projectile-find-implementation-or-test (buffer-file-name))))
     (cider-eval-buffer)
     (cider-test-run-test))
 
   (defun ef-cider-run-all-tests ()
     "Re-evaluate buffer and run all tests"
     (interactive)
-    (cider-eval-buffer)
+    (with-demoted-errors "Error: %S"
+      (cider-load-file
+       (projectile-find-implementation-or-test (buffer-file-name))))
     (cider-test-run-project-tests nil))
 
   (evil-define-key 'normal cider-mode-map ",r" 'cider-switch-to-repl-buffer)
