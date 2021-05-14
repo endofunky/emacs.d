@@ -214,6 +214,21 @@ symbol.  Otherwise, return it as a symbol with `-mode-map'
 appended."
   (intern (ef-mode-map-name name)))
 
+(defsubst ef-mode-hook-name (name)
+  "If NAME ends in `-mode-hook' (or its name does), return it as a
+string.  Otherwise, return it as a string with `-mode-hook'
+appended."
+  (if-let* ((string (ef-as-string name))
+            (_ (string-match "-hook\\'" string)))
+      string
+    (concat (ef-mode-name string) "-hook")))
+
+(defsubst ef-mode-hook (name)
+  "If NAME ends in `-mode-hook' (or its name does), return it as a
+symbol.  Otherwise, return it as a symbol with `-mode-hook'
+appended."
+  (intern (ef-mode-hook-name name)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; lists
