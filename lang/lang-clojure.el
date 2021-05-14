@@ -87,6 +87,8 @@
     (cider-test-run-ns-tests nil))
 
   (defun ef-cider-test-rerun-failed-tests ()
+    "Re-evaluate buffer and re-run all failed tests"
+    (interactive)
     (cider-load-file
      (projectile-find-implementation-or-test (buffer-file-name)))
     (cider-eval-buffer)
