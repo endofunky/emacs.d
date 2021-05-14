@@ -5,9 +5,9 @@
   :ensure t
   :demand t
   :custom
-  (flycheck-check-syntax-automatically '(save mode-enabled idle-buffer-switch))
   (flycheck-buffer-switch-check-intermediate-buffers t)
   (flycheck-idle-buffer-switch-delay 0.01)
+  (flycheck-idle-change-delay 0.1)
   (flycheck-disabled-checkers '(ruby-reek emacs-lisp-checkdoc))
   (flycheck-display-errors-delay 0.1)
   (flycheck-emacs-lisp-initialize-packages 'auto)
@@ -17,14 +17,23 @@
   (flycheck-mode-line-prefix "F")
   (flycheck-navigation-minimum-level 'error)
   (flycheck-syntax-check-buffer)
-  :functions (ef-flycheck-toggle-errors)
+  :functions (ef-flycheck-toggle-errors
+              ef-flycheck-buffer-maybe)
+  :hook
+  (evil-insert-state-exit . flycheck-buffer)
+  (evil-replace-state-exit . flycheck-buffer)
   :general
   (:keymap 'flycheck-error-list-mode-map
-	    "M-e" 'quit-window)
+	   "M-e" 'quit-window)
   (:keymap 'flycheck--mode-map
-	    "M-e" 'ef-flycheck-toggle-errors)
+	   "M-e" 'ef-flycheck-toggle-errors)
   :config
   (declare-function flycheck-list-errors "flycheck")
+
+  (defadvice flycheck-handle-change (around magit-fullscreen activate)
+    (unless (or (eq evil-state 'insert)
+                (eq evil-state 'replace))
+      ad-do-it))
 
   (ef-shackle `(,flycheck-error-list-buffer :align below :size .1 :popup t :no-select t))
 
