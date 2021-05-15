@@ -34,11 +34,7 @@
 
 ;; Require no-littering as early as possible so we don't end up storing files
 ;; before our directory structure has been set up.
-(use-package no-littering
-  :ensure t
-  :custom
-  (auto-save-file-name-transforms
-   `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
+(use-package no-littering :ensure t)
 
 (let* ((src-dir (expand-file-name "src" user-emacs-directory))
        (paths (list (expand-file-name "core" src-dir)
@@ -50,6 +46,7 @@
   (dolist (path paths)
     (dolist (file (directory-files-recursively path "\\.el$"))
       (add-to-list 'load-path (file-name-directory file))
-      (require (intern (file-name-sans-extension (file-name-base file))) nil t))))
+      (with-demoted-errors "Require failed: %S"
+        (require (intern (file-name-sans-extension (file-name-base file))) nil t)))))
 
 (provide 'init)

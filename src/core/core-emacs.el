@@ -31,7 +31,11 @@
   (initial-scratch-message "")
 
   ;; Ignore unsafe local variables
-  (enable-local-variables :safe))
+  (enable-local-variables :safe)
+
+  ;; Keep auto-save files separately
+  (auto-save-file-name-transforms
+   `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
 
 ;; Enable y/n answers
 (fset 'yes-or-no-p #'y-or-n-p)
