@@ -48,8 +48,7 @@ When `shackle-rules' is bound, will add a popup & select rule for the given
 buffer."
   `(progn
      (when (boundp 'shackle-rules)
-       (add-to-list 'shackle-rules
-                    '(,buf :align bottom :size .4 :popup t :select t)))
+       (ef-add-popup ,buf))
      (defun ,name ()
        (interactive)
        (let ((buffer (get-buffer ,buf))
