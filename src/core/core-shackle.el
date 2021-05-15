@@ -98,8 +98,6 @@ buffer."
           (display-buffer (car ef-popup-buffer-list))
         (display-buffer (nth (+ pos 1) ef-popup-buffer-list)))))
 
-(defun ef-popup-cycle-backward-n (n))
-
 (defun ef-popup-cycle-backward ()
   "Cycle visibility of popup windows backwards."
   (interactive)
@@ -151,8 +149,8 @@ before opening a new one."
 (general-define-key
  :states '(normal insert visual motion replace)
  :keymaps 'override
- "M-p" 'ef-popup-toggle
  "M-h" 'ef-popup-cycle-backward
- "M-l" 'ef-popup-cycle-forward)
+ "M-l" 'ef-popup-cycle-forward
+ "M-p" 'ef-popup-toggle)
 
 (provide 'core-shackle)
