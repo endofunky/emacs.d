@@ -1,6 +1,5 @@
 (use-package flyspell
-  :hook ((text-mode . flyspell-mode)
-	 (prog-mode . flyspell-prog-mode)))
+  :hook ((text-mode . flyspell-mode)))
 
 (use-package ispell
   :hook (text-mode . ispell-minor-mode))
