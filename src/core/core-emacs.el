@@ -2,6 +2,8 @@
 (require 'core-lib)
 (require 'core-shackle)
 
+(use-package no-littering :defer t)
+
 (ef-customize
   ;; Tabs are just awful
   (indent-tabs-mode nil)
@@ -24,9 +26,6 @@
 
   ;; Don't wrap long lines
   (truncate-lines -1)
-
-  ;; Don't store customizations in init.el
-  (custom-file (expand-file-name "custom.el" user-emacs-directory))
 
   ;; Empty scratch buffer by default
   (initial-scratch-message "")
@@ -58,6 +57,12 @@
   :general
   (:states 'normal :prefix ef-prefix
 	   "d" 'dired))
+
+(use-package cus-edit
+  :defer t
+  :after no-littering
+  :custom
+  (custom-file (no-littering-expand-etc-file-name "custom.el")))
 
 (use-package comint
   :defer t
@@ -173,19 +178,24 @@
   :config
   (global-prettify-symbols-mode -1))
 
+(use-package recentf
+  :defer t
+  :after no-littering
+  :config
+  (add-to-list 'recentf-exclude no-littering-var-directory)
+  (add-to-list 'recentf-exclude no-littering-etc-directory))
+
 (use-package savehist
   :defer 1
   :custom
   (history-length 1000)
   (savehist-additional-variables '(search ring regexp-search-ring))
   (savehist-autosave-interval 60)
-  (savehist-file (expand-file-name "savehist" user-emacs-directory))
   :config
   (savehist-mode t))
 
 (use-package saveplace
   :custom
-  (save-place-file (expand-file-name "saveplace" user-emacs-directory))
   (save-place-limit nil)
   :init
   (save-place-mode t)

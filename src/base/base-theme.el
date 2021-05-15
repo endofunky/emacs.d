@@ -2,6 +2,7 @@
   :ensure t
   :custom
   (custom-safe-themes t)
+  (base16-theme-256-color-source 'base16-shell)
   :config
 
   (setq ef-base16-enabled-theme 'base16-tomorrow-night)
