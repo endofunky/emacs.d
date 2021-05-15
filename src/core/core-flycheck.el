@@ -28,6 +28,7 @@
   (:keymap 'flycheck--mode-map
 	   "M-e" 'ef-flycheck-toggle-errors)
   :config
+  (declare-function flycheck-buffer "flycheck")
   (declare-function flycheck-list-errors "flycheck")
 
   (defadvice flycheck-handle-change (around magit-fullscreen activate)
