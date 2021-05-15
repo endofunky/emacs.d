@@ -100,7 +100,6 @@
 
   ;; repl
   :repl-toggle ef-repl-ielm
-  :repl-mode inferior-emacs-lisp-mode
 
   ;; test
   :test-toggle projectile-toggle-between-implementation-and-test

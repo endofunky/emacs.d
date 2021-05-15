@@ -582,14 +582,6 @@ LANG based on declared menus in ARGS matched against
                             key dispatch))))
   args)
 
-(defun ef-deflang-bind-repl-keys (args)
-  (when-let ((mode (plist-get args :repl-mode)))
-    (general-define-key :states '(normal visual)
-                        :keymaps (ef-mode-map mode)
-                        :prefix ef-prefix
-                        "r r" 'quit-window))
-  args)
-
 (defun ef-deflang-build (lang args)
   (thread-last args
     (ef-plist-merge ef-deflang-defaults)
@@ -601,7 +593,6 @@ LANG based on declared menus in ARGS matched against
     (ef-deflang-build-menu lang ef-deflang-test-defs 'test)
     (ef-deflang-build-menu lang ef-deflang-xref-defs 'xref)
     (ef-deflang-build-top-level lang)
-    (ef-deflang-bind-repl-keys)
     (ef-deflang-bind-keys lang)))
 
 (defmacro ef-deflang (lang &rest args)

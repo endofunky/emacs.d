@@ -98,6 +98,8 @@ buffer."
           (display-buffer (car ef-popup-buffer-list))
         (display-buffer (nth (+ pos 1) ef-popup-buffer-list)))))
 
+(defun ef-popup-cycle-backward-n (n))
+
 (defun ef-popup-cycle-backward ()
   "Cycle visibility of popup windows backwards."
   (interactive)
@@ -138,6 +140,13 @@ before opening a new one."
                   (open-popup (car open-popups)))
         (delete-window open-popup)))
   ad-do-it)
+
+(defadvice quit-window (around ef-popup-quit-window activate)
+  (let ((buf (current-buffer)))
+    (if (and (ef-popup-buffer-p buf)
+             (> (length ef-popup-buffer-list) 1))
+        (ef-popup-cycle-backward)
+      ad-do-it)))
 
 (general-define-key
  :states '(normal insert visual motion replace)

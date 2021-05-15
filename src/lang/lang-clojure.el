@@ -158,7 +158,6 @@
   :macro-quit cider-macroexpand-undo
 
   ;; repl
-  :repl-mode cider-repl-mode
   :repl-context cider-repl-set-ns
   :repl-toggle cider-switch-to-repl-buffer
   :repl-quit cider-quit
