@@ -1,3 +1,11 @@
+(require 'core-lib)
+(require 'cl-extra)
+(require 'cl-macs)
+(require 'cl-seq)
+(require 'subr-x)
+
+(defvar ef-popup-buffer-list '())
+
 (use-package shackle
   :ensure t
   :custom
@@ -20,7 +28,7 @@
               '("*info*" :align below :size .4 :popup t :select t)
               '("*Checkdoc Status*" :align below :size .3 :popup t :no-select t)
               '("*Completions*" :align below :size .3 :popup t :no-select t)
-              '("*Warnings*" :align below :size .3 :popup t :select t)
+              '("*Warnings*" :align below :size .3 :popup t :select t :popup-float t)
               '("*Apropos*" :align below :size .3 :popup t :select t)
               '(" *Metahelp*" :align below :size .4 :popup t :select t)
               '("*Help*" :align below :size .4 :popup t :select t))
@@ -53,5 +61,78 @@ buffer."
                 (pop-to-buffer ,buf)
                 (when (fboundp 'evil-change-state)
                   (evil-change-state 'normal))))))))
+
+(defun ef-popup-buffer-match-rule-p (buf rule)
+  (cl-destructuring-bind (rule-name . rule-plist) rule
+    (and (plist-get rule-plist :popup)
+         (not (plist-get rule-plist :popup-float))
+         (or (and (plist-get :regexp rule-plist)
+                  (string-match rule-name
+                                (buffer-name buf)))
+             (and (stringp rule-name)
+                  (string= rule-name
+                           (buffer-name buf)))
+             (and (symbolp rule-name)
+                  (eq rule-name (with-current-buffer buf
+                                  major-mode)))))))
+
+(defun ef-popup-buffer-p (buf)
+  (cl-some (apply-partially #'ef-popup-buffer-match-rule-p buf)
+           shackle-rules))
+
+(defun ef-popup-window-p (win)
+  (ef-popup-buffer-p (window-buffer win)))
+
+(defun ef-popup-windows ()
+  (seq-filter #'ef-popup-window-p (window-list)))
+
+(defun ef-popup-buffers ()
+  (seq-filter #'ef-popup-buffer-p (buffer-list)))
+
+(defun ef-popup-cycle-forward ()
+  (interactive)
+  (if-let* ((curr (car (ef-popup-buffers)))
+            (pos (cl-position curr ef-popup-buffer-list)))
+      (if (= pos (- (length ef-popup-buffer-list) 1))
+          (display-buffer (car ef-popup-buffer-list))
+        (display-buffer (nth (+ pos 1) ef-popup-buffer-list)))))
+
+(defun ef-popup-cycle-backward ()
+  (interactive)
+  (if-let* ((curr (car (ef-popup-buffers)))
+            (pos (cl-position curr ef-popup-buffer-list)))
+      (if (= pos 0)
+          (display-buffer (car (last ef-popup-buffer-list)))
+        (display-buffer (nth (- pos 1) ef-popup-buffer-list)))))
+
+(defun ef-popup-update-buffer-list ()
+  (setq ef-popup-buffer-list
+        (append ef-popup-buffer-list
+                (cl-set-difference (ef-popup-buffers) ef-popup-buffer-list))))
+
+(add-hook 'window-configuration-change-hook #'ef-popup-update-buffer-list)
+
+(defun ef-popup-killed-buffer-hook ()
+  (setq ef-popup-buffer-list
+        (remove (current-buffer) ef-popup-buffer-list)))
+
+(add-hook 'kill-buffer-hook #'ef-popup-killed-buffer-hook)
+
+(defadvice shackle-display-buffer-action (around ef-single-popup activate)
+  "If the newly opened window is a popup window, check if we already
+have an open popup. If we do, call `delete-window' on the popup window
+before opening a new one."
+  (if (and (> (length (window-list)) 1)
+           (ef-popup-buffer-p buffer))
+      (when-let* ((open-popups (ef-popup-windows))
+                  (open-popup (car open-popups)))
+        (delete-window open-popup)))
+  ad-do-it)
+
+(general-define-key
+ :states '(normal insert visual motion replace)
+ :keymaps 'override
+ "M-h" 'ef-popup-cycle-backward
+ "M-l" 'ef-popup-cycle-forward)
 
 (provide 'core-shackle)

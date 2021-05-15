@@ -4,10 +4,6 @@
   :ensure t
   :demand t
   :general
-  ("M-h" 'evil-window-left)
-  ("M-j" 'evil-window-down)
-  ("M-k" 'evil-window-up)
-  ("M-l" 'evil-window-right)
   (:states 'normal :prefix ef-prefix
 	   "<return>" 'ef-toggle-window-fullscreen
 	   "kaob" 'ef-kill-all-other-buffers
