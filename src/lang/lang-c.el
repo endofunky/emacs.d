@@ -60,13 +60,6 @@
   :config
   (modern-c++-font-lock-global-mode t))
 
-(use-package bazel-mode
-  :ensure t
-  :mode ("BUILD\\|WORKSPACE\\|CROSSTOOL\\|\\.bazel\\'" . bazel-mode)
-  :config
-  (ef-add-hook bazel-mode-hook
-    (add-hook 'before-save-hook 'bazel-format nil t)))
-
 (use-package ccls
   :ensure t
   :custom
