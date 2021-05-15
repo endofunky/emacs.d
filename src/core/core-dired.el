@@ -1,5 +1,8 @@
 (use-package dired
   :defer t
+  :general
+  (:states 'normal :keymaps 'dired-mode-map
+           "q" 'kill-this-buffer)
   :custom
   (dired-dwim-target t))
 
