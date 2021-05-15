@@ -90,4 +90,13 @@
   :config
   (evil-collection-init))
 
+(use-package anzu
+  :ensure t
+  :config
+  (global-anzu-mode t))
+
+(use-package evil-anzu
+  :ensure t
+  :after (anzu evil))
+
 (provide 'core-evil)
