@@ -90,6 +90,7 @@ buffer."
   (seq-filter #'ef-popup-buffer-p (buffer-list)))
 
 (defun ef-popup-cycle-forward ()
+  "Cycle visibility of popup windows forwards."
   (interactive)
   (if-let* ((curr (car (ef-popup-buffers)))
             (pos (cl-position curr ef-popup-buffer-list)))
@@ -98,12 +99,21 @@ buffer."
         (display-buffer (nth (+ pos 1) ef-popup-buffer-list)))))
 
 (defun ef-popup-cycle-backward ()
+  "Cycle visibility of popup windows backwards."
   (interactive)
   (if-let* ((curr (car (ef-popup-buffers)))
             (pos (cl-position curr ef-popup-buffer-list)))
       (if (= pos 0)
           (display-buffer (car (last ef-popup-buffer-list)))
         (display-buffer (nth (- pos 1) ef-popup-buffer-list)))))
+
+(defun ef-popup-toggle ()
+  "Toggle visibility of the last opened popup window."
+  (interactive)
+  (if-let ((win (car (ef-popup-windows))))
+      (delete-window win)
+    (when-let ((buf (car (ef-popup-buffers))))
+      (display-buffer buf))))
 
 (defun ef-popup-update-buffer-list ()
   (setq ef-popup-buffer-list
@@ -132,6 +142,7 @@ before opening a new one."
 (general-define-key
  :states '(normal insert visual motion replace)
  :keymaps 'override
+ "M-p" 'ef-popup-toggle
  "M-h" 'ef-popup-cycle-backward
  "M-l" 'ef-popup-cycle-forward)
 
