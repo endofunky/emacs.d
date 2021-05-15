@@ -15,10 +15,16 @@
  byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local)
  byte-compile-verbose (ef-init-debug-p))
 
+;; Initialize elpa load path
 (let ((default-directory (expand-file-name "elpa" user-emacs-directory)))
   (unless (file-exists-p default-directory)
     (make-directory default-directory))
   (normal-top-level-add-subdirs-to-load-path))
+
+(customize-set-variable
+ 'package-quickstart-file
+ (expand-file-name "package-quickstart.el"
+                   (expand-file-name "var" user-emacs-directory)))
 
 (unless (fboundp 'package-installed-p)
   (package-initialize t))
@@ -29,12 +35,18 @@
 (custom-set-variables '(use-package-enable-imenu-support t))
 (require 'use-package)
 
-(if (ef-init-debug-p)
-    (setq-default use-package-verbose t))
+(when (ef-init-debug-p)
+  (setq-default use-package-verbose t))
 
 ;; Require no-littering as early as possible so we don't end up storing files
 ;; before our directory structure has been set up.
-(use-package no-littering :ensure t)
+(use-package no-littering
+  :ensure t
+  :config
+  (setq no-littering-etc-directory
+        (expand-file-name "etc/" user-emacs-directory))
+  (setq no-littering-var-directory
+        (expand-file-name "var/" user-emacs-directory)))
 
 (let* ((src-dir (expand-file-name "src" user-emacs-directory))
        (paths (list (expand-file-name "core" src-dir)
