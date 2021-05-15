@@ -26,7 +26,7 @@
           (insert label)))
     (end-of-line))
 
-  (ef-shackle '(magit-diff-mode :align right :size .5 :popup t :select nil))
+  (ef-shackle '(magit-diff-mode :align right :size .5 :popup t :select nil :popup-float t))
 
   (transient-append-suffix 'magit-pull "C"
     '("A" "Autostash" "--autostash"))
