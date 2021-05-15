@@ -8,8 +8,6 @@
   ("M-j" 'evil-window-down)
   ("M-k" 'evil-window-up)
   ("M-l" 'evil-window-right)
-  (:states 'visual :prefix ef-prefix
-	   "=" 'ef-align-to-=)
   (:states 'normal :prefix ef-prefix
 	   "<return>" 'ef-toggle-window-fullscreen
 	   "kaob" 'ef-kill-all-other-buffers
@@ -98,5 +96,11 @@
 (use-package evil-anzu
   :ensure t
   :after (anzu evil))
+
+(use-package evil-lion
+  :after evil
+  :ensure t
+  :config
+  (evil-lion-mode t))
 
 (provide 'core-evil)

@@ -402,11 +402,6 @@ HOOKS is `some-hook'. Usage:
       (insert-file-contents filename)
       (buffer-string))))
 
-(defun ef-align-to-= (begin end)
-  "Align region to = signs"
-  (interactive "r")
-  (align-regexp begin end "\\(\\s-*\\)=" 1 1 ))
-
 (defun ef-insert-unix-time ()
   "Insert UNIX timestamp at point."
   (interactive)

@@ -175,8 +175,6 @@
   (:states 'normal :prefix ef-prefix :keymaps 'prog-mode-map
 	   "<tab>" 'ef-indent-buffer
 	   "." 'pop-tag-mark)
-  (:states 'visual :prefix ef-prefix :keymaps 'prog-mode-map
-	   "=" 'ef-align-to-=)
   (:states 'visual :keymaps 'prog-mode-map
 	   "<tab>" 'indent-region)
   :config
