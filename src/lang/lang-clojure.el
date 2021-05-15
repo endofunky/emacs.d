@@ -45,13 +45,13 @@
   (declare-function cider-current-repl "cider")
   (declare-function cider-quit "cider")
 
-  (ef-shackle '(cider-repl-mode :align bottom :size .4 :popup t :select t)
-              '("*cider-test-report*" :align bottom :size .4 :popup t :select t)
-              '("*cider-doc*" :align bottom :size .4 :popup t :select t)
-              '("*cider-apropos*" :align bottom :size .4 :popup t :select t)
-              '("*cider-error*" :align bottom :size .4 :popup t :select t)
-              '("*cider-spec-browser*" :align bottom :size .4 :popup t :select t)
-              '("*cider-macroexpansion*" :align bottom :size .4 :popup t :select t))
+  (ef-add-popup cider-repl-mode)
+  (ef-add-popup "*cider-test-report*")
+  (ef-add-popup "*cider-doc*")
+  (ef-add-popup "*cider-apropos*")
+  (ef-add-popup "*cider-error*")
+  (ef-add-popup "*cider-spec-browser*")
+  (ef-add-popup "*cider-macroexpansion*")
 
   (defun ef-cider-jack-in (params)
     "Quit CIDER if running and jack in again"

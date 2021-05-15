@@ -41,7 +41,7 @@
   (evil-define-key 'visual ruby-mode-map ",er" 'ruby-send-region)
   (evil-define-key 'normal ruby-mode-map ",m" 'yari)
 
-  (ef-shackle '("*rake-compilation*" :align below :size .4 :popup t :select t))
+  (ef-add-popup "*rake-compilation*")
 
   (ef-add-hook ruby-mode-hook :interactive t
     (require 'smartparens-ruby)
@@ -145,7 +145,7 @@ current buffer's file, if it exists"
   :commands yari
   :load-path "vendor/yari.el"
   :config
-  (ef-shackle '(yari-mode :align below :size .4 :popup t :select t))
+  (ef-add-popup yari-mode)
   (evil-define-key 'normal yari-mode-map "q" 'quit-window))
 
 (use-package rubocop
@@ -159,7 +159,7 @@ current buffer's file, if it exists"
   (defun rubocop-buffer-name (file-or-dir)
     "Generate a name for the RuboCop buffer from FILE-OR-DIR."
     "*rubocop*")
-  (ef-shackle '("*rubocop*" :align below :size .4 :popup t :select t)))
+  (ef-add-popup "*rubocop*"))
 
 (defun ef-spring-server ()
   (interactive)

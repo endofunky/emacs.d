@@ -239,7 +239,7 @@
   :custom
   (xref-marker-ring-length 1024)
   :config
-  (ef-shackle '("*xref*" :align below :size .4 :popup t :select t))
+  (ef-add-popup "*xref*")
 
   (defadvice xref-goto-xref (after my activate)
     (delete-window (get-buffer-window (get-buffer "*xref*")))))

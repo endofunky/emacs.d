@@ -82,8 +82,8 @@
   (when window-system
     (define-key org-mode-map (kbd "M-RET") 'toggle-frame-fullscreen))
 
-  (ef-shackle '(" *Agenda Commands*" :align below :size .4 :popup t :select t)
-              '("*Org Select*" :align below :size .3 :popup t :select t))
+  (ef-add-popup " *Agenda Commands*")
+  (ef-add-popup "*Org Select*")
 
   (evil-define-key 'normal org-mode-map ",oc" 'org-toggle-checkbox)
   (evil-define-key 'normal org-mode-map ",o," 'org-priority-up)
@@ -95,7 +95,7 @@
 (use-package calendar
   :defer t
   :config
-  (ef-shackle '(calendar-mode :align below :size .4 :popup t :select t)))
+  (ef-add-popup calendar-mode))
 
 (use-package evil-org
   :ensure t

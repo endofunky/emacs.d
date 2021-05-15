@@ -6,7 +6,7 @@
   :commands (restclient-mode)
   :ensure t
   :config
-  (ef-shackle '("*HTTP Response*" :align bottom :size .4 :popup t :select t)))
+  (ef-add-popup "*HTTP Response*"))
 
 (use-package ob-restclient
   :after (restclient org)

@@ -27,10 +27,10 @@
 
   (slime-setup '(slime-fancy slime-asdf slime-quicklisp slime-company))
 
-  (ef-shackle '(sldb-mode :align bottom :size .4 :popup t :select t)
-              '("*slime-compilation*" :align bottom :size .4 :popup t :select t)
-              '("*slime-description*" :align bottom :size .4 :popup t :select t)
-              '("*slime-apropos*" :align bottom :size .4 :popup t :select t))
+  (ef-add-popup sldb-mode)
+  (ef-add-popup "*slime-compilation*")
+  (ef-add-popup "*slime-description*")
+  (ef-add-popup "*slime-apropos*")
 
   (evil-define-key 'normal slime-mode-map ",," 'slime-edit-definition)
   (evil-define-key 'normal slime-mode-map ",." 'slime-pop-find-definition-stack)
@@ -64,7 +64,7 @@
     "Custom geiser REPL buffer naming override"
     "*geiser*")
 
-  (ef-shackle '("*Geiser documentation*" :align bottom :size .4 :popup t :select t))
+  (ef-add-popup "*Geiser documentation*")
 
   (evil-define-key 'normal geiser-mode-map ",cc" 'geiser-compile)
   (evil-define-key 'normal geiser-mode-map ",cb" 'geiser-compile-current-buffer)

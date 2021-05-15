@@ -5,6 +5,8 @@
 (require 'subr-x)
 
 (defvar ef-popup-buffer-list '())
+(defconst ef-popup-defaults
+  '(:align below :size .4 :popup t :select t))
 
 (use-package shackle
   :ensure t
@@ -13,25 +15,28 @@
   (shackle-default-alignment 'below)
   (shackle-default-size 0.4)
   (shackle-default-rule '(:same t))
-  :functions (ef-shackle)
+  :functions (ef-shackle
+              ef-add-popup)
   :config
   (defun ef-shackle (shackle &rest shackles)
     "Adds one or more shackle rules to `shackle-rules'"
     (dolist (rule (cons shackle shackles))
       (add-to-list 'shackle-rules rule)))
 
-  (ef-shackle '(" *undo-tree*" :align below :size .4 :popup t :select t)
-              '("*company-documentation*" :align below :size .4 :popup t :noselect t)
-              '("*compilation*" :align below :size .4 :popup t :noselect t)
-              '(compilation-mode :align below :size .4 :popup t :noselect t)
-              '("\\`\\*WoMan.*?\\*\\'" :regexp t :align below :size .4 :popup t :select t)
-              '("*info*" :align below :size .4 :popup t :select t)
-              '("*Checkdoc Status*" :align below :size .3 :popup t :no-select t)
-              '("*Completions*" :align below :size .3 :popup t :no-select t)
-              '("*Warnings*" :align below :size .3 :popup t :select t :popup-float t)
-              '("*Apropos*" :align below :size .3 :popup t :select t)
-              '(" *Metahelp*" :align below :size .4 :popup t :select t)
-              '("*Help*" :align below :size .4 :popup t :select t))
+  (defun ef-add-popup (mode &rest rules)
+    (add-to-list 'shackle-rules
+                 (cons mode (ef-plist-merge ef-popup-defaults rules))))
+
+  (ef-add-popup " *undo-tree*")
+  (ef-add-popup "*company-documentation*")
+  (ef-add-popup "*compilation*")
+  (ef-add-popup 'compilation-mode)
+  (ef-add-popup "\\`\\*WoMan.*?\\*\\'" :regexp t)
+  (ef-add-popup "*info*")
+  (ef-add-popup "*Checkdoc Status*")
+  (ef-add-popup "*Apropos*" :size .3)
+  (ef-add-popup " *Metahelp*")
+  (ef-add-popup "*Help*")
 
   (shackle-mode t))
 
@@ -140,11 +145,8 @@ before opening a new one."
   ad-do-it)
 
 (defadvice quit-window (around ef-popup-quit-window activate)
-  (let ((buf (current-buffer)))
-    (if (and (ef-popup-buffer-p buf)
-             (> (length ef-popup-buffer-list) 1))
-        (ef-popup-cycle-backward)
-      ad-do-it)))
+  (unless (ef-popup-buffer-p (current-buffer))
+    ad-do-it))
 
 (general-define-key
  :states '(normal insert visual motion replace)
