@@ -4,9 +4,15 @@
 (require 'cl-seq)
 (require 'subr-x)
 
-(defvar ef-popup-buffer-list '())
-(defconst ef-popup-defaults
-  '(:align below :size .4 :popup t :select t))
+(defvar ef-popup-buffer-list '()
+  "List of popup buffers in the order they were opened in.
+
+Used for cycling popup buffers with `ef-popup-cycle-forward' and
+`ef-popup-cycle-backward'.")
+
+(defconst ef-popup-defaults '(:align below :size .4 :popup t :select t)
+  "Default values for `shackle-rules' applied to popup buffers created
+with `ef-add-popup'.")
 
 (use-package shackle
   :ensure t
@@ -67,6 +73,7 @@ buffer."
                   (evil-change-state 'normal))))))))
 
 (defun ef-popup-buffer-match-rule-p (buf rule)
+  "Return `t' if BUF matches RULE, `nil' otherwise."
   (cl-destructuring-bind (rule-name . rule-plist) rule
     (and (plist-get rule-plist :popup)
          (not (plist-get rule-plist :popup-float))
@@ -81,16 +88,20 @@ buffer."
                                   major-mode)))))))
 
 (defun ef-popup-buffer-p (buf)
+  "Return `t' if BUF is a popup buffer, `nil' otherwise."
   (cl-some (apply-partially #'ef-popup-buffer-match-rule-p buf)
            shackle-rules))
 
 (defun ef-popup-window-p (win)
+  "Return `t' if WIN is a popup window, `nil' otherwise."
   (ef-popup-buffer-p (window-buffer win)))
 
 (defun ef-popup-windows ()
+  "Returns a list of open popup windows."
   (seq-filter #'ef-popup-window-p (window-list)))
 
 (defun ef-popup-buffers ()
+  "Returns a list of open popup buffers."
   (seq-filter #'ef-popup-buffer-p (buffer-list)))
 
 (defun ef-popup-cycle-forward ()
@@ -124,6 +135,8 @@ buffer."
       (display-buffer buf))))
 
 (defun ef-popup-update-buffer-list ()
+  "Function called from `window-configuration-change-hook' to update
+`ef-popup-buffer-list' with any changes."
   (setq ef-popup-buffer-list
         (append ef-popup-buffer-list
                 (cl-set-difference (ef-popup-buffers) ef-popup-buffer-list))))
@@ -131,6 +144,8 @@ buffer."
 (add-hook 'window-configuration-change-hook #'ef-popup-update-buffer-list)
 
 (defun ef-popup-find-window (buf)
+  "Find open popup window for BUF and return it. If no window was found,
+return nil."
   (cl-find-if #'(lambda (v)
                   (eq (window-buffer v)
                       buf))
@@ -139,12 +154,13 @@ buffer."
 (defun ef-popup-killed-buffer-hook ()
   "If an open popup window containing the buffer exists, check if more than
 one pop up window is in the list. If there is, cycle to it, otherwise delete
-the popup window."
+the popup window. If the popup window was deleted, also remove it from
+`ef-popup-buffer-list'."
   (let ((buf (current-buffer)))
-    (if-let ((win (ef-popup-find-window buf)))
-        (if (> (length ef-popup-buffer-list) 1)
-            (ef-popup-cycle-backward)
-          (delete-window win)))
+    (when-let ((win (ef-popup-find-window buf)))
+      (if (> (length ef-popup-buffer-list) 1)
+          (ef-popup-cycle-backward)
+        (delete-window win)))
 
     (setq ef-popup-buffer-list
           (remove buf ef-popup-buffer-list))))
@@ -155,15 +171,15 @@ the popup window."
   "If the newly opened window is a popup window, check if we already
 have an open popup. If we do, call `delete-window' on the popup window
 before opening a new one."
-  (if (and (> (length (window-list)) 1)
-           (ef-popup-buffer-p buffer))
-      (when-let* ((open-popups (ef-popup-windows))
-                  (open-popup (car open-popups)))
-        (delete-window open-popup)
+  (if (ef-popup-buffer-p buffer)
+      (progn
+        (when-let ((open-popups (ef-popup-windows)))
+          (delete-window (car open-popups)))
         (set-window-dedicated-p ad-do-it t))
     ad-do-it))
 
 (defadvice quit-window (around ef-popup-quit-window activate)
+  "Inhitbit `quit-window' in popup buffers."
   (unless (ef-popup-buffer-p (current-buffer))
     ad-do-it))
 
