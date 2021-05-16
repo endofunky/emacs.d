@@ -20,7 +20,6 @@
   (sp-local-pair 'markdown-mode "'" nil :actions nil)
 
   (ef-add-hook markdown-mode-hook
-    (turn-on-orgtbl)
     (sp-with-modes '(markdown-mode)
       (sp-local-pair "`" "`"
                      :unless '(sp-point-after-word-p sp-point-at-bol-p)
