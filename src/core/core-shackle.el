@@ -159,8 +159,9 @@ before opening a new one."
            (ef-popup-buffer-p buffer))
       (when-let* ((open-popups (ef-popup-windows))
                   (open-popup (car open-popups)))
-        (delete-window open-popup)))
-  ad-do-it)
+        (delete-window open-popup)
+        (set-window-dedicated-p ad-do-it t))
+    ad-do-it))
 
 (defadvice quit-window (around ef-popup-quit-window activate)
   (unless (ef-popup-buffer-p (current-buffer))
