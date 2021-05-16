@@ -195,6 +195,11 @@ display the buffer using `display-buffer-in-previous-window'."
   (unless (ef-popup-buffer-p (current-buffer))
     ad-do-it))
 
+(defadvice quit-restore-window (around ef-popup-quit-restore-window activate)
+  "Inhitbit `quit-restore-window' in popup buffers."
+  (unless (ef-popup-buffer-p (current-buffer))
+    ad-do-it))
+
 (defadvice delete-window (around ef-popup-delete-window activate)
   "Prevent the last remaining window from staying dedicated, which would prevent
 us from switching to other buffers."
