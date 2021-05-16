@@ -52,7 +52,9 @@
 (use-package package-lint
   :ensure t
   :defer t
-  :commands package-lint-current-buffer)
+  :commands package-lint-current-buffer
+  :config
+  (ef-add-popup "*Package-Lint*"))
 
 (use-package eldoc
   :custom
