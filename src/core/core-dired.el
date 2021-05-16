@@ -4,7 +4,11 @@
   (:states 'normal :keymaps 'dired-mode-map
            "q" 'kill-this-buffer)
   :custom
-  (dired-dwim-target t))
+  (dired-auto-revert-buffer t)
+  (dired-create-destination-dirs 'ask)
+  (dired-dwim-target t)
+  (dired-recursive-copies 'always)
+  (dired-recursive-deletes 'top))
 
 (use-package diredfl
   :ensure t
