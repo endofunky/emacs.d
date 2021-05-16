@@ -38,10 +38,16 @@ with `ef-add-popup'.")
   (ef-add-popup "*compilation*")
   (ef-add-popup 'compilation-mode)
   (ef-add-popup "\\`\\*WoMan.*?\\*\\'" :regexp t)
-  (ef-add-popup "*info*")
+  (ef-add-popup "\\`\\*info.*?\\*\\'" :regexp t)
+  (ef-add-popup 'Info-mode)
+  (ef-add-popup 'info-mode)
   (ef-add-popup "*Checkdoc Status*")
   (ef-add-popup "*Apropos*" :size .3)
   (ef-add-popup " *Metahelp*")
+  (ef-add-popup " *Metahelp*")
+  (ef-add-popup "*Messages*")
+  (ef-add-popup "*Warnings*")
+  (ef-add-popup "*Backtrace*")
   (ef-add-popup "*Help*")
 
   (shackle-mode t))
@@ -72,25 +78,12 @@ buffer."
                 (when (fboundp 'evil-change-state)
                   (evil-change-state 'normal))))))))
 
+(declare-function shackle--match "shackle")
+
 (defun ef-popup-buffer-match-rule-p (buf rule)
   "Return `t' if BUF matches RULE, `nil' otherwise."
   (cl-destructuring-bind (rule-name . rule-plist) rule
-    (and (plist-get rule-plist :popup)
-         (not (plist-get rule-plist :popup-float))
-         (or (and (plist-get :regexp rule-plist)
-                  (string-match rule-name
-                                (buffer-name buf)))
-             (and (stringp rule-name)
-                  (string= rule-name
-                           (buffer-name buf)))
-             (and (symbolp rule-name)
-                  (eq rule-name (with-current-buffer buf
-                                  major-mode)))))))
-
-(defun ef-popup-display-buffer (buf)
-  "Display buffer BUF by calling `display-buffer', then mark the resulting
-window as dedicated."
-  (set-window-dedicated-p (display-buffer buf) t))
+    (shackle--match buf rule-name rule-plist)))
 
 (defun ef-popup-buffer-p (buf)
   "Return `t' if BUF is a popup buffer, `nil' otherwise."
@@ -117,8 +110,8 @@ window as dedicated."
     (if-let* ((curr (car (ef-popup-buffers)))
               (pos (cl-position curr ef-popup-buffer-list)))
         (if (= pos (- (length ef-popup-buffer-list) 1))
-            (ef-popup-display-buffer (car ef-popup-buffer-list))
-          (ef-popup-display-buffer (nth (+ pos 1) ef-popup-buffer-list))))))
+            (display-buffer (car ef-popup-buffer-list))
+          (display-buffer (nth (+ pos 1) ef-popup-buffer-list))))))
 
 (defun ef-popup-cycle-backward ()
   "Cycle visibility of popup windows backwards."
@@ -128,16 +121,17 @@ window as dedicated."
     (if-let* ((curr (car (ef-popup-buffers)))
               (pos (cl-position curr ef-popup-buffer-list)))
         (if (= pos 0)
-            (ef-popup-display-buffer (car (last ef-popup-buffer-list)))
-          (ef-popup-display-buffer (nth (- pos 1) ef-popup-buffer-list))))))
+            (display-buffer (car (last ef-popup-buffer-list)))
+          (display-buffer (nth (- pos 1) ef-popup-buffer-list))))))
 
 (defun ef-popup-toggle ()
   "Toggle visibility of the last opened popup window."
   (interactive)
+  ;; TODO: If we are the sole window, bury the buffer and display a non-popup buffer instead
   (if-let ((win (car (ef-popup-windows))))
       (delete-window win)
     (when-let ((buf (car (ef-popup-buffers))))
-      (ef-popup-display-buffer buf))))
+      (display-buffer buf))))
 
 (defun ef-popup-update-buffer-list ()
   "Function called from `window-configuration-change-hook' to update
@@ -165,7 +159,8 @@ the popup window. If the popup window was deleted, also remove it from
     (when-let ((win (ef-popup-find-window buf)))
       (if (> (length ef-popup-buffer-list) 1)
           (ef-popup-cycle-backward)
-        (delete-window win)))
+        (if (> (length (window-list)) 1)
+            (delete-window win))))
 
     (setq ef-popup-buffer-list
           (remove buf ef-popup-buffer-list))))
@@ -175,22 +170,34 @@ the popup window. If the popup window was deleted, also remove it from
 (defadvice shackle-display-buffer-action (around ef-single-popup activate)
   "If the newly opened window is a popup window, check if we already
 have an open popup. If we do, call `delete-window' on the popup window
-before opening a new one. Then mark the window as dedicated."
+before opening a new one. Then mark the window as dedicated.
+
+If BUFFER is not a popup buffer and `selected-window' is showing a popup,
+display the buffer using `display-buffer-in-previous-window'."
   (if (ef-popup-buffer-p buffer)
       (progn
-        (when-let ((open-popups (ef-popup-windows)))
+        (when-let ((_ (> (length (window-list)) 1))
+                   (open-popups (ef-popup-windows)))
           (delete-window (car open-popups)))
         (set-window-dedicated-p ad-do-it t))
-    (if (window-dedicated-p (selected-window))
-        (display-buffer-in-previous-window
-         buffer
-         '(nil (inhibit-same-window . t)))
+    ;; TODO: This is buggy af?!
+    (if (ef-popup-buffer-p (window-buffer (selected-window)))
+        (display-buffer-use-some-window buffer
+                                        '((inhibit-same-window . t)))
       ad-do-it)))
 
 (defadvice quit-window (around ef-popup-quit-window activate)
   "Inhitbit `quit-window' in popup buffers."
   (unless (ef-popup-buffer-p (current-buffer))
     ad-do-it))
+
+(defadvice delete-window (around ef-popup-delete-window activate)
+  "Prevent the last remaining window from staying dedicated, which would prevent
+us from switching to other buffers."
+  ad-do-it
+  (if-let* ((wins (window-list))
+            (_ (= (length wins) 1)))
+      (set-window-dedicated-p (car wins) nil)))
 
 (general-define-key
  :states '(normal insert visual motion replace)
