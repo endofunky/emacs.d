@@ -170,7 +170,7 @@ the popup window. If the popup window was deleted, also remove it from
 (defadvice shackle-display-buffer-action (around ef-single-popup activate)
   "If the newly opened window is a popup window, check if we already
 have an open popup. If we do, call `delete-window' on the popup window
-before opening a new one."
+before opening a new one. Then mark the window as dedicated."
   (if (ef-popup-buffer-p buffer)
       (progn
         (when-let ((open-popups (ef-popup-windows)))
