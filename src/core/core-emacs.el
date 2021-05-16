@@ -133,16 +133,6 @@
   :commands hs-minor-mode
   :hook (prog-mode . hs-minor-mode))
 
-(use-package ibuffer
-  :general
-  (:states 'normal :prefix ef-prefix
-	   "b" 'ibuffer))
-
-(use-package imenu
-  :general
-  (:states 'normal :prefix ef-prefix
-	   "i" 'imenu))
-
 (use-package minibuffer
   :custom
   (ef-minibuffer-gc-cons-threshold gc-cons-threshold)
