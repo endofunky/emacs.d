@@ -57,11 +57,6 @@
   :config
   (global-auto-revert-mode 1))
 
-(use-package dired
-  :general
-  (:states 'normal :prefix ef-prefix
-	   "d" 'dired))
-
 (use-package cus-edit
   :defer t
   :after no-littering

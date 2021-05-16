@@ -1,6 +1,8 @@
 (use-package dired
   :defer t
   :general
+  (:states 'normal :prefix ef-prefix
+	   "d" 'dired)
   (:states 'normal :keymaps 'dired-mode-map
            "q" 'kill-this-buffer)
   :custom
