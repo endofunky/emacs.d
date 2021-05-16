@@ -130,9 +130,24 @@ buffer."
 
 (add-hook 'window-configuration-change-hook #'ef-popup-update-buffer-list)
 
+(defun ef-popup-find-window (buf)
+  (cl-find-if #'(lambda (v)
+                  (eq (window-buffer v)
+                      buf))
+              (ef-popup-windows)))
+
 (defun ef-popup-killed-buffer-hook ()
-  (setq ef-popup-buffer-list
-        (remove (current-buffer) ef-popup-buffer-list)))
+  "If an open popup window containing the buffer exists, check if more than
+one pop up window is in the list. If there is, cycle to it, otherwise delete
+the popup window."
+  (let ((buf (current-buffer)))
+    (if-let ((win (ef-popup-find-window buf)))
+        (if (> (length ef-popup-buffer-list) 1)
+            (ef-popup-cycle-backward)
+          (delete-window win)))
+
+    (setq ef-popup-buffer-list
+          (remove buf ef-popup-buffer-list))))
 
 (add-hook 'kill-buffer-hook #'ef-popup-killed-buffer-hook)
 
