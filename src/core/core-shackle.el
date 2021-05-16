@@ -49,7 +49,7 @@ with `ef-add-popup'.")
 (defmacro ef-define-repl (name buf fn)
   "Define a shackle REPL wrapper function.
 
-Define a new function `NAME' for buffer `BUF' created by calling function `FN'
+Define a new function NAME for buffer BUF created by calling function FN
 When `shackle-rules' is bound, will add a popup & select rule for the given
 buffer."
   `(progn
