@@ -86,7 +86,8 @@ buffer."
 (defun ef-popup-buffer-match-rule-p (buf rule)
   "Return `t' if BUF matches RULE, `nil' otherwise."
   (cl-destructuring-bind (rule-name . rule-plist) rule
-    (shackle--match buf rule-name rule-plist)))
+    (when-let ((found (shackle--match buf rule-name rule-plist)))
+      (not (plist-get found :popup-float)))))
 
 (defun ef-popup-buffer-p (buf)
   "Return `t' if BUF is a popup buffer, `nil' otherwise."
