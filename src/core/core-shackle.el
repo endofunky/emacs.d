@@ -87,6 +87,11 @@ buffer."
                   (eq rule-name (with-current-buffer buf
                                   major-mode)))))))
 
+(defun ef-popup-display-buffer (buf)
+  "Display buffer BUF by calling `display-buffer', then mark the resulting
+window as dedicated."
+  (set-window-dedicated-p (display-buffer buf) t))
+
 (defun ef-popup-buffer-p (buf)
   "Return `t' if BUF is a popup buffer, `nil' otherwise."
   (cl-some (apply-partially #'ef-popup-buffer-match-rule-p buf)
@@ -112,8 +117,8 @@ buffer."
     (if-let* ((curr (car (ef-popup-buffers)))
               (pos (cl-position curr ef-popup-buffer-list)))
         (if (= pos (- (length ef-popup-buffer-list) 1))
-            (display-buffer (car ef-popup-buffer-list))
-          (display-buffer (nth (+ pos 1) ef-popup-buffer-list))))))
+            (ef-popup-display-buffer (car ef-popup-buffer-list))
+          (ef-popup-display-buffer (nth (+ pos 1) ef-popup-buffer-list))))))
 
 (defun ef-popup-cycle-backward ()
   "Cycle visibility of popup windows backwards."
@@ -123,8 +128,8 @@ buffer."
     (if-let* ((curr (car (ef-popup-buffers)))
               (pos (cl-position curr ef-popup-buffer-list)))
         (if (= pos 0)
-            (display-buffer (car (last ef-popup-buffer-list)))
-          (display-buffer (nth (- pos 1) ef-popup-buffer-list))))))
+            (ef-popup-display-buffer (car (last ef-popup-buffer-list)))
+          (ef-popup-display-buffer (nth (- pos 1) ef-popup-buffer-list))))))
 
 (defun ef-popup-toggle ()
   "Toggle visibility of the last opened popup window."
@@ -132,7 +137,7 @@ buffer."
   (if-let ((win (car (ef-popup-windows))))
       (delete-window win)
     (when-let ((buf (car (ef-popup-buffers))))
-      (display-buffer buf))))
+      (ef-popup-display-buffer buf))))
 
 (defun ef-popup-update-buffer-list ()
   "Function called from `window-configuration-change-hook' to update
@@ -176,7 +181,11 @@ before opening a new one. Then mark the window as dedicated."
         (when-let ((open-popups (ef-popup-windows)))
           (delete-window (car open-popups)))
         (set-window-dedicated-p ad-do-it t))
-    ad-do-it))
+    (if (window-dedicated-p (selected-window))
+        (display-buffer-in-previous-window
+         buffer
+         '(nil (inhibit-same-window . t)))
+      ad-do-it)))
 
 (defadvice quit-window (around ef-popup-quit-window activate)
   "Inhitbit `quit-window' in popup buffers."
