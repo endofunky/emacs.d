@@ -45,7 +45,7 @@
   (declare-function cider-current-repl "cider")
   (declare-function cider-quit "cider")
 
-  (ef-add-popup cider-repl-mode)
+  (ef-add-popup 'cider-repl-mode)
   (ef-add-popup "*cider-test-report*")
   (ef-add-popup "*cider-doc*")
   (ef-add-popup "*cider-apropos*")
