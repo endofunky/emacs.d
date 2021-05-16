@@ -145,7 +145,7 @@ current buffer's file, if it exists"
   :commands yari
   :load-path "vendor/yari.el"
   :config
-  (ef-add-popup yari-mode)
+  (ef-add-popup 'yari-mode)
   (evil-define-key 'normal yari-mode-map "q" 'quit-window))
 
 (use-package rubocop

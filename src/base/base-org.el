@@ -95,7 +95,7 @@
 (use-package calendar
   :defer t
   :config
-  (ef-add-popup calendar-mode))
+  (ef-add-popup 'calendar-mode))
 
 (use-package evil-org
   :ensure t

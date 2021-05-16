@@ -27,7 +27,7 @@
 
   (slime-setup '(slime-fancy slime-asdf slime-quicklisp slime-company))
 
-  (ef-add-popup sldb-mode)
+  (ef-add-popup 'sldb-mode)
   (ef-add-popup "*slime-compilation*")
   (ef-add-popup "*slime-description*")
   (ef-add-popup "*slime-apropos*")
