@@ -33,25 +33,24 @@ with `ef-add-popup'.")
     (add-to-list 'shackle-rules
                  (cons mode (ef-plist-merge ef-popup-defaults rules))))
 
-  (ef-add-popup " *Metahelp*")
-  (ef-add-popup " *undo-tree*")
-  (ef-add-popup "*Apropos*" :size .3)
+  (ef-add-popup " *Metahelp*" :ephemeral t)
+  (ef-add-popup " *undo-tree*" :ephemeral t)
+  (ef-add-popup "*Apropos*" :size .3 :ephemeral t)
   (ef-add-popup "*Backtrace*")
   (ef-add-popup "*Checkdoc Status*")
   (ef-add-popup "*Command History*")
-  (ef-add-popup "*Help*")
+  (ef-add-popup "*Help*" :ephemeral t)
   (ef-add-popup "*Messages*")
-  (ef-add-popup "*Occur*")
-  (ef-add-popup "*Occur*")
+  (ef-add-popup "*Occur*" :ephemeral t)
   (ef-add-popup "*Pp Eval Output*")
-  (ef-add-popup "*company-documentation*")
+  (ef-add-popup "*company-documentation*" :ephemeral t)
   (ef-add-popup "*compilation*")
-  (ef-add-popup "\\`\\*WoMan.*?\\*\\'" :regexp t)
-  (ef-add-popup "\\`\\*info.*?\\*\\'" :regexp t)
-  (ef-add-popup 'Info-mode)
+  (ef-add-popup "\\`\\*WoMan.*?\\*\\'" :regexp t :ephemeral t)
+  (ef-add-popup "\\`\\*info.*?\\*\\'" :regexp t :ephemeral t)
+  (ef-add-popup 'Info-mode :ephemeral t)
   (ef-add-popup 'comint-mode)
   (ef-add-popup 'compilation-mode)
-  (ef-add-popup 'info-mode)
+  (ef-add-popup 'info-mode :ephemeral t)
 
   (shackle-mode t))
 
@@ -84,18 +83,20 @@ buffer."
 (declare-function shackle--match "shackle")
 
 (defun ef-popup-buffer-match-rule-p (buf rule)
-  "Return `t' if BUF matches RULE, `nil' otherwise."
+  "Return RULE if BUF matches RULE, `nil' otherwise."
   (cl-destructuring-bind (rule-name . rule-plist) rule
     (when-let ((found (shackle--match buf rule-name rule-plist)))
-      (not (plist-get found :popup-float)))))
+      (not (plist-get found :float)))))
 
 (defun ef-popup-buffer-p (buf)
-  "Return `t' if BUF is a popup buffer, `nil' otherwise."
-  (cl-some (apply-partially #'ef-popup-buffer-match-rule-p buf)
-           shackle-rules))
+  "Return the matching rule from `shackle-rules' if BUF is a popup buffer,
+`nil' otherwise."
+  (cl-find-if (apply-partially #'ef-popup-buffer-match-rule-p buf)
+              shackle-rules))
 
 (defun ef-popup-window-p (win)
-  "Return `t' if WIN is a popup window, `nil' otherwise."
+  "Return the matching rule from `shackle-rules' if WIN is a popup window,
+`nil' otherwise."
   (ef-popup-buffer-p (window-buffer win)))
 
 (defun ef-popup-windows ()
@@ -190,14 +191,23 @@ display the buffer using `display-buffer-in-previous-window'."
                                         '((inhibit-same-window . t)))
       ad-do-it)))
 
+
 (defadvice quit-window (around ef-popup-quit-window activate)
-  "Inhitbit `quit-window' in popup buffers."
-  (unless (ef-popup-buffer-p (current-buffer))
+  "Inhitbit `quit-window' in non-ephemeral popup buffers."
+  (if-let* ((buf (current-buffer))
+            (rule (ef-popup-buffer-p buf)))
+      (progn
+        (when (plist-get (cdr rule) :ephemeral)
+          (kill-buffer)))
     ad-do-it))
 
 (defadvice quit-restore-window (around ef-popup-quit-restore-window activate)
-  "Inhitbit `quit-restore-window' in popup buffers."
-  (unless (ef-popup-buffer-p (current-buffer))
+  "Inhitbit `quit-restore-window' in non-ephemeral popup buffers."
+  (if-let* ((buf (current-buffer))
+            (rule (ef-popup-buffer-p buf)))
+      (progn
+        (when (plist-get (cdr rule) :ephemeral)
+          (kill-buffer)))
     ad-do-it))
 
 (defadvice delete-window (around ef-popup-delete-window activate)

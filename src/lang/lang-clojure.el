@@ -46,12 +46,12 @@
   (declare-function cider-quit "cider")
 
   (ef-add-popup 'cider-repl-mode)
-  (ef-add-popup "*cider-test-report*")
-  (ef-add-popup "*cider-doc*")
-  (ef-add-popup "*cider-apropos*")
-  (ef-add-popup "*cider-error*")
-  (ef-add-popup "*cider-spec-browser*")
-  (ef-add-popup "*cider-macroexpansion*")
+  (ef-add-popup "*cider-test-report*" :ephemeral t)
+  (ef-add-popup "*cider-doc*" :ephemeral t)
+  (ef-add-popup "*cider-apropos*" :ephemeral t)
+  (ef-add-popup "*cider-error*" :ephemeral t)
+  (ef-add-popup "*cider-spec-browser*" :ephemeral t)
+  (ef-add-popup "*cider-macroexpansion*" :ephemeral t)
 
   (defun ef-cider-jack-in (params)
     "Quit CIDER if running and jack in again"

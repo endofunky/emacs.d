@@ -29,8 +29,8 @@
 
   (ef-add-popup 'sldb-mode)
   (ef-add-popup "*slime-compilation*")
-  (ef-add-popup "*slime-description*")
-  (ef-add-popup "*slime-apropos*")
+  (ef-add-popup "*slime-description*" :ephemeral t)
+  (ef-add-popup "*slime-apropos*" :ephemeral t)
 
   (evil-define-key 'normal slime-mode-map ",," 'slime-edit-definition)
   (evil-define-key 'normal slime-mode-map ",." 'slime-pop-find-definition-stack)
@@ -64,7 +64,7 @@
     "Custom geiser REPL buffer naming override"
     "*geiser*")
 
-  (ef-add-popup "*Geiser documentation*")
+  (ef-add-popup "*Geiser documentation*" :ephemeral t)
 
   (evil-define-key 'normal geiser-mode-map ",cc" 'geiser-compile)
   (evil-define-key 'normal geiser-mode-map ",cb" 'geiser-compile-current-buffer)

@@ -9,8 +9,8 @@
   (sp-with-modes '(go-mode)
     (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET"))))
 
-  (ef-add-popup "*Gofmt Errors*")
-  (ef-add-popup "*go-rename*")
+  (ef-add-popup "*Gofmt Errors*" :ephemeral t)
+  (ef-add-popup "*go-rename*" :ephemeral t)
 
   (add-hook 'before-save-hook #'gofmt-before-save)
 
