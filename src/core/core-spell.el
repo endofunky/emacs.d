@@ -1,4 +1,7 @@
 (use-package flyspell
+  :custom
+  (flyspell-issue-welcome-flag nil)
+  (flyspell-issue-message-flag nil)
   :hook ((text-mode . flyspell-mode)))
 
 (use-package ispell
