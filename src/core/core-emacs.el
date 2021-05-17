@@ -140,8 +140,10 @@
 	     (buffer-size))))
 
 (use-package hl-line
-  :config
-  (global-hl-line-mode 1))
+  :defer t
+  :hook
+  (prog-mode . hl-line-mode)
+  (text-mode . hl-line-mode))
 
 (use-package hideshow
   :commands hs-minor-mode
