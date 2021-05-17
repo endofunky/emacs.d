@@ -75,9 +75,10 @@
   :ensure t
   :demand t
   :custom
+  (undo-tree-auto-save-history t)
+  (undo-tree-enable-undo-in-region t)
   (undo-tree-visualizer-timestamps t)
   (undo-tree-visualizer-lazy-drawing nil)
-  (undo-tree-auto-save-history t)
   :general
   (:states 'normal :prefix ef-prefix
 	   "u" 'undo-tree-visualize)
