@@ -56,6 +56,7 @@
   (ef-add-popup "*cider-apropos*" :ephemeral t)
   (ef-add-popup "*cider-error*" :ephemeral t)
   (ef-add-popup "*cider-spec-browser*" :ephemeral t)
+  (ef-add-popup "*cider-spec-example*" :ephemeral t)
   (ef-add-popup "*cider-macroexpansion*" :ephemeral t)
 
   (defun ef-cider-jack-in (params)
