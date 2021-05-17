@@ -2,6 +2,7 @@
 
 (use-package paren
   :custom
+  (show-paren-priority -50) ; Highlight parens in region
   (show-paren-delay 0)
   :config
   (show-paren-mode t))
