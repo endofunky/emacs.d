@@ -30,6 +30,8 @@
   (evil-search-module 'evil-search)
   (evil-shift-width 2)
   (evil-undo-system 'undo-tree)
+  (evil-undo-function 'undo-tree-undo)
+  (evil-redo-function 'undo-tree-redo)
   ;; Required for evil-collection:
   (evil-want-integration t)
   (evil-want-keybinding nil)
