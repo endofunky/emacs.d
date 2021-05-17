@@ -191,7 +191,6 @@ display the buffer using `display-buffer-in-previous-window'."
                                         '((inhibit-same-window . t)))
       ad-do-it)))
 
-
 (defadvice quit-window (around ef-popup-quit-window activate)
   "Inhitbit `quit-window' in non-ephemeral popup buffers."
   (if-let* ((buf (current-buffer))
