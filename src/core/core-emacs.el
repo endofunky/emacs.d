@@ -71,7 +71,10 @@
 (use-package comint
   :defer t
   :custom
+  (comint-buffer-maximum-size 2048)
   (comint-move-point-for-output 'others)
+  (comint-prompt-read-only t)
+  :commands (comint-truncate-buffer)
   :general
   (:states 'insert :keymaps 'comint-mode-map
 	   "<up>" 'comint-previous-input
@@ -93,6 +96,7 @@
   :hook
   ;; Avoid dropping into insert mode in compilation windows
   (compilation-start . evil-normal-state)
+  (compilation-filter . comint-truncate-buffer)
   :config
   (defun ef-compilation-exit-autoclose (buffer msg)
     (when (string-match-p (regexp-quote "finished") msg)
