@@ -74,7 +74,7 @@
   :ensure t
   :after company
   :custom
-  (company-flx-limit 2000)
+  (company-flx-limit 750)
   :hook
   (company-mode . company-flx-mode))
 
