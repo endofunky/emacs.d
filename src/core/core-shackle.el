@@ -132,7 +132,6 @@ buffer."
 (defun ef-popup-toggle ()
   "Toggle visibility of the last opened popup window."
   (interactive)
-  ;; TODO: If we are the sole window, bury the buffer and display a non-popup buffer instead
   (if-let ((win (car (ef-popup-windows))))
       (delete-window win)
     (when-let ((buf (car (ef-popup-buffers))))
