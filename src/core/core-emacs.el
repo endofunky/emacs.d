@@ -220,6 +220,11 @@
   :config
   (global-so-long-mode 1))
 
+(use-package tabify
+  :defer t
+  :config
+  (setq tabify-regexp "^\t* [ \t]+"))
+
 (use-package uniquify
   :custom
   (uniquify-after-kill-buffer-p t)
