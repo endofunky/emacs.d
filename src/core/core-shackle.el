@@ -138,6 +138,23 @@ buffer."
     (when-let ((buf (car (ef-popup-buffers))))
       (display-buffer buf))))
 
+(defun ef-popup-find-window (buf)
+  "Find open popup window for BUF and return it. If no window was found,
+return nil."
+  (cl-find-if #'(lambda (v)
+                  (eq (window-buffer v)
+                      buf))
+              (ef-popup-windows)))
+
+(defun ef-popup-try-kill-ephemeral-popup-p (buf)
+  "If BUF is an ephemeral popup buffer, kill it, otherwise do nothing.
+
+Return the return value of `kill-buffer' if the conditions were satisfied,
+nil otherwise."
+  (when-let* ((rule (ef-popup-buffer-p buf))
+              (_ (plist-get (cdr rule) :ephemeral)))
+    (kill-buffer)))
+
 (defun ef-popup-update-buffer-list ()
   "Function called from `window-configuration-change-hook' to update
 `ef-popup-buffer-list' with any changes."
@@ -146,14 +163,6 @@ buffer."
                 (cl-set-difference (ef-popup-buffers) ef-popup-buffer-list))))
 
 (add-hook 'window-configuration-change-hook #'ef-popup-update-buffer-list)
-
-(defun ef-popup-find-window (buf)
-  "Find open popup window for BUF and return it. If no window was found,
-return nil."
-  (cl-find-if #'(lambda (v)
-                  (eq (window-buffer v)
-                      buf))
-              (ef-popup-windows)))
 
 (defun ef-popup-killed-buffer-hook ()
   "If an open popup window containing the buffer exists, check if more than
@@ -187,26 +196,21 @@ otherwise display the buffer using `display-buffer-use-some-window'."
           (delete-window (car open-popups)))
         (set-window-dedicated-p ad-do-it t))
     (if (ef-popup-buffer-p (window-buffer (selected-window)))
-        (if-let ((win (get-buffer-window (current-buffer))))
+        (if-let ((win (get-buffer-window buffer)))
             (select-window win)
           (display-buffer-use-some-window buffer
-                                          '((inhibit-same-window . t))))
+                                          '(nil (inhibit-same-window . t)
+                                                (direction . above))))
       ad-do-it)))
 
 (defadvice quit-window (around ef-popup-quit-window activate)
   "Inhitbit `quit-window' in non-ephemeral popup buffers."
-  (if-let* ((buf (current-buffer))
-            (rule (ef-popup-buffer-p buf)))
-      (when (plist-get (cdr rule) :ephemeral)
-        (kill-buffer))
+  (unless (ef-popup-try-kill-ephemeral-popup-p (current-buffer))
     ad-do-it))
 
 (defadvice quit-restore-window (around ef-popup-quit-restore-window activate)
   "Inhitbit `quit-restore-window' in non-ephemeral popup buffers."
-  (if-let* ((buf (current-buffer))
-            (rule (ef-popup-buffer-p buf)))
-      (when (plist-get (cdr rule) :ephemeral)
-        (kill-buffer))
+  (unless (ef-popup-try-kill-ephemeral-popup-p (current-buffer))
     ad-do-it))
 
 (defadvice delete-window (around ef-popup-delete-window activate)
