@@ -178,17 +178,19 @@ have an open popup. If we do, call `delete-window' on the popup window
 before opening a new one. Then mark the window as dedicated.
 
 If BUFFER is not a popup buffer and `selected-window' is showing a popup,
-display the buffer using `display-buffer-in-previous-window'."
+select the buffer window with `select-window' if the buffer is already shown,
+otherwise display the buffer using `display-buffer-use-some-window'."
   (if (ef-popup-buffer-p buffer)
       (progn
         (when-let ((_ (> (length (window-list)) 1))
                    (open-popups (ef-popup-windows)))
           (delete-window (car open-popups)))
         (set-window-dedicated-p ad-do-it t))
-    ;; TODO: This is buggy af?!
     (if (ef-popup-buffer-p (window-buffer (selected-window)))
-        (display-buffer-use-some-window buffer
-                                        '((inhibit-same-window . t)))
+        (if-let ((win (get-buffer-window (current-buffer))))
+            (select-window win)
+          (display-buffer-use-some-window buffer
+                                          '((inhibit-same-window . t))))
       ad-do-it)))
 
 (defadvice quit-window (around ef-popup-quit-window activate)
