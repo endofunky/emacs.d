@@ -15,6 +15,11 @@
   ;; 0 since (at least) Emacs 25, disabling to completely.
   (echo-keystrokes 0.01)
 
+  ;; `whitespace-mode' doesn't play nice with `company-mode' overlays, also
+  ;; `show-trailing-whitespace' is implemented in C, so should be more
+  ;; performant.
+  (show-trailing-whitespace t)
+
   ;; Tabs are just awful
   (indent-tabs-mode nil)
 
@@ -243,14 +248,6 @@
   (uniquify-buffer-name-style 'post-forward-angle-brackets)
   (uniquify-ignore-buffers-re "^\\*")
   (uniquify-separator ":"))
-
-(use-package whitespace
-  :custom
-  (show-trailing-whitespace nil)
-  (whitespace-style '(face trailing spaces space-mark))
-  (whitespace-display-mappings '((space-mark 32 [?·])))
-  :config
-  (global-whitespace-mode 1))
 
 (use-package xref
   :defer t
