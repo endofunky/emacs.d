@@ -197,7 +197,8 @@ otherwise display the buffer using `display-buffer-use-some-window'."
         (set-window-dedicated-p ad-do-it t))
     (if (ef-popup-buffer-p (window-buffer (selected-window)))
         (if-let ((win (get-buffer-window buffer)))
-            (select-window win)
+            (unless (eq (window-buffer win) buffer)
+              (select-window win))
           (display-buffer-use-some-window buffer
                                           '(nil (inhibit-same-window . t)
                                                 (direction . above))))
