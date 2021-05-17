@@ -10,6 +10,11 @@
   ;; Word wrap at spaces
   (word-wrap t)
 
+  ;; Display keystrokes in echo area as soon as possible.
+  ;; Note: Setting this to a value < 0 has the same effect as setting it to
+  ;; 0 since (at least) Emacs 25, disabling to completely.
+  (echo-keystrokes 0.01)
+
   ;; Tabs are just awful
   (indent-tabs-mode nil)
 
