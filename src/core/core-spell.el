@@ -2,7 +2,12 @@
   :hook ((text-mode . flyspell-mode)))
 
 (use-package ispell
-  :hook (text-mode . ispell-minor-mode))
+  :hook (text-mode . ispell-minor-mode)
+  :config
+  (define-advice ispell-init-process
+      (:around (old-fun &rest args) inhibit-message)
+    (let ((inhibit-message t))
+      (apply old-fun args))))
 
 (use-package flyspell-correct
   :ensure t
