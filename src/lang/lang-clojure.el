@@ -37,6 +37,11 @@
   (:states 'insert :keymaps 'cider-repl-mode-map
            "<down>" 'cider-repl-next-input
            "<up>" 'cider-repl-previous-input)
+  (:states 'normal :keymaps 'cider-browse-spec-view-mode-map
+           "^" 'cider-browse-spec-all
+           "e" 'cider-browse-spec--print-curr-spec-example
+           "n" 'forward-button
+           "p" 'backward-button)
   :config
   (require 'cider-ns)
 
