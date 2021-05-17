@@ -225,6 +225,11 @@
   :config
   (setq tabify-regexp "^\t* [ \t]+"))
 
+(use-package text-mode
+  :defer t
+  :mode (("/LICENSE\\'" . text-mode)
+         ("\\.log\\'" . text-mode)))
+
 (use-package uniquify
   :custom
   (uniquify-after-kill-buffer-p t)
