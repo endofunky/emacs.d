@@ -187,6 +187,12 @@
   (history-length 1000)
   (savehist-additional-variables '(search ring regexp-search-ring))
   (savehist-autosave-interval 60)
+  (savehist-save-minibuffer-history t)
+  (savehist-additional-variables '(kill-ring
+                                   register-alist
+                                   mark-ring global-mark-ring
+                                   search-ring
+                                   regexp-search-ring))
   :config
   (savehist-mode t))
 
