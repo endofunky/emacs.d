@@ -197,6 +197,8 @@ otherwise display the buffer using `display-buffer-use-some-window'."
         (set-window-dedicated-p ad-do-it t))
     (if (ef-popup-buffer-p (window-buffer (selected-window)))
         (if-let ((win (get-buffer-window buffer)))
+            ;; Edge case: Sometimes will double a window if it's already
+            ;; selected, eg. when triggered from `undo-tree-visualizer-mode'.
             (unless (eq (window-buffer win) buffer)
               (select-window win))
           (display-buffer-use-some-window buffer
