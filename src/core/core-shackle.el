@@ -195,18 +195,16 @@ display the buffer using `display-buffer-in-previous-window'."
   "Inhitbit `quit-window' in non-ephemeral popup buffers."
   (if-let* ((buf (current-buffer))
             (rule (ef-popup-buffer-p buf)))
-      (progn
-        (when (plist-get (cdr rule) :ephemeral)
-          (kill-buffer)))
+      (when (plist-get (cdr rule) :ephemeral)
+        (kill-buffer))
     ad-do-it))
 
 (defadvice quit-restore-window (around ef-popup-quit-restore-window activate)
   "Inhitbit `quit-restore-window' in non-ephemeral popup buffers."
   (if-let* ((buf (current-buffer))
             (rule (ef-popup-buffer-p buf)))
-      (progn
-        (when (plist-get (cdr rule) :ephemeral)
-          (kill-buffer)))
+      (when (plist-get (cdr rule) :ephemeral)
+        (kill-buffer))
     ad-do-it))
 
 (defadvice delete-window (around ef-popup-delete-window activate)
