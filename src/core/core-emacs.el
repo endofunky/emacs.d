@@ -5,6 +5,11 @@
 (use-package no-littering :defer t)
 
 (ef-customize
+  (fill-column 80)
+
+  ;; Word wrap at spaces
+  (word-wrap t)
+
   ;; Tabs are just awful
   (indent-tabs-mode nil)
 
