@@ -247,7 +247,8 @@
 (use-package whitespace
   :custom
   (show-trailing-whitespace nil)
-  (whitespace-style (quote (face trailing)))
+  (whitespace-style '(face trailing spaces space-mark))
+  (whitespace-display-mappings '((space-mark 32 [?·])))
   :config
   (global-whitespace-mode 1))
 
