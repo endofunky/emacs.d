@@ -67,7 +67,15 @@
 (use-package company-statistics
   :ensure t
   :after company
-  :config
-  (company-statistics-mode))
+  :hook
+  (company-mode . company-statistics-mode))
+
+(use-package company-flx
+  :ensure t
+  :after company
+  :custom
+  (company-flx-limit 2000)
+  :hook
+  (company-mode . company-flx-mode))
 
 (provide 'core-company)
