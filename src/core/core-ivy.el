@@ -15,16 +15,6 @@
                                 (counsel-rg . ivy--regex-plus)
                                 (t . ivy--regex-fuzzy))))
 
-(use-package ivy-rich
-  :ensure t
-  :after ivy
-  :custom
-  (ivy-virtual-abbreviate 'full
-                          ivy-rich-switch-buffer-align-virtual-buffer t
-                          ivy-rich-path-style 'abbrev)
-  :config
-  (ivy-rich-mode t))
-
 (use-package flx
   :after ivy
   :ensure t)
