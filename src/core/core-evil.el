@@ -94,13 +94,14 @@
   (evil-collection-init))
 
 (use-package anzu
+  :after evil
   :ensure t
   :config
   (global-anzu-mode t))
 
 (use-package evil-anzu
-  :ensure t
-  :after (anzu evil))
+  :after (anzu evil)
+  :ensure t)
 
 (use-package evil-lion
   :after evil
