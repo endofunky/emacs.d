@@ -27,6 +27,12 @@
   (set-face-attribute 'trailing-whitespace nil :foreground nil :background (ef-color :base08))
   (set-face-attribute 'vertical-border nil :foreground (ef-color :base01)))
 
+(use-package ivy
+  :defer t
+  :config
+  (setcdr (assoc t ivy-format-functions-alist) #'ivy-format-function-line)
+  (set-face-attribute 'ivy-current-match nil :foreground (ef-color :base09) :background (ef-color :base01) :extend t))
+
 (use-package hl-line
   :defer t
   :config
