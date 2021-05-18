@@ -9,6 +9,7 @@
    (no-littering-expand-var-file-name "projectile/cache.el"))
   (projectile-known-projects-file
    (no-littering-expand-var-file-name "projectile/known-projects.el"))
+  (projectile-mode-line-function 'ef-projectile-mode-line)
   :commands (projectile-toggle-between-implementation-and-test)
   :general
   (:states 'normal :prefix ef-prefix
@@ -16,6 +17,13 @@
 	   "p" 'projectile-switch-project)
   :config
   (declare-function projectile-project-p "projectile")
+  (declare-function projectile-project-name "projectile")
+
+  (defun ef-projectile-mode-line ()
+    (format "%s[%s]"
+            projectile-mode-line-prefix
+            (projectile-project-name)))
+
   (defun ef-projectile-find-file ()
     (interactive)
     (if (projectile-project-p)
