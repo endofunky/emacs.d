@@ -19,6 +19,8 @@
      nil '(("\\<\\(FIXME\\|BUG\\|XXX\\|TODO\\|NOCOMMIT\\)\\>"
             1 '((:foreground "#cc6666") (:weight bold)) t))))
 
+  (set-face-attribute 'line-number nil :background (ef-color :base00) :foreground (ef-color :base02))
+  (set-face-attribute 'line-number-current-line nil :background (ef-color :base01))
   (set-face-attribute 'font-lock-doc-face nil :foreground (ef-color :base03))
   (set-face-attribute 'fringe nil :background (ef-color :base00))
   (set-face-attribute 'header-line nil :foreground (ef-color :base0E) :background (ef-color :base00))
