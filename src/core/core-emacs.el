@@ -172,7 +172,7 @@
 
   (ef-add-hook minibuffer-exit-hook
     "Restore `gc-cons-threshold' to default."
-    (setq gc-cons-threshold (car (get 'gc-cons-threshold 'standard-value)))))
+    (setq gc-cons-threshold 100000000)))
 
 (use-package prog-mode
   :general
