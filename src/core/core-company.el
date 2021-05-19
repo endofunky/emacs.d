@@ -78,4 +78,12 @@
   :hook
   (company-mode . company-flx-mode))
 
+(use-package company-box
+  :ensure t
+  :after company
+  :custom
+  (company-box-scrollbar nil)
+  :hook
+  (company-mode . company-box-mode))
+
 (provide 'core-company)
