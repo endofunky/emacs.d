@@ -84,6 +84,7 @@
   :custom
   (company-box-backends-colors nil)
   (company-box-scrollbar nil)
+  (company-box-show-single-candidate t)
   :hook
   (company-mode . company-box-mode))
 
