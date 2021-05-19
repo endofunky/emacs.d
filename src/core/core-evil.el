@@ -6,6 +6,14 @@
   :general
   (:states 'normal :prefix ef-prefix
 	   "<return>" 'ef-toggle-window-fullscreen
+	   "bi" 'ibuffer
+	   "bka" 'ef-kill-all-other-buffer
+	   "bkk" 'kill-this-buffer
+	   "bko" 'ef-kill-other-buffers
+	   "bn" 'next-buffer
+	   "bp" 'previous-buffer
+	   "bN" 'evil-buffer-new
+	   "br" 'revert-buffer
            "i" 'imenu
 	   "ws" 'delete-trailing-whitespace)
   :custom
