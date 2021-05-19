@@ -78,6 +78,7 @@
      c-w
      commentary
      additional-wrap
-     slurp/barf-cp)))
+     slurp/barf-cp
+     text-objects)))
 
 (provide 'core-parens)
