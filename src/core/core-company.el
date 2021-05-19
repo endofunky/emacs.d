@@ -82,6 +82,7 @@
   :ensure t
   :after company
   :custom
+  (company-box-backends-colors nil)
   (company-box-scrollbar nil)
   :hook
   (company-mode . company-box-mode))
