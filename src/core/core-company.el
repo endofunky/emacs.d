@@ -82,6 +82,7 @@
   :ensure t
   :after company
   :custom
+  (company-box-enable-icon (display-graphic-p))
   (company-box-backends-colors nil)
   (company-box-scrollbar nil)
   (company-box-show-single-candidate t)
