@@ -142,8 +142,8 @@ current buffer's file, if it exists"
   (evil-define-key 'normal ruby-mode-map ",x\'" 'ruby-tools-to-single-quote-string))
 
 (use-package yari
+  :ensure t
   :commands yari
-  :load-path "vendor/yari.el"
   :config
   (ef-add-popup 'yari-mode :ephemeral t)
   (evil-define-key 'normal yari-mode-map "q" 'quit-window))
