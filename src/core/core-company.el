@@ -12,7 +12,7 @@
   (company-global-modes '(not message-mode help-mode))
   (company-idle-delay 0.3)
   (company-minimum-prefix-length 2)
-  (company-require-match 'never)
+  (company-require-match nil)
   (company-selection-wrap-around t)
   (company-show-numbers t)
   (company-tooltip-align-annotations t)
