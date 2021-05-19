@@ -131,16 +131,6 @@ current buffer's file, if it exists"
   (projectile-rails-global-mode t)
   (evil-define-key 'normal projectile-rails-mode-map ",r" 'ef-repl-projectile-rails-console))
 
-(use-package ruby-tools
-  :after ruby-mode
-  :ensure t
-  :init
-  (add-hook 'ruby-mode-hook 'ruby-tools-mode)
-  :config
-  (evil-define-key 'normal ruby-mode-map ",x:" 'ruby-tools-to-symbol)
-  (evil-define-key 'normal ruby-mode-map ",x\"" 'ruby-tools-to-double-quote-string)
-  (evil-define-key 'normal ruby-mode-map ",x\'" 'ruby-tools-to-single-quote-string))
-
 (use-package yari
   :ensure t
   :commands yari
