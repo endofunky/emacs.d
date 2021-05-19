@@ -177,7 +177,7 @@
   :test-report cider-test-show-report
 
   ;; xref
-  :xref-definitions cider-xref-fn-refs-select
+  :xref-references cider-xref-fn-refs-select
   :xref-dependencies cider-xref-fn-deps-select)
 
 (provide 'lang-clojure)
