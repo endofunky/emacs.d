@@ -2,6 +2,11 @@
 (require 'cl-seq)
 (require 'subr-x)
 
+(use-package gcmh
+  :ensure t
+  :config
+  (gcmh-mode 1))
+
 (use-package general
   :ensure t
   :config

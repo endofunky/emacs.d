@@ -156,7 +156,6 @@
 
 (use-package minibuffer
   :custom
-  (ef-minibuffer-gc-cons-threshold gc-cons-threshold)
   (enable-recursive-minibuffers t)
   :config
   ;; Escape minibuffer with single escape
@@ -164,15 +163,7 @@
   (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-
-  (ef-add-hook minibuffer-setup-hook
-    "Increase `gc-cons-threshold' while in minibuffer."
-    (setq gc-cons-threshold most-positive-fixnum))
-
-  (ef-add-hook minibuffer-exit-hook
-    "Restore `gc-cons-threshold' to default."
-    (setq gc-cons-threshold 100000000)))
+  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit))
 
 (use-package prog-mode
   :general
