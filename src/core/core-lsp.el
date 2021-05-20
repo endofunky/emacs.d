@@ -9,9 +9,12 @@
   (lsp-eldoc-enable-hover t)
   (lsp-enable-snippet nil)
   (lsp-enable-symbol-highlighting nil)
-  (lsp-prefer-flymake nil)
-  (lsp-headerline-breadcrumb-enable nil)
   (lsp-gopls-experimental-staticcheck nil)
+  (lsp-headerline-breadcrumb-enable nil)
+  (lsp-lens-enable nil)
+  (lsp-prefer-flymake nil)
+  (lsp-ui-remap-xref-keybindings nil)
+  (lsp-use-lsp-ui nil)
   :general
   (:states 'normal :keymap 'lsp-mode-map :prefix ef-prefix
 	   "," '(lsp-find-definition "Find Definition"))
