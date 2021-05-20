@@ -71,6 +71,7 @@ Must be set before loading ef-deflang."
     (:eval-prefix               ("e" :which-key "Eval"))
     (:lint-prefix               ("cl" :which-key "Lint"))
     (:macro-prefix              ("m" :which-key "Macro"))
+    (:refactor-prefix           ("cr" :which-key "Refactor"))
     (:repl-prefix               ("r" :which-key "REPL"))
     (:test-prefix               ("t" :which-key "Test"))
     (:xref-prefix               ("x" :which-key "Xref"))
@@ -78,6 +79,7 @@ Must be set before loading ef-deflang."
     ;; Actions
     (:compile-buffer            ("cb"  :which-key "Compile Buffer"))
     (:compile                   ("cc"  :which-key "Compile All/Project"))
+    (:compile-recompile         ("cC"  :which-key "Re-Compile All/Project"))
     (:compile-defun             ("cd"  :which-key "Compile Definition at Point"))
     (:compile-file              ("cf"  :which-key "Compile File"))
     (:compile-region            ("cr"  :which-key "Compile Region"))
@@ -107,6 +109,7 @@ Must be set before loading ef-deflang."
     (:macro-expand-one          ("m1"  :which-key "Expand One"))
     (:macro-expand-expression   ("mE"  :which-key "Expand Expression"))
     (:macro-quit                ("mq"  :which-key "Quit Expansions"))
+    (:refactor-rename           ("crr" :which-key "Rename"))
     (:repl-context              ("rc"  :which-key "Change REPL Context"))
     (:repl-info                 ("ri"  :which-key "REPL Info"))
     (:repl-toggle               ("rr"  :which-key "Toggle REPL Window"))
