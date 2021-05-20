@@ -1,4 +1,5 @@
 (require 'core-lib)
+(require 'core-lsp)
 (require 'core-parens)
 (require 'core-shackle)
 
@@ -7,6 +8,7 @@
   :mode (("\\.go\\'" . go-mode))
   :custom
   (gofmt-command "goimports")
+  (lsp-go-hover-kind "NoDocumentation")
   :config
   (sp-with-modes '(go-mode)
     (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET"))))
@@ -55,12 +57,6 @@
   (company-go-insert-arguments nil)
   :config
   (add-to-list 'company-backends 'company-go))
-
-(use-package go-eldoc
-  :after go-mode
-  :ensure t
-  :init
-  (add-hook 'go-mode-hook 'go-eldoc-setup))
 
 (use-package gotest
   :after go-mode
