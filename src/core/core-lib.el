@@ -436,8 +436,8 @@ If FILTER is `nil' kill all buffers except the current one."
   (let* ((features (or (ef-as-list (plist-get args :after))
                        (ef-mode lang))))
     (cl-remf args :after)
-    (macroexpand
-     (let ((merged-args (ef-plist-merge ef-deflang-prefix-handlers args)))
+    (let ((merged-args (ef-plist-merge ef-deflang-prefix-handlers args)))
+      (macroexpand
        `(ef-eval-after-load
           ,features
           (general-define-key
