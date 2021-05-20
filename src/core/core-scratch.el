@@ -44,7 +44,7 @@
 
 ;; Never delete the scratch buffer
 (ef-add-hook after-init-hook :fn ef-init-scratch-timer-hook
-  (defun ef-get-scratch-buffer-create ()
+  (defun ef-get-or-create-scratch-buffer ()
     "Get *scratch* buffer or create it."
     (unless (get-buffer "*scratch*")
       (with-current-buffer (generate-new-buffer "*scratch*")
@@ -52,6 +52,6 @@
         (set-buffer-modified-p nil)
         (funcall initial-major-mode))))
 
-  (run-with-idle-timer 1 t 'ef-get-scratch-buffer-create))
+  (run-with-idle-timer 1 t 'ef-get-or-create-scratch-buffer))
 
 (provide 'core-scratch)
