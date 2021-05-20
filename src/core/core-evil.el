@@ -5,17 +5,22 @@
   :demand t
   :general
   (:states 'normal :prefix ef-prefix
-	   "<return>" 'ef-toggle-window-fullscreen
-	   "bi" 'ibuffer
-	   "bka" 'ef-kill-all-other-buffer
-	   "bkk" 'kill-this-buffer
-	   "bko" 'ef-kill-other-buffers
-	   "bn" 'next-buffer
-	   "bp" 'previous-buffer
-	   "bN" 'evil-buffer-new
-	   "br" 'revert-buffer
-           "i" 'imenu
-	   "ws" 'delete-trailing-whitespace)
+	   "<return>" '(ef-toggle-window-fullscreen :which-key "Toggle Frame Fullscreen")
+           "b" '(nil :which-key "Buffer")
+	   "bi" '(ibuffer :which-key "Open ibuffer")
+           "bk" '(nil :which-key "Kill")
+	   "bka" '(ef-kill-all-other-buffer :which-key "Kill all Other Buffers")
+	   "bkk" '(kill-current-buffer :which-key "Kill Current Buffer")
+	   "bko" '(ef-kill-other-buffers :which-key "Kill Other File Buffers")
+	   "bn" '(next-buffer :which-key "Next Buffer")
+	   "bp" '(previous-buffer :which-key "Previous Buffer")
+	   "bN" '(evil-buffer-new :which-key "New Buffer")
+	   "br" '(revert-buffer :which-key "Revert Buffer")
+           "i" '(imenu :which-key "Open imenu")
+           "w" '(nil :which-key "Whitespace")
+	   "wt" '(tabify :which-key "Spaces to Tabs")
+	   "ws" '(delete-trailing-whitespace :which-key "Strip Trailing Whitespace")
+	   "wu" '(untabify :which-key "Tabs to Spaces"))
   :custom
   (evil-auto-indent t)
   (evil-cross-lines t)
@@ -81,7 +86,7 @@
   (undo-tree-visualizer-lazy-drawing nil)
   :general
   (:states 'normal :prefix ef-prefix
-	   "u" 'undo-tree-visualize)
+	   "u" '(undo-tree-visualize :which-key "Open undo-tree"))
   :config
   (global-undo-tree-mode))
 

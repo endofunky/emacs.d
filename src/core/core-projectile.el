@@ -13,8 +13,8 @@
   :commands (projectile-toggle-between-implementation-and-test)
   :general
   (:states 'normal :prefix ef-prefix
-	   "f" 'ef-projectile-find-file
-	   "p" 'projectile-switch-project)
+	   "f" '(ef-projectile-find-file :which-key "Find File in Project")
+	   "p" '(projectile-switch-project :which-key "Switch Project"))
   :config
   (declare-function projectile-project-p "projectile")
   (declare-function projectile-project-name "projectile")

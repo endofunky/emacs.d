@@ -10,12 +10,15 @@
   (magit-completing-read-function 'ivy-completing-read)
   (magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
   :init
-  (define-key evil-normal-state-map ",gd" 'magit-diff)
-  (define-key evil-normal-state-map ",gs" 'magit-status)
-  (define-key evil-normal-state-map ",gl" 'magit-log)
-  (define-key evil-normal-state-map ",gL" 'magit-log-all)
-  (define-key evil-normal-state-map ",gb" 'magit-blame)
-  (define-key evil-normal-state-map ",gc" 'magit-checkout)
+  :general
+  (:prefix ef-prefix :states 'normal
+           "g" '(nil :which-key "Magit")
+           "gd" '(magit-diff :which-key "Diff")
+           "gs" '(magit-status :which-key "Status")
+           "gl" '(magit-log :which-key "Log")
+           "gL" '(magit-log-all :which-key "Log (All)")
+           "gb" '(magit-blame :which-key "Blame")
+           "gc" '(magit-checkout :which-key "Checkout"))
   :config
   (ef-add-hook git-commit-setup-hook :fn ef-git-commit-jira-ticket-hook
     (if-let* ((branch (magit-get-current-branch))
@@ -29,7 +32,7 @@
   (ef-shackle '(magit-diff-mode :align right :size .5 :popup t :select nil :float t))
 
   (transient-append-suffix 'magit-pull "C"
-    '("A" "Autostash" "--autostash"))
+                           '("A" "Autostash" "--autostash"))
 
   ;; Don't let magit-status mess up window configurations
   ;; http://whattheemacsd.com/setup-magit.el-01.html

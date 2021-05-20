@@ -1,3 +1,6 @@
+(require 'core-lib)
+(require 'core-shackle)
+
 (use-package ruby-mode
   :mode (("Appraisals\\'" . ruby-mode)
          ("Berksfile\\'" . ruby-mode)
@@ -33,13 +36,6 @@
   (setenv "RUBYOPT" "-W0")
 
   (ef-define-repl ef-repl-ruby "*ruby*" 'run-ruby)
-
-  (evil-define-key 'normal ruby-mode-map ",r" 'ef-repl-ruby)
-  (evil-define-key 'normal inf-ruby-mode-map ",r" 'ef-repl-ruby)
-  (evil-define-key 'normal ruby-mode-map ",eb" 'ruby-send-buffer)
-  (evil-define-key 'normal ruby-mode-map ",ed" 'ruby-send-definition)
-  (evil-define-key 'visual ruby-mode-map ",er" 'ruby-send-region)
-  (evil-define-key 'normal ruby-mode-map ",m" 'yari)
 
   (ef-add-popup "*rake-compilation*")
 
@@ -89,8 +85,6 @@
   :config
   (add-hook 'ruby-mode-hook 'ruby-test-mode)
   (setq ruby-test-rspec-options "")
-  (evil-define-key 'normal ruby-test-mode-map ",tp" 'ruby-test-run-at-point)
-  (evil-define-key 'normal ruby-test-mode-map ",l" 'ruby-test-toggle-implementation-and-specification)
 
   (defun ef-file-or-nil (filename)
     "Return `filename' if `file-exists-p' returns non-nil, else nil"
@@ -115,9 +109,7 @@ current buffer's file, if it exists"
         (if-let* ((testname (ef-ruby-test-infer-file filename)))
             (ruby-test-with-ruby-directory testname
                                            (ruby-test-run-command (ruby-test-command testname)))
-          (message "no corresponding test/spec file found")))))
-
-  (evil-define-key 'normal ruby-test-mode-map ",tt" 'ef-ruby-test-run))
+          (message "no corresponding test/spec file found"))))))
 
 (use-package projectile-rails
   :after ruby-mode
@@ -131,20 +123,10 @@ current buffer's file, if it exists"
   (projectile-rails-global-mode t)
   (evil-define-key 'normal projectile-rails-mode-map ",r" 'ef-repl-projectile-rails-console))
 
-(use-package yari
-  :ensure t
-  :commands yari
-  :config
-  (ef-add-popup 'yari-mode :ephemeral t)
-  (evil-define-key 'normal yari-mode-map "q" 'quit-window))
-
 (use-package rubocop
   :ensure t
   :commands (rubocop-autocorrect-project
              rubocop-autocorrect-current-file)
-  :init
-  (evil-define-key 'normal ruby-mode-map ",clf" 'rubocop-autocorrect-current-file)
-  (evil-define-key 'normal ruby-mode-map ",clp" 'rubocop-autocorrect-project)
   :config
   (defun rubocop-buffer-name (file-or-dir)
     "Generate a name for the RuboCop buffer from FILE-OR-DIR."
@@ -180,5 +162,25 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f)))
       (asm-mode))
     (switch-to-buffer buf)
     (delete-file f)))
+
+(ef-deflang ruby
+  :after (ruby-mode ruby-test-mode)
+
+  ;; eval
+  :eval-buffer ruby-send-buffer
+  :eval-defun ruby-send-definition
+  :eval-region ruby-send-region
+
+  ;; lint
+  :lint-file rubocop-autocorrect-current-file
+  :lint-project rubocop-autocorrect-project
+
+  ;; repl
+  :repl-toggle ef-repl-ruby
+
+  ;; test
+  :test-toggle ruby-test-toggle-implementation-and-specification
+  :test-at-point ruby-test-run-at-point
+  :test-file ef-ruby-test-run)
 
 (provide 'lang-ruby)

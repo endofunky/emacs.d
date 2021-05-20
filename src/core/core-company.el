@@ -22,12 +22,6 @@
   (evil-complete-next-func 'ef-evil-complete-lambda)
   (evil-complete-previous-func 'ef-evil-complete-lambda)
   :general
-  (:states 'normal :keymaps 'company-active-map
-	   "<return>" 'company-complete-selection
-	   "<tab>" 'company-select-next-if-tooltip-visible-or-complete-selection
-	   "C-f" 'company-complete-selection
-	   "C-n" #'company-select-next-or-abort
-	   "C-p" #'company-select-previous-or-abort)
   (:states 'insert
 	   "<tab>" 'ef-tab-indent-or-complete)
   :functions (ef-check-expansion
@@ -85,6 +79,7 @@
   (company-box-enable-icon (display-graphic-p))
   (company-box-backends-colors nil)
   (company-box-scrollbar nil)
+  (company-box-max-candidates 1000)
   (company-box-show-single-candidate t)
   :hook
   (company-mode . company-box-mode))

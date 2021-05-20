@@ -2,31 +2,6 @@
 (require 'cl-seq)
 (require 'subr-x)
 
-(use-package gcmh
-  :ensure t
-  :config
-  (gcmh-mode 1))
-
-(use-package general
-  :ensure t
-  :config
-  (declare-function general-override-mode "general")
-  (general-auto-unbind-keys)
-  (general-override-mode t))
-
-(use-package transient
-  :ensure t
-  :general
-  (:keymaps '(transient-map transient-edit-map)
-            "<escape>" 'transient-quit-all
-            "?" 'transient-show
-            "C-h" 'transient-show
-            "C-t" 'transient-help)
-  :commands (transient-define-prefix)
-  :custom
-  (transient-enable-popup-navigation t)
-  (transient-show-popup 1))
-
 (defgroup ef-deflang nil
   "Endomacs deflang configuration."
   :group 'startup)
@@ -78,92 +53,94 @@ Must be set before loading ef-deflang."
   :group 'ef-theme
   :type 'string)
 
-(defconst ef-deflang-defaults '())
-
-(defconst ef-deflang-compile-defs
-  '((:compile-buffer       (:key "b"  :desc "Compile Buffer"))
-    (:compile              (:key "c"  :desc "Compile All/Project"))
-    (:compile-defun        (:key "d"  :desc "Compile Definition at Point"))
-    (:compile-file         (:key "f"  :desc "Compile File"))
-    (:compile-region       (:key "r"  :desc "Compile Region"))
-    (:compile-sexp         (:key "s"  :desc "Compile S-Expression"))))
-
-(defconst ef-deflang-compile-backend-defs
-  '((:compile-backend-connect   (:key "j"  :desc "Connect"))
-    (:compile-backend-reconnect (:key "J"  :desc "Reconnect"))
-    (:compile-backend-quit      (:key "q"  :desc "Quit"))))
-
-(defconst ef-deflang-compile-nav-defs
-  '((:compile-nav-jump     (:key ","  :desc "Jump to Definition"))
-    (:compile-nav-pop-back (:key "."  :desc "Pop Back"))))
-
-(defconst ef-deflang-doc-defs
-  '((:doc-apropos          (:key "a"  :desc "Apropos"))
-    (:doc-apropos-select   (:key "A"  :desc "Apropos (Select)"))
-    (:doc-point            (:key "k"  :desc "Describe Thing at Point"))
-    (:doc-guide            (:key "g"  :desc "Open Guide"))
-    (:doc-manual           (:key "m"  :desc "Open Manual"))
-    (:doc-cheatsheet       (:key "c"  :desc "Open Cheat Sheet"))
-    (:doc-search           (:key "s"  :desc "Search"))))
-
-(defconst ef-deflang-eval-defs
-  '((:eval-all             (:key "a"  :desc "Eval All/Project"))
-    (:eval-buffer          (:key "b"  :desc "Eval Buffer"))
-    (:eval-expression      (:key "e"  :desc "Eval Expression"))
-    (:eval-file            (:key "f"  :desc "Eval File"))
-    (:eval-defun           (:key "d"  :desc "Eval Definition at Point"))
-    (:eval-region          (:key "r"  :desc "Eval Region"))
-    (:eval-sexp            (:key "s"  :desc "Eval S-Expression"))))
-
-(defconst ef-deflang-lint-defs
-  '((:lint-file            (:key "f"  :desc "Lint File"))
-    (:lint-project         (:key "p"  :desc "Lint Project"))))
-
-(defconst ef-deflang-macro-defs
-  '((:macro-expand-all        (:key "e"  :desc "Expand All"))
-    (:macro-expand-one        (:key "1"  :desc "Expand One"))
-    (:macro-expand-expression (:key "E"  :desc "Expand Expression"))
-    (:macro-quit              (:key "q"  :desc "Quit Expansions"))))
-
-(defconst ef-deflang-repl-defs
-  '((:repl-context         (:key "c"  :desc "Change REPL Context"))
-    (:repl-info            (:key "i"  :desc "REPL Info"))
-    (:repl-toggle          (:key "r"  :desc "Toggle REPL Window"))
-    (:repl-quit            (:key "!"  :desc "Quit REPL"))))
-
-(defconst ef-deflang-test-defs
-  '((:test-all             (:key "a"  :desc "Test All/Project"))
-    (:test-errors          (:key "e"  :desc "Test Failed Tests"))
-    (:test-toggle          (:key "l"  :desc "Toggle test/implementation"))
-    (:test-at-point        (:key "p"  :desc "Test at Point"))
-    (:test-file            (:key "t"  :desc "Test File"))
-    (:test-report          (:key "r"  :desc "Show Test Report"))))
-
-(defconst ef-deflang-xref-defs
-  '((:xref-apropos         (:key "a"  :desc "Find symbols"))
-    (:xref-definitions     (:key "d"  :desc "Find definitions"))
-    (:xref-dependencies    (:key "D"  :desc "Find dependencies"))
-    (:xref-references      (:key "r"  :desc "Find references"))))
-
-(defconst ef-deflang-compile-menu-defs
-  '((:compile-menu-doc    (:key "d"  :desc "Documentation"))
-    (:compile-menu-eval   (:key "e"  :desc "Evaluate"))
-    (:compile-menu-lint   (:key "l"  :desc "Lint"))
-    (:compile-menu-test   (:key "t"  :desc "Test"))
-    (:compile-menu-macro  (:key "m"  :desc "Macro"))
-    (:compile-menu-repl   (:key "r"  :desc "REPL"))
-    (:compile-menu-xref   (:key "x"  :desc "Xref"))))
+(defconst ef-deflang-prefix-handlers
+  '(:compile-prefix nil
+                    :doc-prefix: nil
+                    :eval-prefix nil
+                    :lint-prefix nil
+                    :macro-prefix nil
+                    :repl-prefix nil
+                    :test-prefix nil
+                    :xref-prefix nil)
+  "Prefix handler definitions for prefix keybinds defined in
+`ef-deflang-keybinds'."
+  )
 
 (defconst ef-deflang-keybinds
-  '((:compile-menu . "c")
-    (:compile-menu-eval . "e")
-    (:compile-menu-test . "t")
-    (:compile-menu-macro . "m")
-    (:compile-menu-repl . "r")
-    (:compile-menu-xref . "x")
-    (:compile-nav-jump . ",")
-    (:compile-nav-pop-back . ".")
-    (:test-toggle . "l")))
+  '((:compile-prefix            ("c" :which-key "Compile"))
+    (:doc-prefix:               ("cd" :which-key "Documentation"))
+    (:eval-prefix               ("e" :which-key "Eval"))
+    (:lint-prefix               ("cl" :which-key "Lint"))
+    (:macro-prefix              ("m" :which-key "Macro"))
+    (:repl-prefix               ("r" :which-key "REPL"))
+    (:test-prefix               ("t" :which-key "Test"))
+    (:xref-prefix               ("x" :which-key "Xref"))
+
+    ;; Actions
+    (:compile-buffer            ("cb"  :which-key "Compile Buffer"))
+    (:compile                   ("cc"  :which-key "Compile All/Project"))
+    (:compile-defun             ("cd"  :which-key "Compile Definition at Point"))
+    (:compile-file              ("cf"  :which-key "Compile File"))
+    (:compile-region            ("cr"  :which-key "Compile Region"))
+    (:compile-sexp              ("cs"  :which-key "Compile S-Expression"))
+    (:compile-backend-connect   ("cj"  :which-key "Connect"))
+    (:compile-backend-reconnect ("cJ"  :which-key "Reconnect"))
+    (:compile-backend-quit      ("cq"  :which-key "Quit"))
+    (:compile-nav-jump          (","  :which-key "Jump to Definition"))
+    (:compile-nav-pop-back      ("."  :which-key "Pop Back"))
+    (:doc-apropos               ("cda"  :which-key "Apropos"))
+    (:doc-apropos-select        ("cdA"  :which-key "Apropos (Select)"))
+    (:doc-point                 ("cdk"  :which-key "Describe Thing at Point"))
+    (:doc-guide                 ("cdg"  :which-key "Open Guide"))
+    (:doc-manual                ("cdm"  :which-key "Open Manual"))
+    (:doc-cheatsheet            ("cdc"  :which-key "Open Cheat Sheet"))
+    (:doc-search                ("cds"  :which-key "Search"))
+    (:eval-all                  ("ea"  :which-key "Eval All/Project"))
+    (:eval-buffer               ("eb"  :which-key "Eval Buffer"))
+    (:eval-expression           ("ee"  :which-key "Eval Expression"))
+    (:eval-file                 ("ef"  :which-key "Eval File"))
+    (:eval-defun                ("ed"  :which-key "Eval Definition at Point"))
+    (:eval-region               ("er"  :which-key "Eval Region"))
+    (:eval-sexp                 ("es"  :which-key "Eval S-Expression"))
+    (:lint-file                 ("clf"  :which-key "Lint File"))
+    (:lint-project              ("clp"  :which-key "Lint Project"))
+    (:macro-expand-all          ("me"  :which-key "Expand All"))
+    (:macro-expand-one          ("m1"  :which-key "Expand One"))
+    (:macro-expand-expression   ("mE"  :which-key "Expand Expression"))
+    (:macro-quit                ("mq"  :which-key "Quit Expansions"))
+    (:repl-context              ("rc"  :which-key "Change REPL Context"))
+    (:repl-info                 ("ri"  :which-key "REPL Info"))
+    (:repl-toggle               ("rr"  :which-key "Toggle REPL Window"))
+    (:repl-quit                 ("r!"  :which-key "Quit REPL"))
+    (:test-all                  ("ta"  :which-key "Test All/Project"))
+    (:test-errors               ("te"  :which-key "Test Failed Tests"))
+    (:test-toggle               ("tl"  :which-key "Toggle test/implementation"))
+    (:test-at-point             ("tp"  :which-key "Test at Point"))
+    (:test-file                 ("tt"  :which-key "Test File"))
+    (:test-report               ("tr"  :which-key "Show Test Report"))
+    (:xref-apropos              ("xa"  :which-key "Find symbols"))
+    (:xref-definitions          ("xd"  :which-key "Find definitions"))
+    (:xref-dependencies         ("xD"  :which-key "Find dependencies"))
+    (:xref-references           ("xr"  :which-key "Find references")))
+  "Keybind definitions for `ef-deflang'")
+
+(use-package gcmh
+  :ensure t
+  :config
+  (gcmh-mode 1))
+
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode t))
+
+(use-package general
+  :after which-key
+  :ensure t
+  :config
+  (declare-function general-override-mode "general")
+  (general-auto-unbind-keys)
+  (general-override-mode t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -241,30 +218,6 @@ appended."
 symbol.  Otherwise, return it as a symbol with `-mode-hook'
 appended."
   (intern (ef-mode-hook-name name)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; lists
-;;
-
-(cl-defun ef-split-list (list parts &key (last-part-longer nil))
-  "Split LIST into PARTS parts.  They will all be the same length
-except the last one which will be shorter or, if LAST-PART-LONGER
-is true, longer.  Doesn't deal with the case where there are less
-than PARTS elements in LIST at all (it does something, but it may
-not be sensible). "
-  (cl-loop with size = (if last-part-longer
-                           (floor (length list) parts)
-                         (ceiling (length list) parts))
-           and tail = list
-           for part upfrom 1
-           while tail
-           collect (cl-loop for pt on tail
-                            for i upfrom 0
-                            while (or (and last-part-longer (= part parts))
-                                      (< i size))
-                            collect (car pt)
-                            finally (setf tail pt))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -472,140 +425,25 @@ If FILTER is `nil' kill all buffers except the current one."
 ;;; Language mode definition
 ;;
 
-(defsubst ef-deflang-dispatch-name (lang dispatch)
-  (intern (format "%s/%s" lang dispatch)))
-
-(defun ef-deflang-wrap-function (fn dba)
-  "Wraps FN into a new function that uses the list passed as DBA to dynamically
-re-bind `display-buffer-alist'.
-
-`tansient' overrides `display-buffer-alist', so `display-buffer' rules are not
-applied when commands are executed via `ef-deflang' menus. The generated
-wrappers use a `let' expression to rebind `display-buffer-alist' before
-`apply'ing FN."
-  (let ((doc
-         (format "`display-buffer' wrapper for %s (generated by `ef-deflang')"
-                 fn))
-        (wrap (intern (format "ef-deflang-%s-wrapper" fn))))
-    (eval
-     `(defun ,wrap (&rest args)
-        ,doc
-        ,(interactive-form fn)
-        (let ((display-buffer-alist ',dba))
-          (apply ',fn args))))))
-
-(defun ef-deflang-match-defs (keydefs args)
-  "Returns a list of keydefs from KEYDEFS that exist in ARGS."
-  (cl-loop for (keydef . rest) on keydefs
-           when (plist-get args (car keydef))
-           collect keydef into matched-defs
-           finally (return matched-defs)))
-
-(defun ef-deflang-actions (keydefs args)
-  "Returns a list of `transient' actions from KEYDEFS using commands
-defined in ARGS."
-  (mapcar (lambda (element)
-            (if-let* ((key (car element))
-                      (keydef (car (cdr element)))
-                      (fn (plist-get args key))
-                      (wrap (ef-deflang-wrap-function fn display-buffer-alist)))
-                (list (plist-get keydef :key)
-                      (plist-get keydef :desc)
-                      wrap)))
-          keydefs))
-
-(defun ef-deflang-build-menu (lang keydefs name args)
-  "Builds a `transient' prefix menu for LANG based on KEYDEFS and NAME
-matched against actions declared in ARGS."
-  (when-let* ((defs (ef-deflang-match-defs keydefs args))
-              (actions (mapcar #'vconcat
-                               (ef-split-list
-                                (ef-deflang-actions defs args)
-                                3)))
-              (menu-name (intern (format ":compile-menu-%s" name)))
-              (mode (ef-mode lang))
-              (dispatch (ef-deflang-dispatch-name lang name)))
-    (eval `(transient-define-prefix ,dispatch ()
-             ,(format "Compile (%s) commands for %s." name mode)
-             ["Actions"
-              ,@actions]))
-    (plist-put args menu-name dispatch))
-  args)
-
-(defun ef-deflang-build-top-level (lang args)
-  "Builds the top-level `transient' prefix menu for LANG using actions
-declared in ARGS."
-  (let* ((mode (ef-mode lang))
-         (compile-keydefs (ef-deflang-match-defs ef-deflang-compile-defs args))
-         (compile-backend-keydefs (ef-deflang-match-defs ef-deflang-compile-backend-defs args))
-         (compile-nav-keydefs (ef-deflang-match-defs ef-deflang-compile-nav-defs args))
-         (compile-menu-keydefs (ef-deflang-match-defs ef-deflang-compile-menu-defs args))
-         (actions (mapcar #'vconcat
-                          (ef-split-list
-                           (ef-deflang-actions compile-keydefs args)
-                           3)))
-         (backend-actions (mapcar #'vconcat
-                                  (ef-split-list
-                                   (ef-deflang-actions compile-backend-keydefs args)
-                                   3)))
-         (nav-actions (mapcar #'vconcat
-                              (ef-split-list
-                               (ef-deflang-actions compile-nav-keydefs args)
-                               3)))
-         (menu-actions (mapcar #'vconcat
-                               (ef-split-list
-                                (ef-deflang-actions compile-menu-keydefs args)
-                                3)))
-         (dispatch (ef-deflang-dispatch-name lang "compile")))
-    (eval `(transient-define-prefix ,dispatch ()
-             ,(format "Run code commands for %s." mode)
-             ["Actions"
-              ,@actions]
-             ["Navigation"
-              ,@nav-actions]
-             ["Backend"
-              ,@backend-actions]
-             ["Commands"
-              ,@menu-actions]))
-    (plist-put args :compile-menu dispatch))
-  args)
-
-(defun ef-deflang-bind-keys (lang args)
-  "Binds global keyboard chords from definitions in `ef-deflang-keybinds' for
-LANG based on declared menus in ARGS matched against
-`ef-deflang-compile-menu-defs'."
-  (dolist (def ef-deflang-keybinds)
-    (when-let* ((menu (car def))
-                (key (cdr def))
-                (maps (ef-as-list (or (plist-get args :maps)
-                                      (ef-mode-map lang))))
-                (dispatch (plist-get args menu)))
-      (dolist (map maps)
-        (general-define-key :states '(normal visual)
-                            :keymaps map
-                            :prefix ef-prefix
-                            key dispatch))))
-  args)
-
-(defun ef-deflang-build (lang args)
-  (thread-last args
-    (ef-plist-merge ef-deflang-defaults)
-    (ef-deflang-build-menu lang ef-deflang-doc-defs 'doc)
-    (ef-deflang-build-menu lang ef-deflang-eval-defs 'eval)
-    (ef-deflang-build-menu lang ef-deflang-lint-defs 'lint)
-    (ef-deflang-build-menu lang ef-deflang-macro-defs 'macro)
-    (ef-deflang-build-menu lang ef-deflang-repl-defs 'repl)
-    (ef-deflang-build-menu lang ef-deflang-test-defs 'test)
-    (ef-deflang-build-menu lang ef-deflang-xref-defs 'xref)
-    (ef-deflang-build-top-level lang)
-    (ef-deflang-bind-keys lang)))
-
 (defmacro ef-deflang (lang &rest args)
   (declare (indent defun))
   (let* ((features (or (ef-as-list (plist-get args :after))
                        (ef-mode lang))))
     (cl-remf args :after)
     (macroexpand
-     `(ef-eval-after-load ,features (ef-deflang-build ',lang ',args)))))
+     (let ((merged-args (ef-plist-merge ef-deflang-prefix-handlers args)))
+       `(ef-eval-after-load
+          ,features
+          (general-define-key
+           :prefix ef-prefix
+           :states '(normal visual)
+           :keymaps ,(mapcar #'(lambda (map) map)
+                             (ef-as-list (or (plist-get args :maps)
+                                             (ef-mode-map lang))))
+           ,@(cl-loop for (key fn) on merged-args by #'cddr
+                      for def = (alist-get key ef-deflang-keybinds)
+                      when def
+                      collect `(,(caar def) ',`(,fn ,@(cdar def))) into matches
+                      finally (return (apply #'append matches)))))))))
 
 (provide 'core-lib)

@@ -130,9 +130,9 @@
 (use-package face-remap
   :general
   (:states 'normal :prefix ef-prefix
-	   "+" 'text-scale-adjust
-	   "-" 'text-scale-adjust
-	   "0" 'text-scale-adjust))
+	   "+" '(text-scale-adjust :which-key "Increase Text Scale")
+	   "-" '(text-scale-adjust :which-key "Decrease Text Scale")
+	   "0" '(text-scale-adjust :which-key "Reset Text Scale")))
 
 (use-package files
   :unless noninteractive
@@ -170,8 +170,8 @@
   (:states 'normal :keymaps 'prog-mode-map
 	   "<tab>" 'indent-for-tab-command)
   (:states 'normal :prefix ef-prefix :keymaps 'prog-mode-map
-	   "<tab>" 'ef-indent-buffer
-	   "." 'pop-tag-mark)
+	   "<tab>" '(ef-indent-buffer :which-key "Indent Buffer")
+	   "." '(pop-tag-mark :which-key "Pop Tag Mark"))
   (:states 'visual :keymaps 'prog-mode-map
 	   "<tab>" 'indent-region)
   :config
@@ -232,6 +232,19 @@
   :defer t
   :mode (("/LICENSE\\'" . text-mode)
          ("\\.log\\'" . text-mode)))
+
+(use-package transient
+  :ensure t ; emacs < 28
+  :general
+  (:keymaps '(transient-map transient-edit-map)
+            "<escape>" 'transient-quit-all
+            "?" 'transient-show
+            "C-h" 'transient-show
+            "C-t" 'transient-help)
+  :commands (transient-define-prefix)
+  :custom
+  (transient-enable-popup-navigation t)
+  (transient-show-popup 1))
 
 (use-package uniquify
   :custom

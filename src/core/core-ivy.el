@@ -31,9 +31,9 @@
   ("M-x" 'counsel-M-x)
   ("M-y" 'counsel-yank-pop)
   (:states 'normal :prefix ef-prefix
-	   "/" 'counsel-rg
-	   "?" 'counsel-descbinds
-	   "s" 'counsel-switch-buffer)
+	   "/" '(counsel-rg :which-key "Grep (rg)")
+	   "?" '(counsel-descbinds :which-key "Describe Keybinds")
+	   "s" '(counsel-switch-buffer :which-key "Switch Buffer"))
   :config
   (counsel-mode t))
 
@@ -44,7 +44,7 @@
   :general
   ("C-s" 'swiper)
   (:states 'normal :prefix ef-prefix
-	   "I" 'swiper))
+	   "I" '(swiper :which-key "Search (swiper)")))
 
 (use-package ivy-xref
   :ensure t
