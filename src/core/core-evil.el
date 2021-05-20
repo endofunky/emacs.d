@@ -20,6 +20,7 @@
 	   "bka"      '(ef-kill-all-other-buffer :wk "Kill All Other Buffers")
 	   "bkk"      '(kill-current-buffer :wk "Kill Buffer")
 	   "bkK"      '(kill-buffer-and-window :wk "Kill Buffer & Window")
+	   "bkm"      '(kill-matching-buffers :wk "Kill Matching Buffers")
 	   "bko"      '(ef-kill-other-buffers :wk "Kill Other File Buffers")
 	   "bks"      '(kill-some-buffers :wk "Kill Some Buffers")
 	   "bl"       '(evil-switch-to-windows-last-buffer :wk "Last Buffer")
