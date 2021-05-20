@@ -265,7 +265,7 @@ nested `eval-after-load' forms."
   (unless (consp features)
     (setq features (list features)))
   (cl-flet ((acc (x xs)
-		 `(eval-after-load ',x ',(or xs (macroexp-progn body)))))
+		 `(eval-after-load ',x #',(or xs (macroexp-progn body)))))
     (cl-reduce #'acc features :initial-value '() :from-end t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
