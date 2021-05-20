@@ -71,7 +71,8 @@
 	   "W+"       '(text-scale-adjust :wk "Increase Text Scale")
 	   "W-"       '(text-scale-adjust :wk "Decrease Text Scale")
 	   "W0"       '(text-scale-adjust :wk "Reset Text Scale")
-	   "Wd"       '(delete-window :wk "Delete"))
+	   "Wd"       '(delete-window :wk "Delete Window")
+	   "WD"       '(delete-other-windows-internal :wk "Delete Other Window"))
   :custom
   (evil-auto-indent t)
   (evil-cross-lines t)
