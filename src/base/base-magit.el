@@ -54,23 +54,4 @@
 
   (setenv "GIT_PAGER" ""))
 
-(use-package transient
-  :defer t
-  :ensure t
-  :config
-  (transient-bind-q-to-quit)
-
-  (defadvice transient-setup (before transient-setup activate)
-    (ef-transient-suspend-shackle-mode))
-
-  (defun ef-transient-suspend-shackle-mode ()
-    (when (bound-and-true-p shackle-mode)
-      (shackle-mode -1)
-      (add-hook 'transient-exit-hook 'ef-transient-resume-shackle-mode)))
-
-  (defun ef-transient-resume-shackle-mode ()
-    (unless transient--prefix
-      (shackle-mode t)
-      (remove-hook 'transient-exit-hook 'ef-transient-resume-shackle-mode))))
-
 (provide 'base-magit)

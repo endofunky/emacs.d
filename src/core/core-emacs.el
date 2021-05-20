@@ -234,17 +234,33 @@
          ("\\.log\\'" . text-mode)))
 
 (use-package transient
-  :ensure t ; emacs < 28
+  :ensure t                             ; emacs < 28
   :general
   (:keymaps '(transient-map transient-edit-map)
             "<escape>" 'transient-quit-all
             "?" 'transient-show
             "C-h" 'transient-show
             "C-t" 'transient-help)
-  :commands (transient-define-prefix)
+  :commands (transient-define-prefix
+              transient-bind-q-to-quit)
   :custom
   (transient-enable-popup-navigation t)
-  (transient-show-popup 1))
+  (transient-show-popup 1)
+  :config
+  (transient-bind-q-to-quit)
+
+  (defadvice transient-setup (before transient-setup activate)
+    (ef-transient-suspend-shackle-mode))
+
+  (defun ef-transient-suspend-shackle-mode ()
+    (when (bound-and-true-p shackle-mode)
+      (shackle-mode -1)
+      (add-hook 'transient-exit-hook 'ef-transient-resume-shackle-mode)))
+
+  (defun ef-transient-resume-shackle-mode ()
+    (unless transient--prefix
+      (shackle-mode t)
+      (remove-hook 'transient-exit-hook 'ef-transient-resume-shackle-mode))))
 
 (use-package uniquify
   :custom
