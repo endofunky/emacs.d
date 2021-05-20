@@ -455,11 +455,28 @@ If FILTER is `nil' kill all buffers except the current one."
 ;;; Language mode definition
 ;;
 
+;; Global prefixes
+;; We define these early so modes don't have to ensure common prefixes exist
+;; and potentially override the mappings that already are nested under them.
+
+(general-define-key
+ :prefix ef-prefix
+ :states '(normal visual)
+ "c"  '(nil :wk "Compile")
+ "cd" '(nil :wk "Documentation")
+ "e"  '(nil :wk "Eval")
+ "cl" '(nil :wk "Lint")
+ "m"  '(nil :wk "Macro")
+ "cr" '(nil :wk "Refactor")
+ "r"  '(nil :wk "REPL")
+ "s"  '(nil :wk "Specification")
+ "t"  '(nil :wk "Test")
+ "x"  '(nil :wk "Xref"))
+
 (defmacro ef-deflang (lang &rest args)
   (declare (indent defun))
   (let ((features (or (ef-as-list (plist-get args :after))
-                      (ef-mode lang)))
-        (merged-args (ef-plist-merge ef-deflang-prefix-handlers args)))
+                      (ef-mode lang))))
     (cl-remf args :after)
     (macroexpand
      `(ef-eval-after-load
@@ -469,9 +486,8 @@ If FILTER is `nil' kill all buffers except the current one."
          :states '(normal visual)
          :keymaps ',(mapcar #'ef-mode-map (ef-as-list (or (plist-get args :maps)
                                                           (ef-mode-map lang))))
-         ,@(cl-loop for (key fn) on merged-args by #'cddr
+         ,@(cl-loop for (key fn) on args by #'cddr
                     for def = (alist-get key ef-deflang-keybinds)
-                    when def
                     collect `(,(caar def) ',`(,fn ,@(cdar def))) into matches
                     finally (return (apply #'append matches))))))))
 
