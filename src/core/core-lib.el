@@ -111,6 +111,7 @@ Must be set before loading ef-deflang."
     (:macro-expand-expression   ("mE" :wk "Expand Expression"))
     (:macro-quit                ("mq" :wk "Quit Expansions"))
     (:refactor-rename           ("crr" :wk "Rename"))
+    (:refactor-imports          ("crr" :wk "Imports"))
     (:repl-context              ("rc" :wk "Change REPL Context"))
     (:repl-info                 ("ri" :wk "REPL Info"))
     (:repl-toggle               ("rr" :wk "Toggle REPL Window"))
