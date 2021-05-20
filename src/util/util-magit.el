@@ -32,7 +32,7 @@
   (ef-shackle '(magit-diff-mode :align right :size .5 :popup t :select nil :float t))
 
   (transient-append-suffix 'magit-pull "C"
-                           '("A" "Autostash" "--autostash"))
+    '("A" "Autostash" "--autostash"))
 
   ;; Don't let magit-status mess up window configurations
   ;; http://whattheemacsd.com/setup-magit.el-01.html
@@ -53,5 +53,15 @@
   (evil-define-key 'visual magit-status-mode-map "q" #'ef-magit-quit-session)
 
   (setenv "GIT_PAGER" ""))
+
+(use-package magit-todos
+  :after magit
+  :ensure t
+  :general
+  (:states 'normal :prefix ef-prefix
+           "pT" '(ivy-magit-todos :wk "Search TODOs"))
+  :config
+  (require 'org)
+  (magit-todos-mode t))
 
 (provide 'util-magit)
