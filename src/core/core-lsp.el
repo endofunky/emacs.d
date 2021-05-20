@@ -19,9 +19,24 @@
   (:states 'normal :keymap 'lsp-mode-map :prefix ef-prefix
 	   "," '(lsp-find-definition :wk "Find Definition"))
   :config
-  (ef-add-popup "*lsp-performance*" :ephemeral 5 :size 0.15)
   (require 'lsp-mode)
   (require 'lsp-modeline)
-  (require 'lsp-headerline))
+  (require 'lsp-headerline)
+  (ef-add-popup "*lsp-performance*" :ephemeral t :size 0.15)
+  (ef-add-popup "*lsp-help*" :ephemeral t :size 0.2))
+
+(ef-deflang lsp
+  :compile-backend-connect lsp
+  :compile-backend-reconnect lsp-workspace-restart
+  :compile-backend-quit lsp-disconnect
+  :compile-nav-jump lsp-find-definition
+  :compile-nav-pop-back pop-tag-mark
+
+  :refactor-imports lsp-organize-imports
+  :refactor-rename lsp-rename
+
+  :xref-apropos xref-find-apropos
+  :xref-definitions lsp-find-declaration
+  :xref-references lsp-find-references)
 
 (provide 'core-lsp)
