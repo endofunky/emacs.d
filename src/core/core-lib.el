@@ -387,6 +387,21 @@ HOOKS is `some-hook'. Usage:
       (insert (string-trim (shell-command-to-string uuidgen)))
     (error "Binary 'uuidgen' not found in PATH.")))
 
+(defun ef-insert-file-name ()
+  "Insert current file name at point."
+  (interactive)
+  (insert (file-name-nondirectory (buffer-file-name))))
+
+(defun ef-insert-file-name-base ()
+  "Insert current file base name at point."
+  (interactive)
+  (insert (file-name-base (buffer-file-name))))
+
+(defun ef-insert-file-name-directory ()
+  "Insert current file name directory at point."
+  (interactive)
+  (insert (file-name-directory (buffer-file-name))))
+
 (defun ef-insert-iso-datetime ()
   "Insert ISO 8601 date/time at point."
   (interactive)

@@ -30,6 +30,10 @@
 
            ;; Insert
            "I"        '(nil :wk "Insert")
+           "If"       '(nil :wk "File")
+           "Iff"      '(ef-insert-file-name :wk "File Name")
+           "Ifb"      '(ef-insert-file-name-base :wk "File Base-Name")
+           "Ifd"      '(ef-insert-file-name-directory :wk "File Directory")
            "It"       '(nil :wk "Time")
            "Iti"      '(ef-insert-iso-datetime :wk "ISO Date/Time")
            "Ito"      '(ef-insert-ordinal-date :wk "Ordinal Date")
