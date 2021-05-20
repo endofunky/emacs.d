@@ -28,6 +28,25 @@
 	   "bN"       '(evil-buffer-new :wk "New Buffer")
 	   "br"       '(revert-buffer :wk "Revert Buffer")
 
+           ;; Help
+           "h"        '(nil :wk "Help")
+           "ha"       '(counsel-apropos :wk "Apropos (Emacs)")
+           "hi"       '(info :wk "Info")
+           "hm"       '(woman :wk "Info")
+           "hw"       '(where-is :wk "Where Is")
+           "hd"       '(nil :wk "Describe")
+           "hdc"      '(describe-coding-system :wk "Describe Coding System")
+           "hdf"      '(describe-function :wk "Describe Function")
+           "hdF"      '(describe-face :wk "Describe Face")
+           "hdk"      '(describe-key :wk "Describe Key")
+           "hdm"      '(describe-mode :wk "Describe Mode")
+           "hdp"      '(describe-package :wk "Describe Package")
+           "hds"      '(describe-symbol :wk "Describe Symbol")
+           "hdS"      '(describe-syntax :wk "Describe Syntax")
+           "hdt"      '(describe-text-properties :wk "Describe Text Properties")
+           "hdT"      '(describe-theme :wk "Describe Theme")
+           "hdv"      '(describe-variable :wk "Describe Variable")
+
            ;; Insert
            "I"        '(nil :wk "Insert")
            "If"       '(nil :wk "File")
