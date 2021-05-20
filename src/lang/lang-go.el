@@ -47,10 +47,6 @@
         (set (make-local-variable 'compile-command)
              "go build -v && go vet"))))
 
-(use-package go-rename
-  :after go-mode
-  :ensure t)
-
 (use-package company-go
   :after go-mode
   :ensure t
