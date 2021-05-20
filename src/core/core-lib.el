@@ -437,9 +437,8 @@ If FILTER is `nil' kill all buffers except the current one."
           (general-define-key
            :prefix ef-prefix
            :states '(normal visual)
-           :keymaps ,(mapcar #'(lambda (map) map)
-                             (ef-as-list (or (plist-get args :maps)
-                                             (ef-mode-map lang))))
+           :keymaps ',(ef-as-list (or (plist-get args :maps)
+                                      (ef-mode-map lang)))
            ,@(cl-loop for (key fn) on merged-args by #'cddr
                       for def = (alist-get key ef-deflang-keybinds)
                       when def

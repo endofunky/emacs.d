@@ -74,7 +74,7 @@
 
 (ef-deflang emacs-lisp
   :after (elisp-mode elisp-slime-nav)
-  :maps '(emacs-lisp-mode-map lisp-interaction-mode-map)
+  :maps (emacs-lisp-mode-map lisp-interaction-mode-map)
 
   ;; compile
   :compile emacs-lisp-byte-compile-and-load
