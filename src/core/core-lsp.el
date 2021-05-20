@@ -17,7 +17,7 @@
   (lsp-use-lsp-ui nil)
   :general
   (:states 'normal :keymap 'lsp-mode-map :prefix ef-prefix
-	   "," '(lsp-find-definition "Find Definition"))
+	   "," '(lsp-find-definition :wk "Find Definition"))
   :config
   (ef-add-popup "*lsp-performance*" :ephemeral 5 :size 0.15)
   (require 'lsp-mode)
