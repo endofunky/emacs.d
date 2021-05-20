@@ -50,8 +50,8 @@
 
 (let* ((src-dir (expand-file-name "src" user-emacs-directory))
        (paths (list (expand-file-name "core" src-dir)
-                    (expand-file-name "base" src-dir)
                     (expand-file-name "lang" src-dir)
+                    (expand-file-name "util" src-dir)
                     (expand-file-name "private" user-emacs-directory))))
   (add-to-list 'load-path (expand-file-name "vendor" src-dir))
 

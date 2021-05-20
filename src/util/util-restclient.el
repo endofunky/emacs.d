@@ -22,4 +22,4 @@
   :config
   (add-to-list 'company-backends 'company-restclient))
 
-(provide 'base-restclient)
+(provide 'util-restclient)

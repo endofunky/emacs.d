@@ -131,6 +131,12 @@ Must be set before loading ef-deflang."
 
 (use-package which-key
   :ensure t
+  :custom
+  (which-key-idle-secondary-delay 0)
+  (which-key-separator " - ")
+  ;; We have font-lock displaying prefixes in a different color,
+  ;; so there is no need for a prefix character.
+  (which-key-prefix-prefix "")
   :config
   (which-key-mode t))
 

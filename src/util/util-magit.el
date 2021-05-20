@@ -54,4 +54,4 @@
 
   (setenv "GIT_PAGER" ""))
 
-(provide 'base-magit)
+(provide 'util-magit)

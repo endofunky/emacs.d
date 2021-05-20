@@ -109,4 +109,4 @@
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
-(provide 'base-org)
+(provide 'lang-org)

@@ -8,4 +8,4 @@
   (defadvice lsp (before ef-direnv activate)
     (direnv-update-environment)))
 
-(provide 'base-direnv)
+(provide 'core-direnv)
