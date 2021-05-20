@@ -7,6 +7,10 @@
   (:states 'normal :prefix ef-prefix
            ":" '(eval-expression :which-key "Eval Expression")
 	   "<return>" '(ef-toggle-window-fullscreen :which-key "Toggle Frame Fullscreen")
+           "i" '(imenu :which-key "Open imenu")
+           "U" '(universal-argument :which-key "Universal Argument")
+
+           ;; Buffer
            "b" '(nil :which-key "Buffer")
 	   "bb" '(bury-buffer :which-key "Bury Buffer")
            "bc" '(clone-indirect-buffer :which-key "Clone Buuffer")
@@ -23,7 +27,8 @@
 	   "bp" '(previous-buffer :which-key "Previous Buffer")
 	   "bN" '(evil-buffer-new :which-key "New Buffer")
 	   "br" '(revert-buffer :which-key "Revert Buffer")
-           "i" '(imenu :which-key "Open imenu")
+
+           ;; Insert
            "I" '(nil :which-key "Insert")
            "It" '(nil :which-key "Time")
            "Iti" '(ef-insert-iso-datetime :which-key "ISO Date/Time")
@@ -31,15 +36,19 @@
            "Itu" '(ef-insert-unix-time :which-key "UNIX Timestamp")
            "Iu" '(ef-insert-uuid :which-key "UUID")
            "IU" '(insert-char :which-key "Unicode")
-           "U" '(universal-argument :which-key "Universal Argument")
+
+           ;; Whitespace
            "w" '(nil :which-key "Whitespace")
 	   "wt" '(tabify :which-key "Spaces to Tabs")
 	   "ws" '(delete-trailing-whitespace :which-key "Strip Trailing Whitespace")
 	   "wu" '(untabify :which-key "Tabs to Spaces")
+
+           ;; Window
            "W" '(nil :which-key "Window")
 	   "W+" '(text-scale-adjust :which-key "Increase Text Scale")
 	   "W-" '(text-scale-adjust :which-key "Decrease Text Scale")
-	   "W0" '(text-scale-adjust :which-key "Reset Text Scale"))
+	   "W0" '(text-scale-adjust :which-key "Reset Text Scale")
+	   "Wd" '(delete-window :which-key "Delete"))
   :custom
   (evil-auto-indent t)
   (evil-cross-lines t)
