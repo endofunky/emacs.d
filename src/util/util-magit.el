@@ -12,13 +12,13 @@
   :init
   :general
   (:prefix ef-prefix :states 'normal
-           "g" '(nil :which-key "Magit")
-           "gd" '(magit-diff :which-key "Diff")
-           "gs" '(magit-status :which-key "Status")
-           "gl" '(magit-log :which-key "Log")
-           "gL" '(magit-log-all :which-key "Log (All)")
-           "gb" '(magit-blame :which-key "Blame")
-           "gc" '(magit-checkout :which-key "Checkout"))
+           "g" '(nil :wk "Magit")
+           "gd" '(magit-diff :wk "Diff")
+           "gs" '(magit-status :wk "Status")
+           "gl" '(magit-log :wk "Log")
+           "gL" '(magit-log-all :wk "Log (All)")
+           "gb" '(magit-blame :wk "Blame")
+           "gc" '(magit-checkout :wk "Checkout"))
   :config
   (ef-add-hook git-commit-setup-hook :fn ef-git-commit-jira-ticket-hook
     (if-let* ((branch (magit-get-current-branch))
