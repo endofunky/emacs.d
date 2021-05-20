@@ -63,8 +63,7 @@ Must be set before loading ef-deflang."
                     :test-prefix nil
                     :xref-prefix nil)
   "Prefix handler definitions for prefix keybinds defined in
-`ef-deflang-keybinds'."
-  )
+`ef-deflang-keybinds'.")
 
 (defconst ef-deflang-keybinds
   '((:compile-prefix            ("c" :which-key "Compile"))
