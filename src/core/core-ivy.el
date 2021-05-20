@@ -42,9 +42,7 @@
   :ensure t
   :demand t
   :general
-  ("C-s" 'swiper)
-  (:states 'normal :prefix ef-prefix
-	   "I" '(swiper :wk "Search (swiper)")))
+  ("C-s" 'swiper))
 
 (use-package ivy-xref
   :ensure t
