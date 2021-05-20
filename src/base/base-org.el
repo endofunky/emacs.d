@@ -105,7 +105,7 @@
   :hook
   (org-mode . evil-org-mode)
   (org-mode . evil-org-set-key-theme)
-  :custon
+  :custom
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
