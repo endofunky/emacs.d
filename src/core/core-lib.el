@@ -433,22 +433,22 @@ If FILTER is `nil' kill all buffers except the current one."
 
 (defmacro ef-deflang (lang &rest args)
   (declare (indent defun))
-  (let* ((features (or (ef-as-list (plist-get args :after))
-                       (ef-mode lang))))
+  (let ((features (or (ef-as-list (plist-get args :after))
+                      (ef-mode lang)))
+        (merged-args (ef-plist-merge ef-deflang-prefix-handlers args)))
     (cl-remf args :after)
-    (let ((merged-args (ef-plist-merge ef-deflang-prefix-handlers args)))
-      (macroexpand
-       `(ef-eval-after-load
-          ,features
-          (general-define-key
-           :prefix ef-prefix
-           :states '(normal visual)
-           :keymaps ',(ef-as-list (or (plist-get args :maps)
-                                      (ef-mode-map lang)))
-           ,@(cl-loop for (key fn) on merged-args by #'cddr
-                      for def = (alist-get key ef-deflang-keybinds)
-                      when def
-                      collect `(,(caar def) ',`(,fn ,@(cdar def))) into matches
-                      finally (return (apply #'append matches)))))))))
+    (macroexpand
+     `(ef-eval-after-load
+        ,features
+        (general-define-key
+         :prefix ef-prefix
+         :states '(normal visual)
+         :keymaps ',(ef-as-list (or (plist-get args :maps)
+                                    (ef-mode-map lang)))
+         ,@(cl-loop for (key fn) on merged-args by #'cddr
+                    for def = (alist-get key ef-deflang-keybinds)
+                    when def
+                    collect `(,(caar def) ',`(,fn ,@(cdar def))) into matches
+                    finally (return (apply #'append matches))))))))
 
 (provide 'core-lib)
