@@ -123,10 +123,10 @@ Must be set before loading ef-deflang."
     (:test-at-point             ("tp" :wk "Test at Point"))
     (:test-file                 ("tt" :wk "Test File"))
     (:test-report               ("tr" :wk "Show Test Report"))
-    (:xref-apropos              ("xa" :wk "Find symbols"))
-    (:xref-definitions          ("xd" :wk "Find definitions"))
-    (:xref-dependencies         ("xD" :wk "Find dependencies"))
-    (:xref-references           ("xr" :wk "Find references")))
+    (:xref-apropos              ("xa" :wk "Find Symbols"))
+    (:xref-definitions          ("xd" :wk "Find Definitions"))
+    (:xref-dependencies         ("xD" :wk "Find Dependencies"))
+    (:xref-references           ("xr" :wk "Find References")))
   "Keybind definitions for `ef-deflang'")
 
 (use-package gcmh
