@@ -13,8 +13,16 @@
   :commands (projectile-toggle-between-implementation-and-test)
   :general
   (:states 'normal :prefix ef-prefix
-	   "f" '(ef-projectile-find-file :which-key "Find File in Project")
-	   "p" '(projectile-switch-project :which-key "Switch Project"))
+	   "f" '(ef-projectile-find-file :which-key "Find File")
+	   "p" '(nil :which-key "Project")
+	   "p!" '(projectile-run-shell-command-in-root :which-key "Run Command in Project Root")
+           "pa" '(projectile-add-known-project :which-key "Add Project")
+	   "pd" '(projectile-remove-known-project :which-key "Remove Known Project")
+	   "pf" '(projectile-find-file :which-key "Find File in Project")
+	   "pk" '(projectile-kill-buffers :which-key "Kill Project Buffers")
+	   "pp" '(projectile-switch-project :which-key "Switch Project")
+	   "ps" '(projectile-switch-to-buffer :which-key "Switch Project Buffer")
+	   "pS" '(projectile-save-project-buffers :which-key "Save Project Buffers"))
   :config
   (declare-function projectile-project-p "projectile")
   (declare-function projectile-project-name "projectile")
