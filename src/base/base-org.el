@@ -41,11 +41,20 @@
   (defun ef-org-notes ()
     (interactive)
     (find-file org-default-notes-file))
-
-  (evil-define-key 'normal global-map ",O" 'ef-org-agenda)
-  (evil-define-key 'normal global-map ",oa" 'org-agenda)
-  (evil-define-key 'normal global-map ",oc" 'org-capture)
-  (evil-define-key 'normal global-map ",oo" 'ef-org-notes)
+  :general
+  (:states 'normal :prefix ef-prefix
+           "o" '(nil :which-key "Org")
+           "oa" '(ef-org-agenda :which-key "Agenda")
+           "oc" '(org-capture :which-key "Capture")
+           "oo" '(ef-org-notes :which-key "Notes"))
+  (:states 'normal :prefix ef-prefix :keymaps 'org-mode-map
+           "o" '(nil :which-key "Org")
+           "oc" '(org-toggle-checkbox :which-key "Toggle Checkbox")
+           "o," '(org-priority-up :which-key "Priority Up")
+           "o." '(org-priority-down :which-key "Priority Down")
+           "oA" '(ef-org-archive-done-tasks :which-key "Archive Done Tasks")
+           "op" '(org-priority :which-key "Cycle Priority")
+           "ot" '(org-todo :which-key "Cycle TODO"))
   :config
   (require 'org-capture)
   (require 'org-install)
@@ -83,14 +92,7 @@
     (define-key org-mode-map (kbd "M-RET") 'toggle-frame-fullscreen))
 
   (ef-add-popup " *Agenda Commands*")
-  (ef-add-popup "*Org Select*")
-
-  (evil-define-key 'normal org-mode-map ",oc" 'org-toggle-checkbox)
-  (evil-define-key 'normal org-mode-map ",o," 'org-priority-up)
-  (evil-define-key 'normal org-mode-map ",o." 'org-priority-down)
-  (evil-define-key 'normal org-mode-map ",oA" 'ef-org-archive-done-tasks)
-  (evil-define-key 'normal org-mode-map ",op" 'org-priority)
-  (evil-define-key 'normal org-mode-map ",ot" 'org-todo))
+  (ef-add-popup "*Org Select*"))
 
 (use-package calendar
   :defer t
