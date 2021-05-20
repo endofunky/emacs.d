@@ -137,7 +137,7 @@ Must be set before loading ef-deflang."
   (which-key-idle-delay 0.5)
   (which-key-idle-secondary-delay 0)
   (which-key-is-verbose t)
-  (which-key-separator " - ")
+  (which-key-separator " ")
   (which-key-sort-order 'which-key-key-order-alpha)
   (which-key-sort-uppercase-first nil)
   ;; We have font-lock displaying prefixes in a different color,
