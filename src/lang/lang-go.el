@@ -1,16 +1,19 @@
+(require 'core-lib)
+(require 'core-parens)
+(require 'core-shackle)
+
 (use-package go-mode
   :ensure t
   :mode (("\\.go\\'" . go-mode))
   :custom
   (gofmt-command "goimports")
   :config
-  (evil-define-key 'normal go-mode-map ",," 'godef-jump)
-
   (sp-with-modes '(go-mode)
     (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET"))))
 
   (ef-add-popup "*Gofmt Errors*" :ephemeral t)
   (ef-add-popup "*go-rename*" :ephemeral t)
+  (ef-add-popup 'godoc-mode :ephemeral t)
 
   (add-hook 'before-save-hook #'gofmt-before-save)
 
@@ -42,5 +45,20 @@
   :ensure t
   :init
   (add-hook 'go-mode-hook 'go-eldoc-setup))
+
+(use-package gotest
+  :after go-mode
+  :ensure t
+  :custom
+  (go-test-verbose t)
+  :config
+  (ef-add-popup 'go-test-mode :ephemeral t))
+
+(ef-deflang go
+  :doc-search godoc
+  :test-all go-test-current-project
+  :test-file go-test-current-file
+  :test-at-point go-test-current-test
+  :test-toggle projectile-toggle-between-implementation-and-test)
 
 (provide 'lang-go)
