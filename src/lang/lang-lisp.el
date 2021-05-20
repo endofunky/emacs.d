@@ -47,38 +47,4 @@
   (evil-define-key 'insert slime-repl-mode-map (kbd "<up>") 'slime-repl-previous-input)
   (evil-define-key 'insert slime-repl-mode-map (kbd "<down>") 'slime-repl-next-input))
 
-(use-package geiser
-  :ensure t
-  :commands (geiser-mode
-             geiser-mode-switch-to-repl
-             geiser-eval-buffer
-             geiser-eval-region
-             geiser-eval-last-sexp)
-  :custom
-  (geiser-active-implementations '(mit guile))
-  :hook
-  (scheme-mode . geiser-mode)
-  :config
-  (require 'geiser-repl)
-  (defun geiser-repl-buffer-name (impl)
-    "Custom geiser REPL buffer naming override"
-    "*geiser*")
-
-  (ef-add-popup "*Geiser documentation*" :ephemeral t)
-
-  (evil-define-key 'normal geiser-mode-map ",cc" 'geiser-compile)
-  (evil-define-key 'normal geiser-mode-map ",cb" 'geiser-compile-current-buffer)
-  (evil-define-key 'normal geiser-mode-map ",cd" 'geiser-compile-definition)
-  (evil-define-key 'normal geiser-mode-map ",eb" 'geiser-eval-buffer)
-  (evil-define-key 'normal geiser-mode-map ",ed" 'geiser-eval-definition)
-  (evil-define-key 'visual geiser-mode-map ",er" 'geiser-eval-region)
-  (evil-define-key 'normal geiser-mode-map ",es" 'geiser-eval-last-sexp)
-  (evil-define-key 'normal geiser-mode-map ",," 'geiser-edit-symbol-at-point)
-  (evil-define-key 'normal geiser-mode-map ",." 'geiser-pop-symbol-stack)
-  (evil-define-key 'normal geiser-mode-map ",m" 'geiser-doc-look-up-manual)
-
-  (ef-define-repl ef-repl-geiser "*geiser*" 'geiser-mode-switch-to-repl)
-  (evil-define-key 'normal geiser-mode-map ",r" 'ef-repl-geiser)
-  (evil-define-key 'normal geiser-repl-mode-map ",r" 'ef-repl-geiser))
-
 (provide 'lang-lisp)
