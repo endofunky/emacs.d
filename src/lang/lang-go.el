@@ -25,11 +25,17 @@
     (interactive)
     (let ((file (buffer-file-name (current-buffer))))
       (if (string-match ef-go-test-toggle-re file)
-          (find-file (replace-regexp-in-string ef-go-test-toggle-re "." file))
-        (find-file (concat (file-name-directory file)
-                           (file-name-base file)
-                           "_test."
-                           (file-name-extension file))))))
+          (let ((impl (replace-regexp-in-string ef-go-test-toggle-re "." file)))
+            (if (file-exists-p impl)
+                (find-file impl)
+              (message "Implementation not found: %s" impl)))
+        (let ((test-file (concat (file-name-directory file)
+                            (file-name-base file)
+                            "_test."
+                            (file-name-extension file))))
+          (if (file-exists-p test-file)
+              (find-file test-file)
+            (message "Test file not found: %s" test-file))))))
 
   (ef-add-hook go-mode-hook
     (direnv-update-environment)
