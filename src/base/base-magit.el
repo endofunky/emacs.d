@@ -66,11 +66,11 @@
   (defun ef-transient-suspend-shackle-mode ()
     (when (bound-and-true-p shackle-mode)
       (shackle-mode -1)
-      (add-hook 'post-transient-hook 'ef-transient-resume-shackle-mode)))
+      (add-hook 'transient-exit-hook 'ef-transient-resume-shackle-mode)))
 
   (defun ef-transient-resume-shackle-mode ()
     (unless transient--prefix
       (shackle-mode t)
-      (remove-hook 'post-transient-hook 'ef-transient-resume-shackle-mode))))
+      (remove-hook 'transient-exit-hook 'ef-transient-resume-shackle-mode))))
 
 (provide 'base-magit)
