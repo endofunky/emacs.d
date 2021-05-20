@@ -102,67 +102,11 @@
 (use-package evil-org
   :ensure t
   :after org
-  :config
-  (add-hook 'org-mode-hook 'evil-org-mode)
-  (ef-add-hook evil-org-mode-hook
-    (evil-org-set-key-theme))
+  :hook
+  (org-mode . evil-org-mode)
+  (org-mode . evil-org-set-key-theme)
+  :custon
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
-
-(use-package org-tree-slide
-  :after org
-  :ensure t
-  :custom
-  (org-tree-slide-deactivate-message "")
-  (org-tree-slide-activate-message "")
-  (org-tree-slide-header nil)
-  (org-tree-slide-slide-in-effect nil)
-  :config
-  (require 'ox)
-  (require 'ox-latex)
-
-  (ef-add-hook org-tree-slide-play-hook
-    (if (fboundp 'flyspell-mode)
-        (flyspell-mode -1)
-      (flyspell-delete-all-overlays))
-
-    (let ((org-format-latex-options
-           (plist-put (copy-tree org-format-latex-options)
-		      :scale 4)))
-      (org-preview-latex-fragment '(16)))
-
-    (setq-local global-hl-line-mode nil))
-
-  (ef-add-hook org-tree-slide-stop-hook
-    (if (fboundp 'flyspell-mode)
-        (flyspell-mode t))
-
-    (org-remove-latex-fragment-image-overlays)
-    (setq-local global-hl-line-mode nil)
-    (setq-local global-hl-line-mode t)))
-
-(use-package demo-it
-  :after org
-  :ensure t
-  :config
-  (evil-define-key 'normal demo-it-mode-map (kbd "<SPC>") 'demo-it-step)
-  (evil-define-key 'normal demo-it-mode-map (kbd "<right>") 'demo-it-step)
-  (evil-define-key 'normal demo-it-mode-map (kbd "<left>") 'demo-it-restep)
-  (evil-define-key 'normal demo-it-mode-map (kbd "q") 'demo-it-end)
-  (evil-define-key 'normal demo-it-mode-map (kbd "<tab>") 'show-all))
-
-(use-package org-bullets
-  :after demo-it
-  :ensure t
-  :config
-  (add-hook 'demo-it-mode-hook 'org-bullets-mode))
-
-(use-package expand-region
-  :after demo-it
-  :ensure t)
-
-(use-package fancy-narrow
-  :after demo-it
-  :ensure t)
 
 (provide 'base-org)
