@@ -108,14 +108,6 @@
   (compilation-start . evil-normal-state)
   (compilation-filter . comint-truncate-buffer)
   :config
-  (defun ef-compilation-exit-autoclose (buffer msg)
-    (when (string-match-p (regexp-quote "finished") msg)
-      (if (> (length (window-list)) 1)
-          (delete-window (get-buffer-window buffer))
-        (bury-buffer buffer))))
-
-  (add-to-list 'compilation-finish-functions #'ef-compilation-exit-autoclose)
-
   (ef-add-hook compilation-mode-hook
     "Enable `visual-line-mode' for compilation buffers."
     (setq-local bidi-display-reordering nil)
