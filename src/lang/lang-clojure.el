@@ -168,6 +168,10 @@
   :repl-toggle cider-switch-to-repl-buffer
   :repl-quit cider-quit
 
+  ;; specification
+  :specification-browse cider-browse-spec
+  :specification-browse cider-browse-spec-all
+
   ;; test
   :test-errors ef-cider-test-rerun-failed-tests
   :test-file ef-cider-run-ns-tests

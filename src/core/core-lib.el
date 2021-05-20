@@ -73,6 +73,7 @@ Must be set before loading ef-deflang."
     (:macro-prefix              ("m" :wk "Macro"))
     (:refactor-prefix           ("cr" :wk "Refactor"))
     (:repl-prefix               ("r" :wk "REPL"))
+    (:specification-prefix      ("s" :wk "Specification"))
     (:test-prefix               ("t" :wk "Test"))
     (:xref-prefix               ("x" :wk "Xref"))
 
@@ -114,6 +115,8 @@ Must be set before loading ef-deflang."
     (:repl-info                 ("ri" :wk "REPL Info"))
     (:repl-toggle               ("rr" :wk "Toggle REPL Window"))
     (:repl-quit                 ("r!" :wk "Quit REPL"))
+    (:specification-browse      ("csb" :wk "Browse Specifications"))
+    (:specification-all         ("csa" :wk "List All Specifications"))
     (:test-all                  ("ta" :wk "Test All/Project"))
     (:test-errors               ("te" :wk "Test Failed Tests"))
     (:test-toggle               ("tl" :wk "Toggle test/implementation"))
