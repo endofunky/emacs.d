@@ -17,6 +17,20 @@
 
   (add-hook 'before-save-hook #'gofmt-before-save)
 
+  (defconst ef-go-test-toggle-re "_test\\."
+    "Match regexp for `ef-go-test-toggle'.")
+
+  (defun ef-go-test-toggle ()
+    "Toggle Go test/implementation."
+    (interactive)
+    (let ((file (buffer-file-name (current-buffer))))
+      (if (string-match ef-go-test-toggle-re file)
+          (find-file (replace-regexp-in-string ef-go-test-toggle-re "." file))
+        (find-file (concat (file-name-directory file)
+                           (file-name-base file)
+                           "_test."
+                           (file-name-extension file))))))
+
   (ef-add-hook go-mode-hook
     (direnv-update-environment)
 
@@ -57,8 +71,8 @@
 (ef-deflang go
   :doc-search godoc
   :test-all go-test-current-project
-  :test-file go-test-current-file
   :test-at-point go-test-current-test
-  :test-toggle projectile-toggle-between-implementation-and-test)
+  :test-file go-test-current-file
+  :test-toggle ef-go-test-toggle)
 
 (provide 'lang-go)
