@@ -13,7 +13,7 @@
   ;; Display keystrokes in echo area as soon as possible.
   ;; Note: Setting this to a value < 0 has the same effect as setting it to
   ;; 0 since (at least) Emacs 25, disabling to completely.
-  (echo-keystrokes 0.01)
+  (echo-keystrokes 0.0001)
 
   ;; `whitespace-mode' doesn't play nice with `company-mode' overlays, also
   ;; `show-trailing-whitespace' is implemented in C, so should be more
