@@ -127,13 +127,6 @@
   ;; outside of Emacs
   (delete-selection-mode t))
 
-(use-package face-remap
-  :general
-  (:states 'normal :prefix ef-prefix
-	   "+" '(text-scale-adjust :which-key "Increase Text Scale")
-	   "-" '(text-scale-adjust :which-key "Decrease Text Scale")
-	   "0" '(text-scale-adjust :which-key "Reset Text Scale")))
-
 (use-package files
   :unless noninteractive
   :config
