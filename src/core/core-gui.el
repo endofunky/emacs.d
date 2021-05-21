@@ -36,7 +36,13 @@
     (set-face-attribute 'default t :font font)
     (set-frame-font font))
 
-  (blink-cursor-mode -1))
+  (defadvice blink-cursor-start (around ef-blink-cursor-start activate)
+    "Only blink in comint-mode buffers and only in evil normal state."
+    (if (and (derived-mode-p 'comint-mode)
+             (eq evil-state 'normal))
+        ad-do-it))
+
+  (blink-cursor-mode t))
 
 (use-package ns-win
   :if (ef-nsp)
