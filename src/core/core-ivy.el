@@ -37,13 +37,6 @@
   :config
   (counsel-mode t))
 
-(use-package swiper
-  :after ivy
-  :ensure t
-  :demand t
-  :general
-  ("C-s" 'swiper))
-
 (use-package ivy-xref
   :ensure t
   :after ivy
