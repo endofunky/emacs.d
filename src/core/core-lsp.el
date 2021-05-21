@@ -15,9 +15,6 @@
   (lsp-signature-doc-lines 1)
   (lsp-ui-remap-xref-keybindings nil)
   (lsp-use-lsp-ui nil)
-  :general
-  (:states 'normal :keymap 'lsp-mode-map :prefix ef-prefix
-	   "," '(lsp-find-definition :wk "Find Definition"))
   :config
   (require 'lsp-mode)
   (require 'lsp-modeline)
