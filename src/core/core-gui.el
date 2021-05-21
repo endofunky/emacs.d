@@ -1,3 +1,4 @@
+(require 'cl-macs)
 (require 'core-evil)
 (require 'core-lib)
 
@@ -9,6 +10,13 @@
   (indicate-empty-lines nil)
   (overflow-newline-into-fringe t)
   :config
+  (ef-add-hook window-configuration-change-hook :fn ef-fringe-update-hook
+    (let ((left (frame-parameter nil 'left-fringe))
+          (right (frame-parameter nil 'right-fringe)))
+      (cl-loop for win being the windows
+               if (with-selected-window win (derived-mode-p 'prog-mode))
+               do (set-window-fringes win nil nil)
+               else do (set-window-fringes win 0 0))))
   (fringe-mode nil))
 
 (use-package frame
