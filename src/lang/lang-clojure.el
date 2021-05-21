@@ -58,6 +58,7 @@
   (ef-add-popup "*cider-spec-browser*" :ephemeral t)
   (ef-add-popup "*cider-spec-example*" :ephemeral t)
   (ef-add-popup "*cider-macroexpansion*" :ephemeral t)
+  (ef-add-popup "*cider-inspect*" :ephemeral t)
 
   (defun ef-cider-jack-in (params)
     "Quit CIDER if running and jack in again"
@@ -139,6 +140,7 @@
   :compile-backend-connect ef-cider-jack-in
   :compile-backend-reconnect ef-cider-jack-in
   :compile-backend-quit ef-cider-quit
+  :compile-inspect cider-inspect
   :compile-nav-jump cider-find-var
   :compile-nav-pop-back cider-pop-back
 
