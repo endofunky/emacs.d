@@ -6,6 +6,7 @@
   :general
   (:states 'normal :prefix ef-prefix
            ":"        '(eval-expression :wk "Eval Expression")
+           "#"        '(display-line-numbers-mode :wk "Toggle Line Numbers")
 	   "<return>" '(ef-toggle-window-fullscreen :wk "Toggle Frame Fullscreen")
            "i"        '(imenu :wk "Open imenu")
            "U"        '(universal-argument :wk "Universal Argument")

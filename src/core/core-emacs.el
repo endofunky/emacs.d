@@ -119,6 +119,11 @@
   ;; outside of Emacs
   (delete-selection-mode t))
 
+(use-package display-line-numbers
+  :commands (display-line-numbers-mode)
+  :custom
+  (display-line-numbers-width-start t))
+
 (use-package files
   :unless noninteractive
   :config
@@ -159,10 +164,6 @@
 	   "." '(pop-tag-mark :wk "Pop Tag Mark"))
   (:states 'visual :keymaps 'prog-mode-map
 	   "<tab>" 'indent-region)
-  :custom
-  (display-line-numbers-width-start t)
-  :hook
-  (prog-mode . display-line-numbers-mode)
   :config
   (global-prettify-symbols-mode -1))
 
