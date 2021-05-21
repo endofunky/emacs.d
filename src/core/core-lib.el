@@ -53,34 +53,12 @@ Must be set before loading ef-deflang."
   :group 'ef-theme
   :type 'string)
 
-(defconst ef-deflang-prefix-handlers
-  '(:compile-prefix nil
-                    :doc-prefix: nil
-                    :eval-prefix nil
-                    :lint-prefix nil
-                    :macro-prefix nil
-                    :repl-prefix nil
-                    :test-prefix nil
-                    :xref-prefix nil)
-  "Prefix handler definitions for prefix keybinds defined in
-`ef-deflang-keybinds'.")
-
 (defconst ef-deflang-keybinds
-  '((:compile-prefix            ("c" :wk "Compile"))
-    (:doc-prefix:               ("cd" :wk "Documentation"))
-    (:eval-prefix               ("e" :wk "Eval"))
-    (:lint-prefix               ("cl" :wk "Lint"))
-    (:macro-prefix              ("m" :wk "Macro"))
-    (:refactor-prefix           ("cr" :wk "Refactor"))
-    (:repl-prefix               ("r" :wk "REPL"))
-    (:specification-prefix      ("s" :wk "Specification"))
-    (:test-prefix               ("t" :wk "Test"))
-    (:xref-prefix               ("x" :wk "Xref"))
-
-    ;; Actions
-    (:compile-buffer            ("cb" :wk "Compile Buffer"))
+  '((:compile-buffer            ("cb" :wk "Compile Buffer"))
     (:compile                   ("cc" :wk "Compile All/Project"))
+    (:compile-disassemble       ("cD" :wk "Disassemble"))
     (:compile-recompile         ("cC" :wk "Re-Compile All/Project"))
+    (:compile-inspect           ("ci" :wk "Inspect"))
     (:compile-defun             ("cd" :wk "Compile Definition at Point"))
     (:compile-file              ("cf" :wk "Compile File"))
     (:compile-region            ("cr" :wk "Compile Region"))
@@ -104,6 +82,7 @@ Must be set before loading ef-deflang."
     (:eval-defun                ("ed" :wk "Eval Definition at Point"))
     (:eval-region               ("er" :wk "Eval Region"))
     (:eval-sexp                 ("es" :wk "Eval S-Expression"))
+    (:eval-undefine             ("eu" :wk "Undefine Definition"))
     (:lint-file                 ("clf" :wk "Lint File"))
     (:lint-project              ("clp" :wk "Lint Project"))
     (:macro-expand-all          ("me" :wk "Expand All"))
@@ -470,7 +449,7 @@ If FILTER is `nil' kill all buffers except the current one."
  "m"  '(nil :wk "Macro")
  "cr" '(nil :wk "Refactor")
  "r"  '(nil :wk "REPL")
- "s"  '(nil :wk "Specification")
+ "cs"  '(nil :wk "Specification")
  "t"  '(nil :wk "Test")
  "x"  '(nil :wk "Xref"))
 
