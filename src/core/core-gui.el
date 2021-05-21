@@ -39,8 +39,7 @@
   (blink-cursor-mode -1))
 
 (use-package ns-win
-  :if (and window-system
-	   (ef-nsp))
+  :if (ef-nsp)
   :defines (mac-command-modifier
             mac-option-modifier
             ns-function-modifier
@@ -62,16 +61,14 @@
       (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend)))
 
 (use-package ls-lisp
-  :if (and window-system
-	   (ef-nsp))
+  :if (ef-nsp)
   :after ns-win
   :config
   (setq-default ls-lisp-use-insert-directory-program nil))
 
 (use-package exec-path-from-shell
   :ensure t
-  :if (and window-system
-	   (ef-nsp)
+  :if (and (ef-nsp)
            (null (getenv "TERM_PROGRAM")))
   :custom
   (exec-path-from-shell-check-startup-files nil)
