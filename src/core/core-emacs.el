@@ -159,6 +159,10 @@
 	   "." '(pop-tag-mark :wk "Pop Tag Mark"))
   (:states 'visual :keymaps 'prog-mode-map
 	   "<tab>" 'indent-region)
+  :custom
+  (display-line-numbers-width-start t)
+  :hook
+  (prog-mode . display-line-numbers-mode)
   :config
   (global-prettify-symbols-mode -1))
 
