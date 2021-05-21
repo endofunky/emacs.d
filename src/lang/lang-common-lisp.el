@@ -38,6 +38,10 @@
   :ensure t
   :after sly)
 
+(use-package sly-quicklisp
+  :ensure t
+  :after sly)
+
 (ef-deflang lisp
   :compile sly-compile-and-load-file
   :compile-defun sly-compile-defun
@@ -66,6 +70,8 @@
   :macro-expand-all sly-macroexpand-all-inplace
   :macro-expand-one sly-macroexpand-1-inplace
   :macro-quit sly-macroexpand-undo
+
+  :package-add sly-quickload
 
   :xref-references sly-who-calls
   :xref-dependencies sly-calls-who)
