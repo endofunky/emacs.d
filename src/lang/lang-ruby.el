@@ -166,6 +166,9 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f)))
 (ef-deflang ruby
   :after (ruby-mode ruby-test-mode)
 
+  ;; compile
+  :compile-disassemble ruby-disasm
+
   ;; eval
   :eval-buffer ruby-send-buffer
   :eval-defun ruby-send-definition
