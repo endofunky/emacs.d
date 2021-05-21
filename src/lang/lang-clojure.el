@@ -157,7 +157,6 @@
   :eval-all cider-ns-reload-all
   :eval-file cider-eval-file
   :eval-defun cider-eval-defun-at-point
-  :eval-project cider-load-all-project-ns
   :eval-region cider-eval-region
 
   ;; macro
