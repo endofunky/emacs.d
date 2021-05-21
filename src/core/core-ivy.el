@@ -32,7 +32,6 @@
   ("M-y" 'counsel-yank-pop)
   (:states 'normal :prefix ef-prefix
 	   "/" '(counsel-rg :wk "Grep (rg)")
-	   "?" '(counsel-descbinds :wk "Describe Keybinds")
 	   "s" '(counsel-switch-buffer :wk "Switch Buffer"))
   :config
   (counsel-mode t))

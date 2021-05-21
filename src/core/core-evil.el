@@ -40,7 +40,7 @@
            "hdc"      '(describe-coding-system :wk "Describe Coding System")
            "hdf"      '(describe-function :wk "Describe Function")
            "hdF"      '(describe-face :wk "Describe Face")
-           "hdk"      '(describe-key :wk "Describe Key")
+           "hdk"      '(counsel-descbinds :wk "Describe Keybinds")
            "hdm"      '(describe-mode :wk "Describe Mode")
            "hdp"      '(describe-package :wk "Describe Package")
            "hds"      '(describe-symbol :wk "Describe Symbol")
