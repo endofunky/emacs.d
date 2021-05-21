@@ -158,7 +158,7 @@ byte-code and display it in an `asm-mode' buffer."
        (shell-command-to-string
         (format "ruby -e \"STDOUT.puts \
 RubyVM::InstructionSequence.compile_file('%s').disasm\"" f)))
-      (beginning-of-buffer)
+      (goto-char (point-min))
       (asm-mode))
     (switch-to-buffer buf)
     (delete-file f)))
