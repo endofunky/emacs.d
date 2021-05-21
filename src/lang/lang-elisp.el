@@ -67,8 +67,8 @@
   :defer t
   :commands (ielm)
   :init
-  (ef-define-repl ef-repl-ielm "*ielm*" 'ielm)
   :config
+  (ef-add-popup "*ielm*")
   (ef-add-hook ielm-mode-hook
     (eldoc-mode t)))
 
@@ -101,7 +101,7 @@
   :macro-quit macrostep-collapse-all
 
   ;; repl
-  :repl-toggle ef-repl-ielm
+  :repl-toggle ielm
 
   ;; test
   :test-toggle projectile-toggle-between-implementation-and-test

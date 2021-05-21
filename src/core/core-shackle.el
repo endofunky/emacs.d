@@ -55,32 +55,6 @@ with `ef-add-popup'.")
 
   (shackle-mode t))
 
-(defmacro ef-define-repl (name buf fn)
-  "Define a shackle REPL wrapper function.
-
-Define a new function NAME for buffer BUF created by calling function FN
-When `shackle-rules' is bound, will add a popup & select rule for the given
-buffer."
-  `(progn
-     (when (boundp 'shackle-rules)
-       (ef-add-popup ,buf))
-     (defun ,name ()
-       (interactive)
-       (let ((buffer (get-buffer ,buf))
-             (window (get-buffer-window ,buf)))
-         (cond ((null buffer)
-                (call-interactively ,fn)
-                (when (fboundp 'evil-change-state)
-                  (evil-change-state 'normal)))
-               (window
-                (if (one-window-p)
-                    (switch-to-prev-buffer nil t)
-                  (delete-window window)))
-               (t
-                (pop-to-buffer ,buf)
-                (when (fboundp 'evil-change-state)
-                  (evil-change-state 'normal))))))))
-
 (declare-function shackle--match "shackle")
 
 (defun ef-popup-buffer-match-rule-p (buf rule)

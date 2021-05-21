@@ -1,4 +1,6 @@
+(require 'core-evil)
 (require 'core-lib)
+(require 'core-shackle)
 
 (use-package nix-mode
   :ensure t
@@ -18,9 +20,8 @@
   :ensure nix-mode
   :commands (nix-repl)
   :config
-  (ef-define-repl ef-repl-nix "*Nix-REPL*" #'nix-repl)
-  (evil-define-key 'normal nix-mode-map ",r" 'ef-repl-nix)
-  (evil-define-key 'normal nix-repl-mode-map ",r" 'ef-repl-nix))
+  (ef-add-popup "*Nix-REPL*")
+  (evil-define-key 'normal nix-mode-map ",r" 'nix-repl))
 
 (use-package nix-update
   :ensure t

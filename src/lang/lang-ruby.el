@@ -32,10 +32,10 @@
   (setq ruby-deep-arglist nil)
   (setq ruby-deep-indent-paren nil)
 
+  (ef-add-popup "*ruby*")
+
   ;; Suppress warnings
   (setenv "RUBYOPT" "-W0")
-
-  (ef-define-repl ef-repl-ruby "*ruby*" 'run-ruby)
 
   (ef-add-popup "*rake-compilation*")
 
@@ -114,14 +114,10 @@ current buffer's file, if it exists"
 (use-package projectile-rails
   :after ruby-mode
   :ensure t
-  :init
-  (defun ef--projectile-rails-console ()
-    (interactive)
-    (projectile-rails-console nil))
-  (ef-define-repl ef-repl-projectile-rails-console "*rails*" #'ef--projectile-rails-console)
   :config
+  (ef-add-popup "*rails*")
   (projectile-rails-global-mode t)
-  (evil-define-key 'normal projectile-rails-mode-map ",r" 'ef-repl-projectile-rails-console))
+  (evil-define-key 'normal projectile-rails-mode-map ",r" 'projectile-rails-console))
 
 (use-package rubocop
   :ensure t
@@ -179,7 +175,7 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f)))
   :lint-project rubocop-autocorrect-project
 
   ;; repl
-  :repl-toggle ef-repl-ruby
+  :repl-toggle run-ruby
 
   ;; test
   :test-toggle ruby-test-toggle-implementation-and-specification
