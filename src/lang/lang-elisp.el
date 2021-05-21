@@ -69,7 +69,27 @@
   :init
   :config
   (ef-add-popup "*ielm*")
+
+  ;; Shamelessly stolen from doom-emacs, who adapted it from
+  ;; http://www.modernemacs.com/post/comint-highlighting/ to add syntax
+  ;; highlighting to ielm REPLs.
   (ef-add-hook ielm-mode-hook
+    (font-lock-add-keywords
+     nil (cl-loop for (matcher . match-highlights)
+                  in (append lisp-el-font-lock-keywords-2 lisp-cl-font-lock-keywords-2)
+                  collect
+                  `((lambda (limit)
+                      (and ,(if (symbolp matcher)
+                                `(,matcher limit)
+                              `(re-search-forward ,matcher limit t))
+                           ;; Only highlight matches after the prompt
+                           (> (match-beginning 0) (car comint-last-prompt))
+                           ;; Make sure we're not in a comment or string
+                           (let ((state (sp--syntax-ppss)))
+                             (not (or (nth 3 state)
+                                      (nth 4 state))))))
+                    ,@match-highlights)))
+
     (eldoc-mode t)))
 
 (ef-deflang emacs-lisp
