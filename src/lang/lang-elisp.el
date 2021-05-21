@@ -85,16 +85,13 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
     (setq-local lisp-indent-function #'ef-emacs-lisp-indent-function)
     (setq-local mode-name "E-λ")))
 
-(use-package elisp-slime-nav
+(use-package elisp-def
   :ensure t
-  :after elisp-mode
-  :commands (elisp-slime-nav-mode
-             elisp-slime-nav-find-elisp-thing-at-point)
-  :init
-  (dolist (hook '(emacs-lisp-mode-hook
-                  ielm-mode-hook
-                  lisp-interaction-mode-hook))
-    (add-hook hook 'elisp-slime-nav-mode)))
+  :commands (elisp-def elisp-def-mode)
+  :hook
+  (ielm-mode . elisp-def-mode)
+  (emacs-lisp-mode . elisp-def-mode)
+  (lisp-interaction-mode . elisp-def-mode))
 
 (use-package macrostep
   :ensure t)
@@ -123,12 +120,12 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
     (eldoc-mode t)))
 
 (ef-deflang emacs-lisp
-  :after (elisp-mode elisp-slime-nav)
+  :after elisp-mode
   :maps (emacs-lisp-mode-map lisp-interaction-mode-map)
 
   ;; compile
   :compile emacs-lisp-byte-compile-and-load
-  :compile-nav-jump elisp-slime-nav-find-elisp-thing-at-point
+  :compile-nav-jump elisp-def
   :compile-nav-pop-back pop-tag-mark
 
   ;; doc
