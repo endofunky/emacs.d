@@ -73,3 +73,5 @@
 
   :xref-references geiser-xref-callers
   :xref-dependencies geiser-xref-callees)
+
+(provide 'lang-scheme)
