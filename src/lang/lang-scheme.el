@@ -15,10 +15,10 @@
   (scheme-mode . geiser-mode)
   :general
   (:states 'normal :keymaps 'geiser-doc-mode-map
-           "n" 'forward-button
-           "p" 'backward-button
-           "N" 'geiser-doc-next-section
-           "P" 'geiser-doc-previous-section)
+   "n" 'forward-button
+   "p" 'backward-button
+   "N" 'geiser-doc-next-section
+   "P" 'geiser-doc-previous-section)
   :defines (geiser-repl-mode)
   :config
   (require 'geiser-company)

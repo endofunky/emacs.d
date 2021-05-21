@@ -23,7 +23,7 @@
   (evil-complete-previous-func 'ef-evil-complete-lambda)
   :general
   (:states 'insert
-	   "<tab>" 'ef-tab-indent-or-complete)
+   "<tab>" 'ef-tab-indent-or-complete)
   :functions (ef-check-expansion
 	      ef-minibuffer-completion-hook)
   :config

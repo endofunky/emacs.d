@@ -87,8 +87,8 @@
   :commands (comint-truncate-buffer)
   :general
   (:states 'insert :keymaps 'comint-mode-map
-	   "<up>" 'comint-previous-input
-	   "<down>" 'comint-next-input)
+   "<up>" 'comint-previous-input
+   "<down>" 'comint-next-input)
   :config
   (ef-add-hook comint-mode-hook
     "Do not use `truncate-lines' in comint buffers.."
@@ -158,12 +158,12 @@
 (use-package prog-mode
   :general
   (:states 'normal :keymaps 'prog-mode-map
-	   "<tab>" 'indent-for-tab-command)
+   "<tab>" 'indent-for-tab-command)
   (:states 'normal :prefix ef-prefix :keymaps 'prog-mode-map
-	   "<tab>" '(ef-indent-buffer :wk "Indent Buffer")
-	   "." '(pop-tag-mark :wk "Pop Tag Mark"))
+   "<tab>" '(ef-indent-buffer :wk "Indent Buffer")
+   "." '(pop-tag-mark :wk "Pop Tag Mark"))
   (:states 'visual :keymaps 'prog-mode-map
-	   "<tab>" 'indent-region)
+   "<tab>" 'indent-region)
   :config
   (global-prettify-symbols-mode -1))
 
@@ -227,10 +227,10 @@
   :ensure t                             ; emacs < 28
   :general
   (:keymaps '(transient-map transient-edit-map)
-            "<escape>" 'transient-quit-all
-            "?" 'transient-show
-            "C-h" 'transient-show
-            "C-t" 'transient-help)
+   "<escape>" 'transient-quit-all
+   "?" 'transient-show
+   "C-h" 'transient-show
+   "C-t" 'transient-help)
   :commands (transient-define-prefix
               transient-bind-q-to-quit)
   :custom

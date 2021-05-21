@@ -17,6 +17,6 @@
   :after flyspell
   :general
   (:keymaps 'flyspell-mode-map
-	    "C-;" 'flyspell-correct-wrapper))
+   "C-;" 'flyspell-correct-wrapper))
 
 (provide 'core-spell)

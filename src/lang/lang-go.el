@@ -32,9 +32,9 @@
                 (find-file impl)
               (message "Implementation not found: %s" impl)))
         (let ((test-file (concat (file-name-directory file)
-                            (file-name-base file)
-                            "_test."
-                            (file-name-extension file))))
+                                 (file-name-base file)
+                                 "_test."
+                                 (file-name-extension file))))
           (if (file-exists-p test-file)
               (find-file test-file)
             (message "Test file not found: %s" test-file))))))

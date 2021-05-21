@@ -5,76 +5,76 @@
   :demand t
   :general
   (:states 'normal :prefix ef-prefix
-           ":"        '(eval-expression :wk "Eval Expression")
-           "#"        '(display-line-numbers-mode :wk "Toggle Line Numbers")
-	   "<return>" '(ef-toggle-window-fullscreen :wk "Toggle Frame Fullscreen")
-           "i"        '(imenu :wk "Open imenu")
-           "U"        '(universal-argument :wk "Universal Argument")
+   ":"        '(eval-expression :wk "Eval Expression")
+   "#"        '(display-line-numbers-mode :wk "Toggle Line Numbers")
+   "<return>" '(ef-toggle-window-fullscreen :wk "Toggle Frame Fullscreen")
+   "i"        '(imenu :wk "Open imenu")
+   "U"        '(universal-argument :wk "Universal Argument")
 
-           ;; Buffer
-           "b"        '(nil :wk "Buffer")
-	   "bb"       '(bury-buffer :wk "Bury Buffer")
-           "bc"       '(clone-indirect-buffer :wk "Clone Buuffer")
-           "bC"       '(clone-indirect-buffer-other-window :wk "Clone Buffer Other Window")
-	   "bi"       '(ibuffer :wk "Open ibuffer")
-           "bk"       '(nil :wk "Kill")
-	   "bka"      '(ef-kill-all-other-buffer :wk "Kill All Other Buffers")
-	   "bkk"      '(kill-current-buffer :wk "Kill Buffer")
-	   "bkK"      '(kill-buffer-and-window :wk "Kill Buffer & Window")
-	   "bkm"      '(kill-matching-buffers :wk "Kill Matching Buffers")
-	   "bko"      '(ef-kill-other-buffers :wk "Kill Other File Buffers")
-	   "bks"      '(kill-some-buffers :wk "Kill Some Buffers")
-	   "bl"       '(evil-switch-to-windows-last-buffer :wk "Last Buffer")
-	   "bn"       '(next-buffer :wk "Next Buffer")
-	   "bp"       '(previous-buffer :wk "Previous Buffer")
-	   "bN"       '(evil-buffer-new :wk "New Buffer")
-	   "br"       '(revert-buffer :wk "Revert Buffer")
+   ;; Buffer
+   "b"        '(nil :wk "Buffer")
+   "bb"       '(bury-buffer :wk "Bury Buffer")
+   "bc"       '(clone-indirect-buffer :wk "Clone Buuffer")
+   "bC"       '(clone-indirect-buffer-other-window :wk "Clone Buffer Other Window")
+   "bi"       '(ibuffer :wk "Open ibuffer")
+   "bk"       '(nil :wk "Kill")
+   "bka"      '(ef-kill-all-other-buffer :wk "Kill All Other Buffers")
+   "bkk"      '(kill-current-buffer :wk "Kill Buffer")
+   "bkK"      '(kill-buffer-and-window :wk "Kill Buffer & Window")
+   "bkm"      '(kill-matching-buffers :wk "Kill Matching Buffers")
+   "bko"      '(ef-kill-other-buffers :wk "Kill Other File Buffers")
+   "bks"      '(kill-some-buffers :wk "Kill Some Buffers")
+   "bl"       '(evil-switch-to-windows-last-buffer :wk "Last Buffer")
+   "bn"       '(next-buffer :wk "Next Buffer")
+   "bp"       '(previous-buffer :wk "Previous Buffer")
+   "bN"       '(evil-buffer-new :wk "New Buffer")
+   "br"       '(revert-buffer :wk "Revert Buffer")
 
-           ;; Help
-           "h"        '(nil :wk "Help")
-           "ha"       '(counsel-apropos :wk "Apropos (Emacs)")
-           "hi"       '(info :wk "Info")
-           "hm"       '(woman :wk "Info")
-           "hw"       '(where-is :wk "Where Is")
-           "hd"       '(nil :wk "Describe")
-           "hdc"      '(describe-coding-system :wk "Describe Coding System")
-           "hdf"      '(describe-function :wk "Describe Function")
-           "hdF"      '(describe-face :wk "Describe Face")
-           "hdk"      '(counsel-descbinds :wk "Describe Keybinds")
-           "hdm"      '(describe-mode :wk "Describe Mode")
-           "hdp"      '(describe-package :wk "Describe Package")
-           "hds"      '(describe-symbol :wk "Describe Symbol")
-           "hdS"      '(describe-syntax :wk "Describe Syntax")
-           "hdt"      '(describe-text-properties :wk "Describe Text Properties")
-           "hdT"      '(describe-theme :wk "Describe Theme")
-           "hdv"      '(describe-variable :wk "Describe Variable")
+   ;; Help
+   "h"        '(nil :wk "Help")
+   "ha"       '(counsel-apropos :wk "Apropos (Emacs)")
+   "hi"       '(info :wk "Info")
+   "hm"       '(woman :wk "Info")
+   "hw"       '(where-is :wk "Where Is")
+   "hd"       '(nil :wk "Describe")
+   "hdc"      '(describe-coding-system :wk "Describe Coding System")
+   "hdf"      '(describe-function :wk "Describe Function")
+   "hdF"      '(describe-face :wk "Describe Face")
+   "hdk"      '(counsel-descbinds :wk "Describe Keybinds")
+   "hdm"      '(describe-mode :wk "Describe Mode")
+   "hdp"      '(describe-package :wk "Describe Package")
+   "hds"      '(describe-symbol :wk "Describe Symbol")
+   "hdS"      '(describe-syntax :wk "Describe Syntax")
+   "hdt"      '(describe-text-properties :wk "Describe Text Properties")
+   "hdT"      '(describe-theme :wk "Describe Theme")
+   "hdv"      '(describe-variable :wk "Describe Variable")
 
-           ;; Insert
-           "I"        '(nil :wk "Insert")
-           "If"       '(nil :wk "File")
-           "Iff"      '(ef-insert-file-name :wk "File Name")
-           "Ifb"      '(ef-insert-file-name-base :wk "File Base-Name")
-           "Ifd"      '(ef-insert-file-name-directory :wk "File Directory")
-           "It"       '(nil :wk "Time")
-           "Iti"      '(ef-insert-iso-datetime :wk "ISO Date/Time")
-           "Ito"      '(ef-insert-ordinal-date :wk "Ordinal Date")
-           "Itu"      '(ef-insert-unix-time :wk "UNIX Timestamp")
-           "Iu"       '(ef-insert-uuid :wk "UUID")
-           "IU"       '(insert-char :wk "Unicode")
+   ;; Insert
+   "I"        '(nil :wk "Insert")
+   "If"       '(nil :wk "File")
+   "Iff"      '(ef-insert-file-name :wk "File Name")
+   "Ifb"      '(ef-insert-file-name-base :wk "File Base-Name")
+   "Ifd"      '(ef-insert-file-name-directory :wk "File Directory")
+   "It"       '(nil :wk "Time")
+   "Iti"      '(ef-insert-iso-datetime :wk "ISO Date/Time")
+   "Ito"      '(ef-insert-ordinal-date :wk "Ordinal Date")
+   "Itu"      '(ef-insert-unix-time :wk "UNIX Timestamp")
+   "Iu"       '(ef-insert-uuid :wk "UUID")
+   "IU"       '(insert-char :wk "Unicode")
 
-           ;; Whitespace
-           "w"        '(nil :wk "Whitespace")
-	   "wt"       '(tabify :wk "Spaces to Tabs")
-	   "ws"       '(delete-trailing-whitespace :wk "Strip Trailing Whitespace")
-	   "wu"       '(untabify :wk "Tabs to Spaces")
+   ;; Whitespace
+   "w"        '(nil :wk "Whitespace")
+   "wt"       '(tabify :wk "Spaces to Tabs")
+   "ws"       '(delete-trailing-whitespace :wk "Strip Trailing Whitespace")
+   "wu"       '(untabify :wk "Tabs to Spaces")
 
-           ;; Window
-           "W"        '(nil :wk "Window")
-	   "W+"       '(text-scale-adjust :wk "Increase Text Scale")
-	   "W-"       '(text-scale-adjust :wk "Decrease Text Scale")
-	   "W0"       '(text-scale-adjust :wk "Reset Text Scale")
-	   "Wd"       '(delete-window :wk "Delete Window")
-	   "WD"       '(delete-other-windows-internal :wk "Delete Other Window"))
+   ;; Window
+   "W"        '(nil :wk "Window")
+   "W+"       '(text-scale-adjust :wk "Increase Text Scale")
+   "W-"       '(text-scale-adjust :wk "Decrease Text Scale")
+   "W0"       '(text-scale-adjust :wk "Reset Text Scale")
+   "Wd"       '(delete-window :wk "Delete Window")
+   "WD"       '(delete-other-windows-internal :wk "Delete Other Window"))
   :custom
   (evil-auto-indent t)
   (evil-cross-lines t)
@@ -119,8 +119,8 @@
   :commands (evilnc-comment-or-uncomment-lines)
   :general
   (:states '(normal visual) :keymaps 'prog-mode-map
-	   "\\" 'evilnc-comment-or-uncomment-lines
-	   "#" 'evilnc-comment-or-uncomment-lines))
+   "\\" 'evilnc-comment-or-uncomment-lines
+   "#" 'evilnc-comment-or-uncomment-lines))
 
 (use-package evil-surround
   :after evil
@@ -140,7 +140,7 @@
   (undo-tree-visualizer-lazy-drawing nil)
   :general
   (:states 'normal :prefix ef-prefix
-	   "u" '(undo-tree-visualize :wk "Open undo-tree"))
+   "u" '(undo-tree-visualize :wk "Open undo-tree"))
   :config
   (global-undo-tree-mode))
 

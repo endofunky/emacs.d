@@ -70,8 +70,8 @@
   :hook (lispy-mode . lispyville-mode)
   :general
   (:states '(normal visual) :keymaps 'lispyville-mode-map
-	   "\\" 'lispyville-comment-or-uncomment-line
-	   "#" 'lispyville-comment-or-uncomment-line)
+   "\\" 'lispyville-comment-or-uncomment-line
+   "#" 'lispyville-comment-or-uncomment-line)
   :config
   (lispyville-set-key-theme
    '((operators normal)

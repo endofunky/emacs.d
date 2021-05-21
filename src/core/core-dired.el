@@ -2,9 +2,9 @@
   :defer t
   :general
   (:states 'normal :prefix ef-prefix
-	   "d" 'dired)
+   "d" 'dired)
   (:states 'normal :keymaps 'dired-mode-map
-           "q" 'kill-this-buffer)
+   "q" 'kill-this-buffer)
   :custom
   (dired-auto-revert-buffer t)
   (dired-create-destination-dirs 'ask)

@@ -24,9 +24,9 @@
   (evil-replace-state-exit . ef-flycheck-check-buffer-maybe)
   :general
   (:keymap 'flycheck-error-list-mode-map
-	   "M-e" 'quit-window)
+   "M-e" 'quit-window)
   (:keymap 'flycheck--mode-map
-	   "M-e" 'ef-flycheck-toggle-errors)
+   "M-e" 'ef-flycheck-toggle-errors)
   :config
   (declare-function flycheck-buffer "flycheck")
   (declare-function flycheck-list-errors "flycheck")

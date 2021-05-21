@@ -31,8 +31,8 @@
   ("M-x" 'counsel-M-x)
   ("M-y" 'counsel-yank-pop)
   (:states 'normal :prefix ef-prefix
-	   "/" '(counsel-rg :wk "Grep (rg)")
-	   "s" '(counsel-switch-buffer :wk "Switch Buffer"))
+   "/" '(counsel-rg :wk "Grep (rg)")
+   "s" '(counsel-switch-buffer :wk "Switch Buffer"))
   :config
   (counsel-mode t))
 

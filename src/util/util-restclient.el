@@ -11,17 +11,17 @@
   :ensure t
   :general
   (:states 'normal :prefix ef-prefix
-	   "R" '(ef-restclient :wk "Toggle RESTclient"))
+   "R" '(ef-restclient :wk "Toggle RESTclient"))
   (:states 'normal :prefix ef-prefix :keymaps 'restclient-mode-map
-           "c" '(nil :wk "RESTclient Menu")
-           "cc" '(restclient-http-send-current :wk "Send Request")
-           "cr" '(restclient-http-send-current-raw :wk "Send Request (Raw)")
-           "cn" '(restclient-jump-next :wk "Jump to Next Request")
-           "cp" '(restclient-jump-prev :wk "Jump to Previous Request")
-           "c." '(restclient-mark-current :wk "Mark Request")
-           "cu" '(restclient-copy-curl-command :wk "Copy cURL Command")
-           "cn" '(restclient-narrow-to-current :wk "Narrow Region to Request")
-           "ci" '(restclient-show-info :wk "Show Info"))
+   "c" '(nil :wk "RESTclient Menu")
+   "cc" '(restclient-http-send-current :wk "Send Request")
+   "cr" '(restclient-http-send-current-raw :wk "Send Request (Raw)")
+   "cn" '(restclient-jump-next :wk "Jump to Next Request")
+   "cp" '(restclient-jump-prev :wk "Jump to Previous Request")
+   "c." '(restclient-mark-current :wk "Mark Request")
+   "cu" '(restclient-copy-curl-command :wk "Copy cURL Command")
+   "cn" '(restclient-narrow-to-current :wk "Narrow Region to Request")
+   "ci" '(restclient-show-info :wk "Show Info"))
   :config
   (ef-add-popup "*HTTP Response*")
   (ef-add-popup "*Restclient Info*" :ephemeral t)

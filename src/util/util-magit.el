@@ -12,13 +12,13 @@
   :init
   :general
   (:prefix ef-prefix :states 'normal
-           "g" '(nil :wk "Magit")
-           "gd" '(magit-diff :wk "Diff")
-           "gs" '(magit-status :wk "Status")
-           "gl" '(magit-log :wk "Log")
-           "gL" '(magit-log-all :wk "Log (All)")
-           "gb" '(magit-blame :wk "Blame")
-           "gc" '(magit-checkout :wk "Checkout"))
+   "g" '(nil :wk "Magit")
+   "gd" '(magit-diff :wk "Diff")
+   "gs" '(magit-status :wk "Status")
+   "gl" '(magit-log :wk "Log")
+   "gL" '(magit-log-all :wk "Log (All)")
+   "gb" '(magit-blame :wk "Blame")
+   "gc" '(magit-checkout :wk "Checkout"))
   :config
   (ef-add-hook git-commit-setup-hook :fn ef-git-commit-jira-ticket-hook
     (if-let* ((branch (magit-get-current-branch))
@@ -59,7 +59,7 @@
   :ensure t
   :general
   (:states 'normal :prefix ef-prefix
-           "pT" '(ivy-magit-todos :wk "Search TODOs"))
+   "pT" '(ivy-magit-todos :wk "Search TODOs"))
   :config
   (require 'org)
   (magit-todos-mode t))

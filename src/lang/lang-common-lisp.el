@@ -20,10 +20,10 @@
   (sly-auto-start 'ask)
   :general
   (:states 'normal :keymaps 'sly-mode-map
-           "K" 'sly-describe-symbol)
+   "K" 'sly-describe-symbol)
   (:states 'insert :keymaps 'sly-mrepl-mode-map
-           "<down>" 'sly-mrepl-next-input-or-button
-           "<up>" 'sly-mrepl-previous-input-or-button)
+   "<down>" 'sly-mrepl-next-input-or-button
+   "<up>" 'sly-mrepl-previous-input-or-button)
   :hook
   (lisp-mode . sly-mode)
   :config
