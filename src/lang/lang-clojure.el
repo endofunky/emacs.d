@@ -51,6 +51,7 @@
   (declare-function cider-quit "cider")
 
   (ef-add-popup 'cider-repl-mode)
+  (ef-add-popup "*cider-repl-history*" :ephemeral t)
   (ef-add-popup "*cider-test-report*" :ephemeral t)
   (ef-add-popup "*cider-doc*" :ephemeral t)
   (ef-add-popup "*cider-apropos*" :ephemeral t)
