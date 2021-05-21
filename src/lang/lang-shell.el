@@ -1,3 +1,5 @@
+(require 'core-evil)
+
 (use-package sh-script
   :defer t
   :mode (("\\.zsh\\'" . sh-mode)
