@@ -1,4 +1,6 @@
 (require 'core-lib)
+(require 'core-parens)
+(require 'core-projectile)
 (require 'core-shackle)
 
 (use-package ruby-mode
@@ -82,6 +84,16 @@
 (use-package ruby-test-mode
   :after ruby-mode
   :ensure t
+  :functions (ef-file-or-nil
+              ef-ruby-test-infer-file)
+  :commands (ruby-test-specification-filename
+             ruby-test-unit-filename
+             ruby-test-default-test-filename
+             ruby-test-any-p
+             ruby-test-rails-root
+             ruby-test-ruby-root
+             ruby-test-run-command
+             ruby-test-command)
   :config
   (add-hook 'ruby-mode-hook 'ruby-test-mode)
   (setq ruby-test-rspec-options "")
