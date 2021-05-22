@@ -111,6 +111,14 @@ See `ef-popup-buffer-state' for possible values."
                    (open-popups (ef-popup-windows)))
           ;; We already have an open popup. Delete it first.
           (delete-window (car open-popups)))
+        (when-let* ((_ (= 1 (length (window-list))))
+                    (win (car (window-list)))
+                    (_ (ef-popup-buffer-p (window-buffer win)))
+                    (file-buffer (cl-find-if-not #'ef-popup-buffer-p (buffer-list))))
+          ;; We only have one window repmaining and it's currently showing a
+          ;; popup. In order to not show two popups at the same time, set
+          ;; that window's buffer to the first non-popup buffer found.
+          (set-window-buffer win file-buffer))
         (display-buffer buffer)
         (select-window (get-buffer-window buffer)))
     (message "Buffer is not a promoted popup buffer: %s" (current-buffer))))
