@@ -7,8 +7,28 @@
 
 (use-package elisp-mode
   :commands (emacs-lisp-mode lisp-interaction-mode)
-  :functions (ef-emacs-lisp-indent-function)
+  :functions (ef-emacs-lisp-indent-function
+              ef-elisp-describe-thing-at-point)
+  :general
+  (:keymaps '(emacs-lisp-mode-map
+              lisp-interaction-mode-map)
+   "C-c C-d d"   'ef-elisp-describe-thing-at-point
+   "C-c C-d C-d" 'ef-elisp-describe-thing-at-point)
+  (:states 'normal :keymaps '(emacs-lisp-mode-map
+                              lisp-interaction-mode-map)
+   "K" 'ef-elisp-describe-thing-at-point)
   :config
+  (defun ef-elisp-describe-thing-at-point ()
+    "Display the full documentation of the elisp thing at point.
+The named subject may be a function, variable, library or face."
+    (interactive)
+    (if-let* ((sym-at-point (symbol-at-point))
+              (sym-name (and sym-at-point (symbol-name sym-at-point))))
+        (if (fboundp 'describe-symbol)
+            (describe-symbol (intern sym-name))
+          (with-no-warnings
+            (help-xref-interned (intern sym-name))))))
+
   (defun ef-emacs-lisp-indent-function (indent-point state)
     "A replacement for `lisp-indent-function'.
 
@@ -130,7 +150,7 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
 
   ;; doc
   :doc-apropos counsel-apropos
-  :doc-point elisp-slime-nav-describe-elisp-thing-at-point
+  :doc-point ef-elisp-describe-thing-at-point
   :doc-search elisp-index-search
 
   ;; eval
