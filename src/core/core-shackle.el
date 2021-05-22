@@ -95,7 +95,7 @@ See `ef-popup-buffer-state' for possible values."
         (display-buffer buffer)
         (ef-popup-cycle-backward)
         (select-window (get-buffer-window buffer)))
-    (message "Buffer is not a popup buffer: %s" (current-buffer))))
+    (user-error "Buffer is not a popup buffer: %s" (current-buffer))))
 
 (defun ef-popup-demote-buffer ()
   "Demotes the current promoted popup buffer to a popup state."
@@ -123,7 +123,7 @@ See `ef-popup-buffer-state' for possible values."
           (set-window-buffer win file-buffer))
         (display-buffer buffer)
         (select-window (get-buffer-window buffer)))
-    (message "Buffer is not a promoted popup buffer: %s" (current-buffer))))
+    (user-error "Buffer is not a promoted popup buffer: %s" (current-buffer))))
 
 (defun ef-popup-buffer-match-rule-p (buf rule)
   "Return RULE if BUF matches RULE, `nil' otherwise."
