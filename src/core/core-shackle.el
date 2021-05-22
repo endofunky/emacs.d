@@ -99,6 +99,8 @@ See `ef-popup-buffer-state' for possible values."
         (setq ef-popup-buffer-list (remove buffer ef-popup-buffer-list))
         (delete-window (selected-window))
         (display-buffer buffer)
+        ;; We already had a popup open, so make sure we select the previous one
+        ;; and reopen it.
         (ef-popup-cycle-backward)
         (select-window (get-buffer-window buffer)))
     (user-error "Buffer is not a popup buffer: %s" (current-buffer))))
