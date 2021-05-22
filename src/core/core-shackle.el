@@ -83,6 +83,12 @@ See `ef-popup-buffer-state' for possible values."
   (with-current-buffer buf
     (setq ef-popup-buffer-state state)))
 
+(defun ef-popup-delete-all ()
+  "Delete all open popup windows."
+  (dolist (win (ef-popup-windows))
+    (if (> (length (window-list)) 1)
+        (delete-window win))))
+
 (defun ef-popup-promote-buffer ()
   "Promotes the current buffer to a non-popup state."
   (interactive)
@@ -107,12 +113,9 @@ See `ef-popup-buffer-state' for possible values."
         (bury-buffer buffer)
         (setq ef-popup-buffer-list
               (ef-move-to-front buffer ef-popup-buffer-list))
-        (when-let ((_ (> (length (window-list)) 1))
-                   (open-popups (ef-popup-windows)))
-          ;; We already have one or more open popups. Delete them first.
-          (dolist (win open-popups)
-            (if (> (length (window-list)) 1)
-                (delete-window win))))
+        (if (> (length (window-list)) 1)
+            ;; We already have one or more open popups. Delete them first.
+            (ef-popup-delete-all))
         (when-let* ((_ (= 1 (length (window-list))))
                     (win (car (window-list)))
                     (_ (ef-popup-buffer-p (window-buffer win)))
@@ -277,12 +280,9 @@ select the buffer window with `select-window' if the buffer is already shown,
 otherwise display the buffer using `display-buffer-use-some-window'."
   (if (ef-popup-buffer-p buffer)
       (progn
-        (when-let ((_ (> (length (window-list)) 1))
-                   (open-popups (ef-popup-windows)))
-          ;; We already have one or more open popups. Delete them first.
-          (dolist (win open-popups)
-            (if (> (length (window-list)) 1)
-                (delete-window win))))
+        (if (> (length (window-list)) 1)
+            ;; We already have one or more open popups. Delete them first.
+            (ef-popup-delete-all))
         (set-window-dedicated-p ad-do-it t)
         ;;  Ensure the newly displayed buffer is at the front of
         ;; ef-popup-buffer-list.
