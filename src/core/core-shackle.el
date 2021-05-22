@@ -199,12 +199,12 @@ switch to a non-popup buffer."
   "Cycle visibility of popup windows forwards."
   (interactive)
   (if (= 0 (length (ef-popup-windows)))
-      (ef-popup-toggle))
-  (when ef-popup-buffer-list
-    (setq ef-popup-buffer-list
-          (cons (car (last ef-popup-buffer-list))
-                (butlast ef-popup-buffer-list)))
-    (display-buffer (car ef-popup-buffer-list))))
+      (ef-popup-toggle)
+    (when ef-popup-buffer-list
+      (setq ef-popup-buffer-list
+            (cons (car (last ef-popup-buffer-list))
+                  (butlast ef-popup-buffer-list)))
+      (display-buffer (car ef-popup-buffer-list)))))
 
 (defun ef-popup-cycle-backward ()
   "Cycle visibility of popup windows backwards."
