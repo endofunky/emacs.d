@@ -9,6 +9,7 @@
    "#"        '(display-line-numbers-mode :wk "Toggle Line Numbers")
    "<return>" '(ef-toggle-window-fullscreen :wk "Toggle Frame Fullscreen")
    "i"        '(imenu :wk "Open imenu")
+   "s"        '(ef-popup-switch-buffer :wk "Switch buffer")
    "U"        '(universal-argument :wk "Universal Argument")
 
    ;; Buffer

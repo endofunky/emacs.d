@@ -135,8 +135,14 @@ See `ef-popup-buffer-state' for possible values."
 (defun ef-popup-buffer-p (buf)
   "Return the matching rule from `shackle-rules' if BUF is a popup buffer,
 `nil' otherwise."
+  (when (consp buf)
+    (setq buf (cdr buf)))
   (cl-find-if (apply-partially #'ef-popup-buffer-match-rule-p buf)
               shackle-rules))
+
+(defun ef-popup-regular-buffer-p (buf)
+  "Return t if BUF is a regular, non-popup buffer. Otherwise return nil."
+  (not (ef-popup-buffer-p buf)))
 
 (defun ef-popup-window-p (win)
   "Return the matching rule from `shackle-rules' if WIN is a popup window,
@@ -151,13 +157,31 @@ See `ef-popup-buffer-state' for possible values."
   "Returns a list of open popup buffers."
   (seq-filter #'ef-popup-buffer-p (buffer-list)))
 
-(defun ef-popup-switch (buffer-name)
+(defun ef-popup-switch-buffer ()
+  "Switch to popup buffer if `selected-window' is a popup window. Otherwise
+switch to a non-popup buffer."
+  (interactive)
+  (if (ef-popup-buffer-p (window-buffer (selected-window)))
+      (call-interactively #'ef-popup-switch-popup-buffer)
+    (call-interactively #'ef-popup-switch-other-buffer)))
+
+(defun ef-popup-switch-popup-buffer (buffer-name)
   "Switch to popup buffer BUFFER-NAME."
   (interactive
    (list
-    (completing-read
-     "Switch to popup buffer: "
-     (mapcar #'buffer-name ef-popup-buffer-list))))
+    (read-buffer "Switch to buffer" (car ef-popup-buffer-list)
+                 (confirm-nonexistent-file-or-buffer)
+                 #'ef-popup-buffer-p)))
+  (when buffer-name
+    (display-buffer buffer-name)))
+
+(defun ef-popup-switch-other-buffer (buffer-name)
+  "Switch to non-popup buffer BUFFER-NAME."
+  (interactive
+   (list
+    (read-buffer "Switch to buffer: " nil
+                 (confirm-nonexistent-file-or-buffer)
+                 #'ef-popup-regular-buffer-p)))
   (when buffer-name
     (display-buffer buffer-name)))
 
