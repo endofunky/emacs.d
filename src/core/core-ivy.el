@@ -34,6 +34,12 @@
    "/" '(counsel-rg :wk "Grep (rg)")
    "s" '(counsel-switch-buffer :wk "Switch Buffer"))
   :config
+  (defadvice counsel-switch-buffer (around ef-counsel-switch-buffer activate)
+    "Inhitbit `quit-window' in non-ephemeral popup buffers."
+    (if (window-dedicated-p (selected-window))
+        (user-error "Cannot switch buffers in a dedicated window")
+      ad-do-it))
+
   (counsel-mode t))
 
 (use-package ivy-xref
