@@ -15,11 +15,6 @@
   ;; 0 since (at least) Emacs 25, disabling to completely.
   (echo-keystrokes 0.0001)
 
-  ;; `whitespace-mode' doesn't play nice with `company-mode' overlays, also
-  ;; `show-trailing-whitespace' is implemented in C, so should be more
-  ;; performant.
-  (show-trailing-whitespace t)
-
   ;; Tabs are just awful
   (indent-tabs-mode nil)
 
@@ -166,6 +161,9 @@
   (:states 'visual :keymaps 'prog-mode-map
    "<tab>" 'indent-region)
   :config
+  (ef-add-hook prog-mode-hook
+    (setq-local show-trailing-whitespace t))
+
   (global-prettify-symbols-mode -1))
 
 (use-package recentf
@@ -222,7 +220,10 @@
 (use-package text-mode
   :defer t
   :mode (("/LICENSE\\'" . text-mode)
-         ("\\.log\\'" . text-mode)))
+         ("\\.log\\'" . text-mode))
+  :config
+  (ef-add-hook text-mode-hook
+    (setq-local show-trailing-whitespace t)))
 
 (use-package transient
   :ensure t                             ; emacs < 28
@@ -233,7 +234,7 @@
    "C-h" 'transient-show
    "C-t" 'transient-help)
   :commands (transient-define-prefix
-              transient-bind-q-to-quit)
+             transient-bind-q-to-quit)
   :custom
   (transient-enable-popup-navigation t)
   (transient-show-popup 1)
