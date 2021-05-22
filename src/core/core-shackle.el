@@ -326,6 +326,12 @@ us from switching to other buffers."
             (_ (= (length wins) 1)))
       (set-window-dedicated-p (car wins) nil)))
 
+(defadvice split-window (around ef-popup-split-window activate)
+  "Prevent popup windows being split."
+  (if (ef-popup-window-p (selected-window))
+      (user-error "Cannot split windows in a popup window")
+    ad-do-it))
+
 (general-define-key
  :states '(normal insert visual motion replace)
  :keymaps 'override
