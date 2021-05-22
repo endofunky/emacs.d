@@ -111,7 +111,8 @@ See `ef-popup-buffer-state' for possible values."
                    (open-popups (ef-popup-windows)))
           ;; We already have one or more open popups. Delete them first.
           (dolist (win open-popups)
-            (delete-window win)))
+            (if (> (length (window-list)) 1)
+                (delete-window win))))
         (when-let* ((_ (= 1 (length (window-list))))
                     (win (car (window-list)))
                     (_ (ef-popup-buffer-p (window-buffer win)))
@@ -236,7 +237,8 @@ otherwise display the buffer using `display-buffer-use-some-window'."
                    (open-popups (ef-popup-windows)))
           ;; We already have one or more open popups. Delete them first.
           (dolist (win open-popups)
-            (delete-window win)))
+            (if (> (length (window-list)) 1)
+                (delete-window win))))
         (set-window-dedicated-p ad-do-it t)
         ;;  Ensure the newly displayed buffer is at the front of
         ;; ef-popup-buffer-list.
