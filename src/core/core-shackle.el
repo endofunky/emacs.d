@@ -151,6 +151,16 @@ See `ef-popup-buffer-state' for possible values."
   "Returns a list of open popup buffers."
   (seq-filter #'ef-popup-buffer-p (buffer-list)))
 
+(defun ef-popup-switch (buffer-name)
+  "Switch to popup buffer BUFFER-NAME."
+  (interactive
+   (list
+    (completing-read
+     "Switch to popup buffer: "
+     (mapcar #'buffer-name ef-popup-buffer-list))))
+  (when buffer-name
+    (display-buffer buffer-name)))
+
 (defun ef-popup-cycle-forward ()
   "Cycle visibility of popup windows forwards."
   (interactive)
@@ -289,6 +299,7 @@ us from switching to other buffers."
  "M-j" 'ef-popup-demote-buffer
  "M-k" 'ef-popup-promote-buffer
  "M-l" 'ef-popup-cycle-forward
+ "M-P" 'ef-popup-switch
  "M-p" 'ef-popup-toggle)
 
 (provide 'core-shackle)

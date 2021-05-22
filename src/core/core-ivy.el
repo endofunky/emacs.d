@@ -1,4 +1,5 @@
 (require 'core-evil)
+(require 'core-shackle)
 
 (use-package ivy
   :ensure t
@@ -36,8 +37,11 @@
   :config
   (defadvice counsel-switch-buffer (around ef-counsel-switch-buffer activate)
     "Inhitbit `quit-window' in non-ephemeral popup buffers."
-    (if (window-dedicated-p (selected-window))
-        (user-error "Cannot switch buffers in a dedicated window")
+    (if-let* ((window (selected-window))
+              (_ (window-dedicated-p window)))
+        (if (ef-popup-buffer-p (window-buffer window))
+            (call-interactively #'ef-popup-switch)
+          (user-error "Cannot switch buffers in a dedicated window"))
       ad-do-it))
 
   (counsel-mode t))
