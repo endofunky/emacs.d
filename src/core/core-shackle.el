@@ -7,6 +7,8 @@
 (defvar ef-popup-buffer-list '()
   "List of popup buffers in the order they were opened in.
 
+The `car' of this list will be the most recently visible popup.
+
 Used for cycling popup buffers with `ef-popup-cycle-forward' and
 `ef-popup-cycle-backward'.")
 
@@ -86,23 +88,23 @@ with `ef-add-popup'.")
   "Cycle visibility of popup windows forwards."
   (interactive)
   (if (= 0 (length (ef-popup-windows)))
-      (ef-popup-toggle)
-    (if-let* ((curr (car (ef-popup-buffers)))
-              (pos (cl-position curr ef-popup-buffer-list)))
-        (if (= pos (- (length ef-popup-buffer-list) 1))
-            (display-buffer (car ef-popup-buffer-list))
-          (display-buffer (nth (+ pos 1) ef-popup-buffer-list))))))
+      (ef-popup-toggle))
+  (when ef-popup-buffer-list
+    (setq ef-popup-buffer-list
+          (cons (car (last ef-popup-buffer-list))
+                (butlast ef-popup-buffer-list)))
+    (display-buffer (car ef-popup-buffer-list))))
 
 (defun ef-popup-cycle-backward ()
   "Cycle visibility of popup windows backwards."
   (interactive)
   (if (= 0 (length (ef-popup-windows)))
       (ef-popup-toggle)
-    (if-let* ((curr (car (ef-popup-buffers)))
-              (pos (cl-position curr ef-popup-buffer-list)))
-        (if (= pos 0)
-            (display-buffer (car (last ef-popup-buffer-list)))
-          (display-buffer (nth (- pos 1) ef-popup-buffer-list))))))
+    (when ef-popup-buffer-list
+      (setq ef-popup-buffer-list
+            (append (cdr ef-popup-buffer-list)
+                    (list (car ef-popup-buffer-list))))
+      (display-buffer (car ef-popup-buffer-list)))))
 
 (defun ef-popup-toggle ()
   "Toggle visibility of the last opened popup window."
@@ -132,9 +134,8 @@ nil otherwise."
 (defun ef-popup-update-buffer-list ()
   "Function called from `window-configuration-change-hook' to update
 `ef-popup-buffer-list' with any changes."
-  (setq ef-popup-buffer-list
-        (append ef-popup-buffer-list
-                (cl-set-difference (ef-popup-buffers) ef-popup-buffer-list))))
+  (dolist (buf (cl-set-difference (ef-popup-buffers) ef-popup-buffer-list))
+    (setq ef-popup-buffer-list (ef-move-to-front buf ef-popup-buffer-list))))
 
 (add-hook 'window-configuration-change-hook #'ef-popup-update-buffer-list)
 
@@ -167,8 +168,14 @@ otherwise display the buffer using `display-buffer-use-some-window'."
       (progn
         (when-let ((_ (> (length (window-list)) 1))
                    (open-popups (ef-popup-windows)))
+          ;; We already have an open popup. Delete it first.
           (delete-window (car open-popups)))
-        (set-window-dedicated-p ad-do-it t))
+        (set-window-dedicated-p ad-do-it t)
+        ;;  Ensure the newly displayed buffer is at the front of
+        ;; ef-popup-buffer-list.
+        (unless (eq buffer (car ef-popup-buffer-list))
+          (setq ef-popup-buffer-list
+                (ef-move-to-front buffer ef-popup-buffer-list))))
     (if (ef-popup-buffer-p (window-buffer (selected-window)))
         (if-let ((win (get-buffer-window buffer)))
             ;; Edge case: Sometimes will double a window if it's already
