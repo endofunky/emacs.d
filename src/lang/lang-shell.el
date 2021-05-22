@@ -20,4 +20,12 @@
   :config
   (evil-define-key 'normal sh-mode-map ",r" 'anti-term))
 
+(use-package company-shell
+  :ensure t
+  :after sh-script
+  :custom
+  (company-shell-clean-manpage t)
+  :config
+  (add-to-list 'company-backends 'company-shell))
+
 (provide 'lang-shell)
