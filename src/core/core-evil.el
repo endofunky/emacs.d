@@ -143,6 +143,8 @@
   (:states 'normal :prefix ef-prefix
    "u" '(undo-tree-visualize :wk "Open undo-tree"))
   :config
+  (ef-add-hook undo-tree-visualizer-mode-hook
+    (setq-local show-trailing-whitespace nil))
   (global-undo-tree-mode))
 
 (use-package evil-collection
