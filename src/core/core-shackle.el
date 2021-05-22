@@ -185,10 +185,11 @@ switch to a non-popup buffer."
   (interactive
    (list
     (read-buffer "Switch to buffer"
-                 (if-let* ((bufs (seq-filter #'ef-popup-regular-buffer-p (buffer-list)))
+                 (if-let* ((bufs (seq-filter #'ef-popup-regular-buffer-p
+                                             (buffer-list)))
                            (_ (> (length bufs) 1)))
                      (cadr bufs)
-                   (car-bufs))
+                   (car bufs))
                  (confirm-nonexistent-file-or-buffer)
                  #'ef-popup-regular-buffer-p)))
   (when buffer-name
