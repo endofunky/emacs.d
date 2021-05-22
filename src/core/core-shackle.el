@@ -142,7 +142,10 @@ See `ef-popup-buffer-state' for possible values."
 
 (defun ef-popup-regular-buffer-p (buf)
   "Return t if BUF is a regular, non-popup buffer. Otherwise return nil."
-  (not (ef-popup-buffer-p buf)))
+  (when (consp buf)
+    (setq buf (cdr buf)))
+  (and (not (ef-popup-buffer-p buf))
+       (not (minibufferp buf))))
 
 (defun ef-popup-window-p (win)
   "Return the matching rule from `shackle-rules' if WIN is a popup window,
@@ -169,22 +172,27 @@ switch to a non-popup buffer."
   "Switch to popup buffer BUFFER-NAME."
   (interactive
    (list
-    (read-buffer "Switch to popup" (car ef-popup-buffer-list)
+    (read-buffer "Switch to popup" (if (> (length ef-popup-buffer-list) 1)
+                                       (cadr ef-popup-buffer-list)
+                                     (car ef-popup-buffer-list))
                  (confirm-nonexistent-file-or-buffer)
                  #'ef-popup-buffer-p)))
   (when buffer-name
-    (display-buffer buffer-name)))
+    (switch-to-buffer buffer-name)))
 
 (defun ef-popup-switch-other-buffer (buffer-name)
   "Switch to non-popup buffer BUFFER-NAME."
   (interactive
    (list
-    (read-buffer "Switch to buffer" (cl-find-if-not #'ef-popup-buffer-p
-                                                    (buffer-list))
+    (read-buffer "Switch to buffer"
+                 (if-let* ((bufs (seq-filter #'ef-popup-regular-buffer-p (buffer-list)))
+                           (_ (> (length bufs) 1)))
+                     (cadr bufs)
+                   (car-bufs))
                  (confirm-nonexistent-file-or-buffer)
                  #'ef-popup-regular-buffer-p)))
   (when buffer-name
-    (display-buffer buffer-name)))
+    (switch-to-buffer buffer-name)))
 
 (defun ef-popup-cycle-forward ()
   "Cycle visibility of popup windows forwards."
