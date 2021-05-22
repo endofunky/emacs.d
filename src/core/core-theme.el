@@ -1,17 +1,26 @@
+(require 'core-lib)
+
 (use-package base16-theme
   :ensure t
   :custom
   (custom-safe-themes t)
   (base16-theme-256-color-source 'base16-shell)
   :config
-  (setq ef-base16-enabled-theme 'base16-tomorrow-night)
-  (setq ef-base16-enabled-theme-colors 'base16-tomorrow-night-colors)
+  (defvar ef-base16-enabled-theme 'base16-tomorrow-night)
+  (defvar ef-base16-enabled-theme-colors 'base16-tomorrow-night-colors)
 
   (load-theme ef-base16-enabled-theme t)
 
   (defun ef-color (name)
     "Returns the base color for `name'"
     (plist-get base16-tomorrow-night-colors name))
+
+  (ef-add-hook window-configuration-change-hook :fn ef-dim-popups
+    (walk-windows (lambda (w)
+                    (with-current-buffer (window-buffer w)
+                      (if (ef-popup-buffer-p (window-buffer w))
+                          (buffer-face-set '(:background "#151617"))
+                        (buffer-face-set 'default))))))
 
   (ef-add-hook prog-mode-hook :fn ef-theme-add-watchwords
     "Highlight FIXME, TODO, and NOCOMMIT in code"
