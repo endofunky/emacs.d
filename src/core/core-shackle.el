@@ -169,7 +169,7 @@ switch to a non-popup buffer."
   "Switch to popup buffer BUFFER-NAME."
   (interactive
    (list
-    (read-buffer "Switch to buffer" (car ef-popup-buffer-list)
+    (read-buffer "Switch to popup" (car ef-popup-buffer-list)
                  (confirm-nonexistent-file-or-buffer)
                  #'ef-popup-buffer-p)))
   (when buffer-name
