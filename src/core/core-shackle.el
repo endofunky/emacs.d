@@ -179,7 +179,8 @@ switch to a non-popup buffer."
   "Switch to non-popup buffer BUFFER-NAME."
   (interactive
    (list
-    (read-buffer "Switch to buffer: " nil
+    (read-buffer "Switch to buffer" (cl-find-if-not #'ef-popup-buffer-p
+                                                    (buffer-list))
                  (confirm-nonexistent-file-or-buffer)
                  #'ef-popup-regular-buffer-p)))
   (when buffer-name
