@@ -22,7 +22,10 @@ with `ef-add-popup'.")
 When the value is nil it denotes the popup buffer is in a regular state.
 
 When the value is 'promoted it denotes the popup buffer has been promoted
-to a regular window state and will not be shown in the popup window.")
+to a regular window state and will not be shown in the popup window.
+
+When the value is 'demoted it denotes the popup buffer has been demoted
+from a regular window state and will be shown in the popup window.")
 
 (make-variable-buffer-local 'ef-popup-buffer-state)
 
@@ -170,7 +173,12 @@ See `ef-popup-buffer-state' for possible values."
 switch to a non-popup buffer."
   (interactive)
   (if (ef-popup-buffer-p (window-buffer (selected-window)))
-      (call-interactively #'ef-popup-switch-popup-buffer)
+      (if (= (length (window-list)) 1)
+          ;; The last window is showing a popup, which is made not dedicated,
+          ;; therefore let the user freely select the buffer they want to
+          ;; show.
+          (call-interactively #'switch-to-buffer)
+        (call-interactively #'ef-popup-switch-popup-buffer))
     (call-interactively #'ef-popup-switch-other-buffer)))
 
 (defun ef-popup-switch-popup-buffer (buffer-name)
