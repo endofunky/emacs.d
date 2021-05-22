@@ -16,6 +16,16 @@ Used for cycling popup buffers with `ef-popup-cycle-forward' and
   "Default values for `shackle-rules' applied to popup buffers created
 with `ef-add-popup'.")
 
+(defvar ef-popup-buffer-state nil
+  "The current state of the popup buffer.
+
+When the value is nil it denotes the popup buffer is in a regular state.
+
+When the value is 'promoted it denotes the popup buffer has been promoted
+to a regular window state and will not be shown in the popup window.")
+
+(make-variable-buffer-local 'ef-popup-buffer-state)
+
 (use-package shackle
   :ensure t
   :custom
@@ -59,11 +69,58 @@ with `ef-add-popup'.")
 
 (declare-function shackle--match "shackle")
 
+(defun ef-popup-get-buffer-state (buf)
+  "Returns the current popup buffer state for BUF.
+
+See `ef-popup-buffer-state' for possible values. "
+  (with-current-buffer buf
+    ef-popup-buffer-state))
+
+(defun ef-popup-set-buffer-state (buf state)
+  "Sets the current popup buffer state of BUF to STATE.
+
+See `ef-popup-buffer-state' for possible values."
+  (with-current-buffer buf
+    (setq ef-popup-buffer-state state)))
+
+(defun ef-popup-promote-buffer ()
+  "Promotes the current buffer to a non-popup state."
+  (interactive)
+  (if-let* ((buffer (current-buffer))
+            (_ (ef-popup-buffer-p buffer)))
+      (progn
+        (ef-popup-set-buffer-state buffer 'promoted)
+        (setq ef-popup-buffer-list (remove buffer ef-popup-buffer-list))
+        (delete-window (selected-window))
+        (display-buffer buffer)
+        (ef-popup-cycle-backward)
+        (select-window (get-buffer-window buffer)))
+    (message "Buffer is not a popup buffer: %s" (current-buffer))))
+
+(defun ef-popup-demote-buffer ()
+  "Demotes the current promoted popup buffer to a popup state."
+  (interactive)
+  (if-let* ((buffer (current-buffer))
+            (_ (eq 'promoted (ef-popup-get-buffer-state buffer))))
+      (progn
+        (ef-popup-set-buffer-state buffer nil)
+        (bury-buffer buffer)
+        (setq ef-popup-buffer-list
+              (ef-move-to-front buffer ef-popup-buffer-list))
+        (when-let ((_ (> (length (window-list)) 1))
+                   (open-popups (ef-popup-windows)))
+          ;; We already have an open popup. Delete it first.
+          (delete-window (car open-popups)))
+        (display-buffer buffer)
+        (select-window (get-buffer-window buffer)))
+    (message "Buffer is not a promoted popup buffer: %s" (current-buffer))))
+
 (defun ef-popup-buffer-match-rule-p (buf rule)
   "Return RULE if BUF matches RULE, `nil' otherwise."
   (cl-destructuring-bind (rule-name . rule-plist) rule
     (when-let ((found (shackle--match buf rule-name rule-plist)))
-      (not (plist-get found :float)))))
+      (and (not (plist-get found :float))
+           (not (eq 'promoted (ef-popup-get-buffer-state buf)))))))
 
 (defun ef-popup-buffer-p (buf)
   "Return the matching rule from `shackle-rules' if BUF is a popup buffer,
@@ -182,10 +239,18 @@ otherwise display the buffer using `display-buffer-use-some-window'."
             ;; selected, eg. when triggered from `undo-tree-visualizer-mode'.
             (unless (eq (window-buffer win) buffer)
               (select-window win))
-          (display-buffer-use-some-window buffer
-                                          '(nil (inhibit-same-window . t)
-                                                (direction . above))))
-      ad-do-it)))
+          (ef-popup-display-buffer-other-window buffer))
+      ;; If it's a promoted popup, don't show it using the defined shackle
+      ;; rules and display it like a regular buffer instead.
+      (if (eq 'promoted (ef-popup-get-buffer-state buffer))
+          (ef-popup-display-buffer-other-window buffer)
+        ad-do-it))))
+
+(defun ef-popup-display-buffer-other-window (buffer)
+  "Display BUFFER in a non-popup buffer window."
+  (display-buffer-use-some-window buffer
+                                  '(nil (inhibit-same-window . t)
+                                        (direction . above))))
 
 (defadvice quit-window (around ef-popup-quit-window activate)
   "Inhitbit `quit-window' in non-ephemeral popup buffers."
@@ -209,6 +274,8 @@ us from switching to other buffers."
  :states '(normal insert visual motion replace)
  :keymaps 'override
  "M-h" 'ef-popup-cycle-backward
+ "M-j" 'ef-popup-demote-buffer
+ "M-k" 'ef-popup-promote-buffer
  "M-l" 'ef-popup-cycle-forward
  "M-p" 'ef-popup-toggle)
 
