@@ -324,7 +324,7 @@ us from switching to other buffers."
  "M-j" 'ef-popup-demote-buffer
  "M-k" 'ef-popup-promote-buffer
  "M-l" 'ef-popup-cycle-forward
- "M-P" 'ef-popup-switch
+ "M-P" 'ef-popup-switch-popup-buffer
  "M-p" 'ef-popup-toggle)
 
 (provide 'core-shackle)
