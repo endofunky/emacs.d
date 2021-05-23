@@ -22,10 +22,7 @@ with `ef-add-popup'.")
 When the value is nil it denotes the popup buffer is in a regular state.
 
 When the value is 'promoted it denotes the popup buffer has been promoted
-to a regular window state and will not be shown in the popup window.
-
-When the value is 'demoted it denotes the popup buffer has been demoted
-from a regular window state and will be shown in the popup window.")
+to a regular window state and will not be shown in the popup window.")
 
 (make-variable-buffer-local 'ef-popup-buffer-state)
 
