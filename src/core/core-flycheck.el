@@ -18,7 +18,7 @@
   (flycheck-navigation-minimum-level 'error)
   (flycheck-syntax-check-buffer)
   :functions (ef-flycheck-toggle-errors
-              ef-flycheck-buffer-maybe)
+              ef-flycheck-check-buffer-maybe)
   :hook
   (evil-insert-state-exit . ef-flycheck-check-buffer-maybe)
   (evil-replace-state-exit . ef-flycheck-check-buffer-maybe)
