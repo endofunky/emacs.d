@@ -265,15 +265,6 @@ nested `eval-after-load' forms."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;;; Lists
-;;
-
-(defun ef-move-to-front (elt list)
-  "Add/mode ELT to the front of LIST."
-  (cons elt (remove elt list)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
 ;;; Configuration macros
 ;;
 
