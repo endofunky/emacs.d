@@ -30,6 +30,9 @@ with `ef-add-popup'.")
   :config
   (require 'ef-popup)
 
+  (declare-function ef-popup-mode "ef-popup")
+  (ef-popup-mode t)
+
   (defun ef-shackle (shackle &rest shackles)
     "Adds one or more shackle rules to `shackle-rules'"
     (dolist (rule (cons shackle shackles))
