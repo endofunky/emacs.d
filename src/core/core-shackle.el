@@ -12,7 +12,7 @@ The `car' of this list will be the most recently visible popup.
 Used for cycling popup buffers with `ef-popup-cycle-forward' and
 `ef-popup-cycle-backward'.")
 
-(defconst ef-popup-defaults '(:align below :size .4 :popup t :select t)
+(defconst ef-popup-defaults '(:align below :size .3 :popup t :select t)
   "Default values for `shackle-rules' applied to popup buffers created
 with `ef-add-popup'.")
 
