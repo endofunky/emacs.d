@@ -139,6 +139,34 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   (ef-add-hook ielm-mode-hook
     (eldoc-mode t)))
 
+(defun ef-ielm-insert-defun ()
+  (interactive)
+  (if-let ((buf (get-buffer "*ielm*")))
+      (progn
+        (save-excursion
+          (end-of-defun)
+          (let ((end (point)))
+            (beginning-of-defun)
+            (let ((expr (buffer-substring-no-properties (point) end)))
+              (with-current-buffer buf
+                (insert expr)))))
+        (pop-to-buffer buf))
+    (user-error "No IELM buffer found")))
+
+(defun ef-ielm-insert-sexp ()
+  (interactive)
+  (if-let ((buf (get-buffer "*ielm*")))
+      (progn
+        (save-excursion
+          (thing-at-point--end-of-sexp)
+          (let ((end (point)))
+            (thing-at-point--beginning-of-sexp)
+            (let ((expr (buffer-substring-no-properties (point) end)))
+              (with-current-buffer buf
+                (insert expr)))))
+        (pop-to-buffer buf))
+    (user-error "No IELM buffer found")))
+
 (ef-deflang emacs-lisp
   :after elisp-mode
   :maps (emacs-lisp-mode-map lisp-interaction-mode-map)
@@ -159,6 +187,8 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   :eval-expression eval-expression
   :eval-region eval-region
   :eval-sexp eval-print-last-sexp
+  :eval-insert-defun ef-ielm-insert-defun
+  :eval-insert-sexp ef-ielm-insert-sexp
 
   ;; lint
   :lint-file package-lint-current-buffer
