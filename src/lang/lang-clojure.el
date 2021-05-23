@@ -24,7 +24,7 @@
   (cider-repl-mode . eldoc-mode)
   :functions (ef-cider-quit)
   :commands (cider-load-file
-             cider-eval-buffer
+             cider-load-buffer
              cider-test-run-test
              cider-test-run-ns-tests
              cider-test-run-project-tests)
@@ -44,6 +44,7 @@
    "p" 'backward-button)
   :config
   (require 'cider-ns)
+  (require 'cider-tracing)
 
   (declare-function cider-connected-p "cider")
   (declare-function cider-jack-in "cider")
@@ -80,36 +81,24 @@
   (defun ef-cider-run-test ()
     "Re-evaluate buffer and run test at point"
     (interactive)
-    (with-demoted-errors "Error: %S"
-      (cider-load-file
-       (projectile-find-implementation-or-test (buffer-file-name))))
-    (cider-eval-buffer)
-    (cider-test-run-test))
+    (cider-load-buffer)
+    (call-interactively #'cider-test-run-test))
 
   (defun ef-cider-run-ns-tests ()
     "Re-evaluate buffer and run tests for namespace"
     (interactive)
-    (with-demoted-errors "Error: %S"
-      (cider-load-file
-       (projectile-find-implementation-or-test (buffer-file-name))))
-    (cider-eval-buffer)
-    (cider-test-run-ns-tests nil))
+    (cider-load-buffer)
+    (call-interactively #'cider-test-run-ns-tests))
 
   (defun ef-cider-test-rerun-failed-tests ()
     "Re-evaluate buffer and re-run all failed tests"
     (interactive)
-    (with-demoted-errors "Error: %S"
-      (cider-load-file
-       (projectile-find-implementation-or-test (buffer-file-name))))
-    (cider-eval-buffer)
-    (cider-test-run-test))
+    (cider-load-buffer)
+    (call-interactively #'cider-test-rerun-failed-tests))
 
   (defun ef-cider-run-all-tests ()
     "Re-evaluate buffer and run all tests"
     (interactive)
-    (with-demoted-errors "Error: %S"
-      (cider-load-file
-       (projectile-find-implementation-or-test (buffer-file-name))))
     (cider-test-run-project-tests nil)))
 
 (use-package cider-apropos
@@ -181,6 +170,8 @@
   :test-toggle projectile-toggle-between-implementation-and-test
   :test-report cider-test-show-report
 
+  ;; trace
+  :trace-variable cider-toggle-trace-var
   ;; xref
   :xref-references cider-xref-fn-refs-select
   :xref-dependencies cider-xref-fn-deps-select)

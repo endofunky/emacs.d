@@ -104,6 +104,8 @@ Must be set before loading ef-deflang."
     (:test-at-point             ("tp" :wk "Test at Point"))
     (:test-file                 ("tt" :wk "Test File"))
     (:test-report               ("tr" :wk "Show Test Report"))
+    (:trace-defun               ("cTd" :wk "Trace Definition"))
+    (:trace-variable            ("cTv" :wk "Trace Variable"))
     (:xref-apropos              ("xa" :wk "Find Symbols"))
     (:xref-definitions          ("xd" :wk "Find Definitions"))
     (:xref-dependencies         ("xD" :wk "Find Dependencies"))
@@ -260,7 +262,7 @@ nested `eval-after-load' forms."
   (unless (consp features)
     (setq features (list features)))
   (cl-flet ((acc (x xs)
-		 `(eval-after-load ',x #',(or xs (macroexp-progn body)))))
+		 `(eval-after-load ',x #',(or xs (macroexp-progn (remove nil body))))))
     (cl-reduce #'acc features :initial-value '() :from-end t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -463,6 +465,7 @@ If FILTER is `nil' kill all buffers except the current one."
  "cp" '(nil :wk "Package")
  "cr" '(nil :wk "Refactor")
  "cs" '(nil :wk "Specification")
+ "cT" '(nil :wk "Trace")
  "e"  '(nil :wk "Eval")
  "m"  '(nil :wk "Macro")
  "r"  '(nil :wk "REPL")
@@ -472,7 +475,9 @@ If FILTER is `nil' kill all buffers except the current one."
 (defmacro ef-deflang (lang &rest args)
   (declare (indent defun))
   (let ((features (or (ef-as-list (plist-get args :after))
-                      (ef-mode lang))))
+                      (ef-mode lang)))
+        (maps (mapcar #'ef-mode-map (ef-as-list (or (plist-get args :maps)
+                                                    (ef-mode-map lang))))))
     (cl-remf args :after)
     (macroexpand
      `(ef-eval-after-load
@@ -480,8 +485,7 @@ If FILTER is `nil' kill all buffers except the current one."
         (general-define-key
          :prefix ef-prefix
          :states '(normal visual)
-         :keymaps ',(mapcar #'ef-mode-map (ef-as-list (or (plist-get args :maps)
-                                                          (ef-mode-map lang))))
+         :keymaps ',maps
          ,@(cl-loop for (key fn) on args by #'cddr
                     for def = (alist-get key ef-deflang-keybinds)
                     collect `(,(caar def) ',`(,fn ,@(cdar def))) into matches
