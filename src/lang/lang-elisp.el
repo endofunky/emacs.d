@@ -139,7 +139,19 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   (ef-add-hook ielm-mode-hook
     (eldoc-mode t)))
 
+(defun ef-ielm-insert-region (start end)
+  "Insert the curent region in the IELM REPL buffer."
+  (interactive "rP")
+  (if-let ((buf (get-buffer "*ielm*")))
+      (progn
+        (let ((expr (buffer-substring-no-properties start end)))
+          (with-current-buffer buf
+            (insert expr)))
+        (pop-to-buffer buf))
+    (user-error "No IELM buffer found")))
+
 (defun ef-ielm-insert-defun ()
+  "Insert the top level form at point in the IELM REPL buffer."
   (interactive)
   (if-let ((buf (get-buffer "*ielm*")))
       (progn
@@ -154,6 +166,7 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
     (user-error "No IELM buffer found")))
 
 (defun ef-ielm-insert-sexp ()
+  "Insert the expression preceding point in the IELM REPL buffer."
   (interactive)
   (if-let ((buf (get-buffer "*ielm*")))
       (progn
@@ -188,6 +201,7 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   :eval-region eval-region
   :eval-sexp eval-print-last-sexp
   :eval-insert-defun ef-ielm-insert-defun
+  :eval-insert-region ef-ielm-insert-region
   :eval-insert-sexp ef-ielm-insert-sexp
 
   ;; lint
