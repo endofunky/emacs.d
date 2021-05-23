@@ -61,6 +61,7 @@
   (ef-add-popup "*cider-spec-example*" :ephemeral t)
   (ef-add-popup "*cider-macroexpansion*" :ephemeral t)
   (ef-add-popup "*cider-inspect*" :ephemeral t)
+  (ef-add-popup "*CIDER REPL Shortcuts Help*" :ephemeral t :size .5)
 
   (defun ef-cider-jack-in (params)
     "Quit CIDER if running and jack in again"
@@ -148,6 +149,10 @@
   :eval-file cider-eval-file
   :eval-defun cider-eval-defun-at-point
   :eval-region cider-eval-region
+  :eval-sexp cider-eval-last-sexp
+  :eval-insert-defun cider-insert-defun-in-repl
+  :eval-insert-region cider-insert-region-in-repl
+  :eval-insert-sexp cider-insert-last-sexp-in-repl
 
   ;; macro
   :macro-expand-all macrostep-expand
