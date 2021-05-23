@@ -138,6 +138,11 @@ Must be set before loading ef-deflang."
   (general-auto-unbind-keys)
   (general-override-mode t))
 
+(use-package page-break-lines
+  :ensure t
+  :config
+  (global-page-break-lines-mode))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Utilities
