@@ -342,6 +342,18 @@ us from switching to other buffers."
       (user-error "Cannot split windows in a popup window")
     ad-do-it))
 
+(defun ef-without-open-popup-ad (orig-fun &rest args)
+  (if (ef-popup-windows)
+      (progn
+        (ef-popup-toggle)
+        (let ((res (apply orig-fun args)))
+          (ef-popup-toggle)
+          res))
+    (apply orig-fun args)))
+
+(advice-add 'evil-window-rotate-downwards :around #'ef-without-open-popup-ad)
+(advice-add 'evil-window-rotate-upwards :around #'ef-without-open-popup-ad)
+
 (general-define-key
  :states '(normal insert visual motion replace)
  :keymaps 'override
