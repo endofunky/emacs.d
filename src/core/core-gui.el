@@ -38,7 +38,8 @@
 
   (defadvice blink-cursor-start (around ef-blink-cursor-start activate)
     "Only blink in comint-mode buffers and only in evil normal state."
-    (if (and (derived-mode-p 'comint-mode)
+    (if (and (or (derived-mode-p 'comint-mode)
+                 (derived-mode-p 'cider-repl-mode))
              (eq evil-state 'normal))
         ad-do-it))
 
