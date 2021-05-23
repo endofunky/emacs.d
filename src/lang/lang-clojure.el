@@ -118,15 +118,15 @@
              cider-apropos-select
              cider-apropos-documentation))
 
-(use-package cider-macroexpansion
-  :after cider
-  :commands (cider-macroexpand-all-inplace
-             cider-macroexpand-1-inplace
-             cider-macroexpand-undo))
-
 (use-package cider-xref
   :commands (cider-xref-fn-deps-select
              cider-xref-fn-refs-select))
+
+(use-package macrostep-geiser
+  :after cider
+  :ensure t
+  :hook
+  (cider-mode . macrostep-geiser-setup))
 
 (use-package flycheck-clj-kondo
   :after clojure-mode
@@ -161,8 +161,7 @@
   :eval-region cider-eval-region
 
   ;; macro
-  :macro-expand-all cider-macroexpand-all-inplace
-  :macro-expand-one cider-macroexpand-1-inplace
+  :macro-expand-all macrostep-expand
   :macro-quit cider-macroexpand-undo
 
   ;; repl

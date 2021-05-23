@@ -36,6 +36,11 @@
   (set-face-attribute 'trailing-whitespace nil :foreground nil :background (ef-color :base08))
   (set-face-attribute 'vertical-border nil :foreground (ef-color :base01)))
 
+(use-package macrostep
+  :defer t
+  :config
+  (set-face-attribute 'macrostep-expansion-highlight-face nil :background (ef-color :base01) :extend t))
+
 (use-package ivy
   :defer t
   :config
