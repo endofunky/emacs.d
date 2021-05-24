@@ -62,6 +62,7 @@
 
 (use-package ccls
   :ensure t
+  :after cc-mode
   :custom
   (ccls-sem-highlight-method nil)
   :config
@@ -71,7 +72,6 @@
     (if (and (file-exists-p (expand-file-name "compile_commands.json" (projectile-project-root)))
              (locate-file "ccls" exec-path))
         (lsp))))
-
 
 (use-package ruby-style
   :after (cc-mode)
