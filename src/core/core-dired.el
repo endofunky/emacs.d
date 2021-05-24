@@ -1,5 +1,6 @@
 (use-package dired
   :defer t
+  :commands (dired)
   :general
   (:states 'normal :prefix ef-prefix
    "d" 'dired)
@@ -14,8 +15,8 @@
 
 (use-package diredfl
   :ensure t
-  :after dired
-  :config
-  (diredfl-global-mode))
+  :defer t
+  :hook
+  (dired-mode . diredfl-mode))
 
 (provide 'core-dired)
