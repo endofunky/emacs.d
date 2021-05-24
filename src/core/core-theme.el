@@ -1,4 +1,5 @@
 (require 'core-lib)
+(require 'core-shackle)
 
 (use-package base16-theme
   :ensure t
@@ -18,7 +19,7 @@
   (ef-add-hook window-configuration-change-hook :fn ef-dim-popups
     (walk-windows (lambda (w)
                     (with-current-buffer (window-buffer w)
-                      (if (ef-popup-buffer-p (window-buffer w))
+                      (if (ef-popup--buffer-p (window-buffer w))
                           (buffer-face-set '(:background "#151617"))
                         (buffer-face-set 'default))))))
 
