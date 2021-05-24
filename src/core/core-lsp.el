@@ -19,6 +19,8 @@
   (require 'lsp-mode)
   (require 'lsp-modeline)
   (require 'lsp-headerline)
+  (if (boundp 'read-process-output-max)
+      (setq read-process-output-max (* 1024 1024)))
   (ef-add-popup "*lsp-performance*" :ephemeral t :size 0.15)
   (ef-add-popup "*lsp-help*" :ephemeral t :size 0.2))
 
