@@ -59,6 +59,12 @@
 ;; Never use TUI pagers in sub-processes
 (setenv "PAGER" (executable-find "cat"))
 
+(use-package ansi-color
+  :after comint
+  :custom
+  (ansi-color-for-comint-mode t)
+  :defer t)
+
 (use-package autorevert
   :custom
   (auto-revert-interval 1)
@@ -77,9 +83,10 @@
   :defer t
   :custom
   (comint-buffer-maximum-size 2048)
-  (comint-move-point-for-output 'others)
+  (comint-move-point-for-output t)
   (comint-prompt-read-only t)
   :commands (comint-truncate-buffer)
+  :hook (compilation-filter . comint-truncate-buffer)
   :general
   (:states 'insert :keymaps 'comint-mode-map
    "<up>" 'comint-previous-input
