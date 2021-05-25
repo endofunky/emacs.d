@@ -43,6 +43,7 @@
    "n" 'forward-button
    "p" 'backward-button)
   :config
+  (require 'cider-format)
   (require 'cider-ns)
   (require 'cider-tracing)
 
