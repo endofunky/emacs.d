@@ -102,7 +102,8 @@
   :when (fboundp 'native-comp-available-p)
   :custom
   (native-comp-async-query-on-exit t)
-  (native-comp-async-report-warnings-errors nil)
+  (native-comp-async-report-warnings-errors
+   (not (stringp (getenv "EMACS_INIT_DEBUG"))))
   :config
   (add-to-list 'native-comp-eln-load-path
                (no-littering-expand-var-file-name "eln-cache")))
@@ -250,7 +251,7 @@
    "C-h" 'transient-show
    "C-t" 'transient-help)
   :commands (transient-define-prefix
-             transient-bind-q-to-quit)
+              transient-bind-q-to-quit)
   :custom
   (transient-enable-popup-navigation t)
   (transient-show-popup 1)
