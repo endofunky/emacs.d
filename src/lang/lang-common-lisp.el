@@ -1,3 +1,4 @@
+(require 'core-evil)
 (require 'core-lib)
 (require 'core-shackle)
 
@@ -27,6 +28,7 @@
   :hook
   (lisp-mode . sly-mode)
   :config
+  (evil-set-initial-state 'sly-mrepl-mode 'normal)
   (ef-add-popup "^\\*sly-mrepl" :regexp t)
   (ef-add-popup "^\\*sly-compilation" :regexp t :ephemeral t)
   (ef-add-popup "^\\*sly-traces" :regexp t :ephemeral t)
