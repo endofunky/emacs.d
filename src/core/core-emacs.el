@@ -92,10 +92,10 @@
    "<up>" 'comint-previous-input
    "<down>" 'comint-next-input)
   :config
+  (evil-set-initial-state 'comint-mode 'normal)
   (ef-add-hook comint-mode-hook
     "Do not use `truncate-lines' in comint buffers.."
     (setq-local truncate-lines nil)
-    (evil-normal-state)
     (set (make-local-variable 'truncate-partial-width-windows) nil)))
 
 (use-package comp
