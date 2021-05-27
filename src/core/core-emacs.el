@@ -103,10 +103,7 @@
   :custom
   (native-comp-async-query-on-exit t)
   (native-comp-async-report-warnings-errors
-   (stringp (getenv "EMACS_INIT_DEBUG")))
-  :config
-  (add-to-list 'native-comp-eln-load-path
-               (no-littering-expand-var-file-name "eln-cache")))
+   (stringp (getenv "EMACS_INIT_DEBUG"))))
 
 (use-package compile
   :defer t
