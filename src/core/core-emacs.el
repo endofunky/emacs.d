@@ -98,6 +98,15 @@
     (evil-normal-state)
     (set (make-local-variable 'truncate-partial-width-windows) nil)))
 
+(use-package comp
+  :when (fboundp 'native-comp-available-p)
+  :custom
+  (native-comp-async-query-on-exit t)
+  (native-comp-async-report-warnings-errors nil)
+  :config
+  (add-to-list 'native-comp-eln-load-path
+               (no-littering-expand-var-file-name "eln-cache")))
+
 (use-package compile
   :defer t
   :custom
