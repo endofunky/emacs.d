@@ -52,6 +52,8 @@
   (declare-function cider-current-repl "cider")
   (declare-function cider-quit "cider")
 
+  (evil-set-initial-state 'cider-repl-mode 'normal)
+
   (ef-add-popup 'cider-repl-mode)
   (ef-add-popup "*cider-repl-history*" :ephemeral t)
   (ef-add-popup "*cider-test-report*" :ephemeral t)
