@@ -25,6 +25,8 @@
   (require 'geiser-compile)
   (require 'geiser-doc)
 
+  (evil-set-initial-state 'geiser-repl-mode 'normal)
+
   (ef-add-popup "*geiser*" :ephemeral t)
   (ef-add-popup "^\\*[gG]eiser \\(dbg\\|xref\\|messages\\)\\*$" :regexp t :ephemeral t)
   (ef-add-popup "^\\*Geiser documentation\\*$" :regexp t :ephemeral t :size 0.4)
