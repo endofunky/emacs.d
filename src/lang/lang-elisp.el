@@ -15,7 +15,8 @@
    "C-c C-d d"   'ef-elisp-describe-thing-at-point
    "C-c C-d C-d" 'ef-elisp-describe-thing-at-point)
   (:states 'normal :keymaps '(emacs-lisp-mode-map
-                              lisp-interaction-mode-map)
+                              lisp-interaction-mode-map
+                              ielm-map)
    "K" 'ef-elisp-describe-thing-at-point)
   :config
   (defun ef-elisp-describe-thing-at-point ()
