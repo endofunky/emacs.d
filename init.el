@@ -48,17 +48,10 @@
   (setq no-littering-var-directory
         (expand-file-name "var/" user-emacs-directory)))
 
-(let* ((src-dir (expand-file-name "src" user-emacs-directory))
-       (paths (list (expand-file-name "core" src-dir)
-                    (expand-file-name "lang" src-dir)
-                    (expand-file-name "util" src-dir)
-                    (expand-file-name "private" user-emacs-directory))))
-  (add-to-list 'load-path (expand-file-name "vendor" src-dir))
-
-  (dolist (path paths)
-    (dolist (file (directory-files-recursively path "\\.el$"))
-      (add-to-list 'load-path (file-name-directory file))
-      (with-demoted-errors "Require failed: %S"
-        (require (intern (file-name-sans-extension (file-name-base file))) nil t)))))
+(let ((default-directory (expand-file-name "src" user-emacs-directory)))
+  (normal-top-level-add-subdirs-to-load-path)
+  (dolist (file (directory-files-recursively default-directory "\\.el$"))
+    (with-demoted-errors "Require failed: %S"
+      (require (intern (file-name-sans-extension (file-name-base file))) nil t))))
 
 (provide 'init)
