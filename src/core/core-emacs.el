@@ -235,6 +235,8 @@
   :defer t
   :mode (("/LICENSE\\'" . text-mode)
          ("\\.log\\'" . text-mode))
+  :hook
+  (text-mode . auto-fill-mode)
   :config
   (ef-add-hook text-mode-hook
     (setq-local show-trailing-whitespace t)))
