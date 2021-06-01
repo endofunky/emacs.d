@@ -41,7 +41,8 @@
     (if (and (or (derived-mode-p 'comint-mode)
                  (derived-mode-p 'cider-repl-mode))
              (eq evil-state 'normal))
-        ad-do-it))
+        ad-do-it
+      (internal-show-cursor nil t)))
 
   (blink-cursor-mode t))
 
