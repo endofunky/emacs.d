@@ -3,7 +3,7 @@
 (use-package org
   :defer t
   :ensure org-plus-contrib
-  :pin melpa
+  :ensure t
   :mode (("\\.\\(org\\|org_archive\\)$" . org-mode))
   :custom
   (org-agenda-custom-commands
@@ -108,5 +108,21 @@
   :custom
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
+
+(use-package org-roam
+  :ensure t
+  :init
+  (unless (file-directory-p (expand-file-name "~/org/roam/"))
+    (make-directory (expand-file-name "~/org/roam/")))
+  :hook
+  (after-init . org-roam-mode)
+  (org-roam-backlinks-mode . turn-on-visual-line-mode)
+  :general
+  ("<f12>" 'org-roam-find-file)
+  :custom
+  (org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
+  (org-roam-completion-everywhere t)
+  (org-roam-completion-system 'ivy)
+  (org-roam-directory (expand-file-name "~/org/roam/")))
 
 (provide 'lang-org)
