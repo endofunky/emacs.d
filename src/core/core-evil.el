@@ -76,6 +76,9 @@
    "W0"       '(text-scale-adjust :wk "Reset Text Scale")
    "Wd"       '(delete-window :wk "Delete Window")
    "WD"       '(delete-other-windows-internal :wk "Delete Other Window"))
+  ;; Let emacs look up RET key behaviour in appropriate keymaps.
+  (:keymaps 'evil-motion-state-map
+   "RET" nil)
   :custom
   (evil-auto-indent t)
   (evil-cross-lines t)
