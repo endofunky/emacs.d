@@ -12,7 +12,7 @@ The `car' of this list will be the most recently visible popup.
 Used for cycling popup buffers with `ef-popup-cycle-forward' and
 `ef-popup-cycle-backward'.")
 
-(defconst ef-popup-defaults '(:align below :size .3 :popup t :select t)
+(defconst ef-popup-defaults '(:align below :size .25 :popup t :select t)
   "Default values for `shackle-rules' applied to popup buffers created
 with `ef-add-popup'.")
 
@@ -31,7 +31,7 @@ to a regular window state and will not be shown in the popup window.")
   :custom
   (shackle-select-reused-windows nil)
   (shackle-default-alignment 'below)
-  (shackle-default-size 0.4)
+  (shackle-default-size 0.3)
   (shackle-default-rule '(:same t))
   :functions (ef-shackle
               ef-add-popup)
@@ -50,7 +50,7 @@ to a regular window state and will not be shown in the popup window.")
   (ef-add-popup "*Apropos*" :size .3 :ephemeral t)
   (ef-add-popup "*Backtrace*")
   (ef-add-popup "*Checkdoc Status*" :ephemeral t)
-  (ef-add-popup "*Compile-Log*" :ephemeral t :size 0.5)
+  (ef-add-popup "*Compile-Log*" :ephemeral t)
   (ef-add-popup "*Command History*")
   (ef-add-popup "*Help*" :ephemeral t)
   (ef-add-popup "*Messages*")
@@ -60,11 +60,12 @@ to a regular window state and will not be shown in the popup window.")
   (ef-add-popup "*company-documentation*" :ephemeral t)
   (ef-add-popup "*compilation*")
   (ef-add-popup "\\`\\*WoMan.*?\\*\\'" :regexp t :ephemeral t)
-  (ef-add-popup "\\`\\*info.*?\\*\\'" :regexp t :ephemeral t :size 0.5)
-  (ef-add-popup 'Info-mode :ephemeral t :size 0.5)
+  (ef-add-popup "\\`\\*info.*?\\*\\'" :regexp t :ephemeral t :size 0.4)
+  (ef-add-popup 'Info-mode :ephemeral t :size 0.4)
+  (ef-add-popup 'calendar-mode)
   (ef-add-popup 'comint-mode)
   (ef-add-popup 'compilation-mode)
-  (ef-add-popup 'info-mode :ephemeral t :size 0.5)
+  (ef-add-popup 'info-mode :ephemeral t :size 0.4)
 
   (shackle-mode t))
 
