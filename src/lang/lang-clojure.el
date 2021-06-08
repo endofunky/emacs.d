@@ -22,6 +22,7 @@
   (clojure-mode . cider-mode)
   (cider-mode . eldoc-mode)
   (cider-repl-mode . eldoc-mode)
+  (cider-repl-mode . lispy-mode)
   :functions (ef-cider-quit)
   :commands (cider-load-file
              cider-load-buffer
