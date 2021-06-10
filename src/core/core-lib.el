@@ -459,23 +459,6 @@ If FILTER is `nil' kill all buffers except the current one."
 ;; We define these early so modes don't have to ensure common prefixes exist
 ;; and potentially override the mappings that already are nested under them.
 
-(general-define-key
- :prefix ef-prefix
- :states '(normal visual)
- "c"  '(nil :wk "Compile")
- "cd" '(nil :wk "Documentation")
- "cl" '(nil :wk "Lint")
- "cp" '(nil :wk "Package")
- "cr" '(nil :wk "Refactor")
- "cs" '(nil :wk "Specification")
- "cT" '(nil :wk "Trace")
- "e"  '(nil :wk "Eval")
- "ei" '(nil :wk "Insert in REPL")
- "m"  '(nil :wk "Macro")
- "r"  '(nil :wk "REPL")
- "t"  '(nil :wk "Test")
- "x"  '(nil :wk "Xref"))
-
 (defmacro ef-deflang (lang &rest args)
   (declare (indent defun))
   (let ((features (or (ef-as-list (plist-get args :after))
@@ -486,6 +469,25 @@ If FILTER is `nil' kill all buffers except the current one."
     (macroexpand
      `(ef-eval-after-load
         ,features
+
+        (general-define-key
+         :prefix ef-prefix
+         :keymaps ',maps
+         :states '(normal visual)
+         "c"  '(nil :wk "Compile")
+         "cd" '(nil :wk "Documentation")
+         "cl" '(nil :wk "Lint")
+         "cp" '(nil :wk "Package")
+         "cr" '(nil :wk "Refactor")
+         "cs" '(nil :wk "Specification")
+         "cT" '(nil :wk "Trace")
+         "e"  '(nil :wk "Eval")
+         "ei" '(nil :wk "Insert in REPL")
+         "m"  '(nil :wk "Macro")
+         "r"  '(nil :wk "REPL")
+         "t"  '(nil :wk "Test")
+         "x"  '(nil :wk "Xref"))
+
         (general-define-key
          :prefix ef-prefix
          :states '(normal visual)
