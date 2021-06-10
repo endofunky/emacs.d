@@ -29,7 +29,9 @@
    "." '(org-mark-ring-goto :wk "Pop Back")
    "o" '(nil :wk "Org")
    "oc" '(org-capture :wk "Capture")
+   "or" '(org-roam-find-file :wk "Roam")
    "os" '(org-switchb :wk "Switch Buffer")
+   "oR" '(org-roam :wk "Roam Display"))
   (:states 'normal :prefix ef-prefix :keymaps 'org-mode-map
    "o" '(nil :wk "Org")
    "oc" '(org-toggle-checkbox :wk "Toggle Checkbox")
@@ -136,6 +138,8 @@
   (org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
   (org-roam-completion-everywhere t)
   (org-roam-completion-system 'ivy)
-  (org-roam-directory (expand-file-name "~/org/roam/")))
+  (org-roam-directory (expand-file-name "~/org/roam/"))
+  :config
+  (ef-add-popup "*org-roam diagnostics*"))
 
 (provide 'lang-org)
