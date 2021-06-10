@@ -253,7 +253,7 @@
              transient-bind-q-to-quit)
   :custom
   (transient-enable-popup-navigation t)
-  (transient-show-popup 1)
+  (transient-show-popup t)
   :config
   (transient-bind-q-to-quit)
 
