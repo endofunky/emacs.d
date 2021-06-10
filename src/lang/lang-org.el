@@ -66,6 +66,10 @@
   (require 'org-capture)
   (require 'org-install)
 
+  (declare-function outline-flag-region "outline")
+  (declare-function outline-next-heading "outline")
+  (declare-function org-end-of-subtree "org")
+
   (defun org-switch-to-buffer-other-window (&rest args)
     (apply 'switch-to-buffer-other-window args))
 
