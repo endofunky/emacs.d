@@ -37,6 +37,11 @@
   (set-face-attribute 'trailing-whitespace nil :foreground nil :background (ef-color :base08))
   (set-face-attribute 'vertical-border nil :foreground (ef-color :base01)))
 
+(use-package pdf-tools
+  :defer t
+  :custom
+  (pdf-view-midnight-colors `(,(ef-color :base05) . ,(ef-color :base00))))
+
 (use-package macrostep
   :defer t
   :config
