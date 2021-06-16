@@ -46,6 +46,7 @@
    "." '(org-mark-ring-goto :wk "Pop Back")
    "o" '(nil :wk "Org")
    "oc" '(org-capture :wk "Capture")
+   "oe" '(org-export-dispatch :wk "Export")
    "or" '(org-roam-find-file :wk "Roam")
    "os" '(org-switchb :wk "Switch Buffer")
    "oR" '(org-roam :wk "Roam Display"))
