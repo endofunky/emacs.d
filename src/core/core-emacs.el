@@ -158,6 +158,9 @@
   :custom
   (enable-recursive-minibuffers t)
   :config
+  (ef-add-hook minibuffer-setup-hook
+    (set-window-fringes (get-buffer-window (current-buffer)) 0 0))
+
   ;; Escape minibuffer with single escape
   (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
