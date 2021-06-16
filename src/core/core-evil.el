@@ -19,7 +19,7 @@
    "bC"       '(clone-indirect-buffer-other-window :wk "Clone Buffer Other Window")
    "bi"       '(ibuffer :wk "Open ibuffer")
    "bk"       '(nil :wk "Kill")
-   "bka"      '(ef-kill-all-other-buffer :wk "Kill All Other Buffers")
+   "bka"      '(ef-kill-all-other-buffers :wk "Kill All Other Buffers")
    "bkk"      '(kill-current-buffer :wk "Kill Buffer")
    "bkK"      '(kill-buffer-and-window :wk "Kill Buffer & Window")
    "bkm"      '(kill-matching-buffers :wk "Kill Matching Buffers")
