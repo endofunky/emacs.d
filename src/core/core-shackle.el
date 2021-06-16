@@ -184,9 +184,9 @@ switch to a non-popup buffer."
   "Switch to popup buffer BUFFER-NAME."
   (interactive
    (list
-    (read-buffer "Switch to popup" (if (> (length ef-popup--buffer-list) 1)
-                                       (cadr ef-popup--buffer-list)
-                                     (car ef-popup--buffer-list))
+    (read-buffer "Switch to popup: " (if (> (length ef-popup--buffer-list) 1)
+                                         (cadr ef-popup--buffer-list)
+                                       (car ef-popup--buffer-list))
                  (confirm-nonexistent-file-or-buffer)
                  #'ef-popup--buffer-p)))
   (when buffer-name
@@ -196,7 +196,7 @@ switch to a non-popup buffer."
   "Switch to non-popup buffer BUFFER-NAME."
   (interactive
    (list
-    (read-buffer "Switch to buffer"
+    (read-buffer "Switch to buffer: "
                  (if-let* ((bufs (seq-filter #'ef-popup--regular-buffer-p
                                              (buffer-list)))
                            (_ (> (length bufs) 1)))

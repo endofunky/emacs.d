@@ -3,7 +3,7 @@
 (use-package projectile
   :ensure t
   :custom
-  (projectile-completion-system 'ivy)
+  (projectile-completion-system 'default)
   (projectile-mode-line-prefix " P")
   (projectile-cache-file
    (no-littering-expand-var-file-name "projectile/cache.el"))
@@ -19,6 +19,7 @@
    "pa" '(projectile-add-known-project :wk "Add Project")
    "pd" '(projectile-remove-known-project :wk "Remove Known Project")
    "pf" '(projectile-find-file :wk "Find File in Project")
+   "pi" '(consult-project-imenu :wk "imenu in Project")
    "pk" '(projectile-kill-buffers :wk "Kill Project Buffers")
    "pp" '(projectile-switch-project :wk "Switch Project")
    "ps" '(projectile-switch-to-buffer :wk "Switch Project Buffer")
@@ -36,7 +37,7 @@
     (interactive)
     (if (projectile-project-p)
         (projectile-find-file)
-      (counsel-file-jump)))
+      (call-interactively #'find-file)))
 
   (projectile-mode t))
 

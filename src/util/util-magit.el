@@ -7,7 +7,6 @@
              magit-log
              magit-status)
   :custom
-  (magit-completing-read-function 'ivy-completing-read)
   (magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
   :init
   :general

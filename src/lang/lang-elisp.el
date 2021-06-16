@@ -190,7 +190,7 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   :compile-nav-pop-back pop-tag-mark
 
   ;; doc
-  :doc-apropos counsel-apropos
+  :doc-apropos consult-apropos
   :doc-point ef-elisp-describe-thing-at-point
   :doc-search elisp-index-search
 

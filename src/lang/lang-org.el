@@ -152,7 +152,7 @@
   :custom
   (org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
   (org-roam-completion-everywhere t)
-  (org-roam-completion-system 'ivy)
+  (org-roam-completion-system 'default)
   (org-roam-directory (expand-file-name "~/org/roam/"))
   :config
   (ef-add-popup "*org-roam diagnostics*"))

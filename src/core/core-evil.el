@@ -8,7 +8,6 @@
    ":"        '(eval-expression :wk "Eval Expression")
    "#"        '(display-line-numbers-mode :wk "Toggle Line Numbers")
    "<return>" '(ef-toggle-window-fullscreen :wk "Toggle Frame Fullscreen")
-   "i"        '(imenu :wk "Open imenu")
    "s"        '(ef-popup-switch-buffer :wk "Switch buffer")
    "U"        '(universal-argument :wk "Universal Argument")
 
@@ -33,7 +32,7 @@
 
    ;; Help
    "h"        '(nil :wk "Help")
-   "ha"       '(counsel-apropos :wk "Apropos (Emacs)")
+   "ha"       '(consult-apropos :wk "Apropos (Emacs)")
    "hi"       '(info :wk "Info")
    "hm"       '(woman :wk "Info")
    "hw"       '(where-is :wk "Where Is")
@@ -41,7 +40,7 @@
    "hdc"      '(describe-coding-system :wk "Describe Coding System")
    "hdf"      '(describe-function :wk "Describe Function")
    "hdF"      '(describe-face :wk "Describe Face")
-   "hdk"      '(counsel-descbinds :wk "Describe Keybinds")
+   "hdk"      '(describe-bindings :wk "Describe Keybinds")
    "hdm"      '(describe-mode :wk "Describe Mode")
    "hdp"      '(describe-package :wk "Describe Package")
    "hds"      '(describe-symbol :wk "Describe Symbol")
