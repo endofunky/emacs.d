@@ -1,6 +1,3 @@
-(require 'core-evil)
-(require 'core-shackle)
-
 (use-package selectrum
   :ensure t
   :demand t
