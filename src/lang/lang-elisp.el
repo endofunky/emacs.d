@@ -134,11 +134,10 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
 (use-package ielm
   :defer t
   :commands (ielm)
-  :init
+  :hook
+  (ielm-mode . eldoc-mode)
   :config
-  (ef-add-popup "*ielm*")
-  (ef-add-hook ielm-mode-hook
-    (eldoc-mode t)))
+  (ef-add-popup "*ielm*"))
 
 (defun ef-ielm-insert-region (start end)
   "Insert the curent region in the IELM REPL buffer."
