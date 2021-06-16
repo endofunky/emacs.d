@@ -22,6 +22,7 @@ exclamation mark."
   :after selectrum
   :ensure t
   :custom
+  (selectrum-extend-current-candidate-highlight t)
   (selectrum-refine-candidates-function #'orderless-filter)
   (selectrum-highlight-candidates-function #'orderless-highlight-matches)
   (orderless-matching-styles '(orderless-literal
