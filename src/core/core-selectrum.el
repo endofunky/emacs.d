@@ -7,9 +7,14 @@
   :commands selectrum-mode
   :custom
   (selectrum-max-window-height .2)
-  (selectrum-fix-vertical-window-height t)
-  (orderless-style-dispatchers '(ef-selectrum-without-if-bang))
+  (orderless-style-dispatchers '(ef-selectrum-without-if-bang
+                                 ef-selectrum-with-if-equals))
   :config
+  (defun ef-selectrum-with-if-equals (pattern index total)
+    "Selectrum style dispatcher to literal match results using equal sign."
+    (when (string-prefix-p "=" pattern)
+      `(orderless-literal . ,(substring pattern 1))))
+
   (defun ef-selectrum-without-if-bang (pattern index total)
     "Selectrum style dispatcher to discard results matching literal following
 exclamation mark."
@@ -25,8 +30,7 @@ exclamation mark."
   (selectrum-extend-current-candidate-highlight t)
   (selectrum-refine-candidates-function #'orderless-filter)
   (selectrum-highlight-candidates-function #'orderless-highlight-matches)
-  (orderless-matching-styles '(orderless-literal
-                               orderless-regexp
+  (orderless-matching-styles '(orderless-regexp
                                orderless-flex))
   (completion-styles '(orderless)))
 
