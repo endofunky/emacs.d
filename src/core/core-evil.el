@@ -34,7 +34,7 @@
    "h"        '(nil :wk "Help")
    "ha"       '(consult-apropos :wk "Apropos (Emacs)")
    "hi"       '(info :wk "Info")
-   "hm"       '(woman :wk "Info")
+   "hm"       '(woman :wk "Man")
    "hw"       '(where-is :wk "Where Is")
    "hd"       '(nil :wk "Describe")
    "hdc"      '(describe-coding-system :wk "Describe Coding System")
