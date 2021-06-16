@@ -1,11 +1,28 @@
 (require 'core-shackle)
 
+(defgroup ef-org nil
+  "Endomacs org-mode configuration."
+  :group 'org
+  :prefix "ef-org-")
+
+(defcustom ef-org-directory (expand-file-name "~/org")
+  "Directory with Org files."
+  :group 'ef-org
+  :type 'directory)
+
+(defcustom ef-org-bib-directory
+  (expand-file-name "bib" ef-org-directory)
+  "Directory with Org files."
+  :group 'ef-org
+  :type 'directory)
+
 (use-package org
   :defer t
   :ensure org-plus-contrib
   :ensure t
   :mode (("\\.\\(org\\|org_archive\\)$" . org-mode))
   :custom
+  (org-directory ef-org-directory)
   (org-adapt-indentation nil)
   (org-confirm-babel-evaluate nil)
   (org-deadline-warning-days 7)
@@ -39,8 +56,8 @@
    "o." '(org-priority-down :wk "Priority Down")
    "op" '(org-priority :wk "Cycle Priority")
    "ot" '(org-todo :wk "Cycle TODO")
-   "l" '(nil :wk "Org Links")
 
+   "l" '(nil :wk "Org Links")
    "li" '(org-insert-link :wk "Insert Link")
    "lr" '(org-roam-insert :wk "Insert Roam Link")
    "lt" '(org-toggle-link-display :wk "Toggle Links")
@@ -53,18 +70,12 @@
    "tL" '(org-table-move-column-right :wk "Move Column Right")
    "td" '(org-table-delete-column :wk "Delete Columns")
    "te" '(org-table-edit-field :wk "Edit Field")
-   "th" '(org-table-previous-field :wk "Previous Field")
-   "ti" '(nil :wk "Insert")
-   "ti-" '(org-table-insert-hline :wk "Insert Line")
-   "tic" '(org-table-insert-column :wk "Insert Column")
-   "tih" '(org-table-hline-and-move :wk "Insert Line and Move")
-   "tir" '(org-table-insert-row :wk "Insert Row")
-   "tl" '(org-table-next-field :wk "Next Field")
    "ts" '(org-table-sort-lines :wk "Sort Rows")
    "tt" '(org-table-create :wk "Create"))
   :config
   (require 'org-capture)
   (require 'org-install)
+  (require 'ox-md)
 
   (declare-function outline-flag-region "outline")
   (declare-function outline-next-heading "outline")
@@ -145,5 +156,28 @@
   (org-roam-directory (expand-file-name "~/org/roam/"))
   :config
   (ef-add-popup "*org-roam diagnostics*"))
+
+(use-package ebib
+  :ensure t
+  :commands ebib
+  :hook
+  (ebib-entry-mode . visual-line-mode)
+  :custom
+  (ebib-name-transform-function #'ef-ebib-name-transform-function)
+  (ebib-import-directory (or (xdg-user-dir "DOWNLOAD")
+                             (expand-file-name "~/Downloads/")))
+  (ebib-file-associations nil)
+  (ebib-file-search-dirs `(,(expand-file-name "ebib/files/" org-directory)))
+  (ebib-notes-directory (expand-file-name "ebib/notes/" org-directory))
+  (ebib-preload-bib-files `(,(expand-file-name "ebib/bibliography.bib" org-directory)))
+  :config
+  (defun ef-ebib-name-transform-function (key)
+    (replace-regexp-in-string "\\/" "_" key)))
+
+(use-package bibtex-completion
+  :ensure t
+  :after ebib
+  :custom
+  (bibtex-completion-bibliography ebib-preload-bib-files))
 
 (provide 'lang-org)
