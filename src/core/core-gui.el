@@ -37,10 +37,11 @@
     (set-frame-font font))
 
   (defadvice blink-cursor-start (around ef-blink-cursor-start activate)
-    "Only blink in comint-mode buffers and only in evil normal state."
-    (if (and (or (derived-mode-p 'comint-mode)
-                 (derived-mode-p 'cider-repl-mode))
-             (eq evil-state 'normal))
+    "Only blink in comint-mode when in normal state or in minibuffers."
+    (if (or (and (or (derived-mode-p 'comint-mode)
+                     (derived-mode-p 'cider-repl-mode))
+                 (eq evil-state 'normal))
+            (minibufferp))
         ad-do-it
       (internal-show-cursor nil t)))
 
