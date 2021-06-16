@@ -38,6 +38,9 @@ exclamation mark."
   :after selectrum
   :ensure t
   :demand t
+  :custom
+  (marginalia-annotators '(marginalia-annotators-heavy
+                           marginalia-annotators-light))
   :config
   (marginalia-mode t))
 
