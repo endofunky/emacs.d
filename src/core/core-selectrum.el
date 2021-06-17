@@ -60,6 +60,12 @@ exclamation mark."
 
   (declare-function consult--customize-set "consult"))
 
+(use-package consult-org
+  :after (consult org)
+  :general
+  (:states 'normal :prefix ef-prefix
+   "i" '(consult-org-heading :wk "Search Headings")))
+
 (use-package embark
   :after selectrum
   :ensure t
