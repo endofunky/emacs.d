@@ -1,4 +1,5 @@
 (require 'core-shackle)
+(require 'xdg)
 
 (defgroup ef-org nil
   "Endomacs org-mode configuration."
