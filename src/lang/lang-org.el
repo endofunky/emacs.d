@@ -165,6 +165,7 @@
   :hook
   (ebib-entry-mode . visual-line-mode)
   :custom
+  (ebib-index-window-size 20)
   (ebib-name-transform-function #'ef-ebib-name-transform-function)
   (ebib-import-directory (or (xdg-user-dir "DOWNLOAD")
                              (expand-file-name "~/Downloads/")))
