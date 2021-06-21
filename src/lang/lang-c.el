@@ -1,3 +1,7 @@
+(require 'core-lib)
+(require 'core-parens)
+(require 'core-projectile)
+
 (use-package cc-mode
   :defer t
   :init
@@ -76,5 +80,16 @@
 (use-package ruby-style
   :after (cc-mode)
   :load-path "vendor/ruby-style.el")
+
+(ef-deflang c++
+  :after (cc-mode)
+  :compile
+  (lambda ()
+    (interactive)
+    (compile "make -k"))
+  :compile-and-run
+  (lambda ()
+    (interactive)
+    (compile "make -k run" t)))
 
 (provide 'lang-c)

@@ -56,6 +56,7 @@ Must be set before loading ef-deflang."
 (defconst ef-deflang-keybinds
   '((:compile-buffer            ("cb" :wk "Compile Buffer"))
     (:compile                   ("cc" :wk "Compile All/Project"))
+    (:compile-and-run           ("cC" :wk "Compile and Run"))
     (:compile-disassemble       ("cD" :wk "Disassemble"))
     (:compile-recompile         ("cC" :wk "Re-Compile All/Project"))
     (:compile-inspect           ("ci" :wk "Inspect"))
