@@ -32,6 +32,10 @@
     (setq-local tab-width 2)
     (setq-local indent-tabs-mode nil))
 
+  (ef-add-hook c++-mode-hook
+    (if (locate-file "ccls" exec-path exec-suffixes 1)
+        (lsp)))
+
   ;; https://stackoverflow.com/questions/23553881/emacs-indenting-of-c11-lambda-functions-cc-mode
   (defadvice c-lineup-arglist (around my activate)
     "Improve indentation of continued C++11 lambda function opened as argument."
