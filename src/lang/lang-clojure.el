@@ -16,6 +16,7 @@
   (cider-prompt-for-symbol nil)
   (cider-repl-display-help-banner nil)
   (cider-repl-use-pretty-printing t)
+  (cider-show-error-buffer 'except-in-repl)
   (nrepl-hide-special-buffers t)
   (nrepl-log-message nil)
   :hook
