@@ -117,7 +117,14 @@
   ;; Avoid dropping into insert mode in compilation windows
   (compilation-start . evil-normal-state)
   (compilation-filter . comint-truncate-buffer)
+  (compilation-filter . ef-colorize-compilation-buffer)
   :config
+  (require 'ansi-color)
+  (defun ef-colorize-compilation-buffer ()
+    (read-only-mode nil)
+    (ansi-color-apply-on-region compilation-filter-start (point))
+    (read-only-mode t))
+
   (ef-add-hook compilation-mode-hook
     "Enable `visual-line-mode' for compilation buffers."
     (setq-local bidi-display-reordering nil)
