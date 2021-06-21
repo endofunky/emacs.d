@@ -43,8 +43,6 @@
   (org-mode . turn-on-auto-fill)
   :general
   (:states 'normal :prefix ef-prefix
-   "," '(org-open-at-point :wk "Open Link")
-   "." '(org-mark-ring-goto :wk "Pop Back")
    "o" '(nil :wk "Org")
    "oc" '(org-capture :wk "Capture")
    "oe" '(org-export-dispatch :wk "Export")
@@ -52,6 +50,8 @@
    "os" '(org-switchb :wk "Switch Buffer")
    "oR" '(org-roam :wk "Roam Display"))
   (:states 'normal :prefix ef-prefix :keymaps 'org-mode-map
+   "," '(org-open-at-point :wk "Open Link")
+   "." '(org-mark-ring-goto :wk "Pop Back")
    "o" '(nil :wk "Org")
    "oc" '(org-toggle-checkbox :wk "Toggle Checkbox")
    "o," '(org-priority-up :wk "Priority Up")
