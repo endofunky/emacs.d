@@ -10,6 +10,7 @@
   (projectile-known-projects-file
    (no-littering-expand-var-file-name "projectile/known-projects.el"))
   (projectile-mode-line-function 'ef-projectile-mode-line)
+  (projectile-indexing-method 'hybrid)
   :commands (projectile-toggle-between-implementation-and-test)
   :general
   (:states 'normal :prefix ef-prefix
