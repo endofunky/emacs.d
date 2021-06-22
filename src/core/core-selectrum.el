@@ -63,7 +63,7 @@ exclamation mark."
 (use-package consult-org
   :after (consult org)
   :general
-  (:states 'normal :prefix ef-prefix
+  (:states 'normal :keymaps 'org-mode-map :prefix ef-prefix
    "i" '(consult-org-heading :wk "Search Headings")))
 
 (use-package embark
