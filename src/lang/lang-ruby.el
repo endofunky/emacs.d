@@ -49,7 +49,7 @@
       (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
       (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET"))))
 
-    (direnv-update-environment)
+    (direnv-update-directory-environment)
 
     (if (locate-file "solargraph" exec-path exec-suffixes 1)
         (lsp)))
