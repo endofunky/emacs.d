@@ -21,6 +21,11 @@
   (lsp-ui-doc-enable nil)
   (lsp-ui-sideline-enable nil)
   (lsp-ui-sideline-show-hover nil)
+  :hook
+  ;; Sometime evil-mode gets into a weird state when lsp gets enabled in a hook
+  ;; and keybinds don't appear to work correctly, so force it into normal state
+  ;; when lsp-mode gets enabled.
+  (lsp-mode . evil-normal-state)
   :ensure t
   :config
   (require 'lsp-modeline)
