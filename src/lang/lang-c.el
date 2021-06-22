@@ -51,12 +51,13 @@
   :custom
   (ccls-sem-highlight-method nil)
   :hook
-  (c-mode . ef-enable-ccls)
-  (c++-mode . ef-enable-ccls)
-  (objc-mode . ef-enable-ccls)
-  :commands (ef-enable-ccls)
+  (c-mode . ef-cc-mode-enable-lsp)
+  (c++-mode . ef-cc-mode-enable-lsp)
+  (objc-mode . ef-cc-mode-enable-lsp)
+  :commands (ef-cc-mode-enable-lsp)
   :config
-  (defun ef-enable-ccls ()
+  (defun ef-cc-mode-enable-lsp ()
+    "Conditionally enable lsp-mode for cc-mode projects."
     (interactive)
     (direnv-update-directory-environment)
     (when (and (projectile-project-p)
