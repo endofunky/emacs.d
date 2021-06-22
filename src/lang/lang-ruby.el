@@ -87,6 +87,7 @@
   :functions (ef-file-or-nil
               ef-ruby-test-infer-file)
   :commands (ruby-test-specification-filename
+             ruby-test-toggle-implementation-and-specification
              ruby-test-unit-filename
              ruby-test-default-test-filename
              ruby-test-any-p
@@ -119,8 +120,9 @@ current buffer's file, if it exists"
       (if (ruby-test-any-p filename)
           (ruby-test-run)
         (if-let* ((testname (ef-ruby-test-infer-file filename)))
-            (ruby-test-with-ruby-directory testname
-                                           (ruby-test-run-command (ruby-test-command testname)))
+            (ruby-test-with-ruby-directory
+             testname
+             (ruby-test-run-command (ruby-test-command testname)))
           (message "no corresponding test/spec file found"))))))
 
 (use-package projectile-rails
@@ -171,8 +173,6 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f)))
     (delete-file f)))
 
 (ef-deflang ruby
-  :after (ruby-mode ruby-test-mode)
-
   ;; compile
   :compile-disassemble ruby-disasm
 
