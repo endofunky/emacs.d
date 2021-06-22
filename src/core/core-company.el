@@ -1,3 +1,4 @@
+(require 'core-direnv)
 (require 'core-evil)
 
 (use-package company
@@ -27,6 +28,10 @@
   :functions (ef-check-expansion
 	      ef-minibuffer-completion-hook)
   :config
+  (customize-set-variable
+   'company-backend
+   (delete 'company-clang company-backends))
+
   (declare-function company-tooltip-visible-p "company")
   (declare-function company-complete-common "company")
   (declare-function company-explicit-action-p "company")

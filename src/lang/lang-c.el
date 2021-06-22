@@ -1,4 +1,5 @@
 (require 'core-lib)
+(require 'core-lsp)
 (require 'core-parens)
 (require 'core-projectile)
 
@@ -32,10 +33,6 @@
     (setq-local tab-width 2)
     (setq-local indent-tabs-mode nil))
 
-  (ef-add-hook c++-mode-hook
-    (if (locate-file "ccls" exec-path exec-suffixes 1)
-        (lsp)))
-
   ;; https://stackoverflow.com/questions/23553881/emacs-indenting-of-c11-lambda-functions-cc-mode
   (defadvice c-lineup-arglist (around my activate)
     "Improve indentation of continued C++11 lambda function opened as argument."
@@ -49,6 +46,41 @@
                        (looking-at ".*[(,][ \t]*\\[[^]]*\\][ \t]*[({][^}]*$"))))
               0
             ad-do-it))))
+
+(use-package ccls
+  :ensure t
+  :after cc-mode
+  :custom
+  (ccls-sem-highlight-method nil)
+  :hook
+  (c-mode . ef-enable-ccls)
+  (c++-mode . ef-enable-ccls)
+  (objc-mode . ef-enable-ccls)
+  :commands (ef-enable-ccls)
+  :config
+  (defun ef-enable-ccls ()
+    (interactive)
+    (direnv-update-directory-environment)
+    (when (and (projectile-project-p)
+               (or (file-exists-p (expand-file-name "compile_commands.json" (projectile-project-root)))
+                   (file-exists-p (expand-file-name ".ccls" (projectile-project-root))))
+               (locate-file "ccls" exec-path))
+      (lsp))))
+
+(use-package lsp-mode
+  :defer t
+  :config
+  (declare-function lsp-flycheck-add-mode "lsp-mode")
+
+  (lsp-flycheck-add-mode 'c-mode)
+  (lsp-flycheck-add-mode 'c++-mode)
+  (lsp-flycheck-add-mode 'objc-mode))
+
+(use-package projectile
+  :defer t
+  :config
+  (add-to-list 'projectile-globally-ignored-file-suffixes ".o")
+  (add-to-list 'projectile-globally-ignored-directories ".ccls-cache"))
 
 (use-package company-c-headers
   :after cc-mode
@@ -67,19 +99,6 @@
   :after c++-mode
   :config
   (modern-c++-font-lock-global-mode t))
-
-(use-package ccls
-  :ensure t
-  :after cc-mode
-  :custom
-  (ccls-sem-highlight-method nil)
-  :config
-  (ef-add-hook (c-mode-hook c++-mode-hook objc-mode-hook) :fn ef-c-mode-lsp-hook :interactive t
-    (direnv-update-directory-environment)
-    (require 'ccls)
-    (if (and (file-exists-p (expand-file-name "compile_commands.json" (projectile-project-root)))
-             (locate-file "ccls" exec-path))
-        (lsp))))
 
 (use-package ruby-style
   :after (cc-mode)
