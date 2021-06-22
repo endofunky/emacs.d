@@ -128,8 +128,7 @@ current buffer's file, if it exists"
   :ensure t
   :config
   (ef-add-popup "*rails*")
-  (projectile-rails-global-mode t)
-  (evil-define-key 'normal projectile-rails-mode-map ",r" 'projectile-rails-console))
+  (projectile-rails-global-mode t))
 
 (use-package rubocop
   :ensure t
