@@ -141,6 +141,12 @@
   :custom
   (display-line-numbers-width-start t))
 
+(use-package ibuffer
+  :defer t
+  :general
+  (:states 'normal :keymaps 'ibuffer-mode-map
+   "q" 'kill-this-buffer))
+
 (use-package files
   :unless noninteractive
   :config
