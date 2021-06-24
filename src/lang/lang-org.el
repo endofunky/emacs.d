@@ -119,8 +119,10 @@
     "Open `org-default-notes-file'."
     (interactive)
     (if (string= (buffer-file-name (current-buffer))
-           org-default-notes-file)
-        (kill-this-buffer)
+                 org-default-notes-file)
+        (progn
+          (save-buffer)
+          (kill-this-buffer))
       (find-file org-default-notes-file)))
 
   (defun org-switch-to-buffer-other-window (&rest args)
