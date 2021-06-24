@@ -73,6 +73,19 @@
   :config
   (global-auto-revert-mode 1))
 
+(use-package calc
+  :defer t
+  :custom
+  (math-additional-units
+   '((GiB "1024 * MiB" "Giga Byte")
+     (MiB "1024 * KiB" "Mega Byte")
+     (KiB "1024 * B" "Kilo Byte")
+     (B nil "Byte")
+     (Gib "1024 * Mib" "Giga Bit")
+     (Mib "1024 * Kib" "Mega Bit")
+     (Kib "1024 * b" "Kilo Bit")
+     (b "B / 8" "Bit"))))
+
 (use-package cus-edit
   :defer t
   :after no-littering
@@ -266,7 +279,7 @@
    "C-h" 'transient-show
    "C-t" 'transient-help)
   :commands (transient-define-prefix
-             transient-bind-q-to-quit)
+              transient-bind-q-to-quit)
   :custom
   (transient-enable-popup-navigation t)
   (transient-show-popup t)
