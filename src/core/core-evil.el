@@ -147,6 +147,7 @@
   :config
   (ef-add-hook undo-tree-visualizer-mode-hook
     (setq-local show-trailing-whitespace nil))
+
   (global-undo-tree-mode)
 
   (defun ef-undo-tree-save-history-ad (orig-fn &rest args)
