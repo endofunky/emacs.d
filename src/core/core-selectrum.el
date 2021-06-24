@@ -45,6 +45,7 @@ exclamation mark."
   :ensure t
   :demand t
   :custom
+  (consult-preview-key nil)
   (consult-project-root-function #'projectile-project-root)
   :hook
   (completion-list-mode . consult-preview-at-point-mode)
