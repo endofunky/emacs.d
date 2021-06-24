@@ -23,10 +23,14 @@
   :ensure t
   :mode (("\\.\\(org\\|org_archive\\)$" . org-mode))
   :custom
-  (org-directory ef-org-directory)
+  ;;
+  ;; General
+  ;;
   (org-adapt-indentation nil)
   (org-confirm-babel-evaluate nil)
   (org-deadline-warning-days 7)
+  (org-default-notes-file (expand-file-name "notes.org" ef-org-directory))
+  (org-directory ef-org-directory)
   (org-edit-src-content-indentation 0)
   (org-enforce-todo-dependencies t)
   (org-fontify-quote-and-verse-blocks t)
@@ -36,6 +40,27 @@
   (org-src-fontify-natively t)
   (org-src-preserve-indentation nil)
   (org-src-tab-acts-natively t)
+  ;;
+  ;; Agenda
+  ;;
+
+  (org-agenda-custom-commands
+   '(("n" "Agenda and all TODOs" ((agenda "") (alltodo ""))
+      ((org-agenda-span 'week)
+       (org-deadline-warning-days 0)
+       (org-agenda-skip-deadline-prewarning-if-scheduled t)
+       (org-agenda-skip-deadline-if-done t)
+       (org-agenda-skip-scheduled-if-deadline-is-shown t)
+       (org-agenda-todo-ignore-deadlines 'all)
+       (org-agenda-todo-ignore-scheduled 'all)))))
+  (org-agenda-files (list ef-org-directory))
+  (org-agenda-restore-windows-after-quit t)
+  (org-agenda-start-on-weekday 1)
+  (org-agenda-time-grid
+   '((daily today remove-match require-timed)
+     (600 800 1000 1200 1400 1600 1800 2000 2200)
+     "......" "----------------"))
+  (org-agenda-window-setup 'current-window)
   :commands (org-capture org-switchb)
   :hook
   (org-mode . flyspell-mode)
@@ -43,7 +68,9 @@
   (org-mode . turn-on-auto-fill)
   :general
   (:states 'normal :prefix ef-prefix
+   "O" '(ef-org-open-default-notes-files :wk "Org Notes")
    "o" '(nil :wk "Org")
+   "oa" '(ef-org-agenda :wk "Agenda")
    "oc" '(org-capture :wk "Capture")
    "oe" '(org-export-dispatch :wk "Export")
    "or" '(org-roam-find-file :wk "Roam")
@@ -82,6 +109,19 @@
   (declare-function outline-flag-region "outline")
   (declare-function outline-next-heading "outline")
   (declare-function org-end-of-subtree "org")
+
+  (defun ef-org-agenda ()
+    "Show org-agenda with with Agenda and TODOs"
+    (interactive)
+    (org-agenda nil "n"))
+
+  (defun ef-org-open-default-notes-files ()
+    "Open `org-default-notes-file'."
+    (interactive)
+    (if (string= (buffer-file-name (current-buffer))
+           org-default-notes-file)
+        (kill-this-buffer)
+      (find-file org-default-notes-file)))
 
   (defun org-switch-to-buffer-other-window (&rest args)
     (apply 'switch-to-buffer-other-window args))
@@ -139,7 +179,10 @@
   :after org
   :hook
   (org-mode . evil-org-mode)
-  (org-mode . evil-org-set-key-theme))
+  (org-mode . evil-org-set-key-theme)
+  :custom
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
 
 (use-package org-roam
   :ensure t
