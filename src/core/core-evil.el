@@ -147,7 +147,15 @@
   :config
   (ef-add-hook undo-tree-visualizer-mode-hook
     (setq-local show-trailing-whitespace nil))
-  (global-undo-tree-mode))
+  (global-undo-tree-mode)
+
+  (defun ef-undo-tree-save-history-ad (orig-fn &rest args)
+    "Advice for `undo-tree-save-history' to hide echo area messages."
+    (let ((message-log-max nil)
+          (inhibit-message t))
+      (apply orig-fn args)))
+
+  (advice-add 'undo-tree-save-history :around 'ef-undo-tree-save-history-ad))
 
 (use-package evil-collection
   :after evil
