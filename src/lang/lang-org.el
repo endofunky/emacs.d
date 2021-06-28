@@ -27,6 +27,7 @@
   ;; General
   ;;
   (org-adapt-indentation nil)
+  (org-archive-location "%s_archive::datetree/* Archived Tasks")
   (org-confirm-babel-evaluate nil)
   (org-deadline-warning-days 7)
   (org-default-notes-file (expand-file-name "notes.org" ef-org-directory))
@@ -80,9 +81,10 @@
    "," '(org-open-at-point :wk "Open Link")
    "." '(org-mark-ring-goto :wk "Pop Back")
    "o" '(nil :wk "Org")
-   "oc" '(org-toggle-checkbox :wk "Toggle Checkbox")
    "o," '(org-priority-up :wk "Priority Up")
    "o." '(org-priority-down :wk "Priority Down")
+   "oc" '(org-toggle-checkbox :wk "Toggle Checkbox")
+   "oA" '(ef-org-archive-done-tasks :wk "Archive Done Tasks")
    "op" '(org-priority :wk "Cycle Priority")
    "ot" '(org-todo :wk "Cycle TODO")
 
@@ -102,18 +104,31 @@
    "ts" '(org-table-sort-lines :wk "Sort Rows")
    "tt" '(org-table-create :wk "Create"))
   :config
+  (require 'org-archive)
   (require 'org-capture)
   (require 'org-install)
   (require 'ox-md)
 
+  (declare-function org-archive-subtree "org-archive")
+  (declare-function org-end-of-subtree "org")
+  (declare-function org-map-entries "org")
   (declare-function outline-flag-region "outline")
   (declare-function outline-next-heading "outline")
-  (declare-function org-end-of-subtree "org")
+  (declare-function outline-previous-heading "outline")
 
   (defun ef-org-agenda ()
     "Show org-agenda with with Agenda and TODOs"
     (interactive)
     (org-agenda nil "n"))
+
+ (defun ef-org-archive-done-tasks ()
+   "Archive `org-mode' tasks marked as DONE."
+    (interactive)
+    (org-map-entries
+     (lambda ()
+       (org-archive-subtree)
+       (setq org-map-continue-from (outline-previous-heading)))
+     "/DONE" 'tree))
 
   (defun ef-org-open-default-notes-files ()
     "Open `org-default-notes-file'."
