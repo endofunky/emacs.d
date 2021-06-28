@@ -7,13 +7,18 @@
   :prefix "ef-org-")
 
 (defcustom ef-org-directory (expand-file-name "~/org")
-  "Directory with Org files."
+  "Directory with `org-mode' files."
   :group 'ef-org
   :type 'directory)
 
+(defcustom ef-org-notes-file (expand-file-name "notes.org" ef-org-directory)
+  "Path to `org-mode' notes files."
+  :group 'ef-org
+  :type 'file)
+
 (defcustom ef-org-bib-directory
   (expand-file-name "bib" ef-org-directory)
-  "Directory with Org files."
+  "Directory for `ebib' bibliographies and attached files."
   :group 'ef-org
   :type 'directory)
 
@@ -28,9 +33,12 @@
   ;;
   (org-adapt-indentation nil)
   (org-archive-location "%s_archive::datetree/* Archived Tasks")
+  (org-capture-templates
+   `(("i" "inbox" entry (file+headline ,ef-org-notes-file "!Inbox")
+      "** TODO %?")))
   (org-confirm-babel-evaluate nil)
   (org-deadline-warning-days 7)
-  (org-default-notes-file (expand-file-name "notes.org" ef-org-directory))
+  (org-default-notes-file ef-org-notes-file)
   (org-directory ef-org-directory)
   (org-edit-src-content-indentation 0)
   (org-enforce-todo-dependencies t)
@@ -45,22 +53,15 @@
   ;;
   ;; Agenda
   ;;
-  (org-agenda-custom-commands
-   '(("n" "Agenda and all TODOs" ((agenda "") (alltodo ""))
-      ((org-agenda-span 'week)
-       (org-deadline-warning-days 0)
-       (org-agenda-skip-deadline-prewarning-if-scheduled t)
-       (org-agenda-skip-deadline-if-done t)
-       (org-agenda-skip-scheduled-if-deadline-is-shown t)
-       (org-agenda-todo-ignore-deadlines 'all)
-       (org-agenda-todo-ignore-scheduled 'all)))))
   (org-agenda-files (list ef-org-directory))
   (org-agenda-restore-windows-after-quit t)
   (org-agenda-start-on-weekday 1)
-  (org-agenda-time-grid
-   '((daily today remove-match require-timed)
-     (600 800 1000 1200 1400 1600 1800 2000 2200)
-     "......" "----------------"))
+  (org-agenda-skip-scheduled-if-done t)
+  (org-agenda-skip-deadline-if-done t)
+  (org-agenda-include-deadlines t)
+  (org-agenda-include-diary t)
+  (org-agenda-block-separator ?―)
+  (org-agenda-compact-blocks nil)
   (org-agenda-window-setup 'current-window)
   :commands (org-capture org-switchb)
   :hook
@@ -83,7 +84,6 @@
    "o" '(nil :wk "Org")
    "o," '(org-priority-up :wk "Priority Up")
    "o." '(org-priority-down :wk "Priority Down")
-   "oc" '(org-toggle-checkbox :wk "Toggle Checkbox")
    "oA" '(ef-org-archive-done-tasks :wk "Archive Done Tasks")
    "op" '(org-priority :wk "Cycle Priority")
    "ot" '(org-todo :wk "Cycle TODO")
@@ -193,21 +193,59 @@
                       (outline-flag-region start (point-at-eol) t)
                     (user-error msg)))))))))))
 
+(use-package org-super-agenda
+  :after org
+  :ensure t
+  :custom
+  (org-agenda-custom-commands
+   '(("n" "Agenda and TODOs"
+      ((agenda "" ((org-agenda-span 'day)
+                   (org-super-agenda-groups
+                    '((:name "Overdue"
+                       :deadline past
+                       :order 1)
+                      (:name "Habits"
+                       :habit t
+                       :order 2)
+                      (:name "Today"
+                       :time-grid t
+                       :date today
+                       :todo "TODAY"
+                       :scheduled today
+                       :order 3)
+                      (:auto-outline-path t
+                       :time-grid t
+                       :date t
+                       :scheduled t
+                       :order 4)))))
+       (alltodo "" ((org-agenda-overriding-header "")
+                    (org-super-agenda-groups
+                     '((:discard (:scheduled t :deadline t :tag "inbox"))
+                       (:auto-outline-path t
+                        :order 2)
+                       ))))
+
+       ))))
+  :config
+  (org-super-agenda-mode t))
+
 (use-package evil-org
   :ensure t
-  :after org
   :hook
   (org-mode . evil-org-mode)
   (org-mode . evil-org-set-key-theme)
-  :custom
-  (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys))
+  :init
+  (ef-add-hook org-agenda-mode-hook
+    (require 'evil-org-agenda)
+    (declare-function evil-org-agenda-set-keys "evil-org-agenda")
+    (evil-org-agenda-set-keys)
+    (setq org-super-agenda-header-map nil)))
 
 (use-package org-roam
   :ensure t
   :init
-  (unless (file-directory-p (expand-file-name "~/org/roam/"))
-    (make-directory (expand-file-name "~/org/roam/")))
+  (unless (file-directory-p (expand-file-name "roam" ef-org-directory))
+    (make-directory (expand-file-name "roam" ef-org-directory)))
   :hook
   (after-init . org-roam-mode)
   (org-roam-backlinks-mode . turn-on-visual-line-mode)
@@ -217,7 +255,7 @@
   (org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
   (org-roam-completion-everywhere t)
   (org-roam-completion-system 'default)
-  (org-roam-directory (expand-file-name "~/org/roam/"))
+  (org-roam-directory (expand-file-name "roam" ef-org-directory))
   :config
   (ef-add-popup "*org-roam diagnostics*"))
 
