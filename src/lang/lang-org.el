@@ -45,7 +45,6 @@
   ;;
   ;; Agenda
   ;;
-
   (org-agenda-custom-commands
    '(("n" "Agenda and all TODOs" ((agenda "") (alltodo ""))
       ((org-agenda-span 'week)
