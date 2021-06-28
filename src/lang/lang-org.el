@@ -37,6 +37,7 @@
   (org-fontify-quote-and-verse-blocks t)
   (org-hide-emphasis-markers t)
   (org-log-done 'time)
+  (org-log-into-drawer t)
   (org-return-follows-link t)
   (org-src-fontify-natively t)
   (org-src-preserve-indentation nil)
@@ -109,6 +110,8 @@
   (require 'org-install)
   (require 'ox-md)
 
+  (add-to-list 'org-modules 'org-habit)
+
   (declare-function org-archive-subtree "org-archive")
   (declare-function org-end-of-subtree "org")
   (declare-function org-map-entries "org")
@@ -121,8 +124,8 @@
     (interactive)
     (org-agenda nil "n"))
 
- (defun ef-org-archive-done-tasks ()
-   "Archive `org-mode' tasks marked as DONE."
+  (defun ef-org-archive-done-tasks ()
+    "Archive `org-mode' tasks marked as DONE."
     (interactive)
     (org-map-entries
      (lambda ()
