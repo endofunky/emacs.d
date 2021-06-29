@@ -169,7 +169,7 @@
 
     (let* ((total-days (float (+ org-habit-preceding-days org-habit-following-days)))
            (preceding-days-ratio (/ org-habit-preceding-days total-days))
-           (graph-width (floor (* (window-width) 0.3)))
+           (graph-width (min 40 (floor (* (window-width) 0.3))))
            (preceding-days (floor (* graph-width preceding-days-ratio)))
            (following-days (- graph-width preceding-days))
            (graph-column (- (window-width) (+ preceding-days following-days)))
