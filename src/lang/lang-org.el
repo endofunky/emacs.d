@@ -119,6 +119,7 @@
   :config
   (require 'org-archive)
   (require 'org-capture)
+  (require 'org-eldoc)
   (require 'org-install)
   (require 'ox-md)
 
