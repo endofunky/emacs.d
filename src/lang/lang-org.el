@@ -225,9 +225,9 @@
       ((agenda "" ((org-agenda-span 'day)
                    (org-super-agenda-groups
                     '((:name "Today"
-                       :and (:deadline today
-                             :not (:habit t))
                        :and (:time-grid t
+                             :not (:habit t))
+                       :and (:deadline today
                              :not (:habit t))
                        :and (:scheduled today
                              :not (:habit t))
