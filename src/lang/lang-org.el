@@ -243,7 +243,7 @@
                        :date t
                        :scheduled t
                        :order 4)))))
-       (alltodo "" ((org-agenda-overriding-header "")
+       (alltodo "" ((org-agenda-overriding-header "TODOs")
                     (org-super-agenda-groups
                      '((:discard (:habit t :scheduled t :deadline t))
                        (:auto-outline-path t)))))))))
