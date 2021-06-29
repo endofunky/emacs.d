@@ -67,7 +67,11 @@
   (org-agenda-block-separator ?―)
   (org-agenda-compact-blocks nil)
   (org-agenda-window-setup 'current-window)
-  (org-agenda-time-grid '((daily today require-timed) () "......" ""))
+  (org-agenda-time-grid '((daily today require-timed) () "" ""))
+  (org-agenda-prefix-format '((agenda  .  " %i %?-15(ef-org-agenda-prefix)%?-12t% s")
+                              (todo  . " %i ")
+                              (tags  . " %i ")
+                              (search . " %i ")))
   ;;
   ;; org-habit
   ;;
@@ -122,6 +126,8 @@
 
   (declare-function org-archive-subtree "org-archive")
   (declare-function org-end-of-subtree "org")
+  (declare-function org-format-outline-path "org")
+  (declare-function org-get-outline-path "org")
   (declare-function org-map-entries "org")
   (declare-function outline-flag-region "outline")
   (declare-function outline-next-heading "outline")
@@ -131,6 +137,14 @@
     "Show org-agenda with with Agenda and TODOs"
     (interactive)
     (org-agenda nil "n"))
+
+  (defun ef-org-agenda-prefix ()
+    "Returns the most significant header of the org-outline for the element
+to be used in `org-agenda-prefix-format'."
+    (let ((x (car (last (org-get-outline-path)))))
+      (if x
+          (org-format-outline-path (list x))
+        "")))
 
   (defun ef-org-archive-done-tasks ()
     "Archive `org-mode' tasks marked as DONE."
@@ -240,12 +254,12 @@
                       (:name "Habits"
                        :habit t
                        :order 2)
-                      (:auto-outline-path t
+                      (:name "Due soon"
                        :time-grid t
                        :date t
                        :scheduled t
                        :order 4)))))
-       (alltodo "" ((org-agenda-overriding-header "TODOs")
+       (alltodo "" ((org-agenda-overriding-header "")
                     (org-super-agenda-groups
                      '((:discard (:habit t :scheduled t :deadline t))
                        (:auto-outline-path t)))))))))
