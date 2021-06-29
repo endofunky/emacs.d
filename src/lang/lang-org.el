@@ -23,6 +23,9 @@
   :group 'ef-org
   :type 'directory)
 
+(defvar org-habit-preceding-days)
+(defvar org-habit-following-days)
+
 (use-package org
   :defer t
   :ensure org-plus-contrib
@@ -52,7 +55,7 @@
   (org-src-preserve-indentation nil)
   (org-src-tab-acts-natively t)
   ;;
-  ;; Agenda
+  ;; org-agenda
   ;;
   (org-agenda-files (list ef-org-directory))
   (org-agenda-restore-windows-after-quit t)
@@ -65,6 +68,10 @@
   (org-agenda-compact-blocks nil)
   (org-agenda-window-setup 'current-window)
   (org-agenda-time-grid '((daily today require-timed) () "......" ""))
+  ;;
+  ;; org-habit
+  ;;
+  (org-habit-following-days 2)
   :commands (org-capture org-switchb)
   :hook
   (org-mode . flyspell-mode)
@@ -162,11 +169,6 @@
   ;; Borrowed from doom-emacs
   (ef-add-hook org-agenda-mode-hook :fn ef-org-agenda-align-habit-graphs
     "Align `org-habit' graphs to the right side of the screen."
-    (defvar org-habit-preceding-days)
-    (defvar org-habit-following-days)
-
-    (require 'org-habit)
-
     (let* ((total-days (float (+ org-habit-preceding-days org-habit-following-days)))
            (preceding-days-ratio (/ org-habit-preceding-days total-days))
            (graph-width (min 40 (floor (* (window-width) 0.3))))
