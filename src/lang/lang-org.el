@@ -240,6 +240,7 @@ to be used in `org-agenda-prefix-format'."
   (org-agenda-custom-commands
    '(("n" "Agenda and TODOs"
       ((agenda "" ((org-agenda-span 'day)
+                   (org-agenda-overriding-header "")
                    (org-super-agenda-groups
                     '((:name "Today"
                        :and (:time-grid t
@@ -248,19 +249,19 @@ to be used in `org-agenda-prefix-format'."
                              :not (:habit t))
                        :and (:deadline today
                              :not (:habit t))
-                       :order 3)
+                       :order 1)
                       (:name "Overdue"
                        :deadline past
-                       :order 1)
+                       :order 0)
                       (:name "Habits"
                        :habit t
-                       :order 2)
+                       :order 1)
                       (:name "Due soon"
                        :time-grid t
                        :date t
                        :scheduled t
-                       :order 4)))))
-       (alltodo "" ((org-agenda-overriding-header "")
+                       :order 2)))))
+       (alltodo "" ((org-agenda-overriding-header "TODOs")
                     (org-super-agenda-groups
                      '((:discard (:habit t :scheduled t :deadline t))
                        (:auto-outline-path t)))))))))
