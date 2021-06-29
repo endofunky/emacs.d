@@ -1,3 +1,4 @@
+(require 'core-lib)
 (require 'core-shackle)
 (require 'xdg)
 
@@ -156,6 +157,27 @@
     (define-key org-mode-map (kbd "M-RET") 'toggle-frame-fullscreen))
 
   (ef-add-popup "*Org Select*")
+
+  ;; Borrowed from doom-emacs
+  (ef-add-hook org-agenda-mode-hook :fn ef-org-agenda-align-habit-graphs
+    "Align `org-habit' graphs to the right side of the screen."
+    (defvar org-habit-preceding-days)
+    (defvar org-habit-following-days)
+
+    (require 'org-habit)
+
+    (let* ((total-days (float (+ org-habit-preceding-days org-habit-following-days)))
+           (preceding-days-ratio (/ org-habit-preceding-days total-days))
+           (graph-width (floor (* (window-width) 0.3)))
+           (preceding-days (floor (* graph-width preceding-days-ratio)))
+           (following-days (- graph-width preceding-days))
+           (graph-column (- (window-width) (+ preceding-days following-days)))
+           (graph-column-adjusted (if (> graph-column 30)
+                                      (- graph-column 2)
+                                    nil)))
+      (setq-local org-habit-preceding-days preceding-days)
+      (setq-local org-habit-following-days following-days)
+      (setq-local org-habit-graph-column graph-column-adjusted)))
 
   (defun org-cycle-hide-drawers (state)
     "Re-hide all drawers after a visibility state change."
