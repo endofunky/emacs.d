@@ -64,6 +64,7 @@
   (org-agenda-block-separator ?―)
   (org-agenda-compact-blocks nil)
   (org-agenda-window-setup 'current-window)
+  (org-agenda-time-grid '((daily today require-timed) () "......" ""))
   :commands (org-capture org-switchb)
   :hook
   (org-mode . flyspell-mode)
@@ -223,18 +224,20 @@
    '(("n" "Agenda and TODOs"
       ((agenda "" ((org-agenda-span 'day)
                    (org-super-agenda-groups
-                    '((:name "Overdue"
+                    '((:name "Today"
+                       :and (:deadline today
+                             :not (:habit t))
+                       :and (:time-grid t
+                             :not (:habit t))
+                       :and (:scheduled today
+                             :not (:habit t))
+                       :order 3)
+                      (:name "Overdue"
                        :deadline past
                        :order 1)
                       (:name "Habits"
                        :habit t
                        :order 2)
-                      (:name "Today"
-                       :time-grid t
-                       :date today
-                       :todo "TODAY"
-                       :scheduled today
-                       :order 3)
                       (:auto-outline-path t
                        :time-grid t
                        :date t
@@ -242,12 +245,8 @@
                        :order 4)))))
        (alltodo "" ((org-agenda-overriding-header "")
                     (org-super-agenda-groups
-                     '((:discard (:scheduled t :deadline t :tag "inbox"))
-                       (:auto-outline-path t
-                        :order 2)
-                       ))))
-
-       ))))
+                     '((:discard (:habit t :scheduled t :deadline t))
+                       (:auto-outline-path t)))))))))
   :config
   (org-super-agenda-mode t))
 
