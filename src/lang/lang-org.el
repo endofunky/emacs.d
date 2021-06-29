@@ -243,9 +243,9 @@ to be used in `org-agenda-prefix-format'."
                     '((:name "Today"
                        :and (:time-grid t
                              :not (:habit t))
-                       :and (:deadline today
-                             :not (:habit t))
                        :and (:scheduled today
+                             :not (:habit t))
+                       :and (:deadline today
                              :not (:habit t))
                        :order 3)
                       (:name "Overdue"
