@@ -234,7 +234,7 @@ switch to a non-popup buffer."
   (interactive)
   (if-let ((win (car (ef-popup--windows))))
       (delete-window win)
-    (when-let ((buf (car (ef-popup--buffers))))
+    (when-let ((buf (car ef-popup--buffer-list)))
       (display-buffer buf))))
 
 (defun ef-popup--find-window (buf)
@@ -289,9 +289,9 @@ select the buffer window with `select-window' if the buffer is already shown,
 otherwise display the buffer using `display-buffer-use-some-window'."
   (if (ef-popup--buffer-p buffer)
       (progn
-        (if (> (length (window-list)) 1)
-            ;; We already have one or more open popups. Delete them first.
-            (ef-popup--delete-all))
+        (when (> (length (window-list)) 1)
+          ;; We already have one or more open popups. Delete them first.
+          (ef-popup--delete-all))
         (set-window-dedicated-p ad-do-it t)
         ;;  Ensure the newly displayed buffer is at the front of
         ;; ef-popup--buffer-list.
@@ -308,8 +308,8 @@ otherwise display the buffer using `display-buffer-use-some-window'."
       ;; If it's a promoted popup, don't show it using the defined shackle
       ;; rules and display it like a regular buffer instead.
       (if (eq 'promoted (ef-popup--get-buffer-state buffer))
-          (ef-popup-display-buffer-other-window buffer)
-        ad-do-it))))
+          (ef-popup-display-buffer-other-window buffer))
+      ad-do-it)))
 
 (defun ef-popup-display-buffer-other-window (buffer)
   "Display BUFFER in a non-popup buffer window."
