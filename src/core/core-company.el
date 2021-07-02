@@ -23,7 +23,7 @@
   (evil-complete-next-func 'ef-evil-complete-lambda)
   (evil-complete-previous-func 'ef-evil-complete-lambda)
   :general
-  (:states 'insert
+  (:states 'insert :keymaps 'prog-mode-map
    "<tab>" 'ef-tab-indent-or-complete)
   :functions (ef-check-expansion
 	      ef-minibuffer-completion-hook)
