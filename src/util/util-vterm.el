@@ -2,6 +2,7 @@
 (require 'core-shackle)
 
 (use-package vterm
+  :when (bound-and-true-p module-file-suffix)
   :commands (vterm ef-vterm-popup)
   :custom
   (vterm-kill-buffer-on-exit t)
@@ -16,16 +17,37 @@
    "M-P" 'ef-popup-switch-popup-buffer
    "M-p" 'ef-popup-toggle)
   (:states 'normal :prefix ef-prefix
-   "v" 'ef-vterm-popup)
+   "v" '(ef-vterm-popup :wk "VTerm Popup")
+   "V" '(ef-vterm-popup-and-go :wk "VTerm Popup & Go"))
   :hook
   (vterm-mode . evil-emacs-state)
   :config
+  (declare-function vterm-send-string "vterm")
+
+  (ef-add-hook vterm-mode-hook
+    ;; Prevent premature horizontal scrolling
+    (setq-local hscroll-margin 0))
+
   (defun ef-vterm-popup ()
     "Open vterm popup buffer"
     (interactive)
-    (if-let* ((buf (get-buffer "*vterm-popup*")))
+    (if-let ((buf (get-buffer "*vterm-popup*")))
         (display-buffer "*vterm-popup*")
       (vterm "*vterm-popup*")))
+
+  (defun ef-vterm-popup-and-go ()
+    "Go to current file's directory in vterm popup."
+    (interactive)
+    (if-let* ((file (buffer-file-name (current-buffer)))
+              (dir (file-name-directory file)))
+        (if-let ((buf (get-buffer "*vterm-popup*")))
+            (progn
+              (display-buffer "*vterm-popup*")
+              (with-current-buffer buf
+                (vterm-send-string (concat "cd " dir))))
+          (vterm "*vterm-popup*"))
+
+      (message "Buffer is not visiting a file.")))
 
   (ef-add-popup "*vterm-popup*" :size 0.4)
 
