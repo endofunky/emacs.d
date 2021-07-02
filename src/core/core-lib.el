@@ -498,4 +498,9 @@ If FILTER is `nil' kill all buffers except the current one."
                     collect `(,(caar def) ',`(,fn ,@(cdar def))) into matches
                     finally (return (apply #'append matches))))))))
 
+(general-define-key
+ :states '(normal insert visual motion replace emacs)
+ :keymaps 'override
+ "M-f" 'ef-toggle-window-fullscreen)
+
 (provide 'core-lib)
