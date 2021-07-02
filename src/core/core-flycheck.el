@@ -36,7 +36,7 @@
                 (eq evil-state 'replace))
       ad-do-it))
 
-  (ef-add-popup flycheck-error-list-buffer :size .2)
+  (ef-add-popup flycheck-error-list-buffer :size .2 :select nil)
 
   (fset 'flycheck-may-use-echo-area-p 'ignore)
 
