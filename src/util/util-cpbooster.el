@@ -46,7 +46,7 @@
       (when (fboundp 'evil-normal-state)
         (evil-normal-state)))))
 
-(ef-shackle '("*cpbooster*" :align right :size .25 :popup t :select nil :float nil))
+(ef-add-popup "*cpbooster*" :size .3 :select nil :align 'right)
 
 (general-define-key
  :prefix ef-prefix
