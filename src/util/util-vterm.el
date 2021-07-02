@@ -27,7 +27,17 @@
         (display-buffer "*vterm-popup*")
       (vterm "*vterm-popup*")))
 
-  (ef-add-popup "*vterm-popup*" :size 0.4))
+  (ef-add-popup "*vterm-popup*" :size 0.4)
+
+  ;; DOSBox colors
+  (set-face-attribute 'vterm-color-black nil :background "#000000" :foreground "#545454")
+  (set-face-attribute 'vterm-color-red nil :background "#a80000" :foreground "#fc5454")
+  (set-face-attribute 'vterm-color-green nil :background "#00a800" :foreground "#54fc54")
+  (set-face-attribute 'vterm-color-yellow nil :background "#a85400" :foreground "#fcfc54")
+  (set-face-attribute 'vterm-color-blue nil :background "#0000a8" :foreground "#5454fc")
+  (set-face-attribute 'vterm-color-magenta nil :background "#a800a8" :foreground "#fc54fc")
+  (set-face-attribute 'vterm-color-cyan nil :background "#00a8a8" :foreground "#54fcfc")
+  (set-face-attribute 'vterm-color-white nil :background "#a8a8a8" :foreground "#fcfcfc"))
 
 (use-package evil-collection-vterm
   :after vterm
