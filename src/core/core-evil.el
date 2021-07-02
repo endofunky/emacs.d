@@ -94,6 +94,7 @@
   (evil-undo-system 'undo-tree)
   (evil-undo-function 'undo-tree-undo)
   (evil-redo-function 'undo-tree-redo)
+  (evil-want-C-w-in-emacs-state t)
   ;; Required for evil-collection:
   (evil-want-integration t)
   (evil-want-keybinding nil)
