@@ -77,16 +77,19 @@
   :hook
   (company-mode . company-flx-mode))
 
-(use-package company-box
+(use-package company-quickhelp
   :ensure t
   :after company
   :custom
-  (company-box-enable-icon (display-graphic-p))
-  (company-box-backends-colors nil)
-  (company-box-scrollbar nil)
-  (company-box-max-candidates 1000)
-  (company-box-show-single-candidate t)
-  :hook
-  (company-mode . company-box-mode))
+  (company-quickhelp-use-propertized-text t)
+  (company-box-doc-enable nil)
+  :general
+  (:keymaps '(evil-insert-state-map override)
+   "C-n" nil
+   "C-p" nil)
+  :config
+  (if (fboundp 'company-box-mode)
+      (company-box-mode nil))
+  (company-quickhelp-mode t))
 
 (provide 'core-company)
