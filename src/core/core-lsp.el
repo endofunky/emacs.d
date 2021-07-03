@@ -56,7 +56,7 @@
   :refactor-imports lsp-organize-imports
   :refactor-rename lsp-rename
 
-  :xref-apropos xref-find-apropos
+  :xref-apropos consult-lsp-symbols
   :xref-definitions lsp-find-declaration
   :xref-references lsp-find-references)
 
