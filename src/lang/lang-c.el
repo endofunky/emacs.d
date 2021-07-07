@@ -1,6 +1,60 @@
 (require 'core-parens)
 (require 'core-projectile)
 
+;; https://github.com/Hi-Angel/dotfiles/blob/bbd08c6883daed98b9feaad7f86304d332f51e3d/.emacs#L583-L642
+(defun ef-c-is-in-comment ()
+  "tests if point is in comment"
+  (nth 4 (syntax-ppss)))
+
+(defun ef-c-current-line-string ()
+  "returns current line as a string"
+  (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
+
+(defun ef-c-maybe-add-semicolon-paren (_id action _context)
+  "A helper function that inserts semicolon after closing
+parentheses when appropriate. Mainly useful in C, C++, and other
+languages with similar syntax"
+  (when (eq action 'insert)
+    (save-excursion
+      ;; here, caret supposed to be in between parens, i.e. (|)
+      (forward-char) ;; skip closing brace
+      (when (and (looking-at "\\s-*$")
+                 (not (string-match-p
+                       (regexp-opt '("if" "else" "switch" "for" "while" "do" "define") 'words)
+                       (ef-c-current-line-string)))
+                 (not (ef-c-is-in-comment)))
+        (insert ";")))))
+
+(defun ef-c-maybe-add-semicolon-bracket (_id action _context)
+  "A helper function that inserts semicolon after closing
+parentheses when appropriate. Mainly useful in C, C++, and other
+languages with similar syntax"
+  (when (eq action 'insert)
+    (save-excursion
+      ;; here, caret supposed to be in between parens, i.e. {|}
+      (forward-char) ;; skip closing brace
+      (when (and (looking-at "\\s-*$")
+                 (string-match-p "\\breturn\\b" (ef-c-current-line-string))
+                 (not (ef-c-is-in-comment)))
+        (insert ";")))))
+
+(defun ef-c-maybe-complete-lambda (_id action _context)
+  "Completes C++ lambda, given a pair of square brackets"
+  (when (eq action 'insert)
+    (let ((curr-line (ef-c-current-line-string))
+          ;; try detecting "auto foo = []"
+          (lambda-assign-regex "=\\s-*\\[\\]$")
+          ;; try detecting "func([])" and "func(arg1, [])"
+          (lambda-inline-regex "[(,]\\s-*\\[\\]"))
+      (when (or (string-match-p lambda-assign-regex curr-line)
+                (string-match-p lambda-inline-regex curr-line))
+        (save-excursion
+          ;; here, caret supposed to be in between brackets, i.e. [|]
+          (forward-char) ;; skip closing brace
+          (insert "() {}")
+          (when (eolp)
+            (insert ";")))))))
+
 (use-package cc-mode
   :defer t
   :init
@@ -17,7 +71,11 @@
       (sp-local-pair "#include <" ">")
       (sp-local-pair "[" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
       (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
-      (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))))
+      (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
+      (sp-local-pair "(" nil :post-handlers '(:add ef-c-maybe-add-semicolon-paren))
+      (sp-local-pair "{" nil :post-handlers '(:add ef-c-maybe-add-semicolon-bracket))))
+
+  (sp-local-pair 'c++-mode "[" nil :post-handlers '(:add maybe-complete-lambda))
 
   (ef-add-hook c-mode-hook
     (setq-local c-default-style "k&r")
@@ -62,8 +120,7 @@
     (direnv-update-directory-environment)
     (when (and (projectile-project-p)
                (or (file-exists-p (expand-file-name "compile_commands.json" (projectile-project-root)))
-                   (file-exists-p (expand-file-name ".ccls" (projectile-project-root))))
-               (locate-file "ccls" exec-path))
+                   (file-exists-p (expand-file-name ".ccls" (projectile-project-root)))))
       (lsp))))
 
 (use-package lsp-mode
