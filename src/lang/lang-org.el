@@ -322,4 +322,15 @@ to be used in `org-agenda-prefix-format'."
   :custom
   (bibtex-completion-bibliography ebib-preload-bib-files))
 
+(use-package yankpad
+  :ensure t
+  :after org
+  :commands yankpad-insert
+  :general
+  (:states 'normal :prefix ef-prefix
+   "Y" '(yankpad-insert :wk "Insert Snippet"))
+  :custom
+  (yankpad-default-category "Snippets")
+  (yankpad-file (expand-file-name "yankpad.org" ef-org-directory)))
+
 (provide 'lang-org)
