@@ -5,6 +5,7 @@
   :when (bound-and-true-p module-file-suffix)
   :commands (vterm ef-vterm-popup)
   :custom
+  (vterm-disable-bold-font nil)
   (vterm-kill-buffer-on-exit t)
   (vterm-max-scrollback 10000)
   (vterm-timer-delay 0.01)
