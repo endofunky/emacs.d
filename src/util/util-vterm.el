@@ -27,7 +27,10 @@
 
   (ef-add-hook vterm-mode-hook
     ;; Prevent premature horizontal scrolling
-    (setq-local hscroll-margin 0))
+    (setq-local hscroll-margin 0)
+
+    ;; Don't move the cursor back when entering evil-normal-state.
+    (setq-local evil-move-cursor-back nil))
 
   (defun ef-vterm-popup ()
     "Open vterm popup buffer"
