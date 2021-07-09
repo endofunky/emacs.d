@@ -10,6 +10,9 @@
   "returns current line as a string"
   (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
 
+(defvar ef-c-iter-kw
+  '("if" "else" "switch" "for" "while" "do" "define" "rep" "rrep" "trav"))
+
 (defun ef-c-maybe-add-semicolon-paren (_id action _context)
   "A helper function that inserts semicolon after closing
 parentheses when appropriate. Mainly useful in C, C++, and other
@@ -20,7 +23,7 @@ languages with similar syntax"
       (forward-char) ;; skip closing brace
       (when (and (looking-at "\\s-*$")
                  (not (string-match-p
-                       (regexp-opt '("if" "else" "switch" "for" "while" "do" "define") 'words)
+                       (regexp-opt ef-c-iter-kw 'words)
                        (ef-c-current-line-string)))
                  (not (ef-c-is-in-comment)))
         (insert ";")))))
