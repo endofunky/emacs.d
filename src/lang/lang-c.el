@@ -28,7 +28,7 @@ languages with similar syntax"
                  (not (ef-c-is-in-comment)))
         (insert ";")))))
 
-(defun ef-c-maybe-add-semicolon-bracket (_id action _context)
+(defun ef-c-maybe-add-semicolon-brace (_id action _context)
   "A helper function that inserts semicolon after closing
 parentheses when appropriate. Mainly useful in C, C++, and other
 languages with similar syntax"
@@ -69,16 +69,22 @@ languages with similar syntax"
   (define-key c++-mode-map (kbd "C-M-l") nil)
   (define-key c++-mode-map (kbd "C-M-h") nil)
 
-  (ef-add-hook (c++-mode-hook c-mode-hook) :fn ef-cc-mode-hook
-    (sp-with-modes '(c-mode c++-mode cc-mode)
-      (sp-local-pair "#include <" ">")
-      (sp-local-pair "[" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
-      (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
-      (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
-      (sp-local-pair "(" nil :post-handlers '(:add ef-c-maybe-add-semicolon-paren))
-      (sp-local-pair "{" nil :post-handlers '(:add ef-c-maybe-add-semicolon-bracket))))
+  (sp-with-modes '(c-mode c++-mode cc-mode)
+    (sp-local-pair "#include <" ">")
 
-  (sp-local-pair 'c++-mode "[" nil :post-handlers '(:add maybe-complete-lambda))
+    (sp-local-pair "[" nil :post-handlers '(:add
+                                            (ef-sp-create-newline-and-enter-sexp "RET")))
+
+    (sp-local-pair "{" nil :post-handlers '(:add ef-c-maybe-add-semicolon-brace
+                                            (ef-sp-create-newline-and-enter-sexp "RET")))
+
+    (sp-local-pair "(" nil :post-handlers '(:add
+                                            ef-c-maybe-add-semicolon-paren
+                                            (ef-sp-create-newline-and-enter-sexp "RET"))))
+
+  (sp-local-pair 'c++-mode "[" nil :post-handlers '(:add
+                                                    maybe-complete-lambda
+                                                    (ef-sp-create-newline-and-enter-sexp "RET")))
 
   (ef-add-hook c-mode-hook
     (setq-local c-default-style "k&r")
