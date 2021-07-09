@@ -49,7 +49,7 @@
 
       (message "Buffer is not visiting a file.")))
 
-  (ef-add-popup "*vterm-popup*" :size 0.3)
+  (ef-add-popup "*vterm-popup*" :size 0.4)
 
   ;; DOSBox colors
   (set-face-attribute 'vterm-color-black nil :background "#000000" :foreground "#545454")
