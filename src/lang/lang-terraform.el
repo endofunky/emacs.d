@@ -28,6 +28,7 @@
 
 (use-package company-terraform
   :ensure t
+  :after terraform-mode
   :config
   (company-terraform-init))
 
