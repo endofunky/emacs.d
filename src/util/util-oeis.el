@@ -1,4 +1,5 @@
 (use-package oeis
+  :load-path "vendor/"
   :general
   (:states 'normal :prefix ef-prefix
    "ho" '(nil :wk "OEIS")

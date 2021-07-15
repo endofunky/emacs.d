@@ -167,7 +167,7 @@ languages with similar syntax"
 
 (use-package ruby-style
   :after (cc-mode)
-  :load-path "vendor/ruby-style.el")
+  :load-path "vendor/")
 
 (ef-deflang c++
   :after (cc-mode)

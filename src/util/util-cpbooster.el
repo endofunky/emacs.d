@@ -2,6 +2,8 @@
 (require 'core-shackle)
 
 (use-package cpbooster
+  :after cc-mode
+  :load-path "vendor/"
   :general
   (:prefix ef-prefix
    :states '(normal visual)
