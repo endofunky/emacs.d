@@ -2,8 +2,6 @@
 (require 'core-shackle)
 
 (use-package cpbooster
-  :custom
-  (cpbooster-bin "~/.npm-packages/bin/cpbooster")
   :general
   (:prefix ef-prefix
    :states '(normal visual)
