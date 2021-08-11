@@ -88,9 +88,9 @@
    "oa" '(ef-org-agenda :wk "Agenda")
    "oc" '(org-capture :wk "Capture")
    "oe" '(org-export-dispatch :wk "Export")
-   "or" '(org-roam-find-file :wk "Roam")
+   "or" '(org-roam-node-find :wk "Roam")
    "os" '(org-switchb :wk "Switch Buffer")
-   "oR" '(org-roam :wk "Roam Display"))
+   "oR" '(org-roam-buffer-toggle :wk "Toggle Roam Buffer"))
   (:states 'normal :prefix ef-prefix :keymaps 'org-mode-map
    "," '(org-open-at-point :wk "Open Link")
    "." '(org-mark-ring-goto :wk "Pop Back")
@@ -285,17 +285,19 @@ to be used in `org-agenda-prefix-format'."
   :init
   (unless (file-directory-p (expand-file-name "roam" ef-org-directory))
     (make-directory (expand-file-name "roam" ef-org-directory)))
+  (setq org-roam-v2-ack t)
   :hook
-  (after-init . org-roam-mode)
+  (after-init . org-roam-setup)
   (org-roam-backlinks-mode . turn-on-visual-line-mode)
   :general
-  ("<f12>" 'org-roam-find-file)
+  ("<f12>" 'org-roam-node-find)
   :custom
   (org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
   (org-roam-completion-everywhere t)
   (org-roam-completion-system 'default)
   (org-roam-directory (expand-file-name "roam" ef-org-directory))
   :config
+  (ef-shackle '("*org-roam*" :align right :size .5 :popup t :select t :float t))
   (ef-add-popup "*org-roam diagnostics*"))
 
 (use-package ebib
