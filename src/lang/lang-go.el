@@ -7,7 +7,6 @@
   :ensure t
   :mode (("\\.go\\'" . go-mode))
   :custom
-  (gofmt-command "goimports")
   (lsp-go-hover-kind "NoDocumentation")
   :config
   (sp-with-modes '(go-mode)
@@ -42,21 +41,13 @@
   (ef-add-hook go-mode-hook
     (direnv-update-environment)
 
-    (if (locate-file "gopls" exec-path exec-suffixes 1)
-        (lsp))
+    (when (locate-file "gopls" exec-path exec-suffixes 1)
+        (lsp)
+        (add-hook 'before-save-hook #'lsp-organize-imports nil t))
 
     (if (not (string-match "go" compile-command))
         (set (make-local-variable 'compile-command)
              "go build -v && go vet"))))
-
-(use-package company-go
-  :after go-mode
-  :ensure t
-  :custom
-  (company-go-show-annotation t)
-  (company-go-insert-arguments nil)
-  :config
-  (add-to-list 'company-backends 'company-go))
 
 (use-package gotest
   :after go-mode
