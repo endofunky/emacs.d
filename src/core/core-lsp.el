@@ -6,6 +6,7 @@
 (use-package lsp-mode
   :commands lsp
   :custom
+  (lsp-auto-execute-action nil)
   (lsp-auto-guess-root t)
   (lsp-completion-show-kind nil)
   (lsp-enable-folding nil)
