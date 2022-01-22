@@ -55,24 +55,6 @@
   (org-src-preserve-indentation nil)
   (org-src-tab-acts-natively t)
   ;;
-  ;; org-agenda
-  ;;
-  (org-agenda-files (list ef-org-directory))
-  (org-agenda-restore-windows-after-quit t)
-  (org-agenda-start-on-weekday 1)
-  (org-agenda-skip-scheduled-if-done t)
-  (org-agenda-skip-deadline-if-done t)
-  (org-agenda-include-deadlines t)
-  (org-agenda-include-diary t)
-  (org-agenda-block-separator ?―)
-  (org-agenda-compact-blocks nil)
-  (org-agenda-window-setup 'current-window)
-  (org-agenda-time-grid '((daily today require-timed) () "" ""))
-  (org-agenda-prefix-format '((agenda  .  " %i %?-15(ef-org-agenda-prefix)%?-12t% s")
-                              (todo  . " %i ")
-                              (tags  . " %i ")
-                              (search . " %i ")))
-  ;;
   ;; org-habit
   ;;
   (org-habit-following-days 2)
@@ -85,7 +67,6 @@
   (:states 'normal :prefix ef-prefix
    "O" '(ef-org-open-default-notes-files :wk "Org Notes")
    "o" '(nil :wk "Org")
-   "oa" '(ef-org-agenda :wk "Agenda")
    "oc" '(org-capture :wk "Capture")
    "oe" '(org-export-dispatch :wk "Export")
    "or" '(org-roam-node-find :wk "Roam")
@@ -134,19 +115,6 @@
   (declare-function outline-next-heading "outline")
   (declare-function outline-previous-heading "outline")
 
-  (defun ef-org-agenda ()
-    "Show org-agenda with with Agenda and TODOs"
-    (interactive)
-    (org-agenda nil "n"))
-
-  (defun ef-org-agenda-prefix ()
-    "Returns the most significant header of the org-outline for the element
-to be used in `org-agenda-prefix-format'."
-    (let ((x (car (last (org-get-outline-path)))))
-      (if x
-          (org-format-outline-path (list x))
-        "")))
-
   (defun ef-org-archive-done-tasks ()
     "Archive `org-mode' tasks marked as DONE."
     (interactive)
@@ -180,22 +148,6 @@ to be used in `org-agenda-prefix-format'."
     (define-key org-mode-map (kbd "M-RET") 'toggle-frame-fullscreen))
 
   (ef-add-popup "*Org Select*")
-
-  ;; Borrowed from doom-emacs
-  (ef-add-hook org-agenda-mode-hook :fn ef-org-agenda-align-habit-graphs
-    "Align `org-habit' graphs to the right side of the screen."
-    (let* ((total-days (float (+ org-habit-preceding-days org-habit-following-days)))
-           (preceding-days-ratio (/ org-habit-preceding-days total-days))
-           (graph-width (min 40 (floor (* (window-width) 0.3))))
-           (preceding-days (floor (* graph-width preceding-days-ratio)))
-           (following-days (- graph-width preceding-days))
-           (graph-column (- (window-width) (+ preceding-days following-days)))
-           (graph-column-adjusted (if (> graph-column 30)
-                                      (- graph-column 2)
-                                    nil)))
-      (setq-local org-habit-preceding-days preceding-days)
-      (setq-local org-habit-following-days following-days)
-      (setq-local org-habit-graph-column graph-column-adjusted)))
 
   (defun org-cycle-hide-drawers (state)
     "Re-hide all drawers after a visibility state change."
@@ -233,52 +185,11 @@ to be used in `org-agenda-prefix-format'."
                       (outline-flag-region start (point-at-eol) t)
                     (user-error msg)))))))))))
 
-(use-package org-super-agenda
-  :after org
-  :ensure t
-  :custom
-  (org-agenda-custom-commands
-   '(("n" "Agenda and TODOs"
-      ((agenda "" ((org-agenda-span 'day)
-                   (org-agenda-overriding-header "")
-                   (org-super-agenda-groups
-                    '((:name "Today"
-                       :and (:time-grid t
-                             :not (:habit t))
-                       :and (:scheduled today
-                             :not (:habit t))
-                       :and (:deadline today
-                             :not (:habit t))
-                       :order 1)
-                      (:name "Overdue"
-                       :deadline past
-                       :order 0)
-                      (:name "Habits"
-                       :habit t
-                       :order 1)
-                      (:name "Due soon"
-                       :time-grid t
-                       :date t
-                       :scheduled t
-                       :order 2)))))
-       (alltodo "" ((org-agenda-overriding-header "TODOs")
-                    (org-super-agenda-groups
-                     '((:discard (:habit t :scheduled t :deadline t))
-                       (:auto-outline-path t)))))))))
-  :config
-  (org-super-agenda-mode t))
-
 (use-package evil-org
   :ensure t
   :hook
   (org-mode . evil-org-mode)
-  (org-mode . evil-org-set-key-theme)
-  :init
-  (ef-add-hook org-agenda-mode-hook
-    (require 'evil-org-agenda)
-    (declare-function evil-org-agenda-set-keys "evil-org-agenda")
-    (evil-org-agenda-set-keys)
-    (setq org-super-agenda-header-map nil)))
+  (org-mode . evil-org-set-key-theme))
 
 (use-package org-roam
   :ensure t
