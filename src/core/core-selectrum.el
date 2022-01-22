@@ -69,7 +69,7 @@ exclamation mark."
 
 (use-package consult-lsp
   :ensure t
-  :after (consult lsp)
+  :commands (consult-lsp-symbols)
   :general
   (:states 'normal :keymaps 'org-mode-map :prefix ef-prefix
    "i" '(consult-org-heading :wk "Search Headings")))
