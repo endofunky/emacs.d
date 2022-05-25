@@ -18,6 +18,9 @@
    "gL" '(magit-log-all :wk "Log (All)")
    "gb" '(magit-blame :wk "Blame")
    "gc" '(magit-checkout :wk "Checkout"))
+  (:prefix ef-prefix :states '(visual)
+   "g" '(nil :wk "Magit")
+   "gl" '(magit-log :wk "Log"))
   :config
   (ef-add-hook git-commit-setup-hook :fn ef-git-commit-jira-ticket-hook
     (if-let* ((branch (magit-get-current-branch))
