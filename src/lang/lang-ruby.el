@@ -86,7 +86,8 @@
   :ensure t
   :functions (ef-file-or-nil
               ef-ruby-test-infer-file)
-  :commands (ruby-test-specification-filename
+  :commands (ef-ruby-test-run
+             ruby-test-specification-filename
              ruby-test-toggle-implementation-and-specification
              ruby-test-unit-filename
              ruby-test-default-test-filename
