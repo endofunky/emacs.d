@@ -20,8 +20,6 @@
   (:states 'normal :prefix ef-prefix
    "v" '(ef-vterm-popup :wk "VTerm Popup")
    "V" '(ef-vterm-popup-and-go :wk "VTerm Popup & Go"))
-  :hook
-  (vterm-mode . evil-emacs-state)
   :config
   (declare-function vterm-send-string "vterm")
 
@@ -69,6 +67,8 @@
   :after vterm
   :config
   (declare-function evil-collection-vterm-setup "evil-collection-vterm")
-  (evil-collection-vterm-setup))
+  (evil-collection-vterm-setup)
+
+  (evil-set-initial-state 'vterm-mode 'emacs))
 
 (provide 'util-vterm)
