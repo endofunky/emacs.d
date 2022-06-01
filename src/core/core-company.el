@@ -11,7 +11,7 @@
   (company-dabbrev-ignore-case nil)
   (company-frontends '(company-pseudo-tooltip-frontend))
   (company-global-modes '(not message-mode help-mode))
-  (company-idle-delay 0.3)
+  (company-idle-delay 0.2)
   (company-minimum-prefix-length 2)
   (company-require-match nil)
   (company-selection-wrap-around t)
