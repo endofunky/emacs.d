@@ -22,6 +22,24 @@
   (lsp-ui-doc-enable nil)
   (lsp-ui-sideline-enable nil)
   (lsp-ui-sideline-show-hover nil)
+  (lsp-file-watch-ignored-directories
+   (append lsp-file-watch-ignored-directories
+           '("[/\\\\]\\.ccls-cache\\'"
+             "[/\\\\]\\.mypy_cache\\'"
+             "[/\\\\]\\.pytest_cache\\'"
+             "[/\\\\]\\.cache\\'"
+             "[/\\\\]\\.clwb\\'"
+             "[/\\\\]\\.nix\\'"
+             "[/\\\\]__pycache__\\'"
+             "[/\\\\]bazel-bin\\'"
+             "[/\\\\]bazel-code\\'"
+             "[/\\\\]bazel-genfiles\\'"
+             "[/\\\\]bazel-out\\'"
+             "[/\\\\]bazel-testlogs\\'"
+             "[/\\\\]third_party\\'"
+             "[/\\\\]third-party\\'"
+             "[/\\\\]buildtools\\'"
+             "[/\\\\]out\\'")))
   :hook
   ;; Sometime evil-mode gets into a weird state when lsp gets enabled in a hook
   ;; and keybinds don't appear to work correctly, so force it into normal state
