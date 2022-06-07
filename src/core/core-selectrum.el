@@ -89,4 +89,8 @@ exclamation mark."
                  nil
                  (window-parameters (mode-line-format . none)))))
 
+(use-package embark-consult
+  :ensure t
+  :after (embark consult))
+
 (provide 'core-selectrum)
