@@ -3,7 +3,7 @@
 
 (use-package vterm
   :when (bound-and-true-p module-file-suffix)
-  :commands (vterm ef-vterm-popup)
+  :commands (vterm ef-vterm-popup ef-vterm-run)
   :custom
   (vterm-disable-bold-font nil)
   (vterm-kill-buffer-on-exit t)
@@ -22,6 +22,8 @@
    "V" '(ef-vterm-popup-and-go :wk "VTerm Popup & Go"))
   :config
   (declare-function vterm-send-string "vterm")
+  (declare-function ef--vterm-sentinel "util-vterm")
+  (declare-function ef--vterm-sentinel-keep-buffer "util-vterm")
 
   (ef-add-hook vterm-mode-hook
     ;; Prevent premature horizontal scrolling
@@ -52,6 +54,36 @@
       (message "Buffer is not visiting a file.")))
 
   (ef-add-popup "*vterm-popup*" :size 0.4)
+
+  (defun ef--vterm-sentinel (process event)
+    "A process sentinel. Kills PROCESS's buffer if it is live."
+    (let ((b (process-buffer process)))
+      (when (buffer-live-p b)
+        (kill-buffer b)
+        (message "process finished."))))
+
+  (defun ef--vterm-sentinel-keep-buffer (process event)
+    "A process sentinel. Kills PROCESS's buffer if it is live."
+    (let ((b (process-buffer process)))
+      (when (buffer-live-p b)
+        ;; Re-enable normal state so leader keybinds work.
+        (evil-normal-state)
+        (message "process finished."))))
+
+  (defun ef-vterm-run (buffer command keep-buffer)
+    (ef-add-popup buffer :size 0.4)
+
+    (when-let ((buffer (get-buffer buffer)))
+      (when-let ((win (get-buffer-window buffer)))
+        (delete-window win))
+      (kill-buffer buffer))
+
+    (let ((vterm-shell (format "%s -c '%s'" vterm-shell command))
+          (vterm-kill-buffer-on-exit nil))
+      (with-current-buffer (vterm buffer)
+        (if keep-buffer
+            (set-process-sentinel vterm--process #'ef--vterm-sentinel-keep-buffer)
+          (set-process-sentinel vterm--process #'ef--vterm-sentinel)))))
 
   ;; DOSBox colors
   (set-face-attribute 'vterm-color-black nil :foreground "#000000" :background "#545454")
