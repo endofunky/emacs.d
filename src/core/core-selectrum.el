@@ -71,26 +71,4 @@ exclamation mark."
   :ensure t
   :commands (consult-lsp-symbols))
 
-(use-package embark
-  :after selectrum
-  :ensure t
-  :general
-  (:keymaps 'minibuffer-mode-map
-   "C-." 'embark-act)
-  :custom
-  (embark-action-indicator (lambda (map target)
-                             (which-key--show-keymap "Embark" map nil nil
-                                                     'no-paging)
-                             #'which-key--hide-popup-ignore-command)
-                           embark-become-indicator embark-action-indicator)
-  :config
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
-
-(use-package embark-consult
-  :ensure t
-  :after (embark consult))
-
 (provide 'core-selectrum)
