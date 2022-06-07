@@ -18,8 +18,7 @@
    "M-P" 'ef-popup-switch-popup-buffer
    "M-p" 'ef-popup-toggle)
   (:states 'normal :prefix ef-prefix
-   "v" '(ef-vterm-popup :wk "VTerm Popup")
-   "V" '(ef-vterm-popup-and-go :wk "VTerm Popup & Go"))
+   "v" '(ef-vterm-popup :wk "VTerm Popup"))
   :config
   (declare-function vterm-send-string "vterm")
   (declare-function ef--vterm-sentinel "util-vterm")
@@ -38,20 +37,6 @@
     (if-let ((buf (get-buffer "*vterm-popup*")))
         (display-buffer "*vterm-popup*")
       (vterm "*vterm-popup*")))
-
-  (defun ef-vterm-popup-and-go ()
-    "Go to current file's directory in vterm popup."
-    (interactive)
-    (if-let* ((file (buffer-file-name (current-buffer)))
-              (dir (file-name-directory file)))
-        (if-let ((buf (get-buffer "*vterm-popup*")))
-            (progn
-              (display-buffer "*vterm-popup*")
-              (with-current-buffer buf
-                (vterm-send-string (concat "cd " dir))))
-          (vterm "*vterm-popup*"))
-
-      (message "Buffer is not visiting a file.")))
 
   (ef-add-popup "*vterm-popup*" :size 0.4)
 
