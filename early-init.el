@@ -34,6 +34,16 @@
                 ("gnu"          . "http://elpa.gnu.org/packages/"))
               site-run-file nil)
 
+;; Don't redisplay until emacs finished loading.
+(setq-default inhibit-redisplay t
+              inhibit-message t)
+
+(add-hook 'window-setup-hook
+          (lambda ()
+            (setq-default inhibit-redisplay nil
+                          inhibit-message nil)
+            (redisplay)))
+
 ;; Disable graphical elements here to avoid flickering during startup.
 (when (and (fboundp 'scroll-bar-mode) (not (eq scroll-bar-mode -1)))
   (scroll-bar-mode -1))
