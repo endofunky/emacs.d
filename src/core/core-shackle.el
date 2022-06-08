@@ -36,6 +36,16 @@ to a regular window state and will not be shown in the popup window.")
   :functions (ef-shackle
               ef-add-popup)
   :config
+  (general-define-key
+   :states '(normal insert visual motion replace)
+   :keymaps 'override
+   "M-h" 'ef-popup-cycle-backward
+   "M-j" 'ef-popup-demote-buffer
+   "M-k" 'ef-popup-promote-buffer
+   "M-l" 'ef-popup-cycle-forward
+   "M-P" 'ef-popup-switch-popup-buffer
+   "M-p" 'ef-popup-toggle)
+
   (defun ef-shackle (shackle &rest shackles)
     "Adds one or more shackle rules to `shackle-rules'"
     (dolist (rule (cons shackle shackles))
@@ -70,6 +80,7 @@ to a regular window state and will not be shown in the popup window.")
   (shackle-mode t))
 
 (declare-function shackle--match "shackle")
+(defvar shackle-rules)
 
 (defun ef-popup--get-buffer-state (buf)
   "Returns the current popup buffer state for BUF.
@@ -352,15 +363,5 @@ us from switching to other buffers."
 
 (advice-add 'evil-window-rotate-downwards :around #'ef-without-open-popup-ad)
 (advice-add 'evil-window-rotate-upwards :around #'ef-without-open-popup-ad)
-
-(general-define-key
- :states '(normal insert visual motion replace)
- :keymaps 'override
- "M-h" 'ef-popup-cycle-backward
- "M-j" 'ef-popup-demote-buffer
- "M-k" 'ef-popup-promote-buffer
- "M-l" 'ef-popup-cycle-forward
- "M-P" 'ef-popup-switch-popup-buffer
- "M-p" 'ef-popup-toggle)
 
 (provide 'core-shackle)
