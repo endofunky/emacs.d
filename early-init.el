@@ -7,7 +7,9 @@
    #'(lambda ()
        (let ((elapsed (float-time (time-subtract (current-time)
                                                  ef-emacs-start-time))))
-         (message "Loading emacs done in %.3fs" elapsed)))))
+         (message "Loading emacs done in %.3fs (%d garbage collections)"
+                  elapsed
+                  gcs-done)))))
 
 (defconst ef-initial-file-name-handler-alist file-name-handler-alist
   "Initial value of `file-name-handler-alist' at start-up time.")
