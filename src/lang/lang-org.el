@@ -101,6 +101,7 @@
   (require 'org-capture)
   (require 'org-install)
   (require 'ox-md)
+  (require 'org-roam)
 
   (declare-function org-archive-subtree "org-archive")
   (declare-function org-end-of-subtree "org")
@@ -189,12 +190,12 @@
 
 (use-package org-roam
   :straight t
+  :commands (org-roam-node-find org-roam-buffer-toggle)
   :init
   (unless (file-directory-p (expand-file-name "roam" ef-org-directory))
     (make-directory (expand-file-name "roam" ef-org-directory)))
   (setq org-roam-v2-ack t)
   :hook
-  (after-init . org-roam-setup)
   (org-roam-backlinks-mode . turn-on-visual-line-mode)
   :general
   ("<f12>" 'org-roam-node-find)
@@ -204,6 +205,7 @@
   (org-roam-completion-system 'default)
   (org-roam-directory (expand-file-name "roam" ef-org-directory))
   :config
+  (org-roam-setup)
   (ef-shackle '("*org-roam*" :align right :size .5 :popup t :select t :float t))
   (ef-add-popup "*org-roam diagnostics*"))
 
