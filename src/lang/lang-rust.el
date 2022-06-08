@@ -2,6 +2,7 @@
 (require 'core-shackle)
 
 (use-package rust-mode
+  :defer t
   :custom
   (rust-format-on-save t)
   :straight t
