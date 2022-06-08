@@ -7,14 +7,15 @@
   (custom-safe-themes t)
   (base16-theme-256-color-source 'base16-shell)
   :config
+  (require 'base16-tomorrow-night-theme)
   (defvar ef-base16-enabled-theme 'base16-tomorrow-night)
-  (defvar ef-base16-enabled-theme-colors 'base16-tomorrow-night-colors)
+  (defvar ef-base16-enabled-theme-colors 'base16-tomorrow-night-theme-colors)
 
   (load-theme ef-base16-enabled-theme t)
 
   (defun ef-color (name)
     "Returns the base color for `name'"
-    (plist-get base16-tomorrow-night-colors name))
+    (plist-get base16-tomorrow-night-theme-colors name))
 
   (ef-add-hook window-configuration-change-hook :fn ef-dim-popups
     (walk-windows (lambda (w)

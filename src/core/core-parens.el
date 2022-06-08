@@ -8,7 +8,7 @@
   (show-paren-mode t))
 
 (use-package smartparens
-  :ensure t
+  :straight t
   :custom
   (sp-autoskip-closing-pair 'always)
   (sp-highlight-pair-overlay nil)
@@ -42,12 +42,12 @@
     (indent-according-to-mode)))
 
 (use-package rainbow-delimiters
-  :ensure t
+  :straight t
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
 (use-package lispy
-  :ensure t
+  :straight t
   :hook ((common-lisp-mode . lispy-mode)
          (emacs-lisp-mode . lispy-mode)
          (scheme-mode . lispy-mode)
@@ -66,7 +66,7 @@
         (turn-off-smartparens-mode))))
 
 (use-package lispyville
-  :ensure t
+  :straight t
   :after lispy
   :hook (lispy-mode . lispyville-mode)
   :general

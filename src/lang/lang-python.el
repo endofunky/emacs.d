@@ -2,7 +2,7 @@
 (require 'core-shackle)
 
 (use-package python
-  :ensure t
+  :straight t
   :mode (("\\.py\\'" . python-mode)
          ("\\.wsgi$" . python-mode)
          ("SConstruct\\'" . python-mode)

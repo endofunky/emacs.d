@@ -27,7 +27,7 @@
   ;; and keybinds don't appear to work correctly, so force it into normal state
   ;; when lsp-mode gets enabled.
   (lsp-mode . evil-normal-state)
-  :ensure t
+  :straight t
   :config
   (require 'lsp-modeline)
   (require 'lsp-headerline)
@@ -43,7 +43,7 @@
 
 (use-package lsp-ui
   :defer t
-  :ensure t)
+  :straight t)
 
 (ef-deflang lsp
   :compile-backend-connect lsp

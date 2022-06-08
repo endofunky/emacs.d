@@ -76,7 +76,7 @@
   (setq-default ls-lisp-use-insert-directory-program nil))
 
 (use-package exec-path-from-shell
-  :ensure t
+  :straight t
   :if (and (ef-nsp)
            (null (getenv "TERM_PROGRAM")))
   :custom

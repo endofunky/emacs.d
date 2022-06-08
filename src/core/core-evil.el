@@ -1,7 +1,7 @@
 (require 'core-lib)
 
 (use-package evil
-  :ensure t
+  :straight t
   :demand t
   :general
   (:states 'normal :prefix ef-prefix
@@ -119,7 +119,7 @@
 (use-package evil-nerd-commenter
   :after evil
   :defer t
-  :ensure t
+  :straight t
   :commands (evilnc-comment-or-uncomment-lines)
   :general
   (:states '(normal visual) :keymaps 'prog-mode-map
@@ -129,13 +129,13 @@
 (use-package evil-surround
   :after evil
   :defer 1
-  :ensure t
+  :straight t
   :config
   (global-evil-surround-mode 1))
 
 (use-package undo-tree
   :after evil
-  :ensure t
+  :straight t
   :demand t
   :custom
   (undo-tree-auto-save-history t)
@@ -161,7 +161,7 @@
 
 (use-package evil-collection
   :after evil
-  :ensure t
+  :straight t
   :custom
   (evil-collection-company-use-tng nil)
   :config
@@ -169,17 +169,17 @@
 
 (use-package anzu
   :after evil
-  :ensure t
+  :straight t
   :config
   (global-anzu-mode t))
 
 (use-package evil-anzu
   :after (anzu evil)
-  :ensure t)
+  :straight t)
 
 (use-package evil-lion
   :after evil
-  :ensure t
+  :straight t
   :config
   (evil-lion-mode t))
 

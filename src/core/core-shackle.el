@@ -27,7 +27,7 @@ to a regular window state and will not be shown in the popup window.")
 (make-variable-buffer-local 'ef-popup--buffer-state)
 
 (use-package shackle
-  :ensure t
+  :straight t
   :custom
   (shackle-select-reused-windows nil)
   (shackle-default-alignment 'below)
@@ -293,7 +293,7 @@ otherwise display the buffer using `display-buffer-use-some-window'."
           ;; We already have one or more open popups. Delete them first.
           (ef-popup--delete-all))
         (set-window-dedicated-p ad-do-it t)
-        ;;  Ensure the newly displayed buffer is at the front of
+        ;;  straight the newly displayed buffer is at the front of
         ;; ef-popup--buffer-list.
         (unless (eq buffer (car ef-popup--buffer-list))
           (setq ef-popup--buffer-list

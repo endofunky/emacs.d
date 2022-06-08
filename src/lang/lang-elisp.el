@@ -107,7 +107,7 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
     (setq-local mode-name "E-λ")))
 
 (use-package elisp-def
-  :ensure t
+  :straight t
   :commands (elisp-def elisp-def-mode)
   :hook
   (ielm-mode . elisp-def-mode)
@@ -115,10 +115,10 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   (lisp-interaction-mode . elisp-def-mode))
 
 (use-package macrostep
-  :ensure t)
+  :straight t)
 
 (use-package package-lint
-  :ensure t
+  :straight t
   :defer t
   :commands package-lint-current-buffer
   :config

@@ -4,12 +4,12 @@
 (require 'core-projectile)
 
 (use-package clojure-mode
-  :ensure t
+  :straight t
   :mode (("\\.clj\\'" . clojure-mode)
          ("\\.edn$" . clojure-mode)))
 
 (use-package cider
-  :ensure t
+  :straight t
   :custom
   (cider-print-fn 'fipp)
   (cider-prompt-for-project-on-connect nil)
@@ -119,13 +119,13 @@
 
 (use-package macrostep-geiser
   :after cider
-  :ensure t
+  :straight t
   :hook
   (cider-mode . macrostep-geiser-setup))
 
 (use-package flycheck-clj-kondo
   :after clojure-mode
-  :ensure t
+  :straight t
   :config
   (require 'flycheck-clj-kondo))
 

@@ -21,18 +21,26 @@
     (make-directory default-directory))
   (normal-top-level-add-subdirs-to-load-path))
 
-(customize-set-variable
- 'package-quickstart-file
- (expand-file-name "package-quickstart.el"
-                   (expand-file-name "var" user-emacs-directory)))
+(custom-set-variables '(straight-check-for-modifications
+                        '(check-on-save find-when-checking)))
 
-(unless (fboundp 'package-installed-p)
-  (package-initialize t))
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+(require 'straight)
 (custom-set-variables '(use-package-enable-imenu-support t))
+(straight-use-package 'use-package)
+
 (require 'use-package)
 
 (when (ef-init-debug-p)
@@ -41,7 +49,7 @@
 ;; Require no-littering as early as possible so we don't end up storing files
 ;; before our directory structure has been set up.
 (use-package no-littering
-  :ensure t
+  :straight t
   :config
   (setq no-littering-etc-directory
         (expand-file-name "etc/" user-emacs-directory))

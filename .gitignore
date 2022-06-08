@@ -7,3 +7,6 @@ custom.el
 elpa
 private
 eln-cache/
+straight/build/
+straight/repos/
+straight/build-cache.el

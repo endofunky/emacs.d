@@ -1,5 +1,5 @@
 (use-package markdown-mode
-  :ensure t
+  :straight t
   :mode (("\\.mark$" . markdown-mode)
          ("\\.markdown$" . markdown-mode)
          ("\\.md$" . markdown-mode)

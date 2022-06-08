@@ -269,7 +269,7 @@
     (setq-local show-trailing-whitespace t)))
 
 (use-package transient
-  :ensure t                             ; emacs < 28
+  :straight t                             ; emacs < 28
   :general
   (:keymaps '(transient-map transient-edit-map)
    "<escape>" 'transient-quit-all

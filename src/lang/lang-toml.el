@@ -1,5 +1,5 @@
 (use-package toml-mode
-  :ensure t
+  :straight t
   :mode ("\\.tml\\'" "\\.toml\\'"))
 
 (provide 'lang-toml)

@@ -1,5 +1,5 @@
 (use-package haskell-mode
-  :ensure t
+  :straight t
   :mode "\\.hs\\'"
   :custom
   (haskell-font-lock-symbols nil)

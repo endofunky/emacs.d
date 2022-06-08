@@ -13,7 +13,7 @@
       (apply old-fun args))))
 
 (use-package flyspell-correct
-  :ensure t
+  :straight t
   :after flyspell
   :general
   (:keymaps 'flyspell-mode-map

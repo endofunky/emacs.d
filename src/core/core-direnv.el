@@ -1,7 +1,7 @@
 (require 'core-lib)
 
 (use-package direnv
-  :ensure t
+  :straight t
   :if (executable-find "direnv")
   :config
   (direnv-mode)

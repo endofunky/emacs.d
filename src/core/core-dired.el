@@ -23,7 +23,7 @@
   (dired-recursive-deletes 'top))
 
 (use-package diredfl
-  :ensure t
+  :straight t
   :defer t
   :hook
   (dired-mode . diredfl-mode))

@@ -28,8 +28,7 @@
 
 (use-package org
   :defer t
-  :ensure org-plus-contrib
-  :ensure t
+  :straight t
   :mode (("\\.\\(org\\|org_archive\\)$" . org-mode))
   :custom
   ;;
@@ -100,11 +99,8 @@
   :config
   (require 'org-archive)
   (require 'org-capture)
-  (require 'org-eldoc)
   (require 'org-install)
   (require 'ox-md)
-
-  (add-to-list 'org-modules 'org-habit)
 
   (declare-function org-archive-subtree "org-archive")
   (declare-function org-end-of-subtree "org")
@@ -186,13 +182,13 @@
                     (user-error msg)))))))))))
 
 (use-package evil-org
-  :ensure t
+  :straight t
   :hook
   (org-mode . evil-org-mode)
   (org-mode . evil-org-set-key-theme))
 
 (use-package org-roam
-  :ensure t
+  :straight t
   :init
   (unless (file-directory-p (expand-file-name "roam" ef-org-directory))
     (make-directory (expand-file-name "roam" ef-org-directory)))
@@ -212,7 +208,7 @@
   (ef-add-popup "*org-roam diagnostics*"))
 
 (use-package ebib
-  :ensure t
+  :straight t
   :commands ebib
   :hook
   (ebib-entry-mode . visual-line-mode)
@@ -230,13 +226,13 @@
     (replace-regexp-in-string "\\/" "_" key)))
 
 (use-package bibtex-completion
-  :ensure t
+  :straight t
   :after ebib
   :custom
   (bibtex-completion-bibliography ebib-preload-bib-files))
 
 (use-package yankpad
-  :ensure t
+  :straight t
   :after org
   :commands yankpad-insert
   :general

@@ -2,7 +2,7 @@
 (require 'core-evil)
 
 (use-package company
-  :ensure t
+  :straight t
   :demand t
   :custom
   (company-auto-complete #'ef-company-visible-and-explicit-action-p)
@@ -64,13 +64,13 @@
   (global-company-mode t))
 
 (use-package company-statistics
-  :ensure t
+  :straight t
   :after company
   :hook
   (company-mode . company-statistics-mode))
 
 (use-package company-flx
-  :ensure t
+  :straight t
   :after company
   :custom
   (company-flx-limit 750)
@@ -78,7 +78,7 @@
   (company-mode . company-flx-mode))
 
 (use-package company-quickhelp
-  :ensure t
+  :straight t
   :after company
   :custom
   (company-quickhelp-use-propertized-text t)

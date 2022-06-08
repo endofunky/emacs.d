@@ -69,11 +69,11 @@
 
 (use-package bundler
   :after ruby-mode
-  :ensure t)
+  :straight t)
 
 (use-package ruby-interpolation
   :after ruby-mode
-  :ensure t)
+  :straight t)
 
 (use-package rake
   :commands rake
@@ -83,7 +83,7 @@
 
 (use-package ruby-test-mode
   :after ruby-mode
-  :ensure t
+  :straight t
   :functions (ef-file-or-nil
               ef-ruby-test-infer-file)
   :commands (ef-ruby-test-run
@@ -128,13 +128,13 @@ current buffer's file, if it exists"
 
 (use-package projectile-rails
   :after ruby-mode
-  :ensure t
+  :straight t
   :config
   (ef-add-popup "*rails*")
   (projectile-rails-global-mode t))
 
 (use-package rubocop
-  :ensure t
+  :straight t
   :commands (rubocop-autocorrect-project
              rubocop-autocorrect-current-file)
   :config

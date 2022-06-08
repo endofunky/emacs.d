@@ -4,7 +4,7 @@
 (use-package rust-mode
   :custom
   (rust-format-on-save t)
-  :ensure t
+  :straight t
   :config
   (ef-add-hook rust-mode-hook :interactive t
     (direnv-update-directory-environment)

@@ -4,7 +4,7 @@
 (require 'core-shackle)
 
 (use-package go-mode
-  :ensure t
+  :straight t
   :mode (("\\.go\\'" . go-mode))
   :custom
   (lsp-go-hover-kind "NoDocumentation")
@@ -51,7 +51,7 @@
 
 (use-package gotest
   :after go-mode
-  :ensure t
+  :straight t
   :custom
   (go-test-verbose t)
   :config

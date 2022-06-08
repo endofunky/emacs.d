@@ -113,7 +113,7 @@ languages with similar syntax"
             ad-do-it))))
 
 (use-package ccls
-  :ensure t
+  :straight t
   :after cc-mode
   :custom
   (ccls-sem-highlight-method nil)
@@ -149,18 +149,18 @@ languages with similar syntax"
 
 (use-package company-c-headers
   :after cc-mode
-  :ensure t
+  :straight t
   :config
   (add-to-list 'company-backends 'company-c-headers))
 
 (use-package cmake-mode
-  :ensure t
+  :straight t
   :commands cmake-mode
   :mode (("CMakeLists\\.txt\\'" . cmake-mode)
          ("\\.cmake\\'" . cmake-mode)))
 
 (use-package modern-cpp-font-lock
-  :ensure t
+  :straight t
   :after c++-mode
   :config
   (modern-c++-font-lock-global-mode t))

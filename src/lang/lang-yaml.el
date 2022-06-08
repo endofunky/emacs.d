@@ -1,5 +1,5 @@
 (use-package yaml-mode
-  :ensure t
+  :straight t
   :defer t
   :mode (("\\.ya?ml\\'" . yaml-mode)
          ("\\.ya?ml.dist\\'" . yaml-mode)

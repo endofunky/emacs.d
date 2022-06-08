@@ -2,7 +2,7 @@
 (require 'core-shackle)
 
 (use-package geiser
-  :ensure t
+  :straight t
   :commands (geiser-mode
              geiser
              geiser-mode-switch-to-repl
@@ -34,15 +34,15 @@
 
 (use-package geiser-guile
   :after geiser
-  :ensure t)
+  :straight t)
 
 (use-package geiser-mit
   :after geiser
-  :ensure t)
+  :straight t)
 
 (use-package macrostep-geiser
   :after geiser
-  :ensure t
+  :straight t
   :hook
   (geiser-mode . macrostep-geiser-setup)
   (geiser-repl-mode . macrostep-geiser-setup))

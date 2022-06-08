@@ -1,3 +1,4 @@
+(require 'use-package)
 (require 'cl-macs)
 (require 'cl-seq)
 (require 'subr-x)
@@ -117,12 +118,12 @@ Must be set before loading ef-deflang."
   "Keybind definitions for `ef-deflang'")
 
 (use-package gcmh
-  :ensure t
+  :straight t
   :config
   (gcmh-mode 1))
 
 (use-package which-key
-  :ensure t
+  :straight t
   :custom
   (which-key-idle-delay 0.5)
   (which-key-idle-secondary-delay 0)
@@ -138,14 +139,14 @@ Must be set before loading ef-deflang."
 
 (use-package general
   :after which-key
-  :ensure t
+  :straight t
   :config
   (declare-function general-override-mode "general")
   (general-auto-unbind-keys)
   (general-override-mode t))
 
 (use-package page-break-lines
-  :ensure t
+  :straight t
   :config
   (global-page-break-lines-mode))
 

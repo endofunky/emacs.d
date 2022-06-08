@@ -1,7 +1,7 @@
 (require 'core-projectile)
 
 (use-package terraform-mode
-  :ensure t
+  :straight t
   :mode (("\\.tf\\'" . terraform-mode))
   :hook
   (terraform-mode . ef-terraform-mode-enable-lsp)
@@ -27,7 +27,7 @@
   (lsp-flycheck-add-mode 'terraform-mode))
 
 (use-package company-terraform
-  :ensure t
+  :straight t
   :after terraform-mode
   :config
   (company-terraform-init))

@@ -1,5 +1,5 @@
 (use-package pdf-tools
-  :ensure t
+  :straight t
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :magic ("%PDF" . pdf-view-mode)
   :commands (pdf-view-mode pdf-tools-install)

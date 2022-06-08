@@ -1,16 +1,21 @@
+(require 'use-package)
+
 (use-package tree-sitter
-  :if module-file-suffix
-  :ensure t
   :demand t
-  :commands (global-tree-sitter-mode)
-  :config
-  (require 'tree-sitter-langs)
-  (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+  :straight (tree-sitter :type git
+                         :host github
+                         :repo "ubolonton/emacs-tree-sitter"
+                         :files ("lisp/*.el"))
+  :hook
+  (tree-sitter-after-on . tree-sitter-hl-mode))
 
 (use-package tree-sitter-langs
-  :if module-file-suffix
-  :ensure t
-  :commands (tree-sitter-hl-mode))
+  :after tree-sitter
+  :straight (tree-sitter-langs :type git
+                               :host github
+                               :repo "ubolonton/emacs-tree-sitter"
+                               :files ("langs/*.el" "langs/queries"))
+  :config
+  (global-tree-sitter-mode))
 
 (provide 'core-tree-sitter)

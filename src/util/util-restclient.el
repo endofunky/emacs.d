@@ -8,7 +8,7 @@
          ("\\.restclient\\'" . restclient-mode))
   :commands (ef-restclient
              restclient-mode)
-  :ensure t
+  :straight t
   :general
   (:states 'normal :prefix ef-prefix
    "R" '(ef-restclient :wk "Toggle RESTclient"))
@@ -39,14 +39,14 @@
 
 (use-package ob-restclient
   :after (restclient org)
-  :ensure t
+  :straight t
   :config
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((restclient . t))))
 
 (use-package company-restclient
-  :ensure t
+  :straight t
   :after (restclient company)
   :config
   (add-to-list 'company-backends 'company-restclient))

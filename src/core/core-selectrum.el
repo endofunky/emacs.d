@@ -1,5 +1,5 @@
 (use-package selectrum
-  :ensure t
+  :straight t
   :demand t
   :commands selectrum-mode
   :custom
@@ -22,7 +22,7 @@ exclamation mark."
 
 (use-package orderless
   :after selectrum
-  :ensure t
+  :straight t
   :custom
   (selectrum-extend-current-candidate-highlight t)
   (selectrum-refine-candidates-function #'orderless-filter)
@@ -33,7 +33,7 @@ exclamation mark."
 
 (use-package marginalia
   :after selectrum
-  :ensure t
+  :straight t
   :demand t
   :custom
   (marginalia-annotators '(marginalia-annotators-heavy
@@ -53,7 +53,7 @@ exclamation mark."
   (marginalia-mode t))
 
 (use-package consult
-  :ensure t
+  :straight t
   :demand t
   :custom
   (consult-preview-key nil)
@@ -79,7 +79,7 @@ exclamation mark."
    "i" '(consult-org-heading :wk "Search Headings")))
 
 (use-package consult-lsp
-  :ensure t
+  :straight t
   :commands (consult-lsp-symbols))
 
 (provide 'core-selectrum)

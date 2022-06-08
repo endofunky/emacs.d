@@ -1,7 +1,7 @@
 (require 'core-evil)
 
 (use-package projectile
-  :ensure t
+  :straight t
   :custom
   (projectile-completion-system 'default)
   (projectile-mode-line-prefix " P")

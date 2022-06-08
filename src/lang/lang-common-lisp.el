@@ -14,7 +14,7 @@
 
 (use-package sly
   :after lisp-mode
-  :ensure t
+  :straight t
   :commands (sly sly-mrepl)
   :custom
   (sly-net-coding-system 'utf-8-unix)
@@ -37,11 +37,11 @@
   (ef-add-popup "^\\*sly-description" :regexp t :ephemeral t))
 
 (use-package sly-macrostep
-  :ensure t
+  :straight t
   :after sly)
 
 (use-package sly-quicklisp
-  :ensure t
+  :straight t
   :after sly)
 
 (ef-deflang lisp
