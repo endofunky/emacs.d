@@ -12,11 +12,6 @@
   :group 'ef-org
   :type 'directory)
 
-(defcustom ef-org-notes-file (expand-file-name "notes.org" ef-org-directory)
-  "Path to `org-mode' notes files."
-  :group 'ef-org
-  :type 'file)
-
 (defcustom ef-org-bib-directory
   (expand-file-name "bib" ef-org-directory)
   "Directory for `ebib' bibliographies and attached files."
@@ -36,12 +31,8 @@
   ;;
   (org-adapt-indentation nil)
   (org-archive-location "%s_archive::datetree/* Archived Tasks")
-  (org-capture-templates
-   `(("i" "inbox" entry (file+headline ,ef-org-notes-file "!Inbox")
-      "** TODO %?")))
   (org-confirm-babel-evaluate nil)
   (org-deadline-warning-days 7)
-  (org-default-notes-file ef-org-notes-file)
   (org-directory ef-org-directory)
   (org-edit-src-content-indentation 0)
   (org-enforce-todo-dependencies t)
@@ -64,7 +55,6 @@
   (org-mode . turn-on-auto-fill)
   :general
   (:states 'normal :prefix ef-prefix
-   "O" '(ef-org-open-default-notes-files :wk "Org Notes")
    "o" '(nil :wk "Org")
    "oc" '(org-capture :wk "Capture")
    "oe" '(org-export-dispatch :wk "Export")
@@ -120,16 +110,6 @@
        (org-archive-subtree)
        (setq org-map-continue-from (outline-previous-heading)))
      "/DONE" 'tree))
-
-  (defun ef-org-open-default-notes-files ()
-    "Open `org-default-notes-file'."
-    (interactive)
-    (if (string= (buffer-file-name (current-buffer))
-                 org-default-notes-file)
-        (progn
-          (save-buffer)
-          (kill-this-buffer))
-      (find-file org-default-notes-file)))
 
   (defun org-switch-to-buffer-other-window (&rest args)
     (apply 'switch-to-buffer-other-window args))
