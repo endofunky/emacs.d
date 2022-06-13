@@ -13,6 +13,7 @@
   (projectile-indexing-method 'hybrid)
   :commands (projectile-toggle-between-implementation-and-test)
   :general
+  ([remap find-file] 'ef-projectile-find-file)
   (:states 'normal :prefix ef-prefix
    "f"  '(ef-projectile-find-file :wk "Find File")
    "p"  '(nil :wk "Project")
