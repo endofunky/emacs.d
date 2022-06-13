@@ -43,6 +43,9 @@
   ;; Ignore unsafe local variables
   (enable-local-variables :safe)
 
+  ;; Hide commands in M-x which do not work in the current mode.
+  (read-extended-command-predicate #'command-completion-default-include-p)
+
   ;; Keep auto-save files separately
   (auto-save-file-name-transforms
    `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
@@ -142,6 +145,14 @@
     "Enable `visual-line-mode' for compilation buffers."
     (setq-local bidi-display-reordering nil)
     (visual-line-mode t)))
+
+;; Do not allow the cursor in the minibuffer prompt
+(use-package cursor-sensor
+  :custom
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt))
+  :hook
+  (minibuffer-setup . cursor-intangible-mode))
 
 (use-package delsel
   :config
