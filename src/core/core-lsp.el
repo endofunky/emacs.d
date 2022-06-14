@@ -39,8 +39,9 @@
   (defun ef-lsp-organize-imports ()
     "Call `lsp-organize-imports' with `lsp-auto-execute-action' enabled to skip
 the confirmation prompt when called via `before-save-hook', for example."
-    (let ((lsp-auto-execute-action t))
-      (call-interactively #'lsp-organize-imports)))
+    (when (bound-and-true-p lsp-mode)
+      (let ((lsp-auto-execute-action t))
+        (call-interactively #'lsp-organize-imports))))
 
   (if (boundp 'read-process-output-max)
       (setq read-process-output-max (* 1024 1024)))
