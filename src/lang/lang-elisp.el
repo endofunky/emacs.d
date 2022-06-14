@@ -125,6 +125,7 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   (ef-add-popup "*Package-Lint*"))
 
 (use-package eldoc
+  :defer t
   :custom
   (eldoc-idle-delay 0.5)
   :config
