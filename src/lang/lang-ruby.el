@@ -29,6 +29,8 @@
   :interpreter ("ruby" . ruby-mode)
   :custom
   (inf-ruby-default-implementation "pry")
+  :hook
+  (ruby-mode . lsp)
   :config
   (setq ruby-insert-encoding-magic-comment nil)
   (setq ruby-deep-arglist nil)
@@ -47,12 +49,7 @@
     (sp-with-modes '(ruby-mode)
       (sp-local-pair "[" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
       (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
-      (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET"))))
-
-    (direnv-update-directory-environment)
-
-    (if (locate-file "solargraph" exec-path exec-suffixes 1)
-        (lsp)))
+      (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))))
 
   (ef-add-hook inf-ruby-mode-hook
     (comint-read-input-ring 'silent)))

@@ -1,3 +1,4 @@
+(require 'core-lib)
 (require 'core-evil)
 (require 'core-flycheck)
 (require 'core-shackle)
@@ -16,6 +17,7 @@
   (lsp-enable-text-document-color nil)
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-lens-enable nil)
+  (lsp-enable-server-download nil)
   (lsp-signature-auto-activate nil)
   (lsp-signature-doc-lines 1)
   (lsp-signature-render-documentation nil)
@@ -42,6 +44,23 @@ the confirmation prompt when called via `before-save-hook', for example."
 
   (if (boundp 'read-process-output-max)
       (setq read-process-output-max (* 1024 1024)))
+
+  (when (featurep 'direnv)
+    (defun ef-lsp-direnv-ad (orig-fun &rest args)
+      "Update direnv environment and enable `lsp' when the current buffer's
+file is part of a project and a supported lsp binary is present."
+      (direnv-update-environment)
+      (when (projectile-project-p)
+        (lsp--require-packages)
+        ;; This is also being done inside `lsp', but to avoid any missing
+        ;; server warnings in the mode-line we check for servers ourselves
+        ;; here, too.
+        (if (lsp--filter-clients
+             (-andfn #'lsp--supports-buffer?
+                     #'lsp--server-binary-present?))
+            (apply orig-fun args))))
+
+    (advice-add 'lsp :around #'ef-lsp-direnv-ad))
 
   (ef-add-popup "*lsp-performance*" :ephemeral t :size 0.15)
   (ef-add-popup "*lsp session*" :ephemeral t)

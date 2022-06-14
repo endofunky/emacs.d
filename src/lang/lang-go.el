@@ -8,6 +8,8 @@
   :mode (("\\.go\\'" . go-mode))
   :custom
   (lsp-go-hover-kind "NoDocumentation")
+  :hook
+  (go-mode . lsp)
   :config
   (sp-with-modes '(go-mode)
     (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET"))))
@@ -39,12 +41,6 @@
             (message "Test file not found: %s" test-file))))))
 
   (ef-add-hook go-mode-hook
-    (direnv-update-environment)
-
-    (when (locate-file "gopls" exec-path exec-suffixes 1)
-        (lsp)
-        (add-hook 'before-save-hook #'ef-lsp-organize-imports nil t))
-
     (if (not (string-match "go" compile-command))
         (set (make-local-variable 'compile-command)
              "go build -v && go vet"))))

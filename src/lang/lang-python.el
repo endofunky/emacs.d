@@ -12,8 +12,9 @@
   (python-shell-interpreter "ipython")
   (python-shell-buffer-name "ipython")
   (python-shell-interpreter-args "--simple-prompt -i")
+  :hook
+  (python-mode . lsp)
   :config
-  (add-hook 'python-mode-hook #'lsp)
   (ef-add-popup "*ipython*")
 
   (evil-define-key 'normal inferior-python-mode-map ",r" 'run-python)

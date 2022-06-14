@@ -6,13 +6,9 @@
   :custom
   (rust-format-on-save t)
   :straight t
+  :hook
+  (rust-mode . lsp)
   :config
-  (ef-add-hook rust-mode-hook :interactive t
-    (direnv-update-directory-environment)
-
-    (if (locate-file "rls" exec-path exec-suffixes 1)
-        (lsp)))
-
   (ef-add-popup "*rustfmt*"))
 
 (ef-deflang rust

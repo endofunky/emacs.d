@@ -126,10 +126,8 @@ languages with similar syntax"
   (defun ef-cc-mode-enable-lsp ()
     "Conditionally enable lsp-mode for cc-mode projects."
     (interactive)
-    (direnv-update-directory-environment)
-    (when (and (projectile-project-p)
-               (or (file-exists-p (expand-file-name "compile_commands.json" (projectile-project-root)))
-                   (file-exists-p (expand-file-name ".ccls" (projectile-project-root)))))
+    (when (or (file-exists-p (expand-file-name "compile_commands.json" (projectile-project-root)))
+              (file-exists-p (expand-file-name ".ccls" (projectile-project-root))))
       (lsp))))
 
 (use-package lsp-mode
