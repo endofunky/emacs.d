@@ -108,6 +108,7 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
 
 (use-package elisp-def
   :straight t
+  :after elisp-mode
   :commands (elisp-def elisp-def-mode)
   :hook
   (ielm-mode . elisp-def-mode)
@@ -115,7 +116,8 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   (lisp-interaction-mode . elisp-def-mode))
 
 (use-package macrostep
-  :straight t)
+  :straight t
+  :after elisp-mode)
 
 (use-package package-lint
   :straight t
