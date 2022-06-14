@@ -58,6 +58,8 @@ the confirmation prompt when called via `before-save-hook', for example."
 file is part of a project and a supported lsp binary is present."
       (direnv-update-environment)
       (when (projectile-project-p)
+        ;; Ensure lsp packages have been required so all the major-mode to LSP
+        ;; server mappings exist.
         (lsp--require-packages)
         ;; This is also being done inside `lsp', but to avoid any missing
         ;; server warnings in the mode-line we check for servers ourselves
