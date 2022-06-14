@@ -13,9 +13,9 @@
       (base0C "#8abeb7")
       (base0D "#81a2be")
       (base0E "#b294bb")
-      (base0F "#a3685a")
-      )
+      (base0F "#a3685a"))
   (deftheme ef-theme "DOCSTRING for untitled")
+
   (custom-theme-set-faces
    'ef-theme
 ;;; Built-in
