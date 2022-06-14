@@ -85,20 +85,29 @@
   :hook
   (company-mode . company-flx-mode))
 
-(use-package company-quickhelp
+(use-package company-box
   :if window-system
   :straight t
   :after company
+  :hook (company-mode . company-box-mode)
   :custom
-  (company-quickhelp-use-propertized-text t)
-  (company-box-doc-enable nil)
-  :general
-  (:keymaps '(evil-insert-state-map override)
-   "C-n" nil
-   "C-p" nil)
+  (company-box-show-single-candidate t)
+  (company-box-backends-colors nil)
+  (company-box-max-candidates 50)
   :config
-  (if (fboundp 'company-box-mode)
-      (company-box-mode nil))
-  (company-quickhelp-mode t))
+  ;; More elaborate frame-live-p checks from doom emacs.
+  (defun ef-company-box--get-frame-ad (frame)
+    (if (frame-live-p frame) frame))
+
+  (advice-add 'company-box--get-frame
+              :filter-return #'ef-company-box--get-frame-ad)
+
+  (defun ef-company-box-doc-ad (orig-fun frame)
+    (and company-box-doc-enable
+         (frame-local-getq company-box-doc-frame frame)
+         (not (frame-live-p (frame-local-getq company-box-doc-frame frame)))
+         (frame-local-setq company-box-doc-frame nil frame)))
+
+  (advice-add 'company-box-doc :before #'ef-company-box-doc-ad))
 
 (provide 'core-company)
