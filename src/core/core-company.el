@@ -78,6 +78,7 @@
   (company-mode . company-flx-mode))
 
 (use-package company-quickhelp
+  :if window-system
   :straight t
   :after company
   :custom
