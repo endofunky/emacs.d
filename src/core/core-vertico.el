@@ -4,6 +4,7 @@
   :straight (vertico :type git
                      :host github
                      :repo "minad/vertico"
+                     :branch "main"
                      :files ("*.el" "extensions/*.el"))
   :custom
   (vertico-count 20)
