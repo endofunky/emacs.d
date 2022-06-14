@@ -57,9 +57,6 @@
 
 (use-package magit-todos
   :after magit
-  :general
-  (:states 'normal :prefix ef-prefix
-   "pT" '(ivy-magit-todos :wk "Search TODOs"))
   :config
   (require 'org)
   (magit-todos-mode t))
