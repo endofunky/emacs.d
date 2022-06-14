@@ -35,9 +35,6 @@ to a regular window state and will not be shown in the popup window.")
   (shackle-default-rule '(:same t))
   :functions (ef-shackle
               ef-add-popup)
-  :general
-  ([remap switch-buffer] 'ef-popup-switch-buffer)
-  ([remap switch-to-buffer] 'ef-popup-switch-buffer)
   :config
   (general-define-key
    :states '(normal insert visual motion replace)
