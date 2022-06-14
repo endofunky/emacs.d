@@ -1,5 +1,4 @@
 (require 'core-lib)
-(require 'core-parens)
 (require 'core-projectile)
 (require 'core-shackle)
 

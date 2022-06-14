@@ -1,6 +1,3 @@
-(require 'core-lib)
-(require 'core-lsp)
-(require 'core-parens)
 (require 'core-shackle)
 
 (use-package go-mode

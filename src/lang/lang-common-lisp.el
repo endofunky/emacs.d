@@ -1,5 +1,4 @@
 (require 'core-evil)
-(require 'core-lib)
 (require 'core-shackle)
 
 (defvar inferior-lisp-program "sbcl")

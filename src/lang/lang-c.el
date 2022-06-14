@@ -1,9 +1,5 @@
-(require 'core-lib)
-(require 'core-parens)
-(require 'core-projectile)
 (require 'core-lsp)
 (require 'core-shackle)
-(require 'core-projectile)
 (require 'core-company)
 
 ;; https://github.com/Hi-Angel/dotfiles/blob/bbd08c6883daed98b9feaad7f86304d332f51e3d/.emacs#L583-L642

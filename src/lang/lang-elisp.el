@@ -1,6 +1,4 @@
 (require 'core-evil)
-(require 'core-lib)
-(require 'core-projectile)
 (require 'core-shackle)
 
 (defvar calculate-lisp-indent-last-sexp)

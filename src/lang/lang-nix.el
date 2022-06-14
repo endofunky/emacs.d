@@ -1,6 +1,4 @@
 (require 'core-evil)
-(require 'core-lib)
-(require 'core-shackle)
 
 (use-package nix-mode
   :mode ("\\.nix\\'" "\\.nix.in\\'")

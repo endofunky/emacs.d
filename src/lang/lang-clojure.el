@@ -1,7 +1,5 @@
 (require 'core-evil)
-(require 'core-lib)
 (require 'core-shackle)
-(require 'core-projectile)
 
 (use-package clojure-mode
   :mode (("\\.clj\\'" . clojure-mode)

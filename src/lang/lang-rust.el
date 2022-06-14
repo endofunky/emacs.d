@@ -1,4 +1,3 @@
-(require 'core-lib)
 (require 'core-shackle)
 
 (use-package rust-mode
