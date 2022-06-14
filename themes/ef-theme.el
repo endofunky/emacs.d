@@ -624,7 +624,7 @@
    `(org-agenda-done ((t (:foreground ,base0B))))
    `(org-agenda-dimmed-todo-face ((t (:foreground ,base04))))
    `(org-block ((t (:foreground ,base04))))
-   `(org-block-begin-line ((t (:foreground ,base03 :background ,base01))))
+   `(org-block-begin-line ((t (:foreground ,base03 :background ,base00))))
    `(org-code ((t (:foreground ,base0A))))
    `(org-column ((t (:background ,base01))))
    `(org-column-title ((t (:weight bold :underline t :inherit org-column))))
