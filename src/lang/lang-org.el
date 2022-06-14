@@ -188,14 +188,4 @@
   (ef-shackle '("*org-roam*" :align right :size .5 :popup t :select t :float t))
   (ef-add-popup "*org-roam diagnostics*"))
 
-(use-package yankpad
-  :after org
-  :commands yankpad-insert
-  :general
-  (:states 'normal :prefix ef-prefix
-   "Y" '(yankpad-insert :wk "Insert Snippet"))
-  :custom
-  (yankpad-default-category "Snippets")
-  (yankpad-file (expand-file-name "yankpad.org" ef-org-directory)))
-
 (provide 'lang-org)
