@@ -118,10 +118,14 @@ Must be set before loading ef-deflang."
   "Keybind definitions for `ef-deflang'")
 
 (use-package gcmh
+  :demand t
+  :commands (gcmh-mode)
   :config
   (gcmh-mode 1))
 
 (use-package which-key
+  :demand t
+  :commands (which-key-mode)
   :custom
   (which-key-idle-delay 0.5)
   (which-key-idle-secondary-delay 0)
@@ -139,6 +143,9 @@ Must be set before loading ef-deflang."
   :after which-key
   :config
   (declare-function general-override-mode "general")
+  (declare-function general-auto-unbind-keys "general")
+  (declare-function general-define-key "general")
+
   (general-auto-unbind-keys)
   (general-override-mode t)
   (general-define-key
@@ -147,6 +154,8 @@ Must be set before loading ef-deflang."
    "M-f" 'ef-toggle-window-fullscreen))
 
 (use-package page-break-lines
+  :demand t
+  :commands (global-page-break-lines-mode)
   :config
   (global-page-break-lines-mode))
 

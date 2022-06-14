@@ -24,6 +24,8 @@
   (require 'geiser-compile)
   (require 'geiser-doc)
 
+  (declare-function evil-set-initial-state "evil")
+
   (evil-set-initial-state 'geiser-repl-mode 'normal)
 
   (ef-add-popup "*geiser*" :ephemeral t)

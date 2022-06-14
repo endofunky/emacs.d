@@ -46,6 +46,8 @@ exclamation mark."
   :custom
   (marginalia-annotators '(marginalia-annotators-heavy
                            marginalia-annotators-light))
+  :defines (marginalia-command-categories)
+  :commands (marginalia-mode)
   :config
   (add-to-list 'marginalia-command-categories
                '(projectile-find-file . project-file))
@@ -87,6 +89,8 @@ exclamation mark."
   (:states 'normal :prefix ef-prefix
    "/" '(consult-ripgrep :wk "Grep (rg)")
    "i" '(consult-imenu :wk "Open imenu"))
+  :functions (consult-multi-occur
+              consult-completing-read-multiple)
   :config
   (require 'consult)
   (require 'consult-imenu)

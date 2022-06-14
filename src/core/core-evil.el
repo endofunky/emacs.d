@@ -127,7 +127,9 @@
 
 (use-package evil-surround
   :after evil
+  :demand t
   :defer 1
+  :commands (global-evil-surround-mode)
   :config
   (global-evil-surround-mode 1))
 
@@ -139,6 +141,7 @@
   (undo-tree-enable-undo-in-region t)
   (undo-tree-visualizer-timestamps t)
   (undo-tree-visualizer-lazy-drawing nil)
+  :commands (global-undo-tree-mode)
   :general
   (:states 'normal :prefix ef-prefix
    "u" '(undo-tree-visualize :wk "Open undo-tree"))
@@ -158,6 +161,8 @@
 
 (use-package evil-collection
   :after evil
+  :demand t
+  :commands (evil-collection-init)
   :custom
   (evil-collection-company-use-tng nil)
   :config
@@ -165,14 +170,19 @@
 
 (use-package anzu
   :after evil
+  :demand t
+  :commands (global-anzu-mode)
   :config
   (global-anzu-mode t))
 
 (use-package evil-anzu
+  :demand t
   :after (anzu evil))
 
 (use-package evil-lion
+  :demand t
   :after evil
+  :commands (evil-lion-mode)
   :config
   (evil-lion-mode t))
 

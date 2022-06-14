@@ -1,3 +1,5 @@
+(require 'core-lib)
+
 (use-package dired
   :defer t
   :straight nil

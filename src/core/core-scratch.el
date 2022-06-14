@@ -7,6 +7,10 @@
   (persistent-scratch-autosave-interval 5)
   :hook
   (after-init . persistent-scratch-restore)
+  :functions (persistent-scratch-save
+              persistent-scratch-setup-default
+              persistent-scratch-autosave-mode)
+  :defines (persistent-scratch-save-file)
   :config
   (unless (file-exists-p persistent-scratch-save-file)
     (persistent-scratch-save))

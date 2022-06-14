@@ -1,3 +1,7 @@
+(require 'core-evil)
+(require 'core-lib)
+(require 'core-shackle)
+
 (use-package magit
   :commands (magit-blame
              magit-checkout
@@ -7,6 +11,7 @@
              magit-status)
   :custom
   (magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
+  :functions (magit-get-current-branch)
   :init
   :general
   (:prefix ef-prefix :states 'normal
@@ -57,6 +62,7 @@
 
 (use-package magit-todos
   :after magit
+  :functions (magit-todos-mode)
   :config
   (require 'org)
   (magit-todos-mode t))

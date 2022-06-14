@@ -27,11 +27,13 @@ to a regular window state and will not be shown in the popup window.")
 (make-variable-buffer-local 'ef-popup--buffer-state)
 
 (use-package shackle
+  :demand t
   :custom
   (shackle-select-reused-windows nil)
   (shackle-default-alignment 'below)
   (shackle-default-size 0.3)
   (shackle-default-rule '(:same t))
+  :commands (shackle-mode)
   :functions (ef-shackle
               ef-add-popup)
   :config

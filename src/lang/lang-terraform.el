@@ -14,6 +14,7 @@
 
 (use-package company-terraform
   :after terraform-mode
+  :functions (company-terraform-init)
   :config
   (company-terraform-init))
 

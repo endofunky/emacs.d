@@ -41,6 +41,8 @@
   (declare-function company-tooltip-visible-p "company")
   (declare-function company-complete-common "company")
   (declare-function company-explicit-action-p "company")
+  (declare-function company-complete "company")
+  (declare-function global-company-mode "company")
 
   (defun ef-company-visible-and-explicit-action-p ()
     (and (company-tooltip-visible-p)
@@ -85,11 +87,18 @@
   :if window-system
   :after company
   :hook (company-mode . company-box-mode)
+  :defines (company-box-doc-enable
+            company-box-doc-frame)
+  :functions (ef-company-box--get-frame-ad
+              ef-company-box-doc-ad)
   :custom
   (company-box-show-single-candidate t)
   (company-box-backends-colors nil)
   (company-box-max-candidates 50)
   :config
+  (declare-function frame-local-get "frame-local")
+  (declare-function frame-local-set "frame-local")
+
   ;; More elaborate frame-live-p checks from doom emacs.
   (defun ef-company-box--get-frame-ad (frame)
     (if (frame-live-p frame) frame))

@@ -25,6 +25,7 @@
   :custom
   (company-shell-clean-manpage t)
   :config
+  (defvar company-backends)
   (add-to-list 'company-backends 'company-shell))
 
 (provide 'lang-shell)

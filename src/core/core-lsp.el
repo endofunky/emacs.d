@@ -1,4 +1,5 @@
 (require 'core-lib)
+(require 'core-direnv)
 (require 'core-evil)
 (require 'core-flycheck)
 (require 'core-shackle)
@@ -29,11 +30,17 @@
   ;; and keybinds don't appear to work correctly, so force it into normal state
   ;; when lsp-mode gets enabled.
   (lsp-mode . evil-normal-state)
+  :functions (lsp-organize-imports
+              lsp--require-packages
+              lsp--filter-clients
+              ef-lsp-direnv-ad)
   :config
   (require 'lsp-modeline)
   (require 'lsp-headerline)
   (require 'lsp-ui)
   (require 'lsp-diagnostics)
+
+  (declare-function projectile-project-p "projectile")
 
   (defun ef-lsp-organize-imports ()
     "Call `lsp-organize-imports' with `lsp-auto-execute-action' enabled to skip

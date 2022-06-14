@@ -82,6 +82,8 @@
 (use-package exec-path-from-shell
   :if (and (ef-nsp)
            (null (getenv "TERM_PROGRAM")))
+  :demand (and (ef-nsp)
+               (null (getenv "TERM_PROGRAM")))
   :custom
   (exec-path-from-shell-check-startup-files nil)
   (exec-path-from-shell-variables
@@ -91,6 +93,7 @@
              "NIX_REMOTE"
              "NIX_SSL_CERT_FILE"
              "NIX_USER_PROFILE_DIR")))
+  :commands (exec-path-from-shell-initialize)
   :config
   (exec-path-from-shell-initialize))
 

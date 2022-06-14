@@ -16,6 +16,7 @@
   (flycheck-mode-line-prefix "F")
   (flycheck-navigation-minimum-level 'error)
   (flycheck-syntax-check-buffer)
+  :commands (global-flycheck-mode)
   :functions (ef-flycheck-toggle-errors
               ef-flycheck-check-buffer-maybe)
   :hook

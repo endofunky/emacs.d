@@ -46,6 +46,7 @@
 (use-package company-restclient
   :after (restclient company)
   :config
+  (defvar company-backends)
   (add-to-list 'company-backends 'company-restclient))
 
 (provide 'util-restclient)
