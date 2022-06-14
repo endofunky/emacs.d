@@ -30,11 +30,16 @@
   :general
   (:states 'insert :keymaps 'prog-mode-map
    "<tab>" 'ef-tab-indent-or-complete)
+  ;; Bad bad muscle memory. Don't insert a new line when hitting return to
+  ;; select completion candidate when `company-tng-mode' is enabled.
+  (:keymaps 'company-tng-map
+   "RET" 'company-complete-selection)
   :functions (ef-check-expansion
 	      ef-minibuffer-completion-hook)
   :hook
   ;; Enable TAB & Go
-  (global-company-mode . company-tng-mode)
+  (company-mode . company-tng-mode)
+  (company-mode . evil-normalize-keymaps)
   :config
   (customize-set-variable
    'company-backend
@@ -81,7 +86,7 @@
   :straight t
   :after company
   :custom
-  (company-flx-limit 750)
+  (company-flx-limit 500)
   :hook
   (company-mode . company-flx-mode))
 
