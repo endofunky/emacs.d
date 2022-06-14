@@ -5,7 +5,6 @@
   :if (executable-find "direnv")
   :config
   (direnv-mode)
-  (defadvice lsp (before ef-lsp-direnv activate)
-    (direnv-update-environment)))
+  (advice-add 'prog-mode :before #'direnv-update-environment))
 
 (provide 'core-direnv)
