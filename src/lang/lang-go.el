@@ -43,7 +43,7 @@
 
     (when (locate-file "gopls" exec-path exec-suffixes 1)
         (lsp)
-        (add-hook 'before-save-hook #'lsp-organize-imports nil t))
+        (add-hook 'before-save-hook #'ef-lsp-organize-imports nil t))
 
     (if (not (string-match "go" compile-command))
         (set (make-local-variable 'compile-command)
