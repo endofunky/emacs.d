@@ -5,6 +5,10 @@
   :straight t
   :demand t
   :custom
+  ;; These auto-complete the current selection when
+  ;; `company-auto-commit-chars' is typed. This is too magical. We
+  ;; already have the much more explicit RET and TAB.
+  (company-auto-commit nil)
   (company-auto-complete #'ef-company-visible-and-explicit-action-p)
   (company-begin-commands '(self-insert-command))
   (company-dabbrev-downcase nil)
