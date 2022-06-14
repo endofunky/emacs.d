@@ -13,6 +13,7 @@
   (company-begin-commands '(self-insert-command))
   (company-dabbrev-downcase nil)
   (company-dabbrev-ignore-case nil)
+  (company-dabbrev-other-buffers nil)
   (company-frontends '(company-pseudo-tooltip-frontend))
   (company-global-modes '(not message-mode help-mode))
   (company-idle-delay 0.2)
