@@ -18,8 +18,6 @@
   (ef-add-popup "*go-rename*" :ephemeral t)
   (ef-add-popup 'godoc-mode :ephemeral t)
 
-  (add-hook 'before-save-hook #'gofmt-before-save)
-
   (defconst ef-go-test-toggle-re "_test\\."
     "Match regexp for `ef-go-test-toggle'.")
 
@@ -41,6 +39,9 @@
             (message "Test file not found: %s" test-file))))))
 
   (ef-add-hook go-mode-hook
+    (add-hook 'before-save-hook #'gofmt-before-save nil t)
+    (add-hook 'before-save-hook #'ef-lsp-organize-imports nil t)
+
     (if (not (string-match "go" compile-command))
         (set (make-local-variable 'compile-command)
              "go build -v && go vet"))))
