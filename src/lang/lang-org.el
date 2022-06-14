@@ -188,23 +188,6 @@
   (ef-shackle '("*org-roam*" :align right :size .5 :popup t :select t :float t))
   (ef-add-popup "*org-roam diagnostics*"))
 
-(use-package ebib
-  :commands ebib
-  :hook
-  (ebib-entry-mode . visual-line-mode)
-  :custom
-  (ebib-index-window-size 20)
-  (ebib-name-transform-function #'ef-ebib-name-transform-function)
-  (ebib-import-directory (or (xdg-user-dir "DOWNLOAD")
-                             (expand-file-name "~/Downloads/")))
-  (ebib-file-associations nil)
-  (ebib-file-search-dirs `(,(expand-file-name "ebib/files/" org-directory)))
-  (ebib-notes-directory (expand-file-name "ebib/notes/" org-directory))
-  (ebib-preload-bib-files `(,(expand-file-name "ebib/bibliography.bib" org-directory)))
-  :config
-  (defun ef-ebib-name-transform-function (key)
-    (replace-regexp-in-string "\\/" "_" key)))
-
 (use-package bibtex-completion
   :after ebib
   :custom
