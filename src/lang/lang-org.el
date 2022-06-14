@@ -188,11 +188,6 @@
   (ef-shackle '("*org-roam*" :align right :size .5 :popup t :select t :float t))
   (ef-add-popup "*org-roam diagnostics*"))
 
-(use-package bibtex-completion
-  :after ebib
-  :custom
-  (bibtex-completion-bibliography ebib-preload-bib-files))
-
 (use-package yankpad
   :after org
   :commands yankpad-insert
