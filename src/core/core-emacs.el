@@ -228,7 +228,6 @@
   (add-to-list 'recentf-exclude no-littering-etc-directory))
 
 (use-package savehist
-  :defer 1
   :custom
   (history-length 1000)
   (savehist-additional-variables '(search ring regexp-search-ring))
