@@ -90,12 +90,14 @@
      (b "B / 8" "Bit"))))
 
 (use-package cus-edit
+  :straight nil
   :defer t
   :after no-littering
   :custom
   (custom-file (no-littering-expand-etc-file-name "custom.el")))
 
 (use-package comint
+  :straight nil
   :defer t
   :custom
   (comint-buffer-maximum-size 2048)
@@ -115,6 +117,7 @@
     (set (make-local-variable 'truncate-partial-width-windows) nil)))
 
 (use-package comp
+  :straight nil
   :when (fboundp 'native-comp-available-p)
   :custom
   (native-comp-async-query-on-exit t)
@@ -172,6 +175,7 @@
    "q" 'kill-this-buffer))
 
 (use-package files
+  :straight nil
   :unless noninteractive
   :config
   (setq save-silently t)
@@ -192,6 +196,7 @@
   :hook (prog-mode . hs-minor-mode))
 
 (use-package minibuffer
+  :straight nil
   :custom
   (enable-recursive-minibuffers t)
   :config
@@ -206,6 +211,7 @@
   (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit))
 
 (use-package prog-mode
+  :straight nil
   :general
   (:states 'normal :keymaps 'prog-mode-map
    "<tab>" 'indent-for-tab-command)
@@ -266,11 +272,13 @@
   (global-so-long-mode 1))
 
 (use-package tabify
+  :straight nil
   :defer t
   :config
   (setq tabify-regexp "^\t* [ \t]+"))
 
 (use-package text-mode
+  :straight nil
   :defer t
   :mode (("/LICENSE\\'" . text-mode)
          ("\\.log\\'" . text-mode))
@@ -279,7 +287,6 @@
     (setq-local show-trailing-whitespace t)))
 
 (use-package transient
-  :straight t                             ; emacs < 28
   :general
   (:keymaps '(transient-map transient-edit-map)
    "<escape>" 'transient-quit-all
@@ -308,6 +315,7 @@
       (remove-hook 'transient-exit-hook 'ef-transient-resume-shackle-mode))))
 
 (use-package uniquify
+  :straight nil
   :custom
   (uniquify-after-kill-buffer-p t)
   (uniquify-buffer-name-style 'post-forward-angle-brackets)
@@ -315,6 +323,7 @@
   (uniquify-separator ":"))
 
 (use-package vc-mode
+  :straight nil
   :defer t
   :init
   ;; Most repositories are using git nowadays, so remove the 'Git-' prefix from
@@ -324,6 +333,7 @@
           '((:eval (replace-regexp-in-string "^ Git[-:]" " " vc-mode)))))
 
 (use-package xref
+  :straight nil
   :defer t
   :custom
   (xref-marker-ring-length 1024)

@@ -2,7 +2,6 @@
 (require 'core-evil)
 
 (use-package company
-  :straight t
   :demand t
   :custom
   ;; These auto-complete the current selection when
@@ -71,13 +70,11 @@
   (global-company-mode t))
 
 (use-package company-statistics
-  :straight t
   :after company
   :hook
   (company-mode . company-statistics-mode))
 
 (use-package company-flx
-  :straight t
   :after company
   :custom
   (company-flx-limit 500)
@@ -86,7 +83,6 @@
 
 (use-package company-box
   :if window-system
-  :straight t
   :after company
   :hook (company-mode . company-box-mode)
   :custom

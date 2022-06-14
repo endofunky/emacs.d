@@ -21,7 +21,6 @@
   (evil-define-key 'normal sh-mode-map ",r" 'anti-term))
 
 (use-package company-shell
-  :straight t
   :after sh-script
   :custom
   (company-shell-clean-manpage t)

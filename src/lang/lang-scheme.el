@@ -2,7 +2,6 @@
 (require 'core-shackle)
 
 (use-package geiser
-  :straight t
   :commands (geiser-mode
              geiser
              geiser-mode-switch-to-repl
@@ -33,16 +32,13 @@
   (ef-add-popup  "^\\* [A-Za-z0-9_-]+ REPL \\*" :regexp t))
 
 (use-package geiser-guile
-  :after geiser
-  :straight t)
+  :after geiser)
 
 (use-package geiser-mit
-  :after geiser
-  :straight t)
+  :after geiser)
 
 (use-package macrostep-geiser
   :after geiser
-  :straight t
   :hook
   (geiser-mode . macrostep-geiser-setup)
   (geiser-repl-mode . macrostep-geiser-setup))

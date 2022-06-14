@@ -4,6 +4,7 @@
 (use-package vterm
   :when (bound-and-true-p module-file-suffix)
   :commands (vterm ef-vterm-popup ef-vterm-run)
+  :straight nil
   :custom
   (vterm-disable-bold-font nil)
   (vterm-kill-buffer-on-exit t)
@@ -81,6 +82,7 @@
   (set-face-attribute 'vterm-color-white nil :foreground "#a8a8a8" :background "#fcfcfc"))
 
 (use-package evil-collection-vterm
+  :straight nil
   :after vterm
   :config
   (declare-function evil-collection-vterm-setup "evil-collection-vterm")

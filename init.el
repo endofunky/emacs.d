@@ -39,6 +39,8 @@
 
 (require 'straight)
 (custom-set-variables '(use-package-enable-imenu-support t))
+(custom-set-variables '(straight-use-package-by-default t))
+
 (straight-use-package 'use-package)
 
 (require 'use-package)
@@ -49,7 +51,6 @@
 ;; Require no-littering as early as possible so we don't end up storing files
 ;; before our directory structure has been set up.
 (use-package no-littering
-  :straight t
   :config
   (setq no-littering-etc-directory
         (expand-file-name "etc/" user-emacs-directory))

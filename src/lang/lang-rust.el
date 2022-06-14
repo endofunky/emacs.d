@@ -5,7 +5,6 @@
   :defer t
   :custom
   (rust-format-on-save t)
-  :straight t
   :hook
   (rust-mode . lsp)
   :config

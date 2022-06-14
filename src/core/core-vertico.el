@@ -20,7 +20,6 @@
 
 (use-package orderless
   :after vertico
-  :straight t
   :custom
   (orderless-style-dispatchers '(ef-orderless-without-if-bang
                                  ef-orderless-with-if-equals))
@@ -43,7 +42,6 @@ exclamation mark."
 
 (use-package marginalia
   :after vertico
-  :straight t
   :demand t
   :custom
   (marginalia-annotators '(marginalia-annotators-heavy
@@ -63,7 +61,6 @@ exclamation mark."
   (marginalia-mode t))
 
 (use-package consult
-  :straight t
   :demand t
   :custom
   (consult-preview-key nil)
@@ -100,12 +97,12 @@ exclamation mark."
 
 (use-package consult-org
   :after (consult org)
+  :straight nil
   :general
   (:states 'normal :keymaps 'org-mode-map :prefix ef-prefix
    "i" '(consult-org-heading :wk "Search Headings")))
 
 (use-package consult-lsp
-  :straight t
   :commands (consult-lsp-symbols))
 
 (provide 'core-vertico)

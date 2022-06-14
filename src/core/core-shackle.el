@@ -27,7 +27,6 @@ to a regular window state and will not be shown in the popup window.")
 (make-variable-buffer-local 'ef-popup--buffer-state)
 
 (use-package shackle
-  :straight t
   :custom
   (shackle-select-reused-windows nil)
   (shackle-default-alignment 'below)

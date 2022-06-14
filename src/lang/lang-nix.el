@@ -3,7 +3,6 @@
 (require 'core-shackle)
 
 (use-package nix-mode
-  :straight t
   :mode ("\\.nix\\'" "\\.nix.in\\'")
   :config
   (evil-define-key 'normal nix-mode-map (kbd ", TAB") 'nix-mode-format))
@@ -24,7 +23,6 @@
   (evil-define-key 'normal nix-mode-map ",r" 'nix-repl))
 
 (use-package nix-update
-  :straight t
   :after nix-mode
   :commands nix-update-fetch
   :init

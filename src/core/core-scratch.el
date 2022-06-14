@@ -1,7 +1,6 @@
 (require 'core-evil)
 
 (use-package persistent-scratch
-  :straight t
   :defer 1
   :unless noninteractive
   :custom

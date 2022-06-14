@@ -1,5 +1,6 @@
 (use-package dired
   :defer t
+  :straight nil
   :commands (dired)
   :general
   (:states 'normal :prefix ef-prefix
@@ -23,7 +24,6 @@
   (dired-recursive-deletes 'top))
 
 (use-package diredfl
-  :straight t
   :defer t
   :hook
   (dired-mode . diredfl-mode))

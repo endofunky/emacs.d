@@ -5,6 +5,7 @@
 (defvar inferior-lisp-program "sbcl")
 
 (use-package lisp-mode
+  :straight nil
   :mode (("\\.cl\\'" . lisp-mode)
          ("\\.lisp\\'" . lisp-mode)
          ("\\.sbclrc\\'" . lisp-mode))
@@ -14,7 +15,6 @@
 
 (use-package sly
   :after lisp-mode
-  :straight t
   :commands (sly sly-mrepl)
   :custom
   (sly-net-coding-system 'utf-8-unix)
@@ -37,11 +37,9 @@
   (ef-add-popup "^\\*sly-description" :regexp t :ephemeral t))
 
 (use-package sly-macrostep
-  :straight t
   :after sly)
 
 (use-package sly-quicklisp
-  :straight t
   :after sly)
 
 (ef-deflang lisp

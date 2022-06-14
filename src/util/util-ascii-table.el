@@ -2,7 +2,6 @@
 (require 'core-shackle)
 
 (use-package ascii-table
-  :straight t
   :general
   (:states 'normal :prefix ef-prefix
    "hA" '(ascii-table :wk "ASCII Table"))

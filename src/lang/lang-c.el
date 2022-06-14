@@ -1,5 +1,10 @@
+(require 'core-lib)
 (require 'core-parens)
 (require 'core-projectile)
+(require 'core-lsp)
+(require 'core-shackle)
+(require 'core-projectile)
+(require 'core-company)
 
 ;; https://github.com/Hi-Angel/dotfiles/blob/bbd08c6883daed98b9feaad7f86304d332f51e3d/.emacs#L583-L642
 (defun ef-c-is-in-comment ()
@@ -69,23 +74,6 @@ languages with similar syntax"
   (define-key c++-mode-map (kbd "C-M-l") nil)
   (define-key c++-mode-map (kbd "C-M-h") nil)
 
-  (sp-with-modes '(c-mode c++-mode cc-mode)
-    (sp-local-pair "#include <" ">")
-
-    (sp-local-pair "[" nil :post-handlers '(:add
-                                            (ef-sp-create-newline-and-enter-sexp "RET")))
-
-    (sp-local-pair "{" nil :post-handlers '(:add ef-c-maybe-add-semicolon-brace
-                                            (ef-sp-create-newline-and-enter-sexp "RET")))
-
-    (sp-local-pair "(" nil :post-handlers '(:add
-                                            ef-c-maybe-add-semicolon-paren
-                                            (ef-sp-create-newline-and-enter-sexp "RET"))))
-
-  (sp-local-pair 'c++-mode "[" nil :post-handlers '(:add
-                                                    maybe-complete-lambda
-                                                    (ef-sp-create-newline-and-enter-sexp "RET")))
-
   (ef-add-hook c-mode-hook
     (setq-local c-default-style "k&r")
     (setq-local c-basic-offset 8)
@@ -113,7 +101,6 @@ languages with similar syntax"
             ad-do-it))))
 
 (use-package ccls
-  :straight t
   :after cc-mode
   :custom
   (ccls-sem-highlight-method nil)
@@ -123,6 +110,8 @@ languages with similar syntax"
   (objc-mode . ef-cc-mode-enable-lsp)
   :commands (ef-cc-mode-enable-lsp)
   :config
+  (declare-function projectile-project-root "projectile")
+
   (defun ef-cc-mode-enable-lsp ()
     "Conditionally enable lsp-mode for cc-mode projects."
     (interactive)
@@ -139,31 +128,18 @@ languages with similar syntax"
   (lsp-flycheck-add-mode 'c++-mode)
   (lsp-flycheck-add-mode 'objc-mode))
 
-(use-package projectile
-  :defer t
-  :config
-  (add-to-list 'projectile-globally-ignored-file-suffixes ".o")
-  (add-to-list 'projectile-globally-ignored-directories ".ccls-cache"))
-
 (use-package company-c-headers
   :after cc-mode
-  :straight t
   :config
   (add-to-list 'company-backends 'company-c-headers))
 
 (use-package cmake-mode
-  :straight t
   :commands cmake-mode
   :mode (("CMakeLists\\.txt\\'" . cmake-mode)
          ("\\.cmake\\'" . cmake-mode)))
 
-(use-package modern-cpp-font-lock
-  :straight t
-  :after c++-mode
-  :config
-  (modern-c++-font-lock-global-mode t))
-
 (use-package ruby-style
+  :straight nil
   :after (cc-mode)
   :load-path "vendor/")
 

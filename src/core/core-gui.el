@@ -4,6 +4,7 @@
 
 (use-package fringe
   :if window-system
+  :straight nil
   :custom
   (fringes-outside-margins nil)
   (indicate-buffer-boundaries nil)
@@ -20,6 +21,7 @@
   (fringe-mode nil))
 
 (use-package frame
+  :straight nil
   :if window-system
   :custom
   (blink-cursor-blinks 0)
@@ -48,6 +50,7 @@
   (blink-cursor-mode t))
 
 (use-package ns-win
+  :straight nil
   :if (ef-nsp)
   :defines (mac-command-modifier
             mac-option-modifier
@@ -70,13 +73,13 @@
       (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend)))
 
 (use-package ls-lisp
+  :straight nil
   :if (ef-nsp)
   :after ns-win
   :config
   (setq-default ls-lisp-use-insert-directory-program nil))
 
 (use-package exec-path-from-shell
-  :straight t
   :if (and (ef-nsp)
            (null (getenv "TERM_PROGRAM")))
   :custom

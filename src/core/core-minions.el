@@ -1,5 +1,4 @@
 (use-package minions
-  :straight t
   :custom
   (minions-direct '(flycheck-mode
                     lsp-mode

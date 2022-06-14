@@ -23,7 +23,6 @@
 
 (use-package org
   :defer t
-  :straight t
   :mode (("\\.\\(org\\|org_archive\\)$" . org-mode))
   :custom
   ;;
@@ -163,14 +162,14 @@
                     (user-error msg)))))))))))
 
 (use-package evil-org
-  :straight t
   :hook
   (org-mode . evil-org-mode)
   (org-mode . evil-org-set-key-theme))
 
 (use-package org-roam
-  :straight t
   :commands (org-roam-node-find org-roam-buffer-toggle)
+  :defines (org-roam-v2-ack)
+  :functions (org-roam-setup)
   :init
   (unless (file-directory-p (expand-file-name "roam" ef-org-directory))
     (make-directory (expand-file-name "roam" ef-org-directory)))
@@ -190,7 +189,6 @@
   (ef-add-popup "*org-roam diagnostics*"))
 
 (use-package ebib
-  :straight t
   :commands ebib
   :hook
   (ebib-entry-mode . visual-line-mode)
@@ -208,13 +206,11 @@
     (replace-regexp-in-string "\\/" "_" key)))
 
 (use-package bibtex-completion
-  :straight t
   :after ebib
   :custom
   (bibtex-completion-bibliography ebib-preload-bib-files))
 
 (use-package yankpad
-  :straight t
   :after org
   :commands yankpad-insert
   :general

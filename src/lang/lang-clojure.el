@@ -4,12 +4,10 @@
 (require 'core-projectile)
 
 (use-package clojure-mode
-  :straight t
   :mode (("\\.clj\\'" . clojure-mode)
          ("\\.edn$" . clojure-mode)))
 
 (use-package cider
-  :straight t
   :custom
   (cider-print-fn 'fipp)
   (cider-prompt-for-project-on-connect nil)
@@ -24,7 +22,12 @@
   (cider-mode . eldoc-mode)
   (cider-repl-mode . eldoc-mode)
   (cider-repl-mode . lispy-mode)
-  :functions (ef-cider-quit)
+  :functions (ef-cider-quit
+              cider-test-rerun-failed-tests
+              cider-connected-p
+              cider-jack-in
+              cider-current-repl
+              cider-quit)
   :commands (cider-load-file
              cider-load-buffer
              cider-test-run-test
@@ -48,11 +51,6 @@
   (require 'cider-format)
   (require 'cider-ns)
   (require 'cider-tracing)
-
-  (declare-function cider-connected-p "cider")
-  (declare-function cider-jack-in "cider")
-  (declare-function cider-current-repl "cider")
-  (declare-function cider-quit "cider")
 
   (evil-set-initial-state 'cider-repl-mode 'normal)
 
@@ -108,24 +106,24 @@
     (cider-test-run-project-tests nil)))
 
 (use-package cider-apropos
+  :straight nil
   :after cider
   :commands (cider-apropos
              cider-apropos-select
              cider-apropos-documentation))
 
 (use-package cider-xref
+  :straight nil
   :commands (cider-xref-fn-deps-select
              cider-xref-fn-refs-select))
 
 (use-package macrostep-geiser
   :after cider
-  :straight t
   :hook
   (cider-mode . macrostep-geiser-setup))
 
 (use-package flycheck-clj-kondo
   :after clojure-mode
-  :straight t
   :config
   (require 'flycheck-clj-kondo))
 

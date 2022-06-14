@@ -6,6 +6,7 @@
 (defvar calculate-lisp-indent-last-sexp)
 
 (use-package elisp-mode
+  :straight nil
   :commands (emacs-lisp-mode lisp-interaction-mode)
   :functions (ef-emacs-lisp-indent-function
               ef-elisp-describe-thing-at-point)
@@ -107,7 +108,6 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
     (setq-local mode-name "E-λ")))
 
 (use-package elisp-def
-  :straight t
   :after elisp-mode
   :commands (elisp-def elisp-def-mode)
   :hook
@@ -116,11 +116,9 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   (lisp-interaction-mode . elisp-def-mode))
 
 (use-package macrostep
-  :straight t
   :after elisp-mode)
 
 (use-package package-lint
-  :straight t
   :defer t
   :commands package-lint-current-buffer
   :config

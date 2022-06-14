@@ -2,7 +2,6 @@
 (require 'core-evil)
 
 (use-package flycheck
-  :straight t
   :demand t
   :custom
   (flycheck-buffer-switch-check-intermediate-buffers t)
@@ -54,12 +53,10 @@
 
 (use-package flycheck-color-mode-line
   :after flycheck
-  :straight t
   :commands flycheck-color-mode-line-mode
   :hook (flycheck-mode . flycheck-color-mode-line-mode))
 
 (use-package pkg-info
-  :after flycheck
-  :straight t)
+  :after flycheck)
 
 (provide 'core-flycheck)

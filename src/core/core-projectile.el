@@ -1,7 +1,6 @@
 (require 'core-evil)
 
 (use-package projectile
-  :straight t
   :custom
   (projectile-completion-system 'default)
   (projectile-mode-line-prefix " P")
@@ -11,7 +10,11 @@
    (no-littering-expand-var-file-name "projectile/known-projects.el"))
   (projectile-mode-line-function 'ef-projectile-mode-line)
   (projectile-indexing-method 'hybrid)
-  :commands (projectile-toggle-between-implementation-and-test)
+  :commands (projectile-toggle-between-implementation-and-test
+             projectile-mode)
+  :defines (projectile-globally-ignored-file-suffixes
+            projectile-globally-ignored-directories
+            projectile-mode-line-prefix)
   :general
   ([remap find-file] 'ef-projectile-find-file)
   (:states 'normal :prefix ef-prefix
@@ -30,6 +33,9 @@
   (declare-function projectile-project-p "projectile")
   (declare-function projectile-project-name "projectile")
 
+  (add-to-list 'projectile-globally-ignored-file-suffixes ".o")
+  (add-to-list 'projectile-globally-ignored-directories ".ccls-cache")
+
   (defun ef-projectile-mode-line ()
     (format "%s[%s]"
             projectile-mode-line-prefix
@@ -42,5 +48,7 @@
       (call-interactively #'find-file)))
 
   (projectile-mode t))
+
+(declare-function projectile-project-root "projectile")
 
 (provide 'core-projectile)

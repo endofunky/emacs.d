@@ -1,5 +1,6 @@
+(require 'core-evil)
+
 (use-package dockerfile-mode
-  :straight t
   :mode "Dockerfile\\'"
   :config
   (evil-define-key 'normal dockerfile-mode-map ",cc" #'dockerfile-build-buffer)

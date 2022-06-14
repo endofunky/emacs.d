@@ -3,6 +3,8 @@
 (require 'core-projectile)
 (require 'core-shackle)
 
+(declare-function projectile-project-root "projectile")
+
 (use-package ruby-mode
   :mode (("Appraisals\\'" . ruby-mode)
          ("Berksfile\\'" . ruby-mode)
@@ -43,14 +45,6 @@
 
   (ef-add-popup "*rake-compilation*")
 
-  (ef-add-hook ruby-mode-hook :interactive t
-    (require 'smartparens-ruby)
-
-    (sp-with-modes '(ruby-mode)
-      (sp-local-pair "[" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
-      (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
-      (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))))
-
   (ef-add-hook inf-ruby-mode-hook
     (comint-read-input-ring 'silent)))
 
@@ -65,12 +59,10 @@
                  ruby-forward-sexp nil)))
 
 (use-package bundler
-  :after ruby-mode
-  :straight t)
+  :after ruby-mode)
 
 (use-package ruby-interpolation
-  :after ruby-mode
-  :straight t)
+  :after ruby-mode)
 
 (use-package rake
   :commands rake
@@ -80,9 +72,10 @@
 
 (use-package ruby-test-mode
   :after ruby-mode
-  :straight t
   :functions (ef-file-or-nil
-              ef-ruby-test-infer-file)
+              ef-ruby-test-infer-file
+              ruby-test-run
+              ruby-test-with-ruby-directory)
   :commands (ef-ruby-test-run
              ruby-test-specification-filename
              ruby-test-toggle-implementation-and-specification
@@ -93,6 +86,7 @@
              ruby-test-ruby-root
              ruby-test-run-command
              ruby-test-command)
+  :defines (ruby-test-rspec-options)
   :config
   (add-hook 'ruby-mode-hook 'ruby-test-mode)
   (setq ruby-test-rspec-options "")
@@ -125,13 +119,12 @@ current buffer's file, if it exists"
 
 (use-package projectile-rails
   :after ruby-mode
-  :straight t
+  :functions (projectile-rails-global-mode)
   :config
   (ef-add-popup "*rails*")
   (projectile-rails-global-mode t))
 
 (use-package rubocop
-  :straight t
   :commands (rubocop-autocorrect-project
              rubocop-autocorrect-current-file)
   :config

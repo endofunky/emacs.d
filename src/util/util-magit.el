@@ -1,5 +1,4 @@
 (use-package magit
-  :straight t
   :commands (magit-blame
              magit-checkout
              magit-diff
@@ -58,7 +57,6 @@
 
 (use-package magit-todos
   :after magit
-  :straight t
   :general
   (:states 'normal :prefix ef-prefix
    "pT" '(ivy-magit-todos :wk "Search TODOs"))

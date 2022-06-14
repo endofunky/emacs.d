@@ -4,15 +4,14 @@
 (require 'core-shackle)
 
 (use-package go-mode
-  :straight t
   :mode (("\\.go\\'" . go-mode))
   :custom
   (lsp-go-hover-kind "NoDocumentation")
   :hook
   (go-mode . lsp)
+  :functions (gofmt-before-save)
   :config
-  (sp-with-modes '(go-mode)
-    (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET"))))
+  (declare-function ef-lsp-organize-imports "core-lsp")
 
   (ef-add-popup "*Gofmt Errors*" :ephemeral t)
   (ef-add-popup "*go-rename*" :ephemeral t)
@@ -48,7 +47,6 @@
 
 (use-package gotest
   :after go-mode
-  :straight t
   :custom
   (go-test-verbose t)
   :config
