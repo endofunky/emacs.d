@@ -27,6 +27,9 @@
    "<tab>" 'ef-tab-indent-or-complete)
   :functions (ef-check-expansion
 	      ef-minibuffer-completion-hook)
+  :hook
+  ;; Enable TAB & Go
+  (global-company-mode . company-tng-mode)
   :config
   (customize-set-variable
    'company-backend
