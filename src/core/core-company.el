@@ -76,13 +76,6 @@
   :hook
   (company-mode . company-statistics-mode))
 
-(use-package company-flx
-  :after company
-  :custom
-  (company-flx-limit 500)
-  :hook
-  (company-mode . company-flx-mode))
-
 (use-package company-box
   :if window-system
   :after company
