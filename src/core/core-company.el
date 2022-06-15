@@ -15,7 +15,6 @@
   (company-dabbrev-downcase nil)
   (company-dabbrev-ignore-case nil)
   (company-dabbrev-other-buffers nil)
-  (company-frontends '(company-pseudo-tooltip-frontend))
   (company-global-modes '(not erc-mode
                               circe-mode
                               message-mode
@@ -27,10 +26,6 @@
   (company-require-match 'never)
   (company-selection-wrap-around t)
   (company-show-numbers t)
-  (company-tooltip-align-annotations t)
-  (company-tooltip-flip-when-above t)
-  (company-tooltip-limit 12)
-  (company-tooltip-margin 2)
   (evil-complete-next-func 'ef-evil-complete-lambda)
   (evil-complete-previous-func 'ef-evil-complete-lambda)
   :general
