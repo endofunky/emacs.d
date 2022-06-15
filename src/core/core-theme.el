@@ -2,21 +2,21 @@
 (require 'core-shackle)
 
 (use-package zerodark-theme
+  :disabled
   :demand t
   :config
   (load-theme 'zerodark t))
 
-(use-package ef-theme
-  :disabled
-  :demand t
+;; ji
+(use-package efdark-theme
+  :load-path "themes/"
   :straight nil
   :custom
   (custom-safe-themes t)
-  (custom-theme-directory (expand-file-name "themes" user-emacs-directory))
   :init
-  (require-theme 'ef-theme t)
+  (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
   :config
-  (enable-theme 'ef-theme))
+  (load-theme 'efdark t))
 
 (ef-add-hook window-configuration-change-hook :fn ef-dim-popups
   (walk-windows (lambda (w)
@@ -25,7 +25,7 @@
                         (buffer-face-set '(:background "#151617"))
                       (buffer-face-set 'default))))))
 
-(ef-add-hook prog-mode-hook :fn ef-theme-add-watchwords
+(ef-add-hook prog-mode-hook :fn efdark-add-watchwords
   "Highlight FIXME, TODO, and NOCOMMIT in code"
   (font-lock-add-keywords
    nil '(("\\<\\(FIXME\\|BUG\\|XXX\\|TODO\\|NOCOMMIT\\)\\>"
