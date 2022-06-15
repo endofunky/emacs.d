@@ -10,6 +10,7 @@
   ;; already have the much more explicit RET and TAB.
   (company-auto-commit nil)
   (company-auto-complete #'ef-company-visible-and-explicit-action-p)
+  (company-backends '(company-capf))
   (company-begin-commands '(self-insert-command))
   (company-dabbrev-downcase nil)
   (company-dabbrev-ignore-case nil)
