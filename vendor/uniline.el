@@ -293,7 +293,6 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
                                             'face (uniline--face 'uniline-ok-face))))
                    (`running     (propertize "⟲ Running"
                                              'face (uniline--face 'uniline-warning-face)))
-                   (`not-checked "✖ Disabled")
                    (`errored     (propertize "⚠ Error"
                                              'face (uniline--face 'uniline-error-face)))
                    (`interrupted (propertize "⛔ Interrupted"
