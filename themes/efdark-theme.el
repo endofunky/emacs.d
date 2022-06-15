@@ -83,7 +83,7 @@
    `(font-lock-keyword-face ((,class (:foreground ,purple :weight bold))))
    `(font-lock-string-face ((,class (:foreground ,green))))
    `(font-lock-doc-face ((,class (:foreground ,green-light))))
-   `(font-lock-type-face ((,class (:foreground ,blue))))
+   `(font-lock-type-face ((,class (:foreground ,orange-light))))
    `(font-lock-variable-name-face ((,class (:foreground ,blue))))
    `(font-lock-warning-face ((,class (:foreground ,red :weight bold :background ,background-red))))
 
@@ -92,6 +92,7 @@
    `(tree-sitter-hl-face:punctuation.bracket ((,class (:background nil))))
    `(tree-sitter-hl-face:punctuation.special ((,class (:background nil))))
    `(tree-sitter-hl-face:variable.special ((,class (:inherit font-lock-variable-name-face))))
+   `(tree-sitter-hl-face:type.builtin ((,class (:inherit font-lock-type-face))))
 
    ;; Flyspell faces
    `(flyspell-duplicate ((,class (:underline (:style line :color ,orange)))))
