@@ -104,6 +104,14 @@
 (declare-function flycheck-count-errors "ext:flycheck")
 (declare-function flycheck-list-errors "ext:flycheck")
 
+(defvar lsp--buffer-workspaces)
+(declare-function lsp--workspace-print "ext:lsp-mode")
+(declare-function lsp-describe-session "ext:lsp-mode")
+(declare-function lsp-workspace-folders-open "ext:lsp-mode")
+(declare-function lsp-workspace-restart "ext:lsp-mode")
+(declare-function lsp-workspace-shutdown "ext:lsp-mode")
+(declare-function lsp-workspaces "ext:lsp-mode")
+
 ;;
 ;; Helpers
 ;;
@@ -355,9 +363,51 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
       'face (uniline--face 'uniline-panel))
      (uniline-spc))))
 
-(defun uniline-misc
-    (format-mode-line mode-line-misc-info))
+(defun uniline-misc (&rest _)
+  (format-mode-line mode-line-misc-info))
 
+(defun uniline-lsp (&rest _)
+  "Update `lsp-mode' state."
+  (when (fboundp 'lsp)
+    (if-let* ((workspaces (lsp-workspaces))
+              (face (if workspaces
+                        'uniline
+                      'uniline-warning-face)))
+        (concat
+         (propertize (mapconcat #'lsp--workspace-print lsp--buffer-workspaces "|")
+                     'help-echo
+                     (if workspaces
+                         (concat "LSP Connected "
+                                 (string-join
+                                  (mapcar (lambda (w)
+                                            (format "[%s]\n" (lsp--workspace-print w)))
+                                          workspaces))
+                                 "C-mouse-1: Switch to another workspace folder
+mouse-1: Describe current session
+mouse-2: Quit server
+mouse-3: Reconnect to server")
+                       "LSP Disconnected
+mouse-1: Reload to start server")
+                     'face face
+                     'mouse-face 'uniline-highlight
+                     'local-map (let ((map (make-sparse-keymap)))
+                                  (if workspaces
+                                      (progn
+                                        (define-key map [mode-line C-mouse-1]
+                                          #'lsp-workspace-folders-open)
+                                        (define-key map [mode-line mouse-1]
+                                          #'lsp-describe-session)
+                                        (define-key map [mode-line mouse-2]
+                                          #'lsp-workspace-shutdown)
+                                        (define-key map [mode-line mouse-3]
+                                          #'lsp-workspace-restart))
+                                    (progn
+                                      (define-key map [mode-line mouse-1]
+                                        (lambda ()
+                                          (interactive)
+                                          (ignore-errors (revert-buffer t t))))))
+                                  map))
+         (uniline-spc)))))
 ;;
 ;; Mode
 ;;
@@ -384,6 +434,7 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
                          uniline-misc)
                        '(uniline-flycheck
                          uniline-major-mode
+                         uniline-lsp
                          uniline-encoding
                          uniline-ro))))
 
