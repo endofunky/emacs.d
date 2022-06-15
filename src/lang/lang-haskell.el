@@ -2,7 +2,7 @@
 (require 'core-evil)
 
 (use-package haskell-mode
-  :mode "\\.hs\\'"
+  :mode ("\\.hs\\'" "\\.xmobarrc\\'" "xmobarrc\\'")
   :custom
   (haskell-font-lock-symbols nil)
   :config
