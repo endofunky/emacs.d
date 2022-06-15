@@ -16,7 +16,12 @@
   (company-dabbrev-ignore-case nil)
   (company-dabbrev-other-buffers nil)
   (company-frontends '(company-pseudo-tooltip-frontend))
-  (company-global-modes '(not message-mode help-mode))
+  (company-global-modes '(not erc-mode
+                              circe-mode
+                              message-mode
+                              help-mode
+                              gud-mode
+                              vterm-mode))
   (company-idle-delay 0.2)
   (company-minimum-prefix-length 2)
   (company-require-match nil)
