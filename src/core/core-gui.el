@@ -32,8 +32,8 @@
   :config
   (let* ((file (expand-file-name "~/.emacs-font-size"))
          (font (if (file-exists-p file)
-                   (format "JetBrains Mono-%s" (string-trim (ef-read-file file)))
-                 "JetBrains Mono-11")))
+                   (format "DejaVu Sans Mono-%s" (string-trim (ef-read-file file)))
+                 "DejaVu Sans Mono-11")))
     (add-to-list 'default-frame-alist `(font .  ,font))
     (set-face-attribute 'default t :font font)
     (set-frame-font font))
