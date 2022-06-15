@@ -64,6 +64,10 @@
   '((t :inherit (success uniline)))
   "Face for ok status in the mode-line.")
 
+(defface uniline-vcs-face
+  '((t :inherit (font-lock-keyword-face uniline)))
+  "Face for warning status in the mode-line.")
+
 (defface uniline-warning-face
   '((t :inherit (warning uniline)))
   "Face for warning status in the mode-line.")
@@ -90,6 +94,8 @@
 ;;
 ;; Defintions for byte-compiler
 ;;
+(declare-function all-the-icons-octicon "ext:all-the-icons-octicon")
+
 (defvar anzu-cons-mode-line-p)
 (defvar anzu--current-position)
 (defvar anzu--total-matched)
@@ -224,6 +230,57 @@ If FRAME is nil, it means the current frame."
           text-scale-mode-amount))
     (uniline-spc))
    'face (uniline--face 'uniline-major-mode-face)))
+
+(defun uniline-vcs-text (&rest _)
+  (vc-refresh-state)
+  (when (and vc-mode buffer-file-name)
+    (let* ((backend (vc-backend buffer-file-name))
+           (state (vc-state (file-local-name buffer-file-name) backend))
+           (str (if vc-display-status
+                    (substring vc-mode (+ (if (eq backend 'Hg) 2 3) 2))
+                  "")))
+      (concat
+       (cond ((memq state '(edited added))
+              (all-the-icons-octicon "git-compare"
+                                     :height 0.9
+                                     :v-adjust 0
+                                     :face (uniline--face 'uniline-warning-face)))
+             ((eq state 'needs-merge)
+              (all-the-icons-octicon "git-merge"
+                                     :height 0.9
+                                     :v-adjust 0
+                                     :face (uniline--face 'uniline-warning-face)))
+             ((eq state 'needs-update)
+              (all-the-icons-octicon "arrow-down"
+                                     :height 0.9
+                                     :v-adjust 0
+                                     :face (uniline--face 'uniline-warning-face)))
+             ((memq state '(removed conflict unregistered))
+              (all-the-icons-octicon "alert"
+                                     :height 0.9
+                                     :v-adjust 0
+                                     :face (uniline--face 'uniline-error-face)))
+             (t
+              (all-the-icons-octicon "git-branch"
+                                     :height 0.9
+                                     :v-adjust 0
+                                     :face (uniline--face 'uniline-vcs-face))))
+       (uniline-spc)
+       (propertize (if (length> str 25)
+                       (concat
+                        (substring str 0 (- 25 3))
+                        "...")
+                     str)
+                   'face (uniline--face
+                          (cond ((eq state 'needs-update)
+                                 'uniline-warning-face)
+                                ((memq state '(removed conflict unregistered))
+                                 'uniline-error-face)
+                                ((memq state '(edited added))
+                                 'uniline-warning-face)
+                                (t 'uniline-vcs-face))))
+
+       (uniline-spc)))))
 
 (defun uniline-encoding (&rest _)
   "Displays the eol and the encoding style of the buffer."
@@ -430,23 +487,26 @@ mouse-1: Reload to start server")
   (if uniline-mode
       (progn
         (require 'all-the-icons)
-
         (setq uniline--original-mode-line-format mode-line-format)
 
         (setq uniline--mode-line-format
-              '(:eval (uniline--format
-                       '(uniline--anzu
-                         uniline-evil
-                         uniline-buffer-mark
-                         uniline-buffer-name
-                         uniline-position
-                         uniline-misc)
-                       '(uniline-flycheck
-                         uniline-major-mode
-                         uniline-lsp
-                         uniline-encoding
-                         uniline-ro
-                         uniline-spc))))
+              '(:eval
+                (uniline--format
+                 ;; LHS
+                 '(uniline--anzu
+                   uniline-evil
+                   uniline-buffer-mark
+                   uniline-buffer-name
+                   uniline-position
+                   uniline-misc)
+                 ;; RHS
+                 '(uniline-flycheck
+                   uniline-vcs-text
+                   uniline-major-mode
+                   uniline-lsp
+                   uniline-encoding
+                   uniline-ro
+                   uniline-spc))))
 
         (setq-default mode-line-format uniline--mode-line-format)
         (uniline--force-refresh uniline--mode-line-format))
