@@ -1,5 +1,6 @@
 (require 'core-direnv)
 (require 'core-evil)
+(require 'core-shackle)
 
 (use-package company
   :demand t
@@ -43,6 +44,8 @@
   (declare-function company-explicit-action-p "company")
   (declare-function company-complete "company")
   (declare-function global-company-mode "company")
+
+  (ef-add-popup "*company-diag*" :ephemeral t)
 
   (defun ef-company-visible-and-explicit-action-p ()
     (and (company-tooltip-visible-p)
