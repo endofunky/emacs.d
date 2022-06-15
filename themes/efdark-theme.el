@@ -93,6 +93,10 @@
    `(tree-sitter-hl-face:punctuation.special ((,class (:background nil))))
    `(tree-sitter-hl-face:variable.special ((,class (:inherit font-lock-variable-name-face))))
 
+   ;; Flyspell faces
+   `(flyspell-duplicate ((,class (:underline (:style line :color ,orange)))))
+   `(flyspell-incorrect ((,class (:underline (:style line :color ,red)))))
+
    ;; Mode line faces
    `(mode-line ((,class (:background ,mode-line :height 0.9 :foreground ,light
                          :box ,(when efdark-use-paddings-in-mode-line
