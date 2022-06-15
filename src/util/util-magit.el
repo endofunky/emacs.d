@@ -40,6 +40,8 @@ windows opened from `git-commit-mode'."
       (display-buffer-full-frame buffer '(magit--display-buffer-fullframe))))
 
   (ef-add-hook git-commit-setup-hook :fn ef-git-commit-jira-ticket-hook
+    "Add JIRA tickets as prefix to commit message if the branch name starts with
+what looks like a JIRA ticket ID."
     (if-let* ((branch (magit-get-current-branch))
               (segments (split-string branch "[\\/\\.-]"))
               (_ (string-match "^[A-Z]+-[0-9]+" branch))
