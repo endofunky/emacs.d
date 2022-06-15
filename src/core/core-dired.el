@@ -25,9 +25,4 @@
   (dired-recursive-copies 'always)
   (dired-recursive-deletes 'top))
 
-(use-package diredfl
-  :defer t
-  :hook
-  (dired-mode . diredfl-mode))
-
 (provide 'core-dired)
