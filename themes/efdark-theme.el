@@ -300,7 +300,7 @@
    `(company-scrollbar-bg ((,class (:background ,background-darker))))
    `(company-scrollbar-fg ((,class (:background ,background-blue))))
    `(company-tooltip-common ((,class (:foreground ,purple :weight bold :background ,background-darker))))
-   `(company-tooltip-annotation ((,class (:foreground ,blue :weight bold :background ,background-blue))))
+   `(company-tooltip-annotation ((,class (:foreground ,blue :weight bold :background ,background-darker))))
    `(company-tooltip-common-selection ((,class (:foreground ,purple :background ,background-lighter :weight bold))))
    `(company-tooltip-selection ((,class (:foreground ,default :background ,background-lighter))))
    `(company-tooltip-mouse ((,class (:foreground ,default :background ,background-lighter))))
