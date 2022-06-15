@@ -10,6 +10,8 @@
              magit-status)
   :custom
   (magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
+  (magit-display-buffer-function #'ef-magit-display-buffer-function)
+  (magit-bury-buffer-function #'magit-restore-window-configuration)
   :functions (magit-get-current-branch)
   :init
   :general
@@ -25,6 +27,18 @@
    "g" '(nil :wk "Magit")
    "gl" '(magit-log :wk "Log"))
   :config
+  (ef-shackle '(magit-diff-mode :align right :size .5 :popup t :select nil :float t))
+  (ef-shackle '(magit-process-mode :align below :size .2 :popup t :select nil :float t))
+
+  ;; This depends on the two shackle rules above to work correctly
+  (defun ef-magit-display-buffer-function (buffer)
+    "Open magit windows full-frame, except for `magit-process-mode' buffers and
+windows opened from `git-commit-mode'."
+    (if (or (bound-and-true-p git-commit-mode)
+            (eq (buffer-local-value 'major-mode buffer) 'magit-process-mode))
+        (display-buffer buffer)
+      (display-buffer-full-frame buffer '(magit--display-buffer-fullframe))))
+
   (ef-add-hook git-commit-setup-hook :fn ef-git-commit-jira-ticket-hook
     (if-let* ((branch (magit-get-current-branch))
               (segments (split-string branch "[\\/\\.-]"))
@@ -34,28 +48,8 @@
           (insert label)))
     (end-of-line))
 
-  (ef-shackle '(magit-diff-mode :align right :size .5 :popup t :select nil :float t))
-
   (transient-append-suffix 'magit-pull "C"
     '("A" "Autostash" "--autostash"))
-
-  ;; Don't let magit-status mess up window configurations
-  ;; http://whattheemacsd.com/setup-magit.el-01.html
-  (defadvice magit-status (around magit-fullscreen activate)
-    (when (fboundp 'ef-flycheck-close-window)
-      (ef-flycheck-close-window))
-    (window-configuration-to-register :magit-fullscreen)
-    ad-do-it
-    (delete-other-windows))
-
-  (defun ef-magit-quit-session ()
-    "Restores the previous window configuration and kills the magit buffer"
-    (interactive)
-    (kill-buffer)
-    (jump-to-register :magit-fullscreen))
-
-  (evil-define-key 'normal magit-status-mode-map "q" #'ef-magit-quit-session)
-  (evil-define-key 'visual magit-status-mode-map "q" #'ef-magit-quit-session)
 
   (setenv "GIT_PAGER" ""))
 
