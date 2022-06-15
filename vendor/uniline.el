@@ -378,9 +378,9 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
   "Update `lsp-mode' state."
   (when (fboundp 'lsp)
     (if-let* ((workspaces (lsp-workspaces))
-              (face (if workspaces
-                        'uniline-lsp-face
-                      'uniline-warning-face)))
+              (face (uniline--face (if workspaces
+                                       'uniline-lsp-face
+                                     'uniline-warning-face) )))
         (concat
          (propertize (mapconcat (lambda (workspace)
                                   (car (split-string (lsp--workspace-print workspace) ":")))
