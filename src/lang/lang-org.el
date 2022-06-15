@@ -49,7 +49,6 @@
   :commands (org-capture org-switchb)
   :hook
   (org-mode . flyspell-mode)
-  (org-mode . org-indent-mode)
   (org-mode . turn-on-auto-fill)
   :general
   (:states 'normal :prefix ef-prefix
