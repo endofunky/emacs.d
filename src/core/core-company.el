@@ -74,9 +74,7 @@
     (company-complete))
 
   (defun ef-without-orderless (fn &rest args)
-    "Use basic and partial-completion for `completion-styles' before orderless."
-    (let ((orderless-match-faces [completions-common-part])
-          (completion-styles '(basic partial-completion orderless)))
+    (let ((completion-styles '(partial-completion)))
       (apply fn args)))
 
   (advice-add 'company-calculate-candidates :around #'ef-without-orderless)

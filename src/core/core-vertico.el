@@ -27,7 +27,6 @@
                                orderless-flex))
   (completion-styles '(orderless))
   (completion-category-defaults nil)
-  (orderless-component-separator "[ &]")
   :config
   (defun ef-orderless-with-if-equals (pattern index total)
     "Orderless style dispatcher to literal match results using equal sign."
