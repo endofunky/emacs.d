@@ -92,8 +92,8 @@
   (company-box-backends-colors nil)
   (company-box-max-candidates 50)
   :config
-  (declare-function frame-local-get "frame-local")
-  (declare-function frame-local-set "frame-local")
+  (declare-function frame-local-getq "frame-local")
+  (declare-function frame-local-setq "frame-local")
 
   ;; More elaborate frame-live-p checks from doom emacs.
   (defun ef-company-box--get-frame-ad (frame)
