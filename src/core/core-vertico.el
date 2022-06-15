@@ -92,11 +92,7 @@ exclamation mark."
               consult-completing-read-multiple)
   :config
   (require 'consult)
-  (require 'consult-imenu)
-
-  (advice-add #'multi-occur :override #'consult-multi-occur)
-  (advice-add #'completing-read-multiple
-              :override #'consult-completing-read-multiple))
+  (require 'consult-imenu))
 
 (use-package consult-org
   :after (consult org)
