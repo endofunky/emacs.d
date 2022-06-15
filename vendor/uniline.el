@@ -14,7 +14,7 @@
 (defface uniline
   `((t (:inherit mode-line
         :height 0.9
-        :box (:line-width (1 . 6)
+        :box (:line-width (1 . 7)
               :color ,(face-background 'mode-line)))))
   "Face used for default."
   :group 'uniline-faces)
@@ -22,7 +22,7 @@
 (defface uniline-inactive
   `((t (:inherit mode-line-inactive
         :height 0.9
-        :box (:line-width (1 . 6)
+        :box (:line-width (1 . 7)
               :color ,(face-background 'mode-line-inactive)))))
   "Face used for inactive."
   :group 'uniline-faces)
@@ -30,7 +30,7 @@
 (defface uniline-highlight
   `((t (:inherit mode-line-highlight
         :height 0.9
-        :box (:line-width (1 . 6)
+        :box (:line-width (1 . 7)
               :color ,(face-background 'mode-line-inactive)))))
   "Face used for inactive."
   :group 'uniline-faces)
