@@ -50,6 +50,11 @@
   "Face used for the buffer name segment in the mode-line."
   :group 'uniline-faces)
 
+(defface uniline-lsp-face
+  '((t (:inherit (bold uniline))))
+  "Face used for the buffer LSP segment in the mode-line."
+  :group 'uniline-faces)
+
 (defface uniline-position-face
   '((t (:inherit uniline)))
   "Face used for the position segment in the mode-line."
@@ -374,10 +379,12 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
   (when (fboundp 'lsp)
     (if-let* ((workspaces (lsp-workspaces))
               (face (if workspaces
-                        'uniline
+                        'uniline-lsp-face
                       'uniline-warning-face)))
         (concat
-         (propertize (mapconcat #'lsp--workspace-print lsp--buffer-workspaces "|")
+         (propertize (mapconcat (lambda (workspace)
+                                  (car (split-string (lsp--workspace-print workspace) ":")))
+                                lsp--buffer-workspaces "|")
                      'help-echo
                      (if workspaces
                          (concat "LSP Connected "
