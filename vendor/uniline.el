@@ -424,8 +424,7 @@ mouse-1: Reload to start server")
 
         (setq uniline--mode-line-format
               '(:eval (uniline--format
-                       '(uniline-spc
-                         uniline--anzu
+                       '(uniline--anzu
                          uniline-evil
                          uniline-buffer-mark
                          uniline-buffer-name
