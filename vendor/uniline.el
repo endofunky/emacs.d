@@ -76,6 +76,10 @@
   '((t :inherit (error uniline)))
   "Face for error status in the mode-line.")
 
+(defface uniline-panel
+  '((t :inherit font-lock-builtin-face :inverse-video t))
+  "Face for error status in the mode-line.")
+
 ;;
 ;; Temp vars
 ;;
@@ -86,13 +90,24 @@
 ;;
 ;; Defintions for byte-compiler
 ;;
+(defvar anzu-cons-mode-line-p)
+(defvar anzu--current-position)
+(defvar anzu--total-matched)
+(defvar anzu--cached-count)
+(defvar anzu--state)
+(defvar anzu--overflow-p)
+(declare-function anzu--reset-status "ext:anzu")
+(declare-function anzu--where-is-here "ext:anzu")
+
 (defvar evil-mode)
 (defvar evil-mode-line-tag)
+(declare-function evil-force-normal-state "ext:evil-states")
+
 (defvar flycheck-mode)
 (defvar flycheck-last-status-change)
 (defvar flycheck-current-errors)
-(declare-function flycheck-count-errors "flycheck")
-(declare-function flycheck-list-errors "flycheck")
+(declare-function flycheck-count-errors "ext:flycheck")
+(declare-function flycheck-list-errors "ext:flycheck")
 
 ;;
 ;; Helpers
@@ -137,7 +152,7 @@ RIGHT-SEGMENTS, aligned respectively."
 
 
 ;;
-;; Current window tracking (from doom-modeline)
+;; Current window tracking (from uniline)
 ;;
 
 (defun uniline--get-current-window (&optional frame)
@@ -270,8 +285,6 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
                                             'face (uniline--face 'uniline-ok-face))))
                    (`running     (propertize "⟲ Running"
                                              'face (uniline--face 'uniline-warning-face)))
-                   (`no-checker  (propertize "⚠ No Checker"
-                                             'face (uniline--face 'uniline-warning-face)))
                    (`not-checked "✖ Disabled")
                    (`errored     (propertize "⚠ Error"
                                              'face (uniline--face 'uniline-error-face)))
@@ -287,13 +300,60 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
 (defun uniline-evil (&rest _)
   (when (and (fboundp 'evil-mode)
              evil-mode)
-    evil-mode-line-tag))
+    (unless (bound-and-true-p anzu--state)
+      evil-mode-line-tag)))
 
 (defun uniline-ro ()
   (when buffer-read-only
     (concat
      (uniline-spc)
      (propertize "RO" 'face (uniline--face 'uniline-ro-face)))))
+
+;; `anzu' and `evil-anzu' expose current/total state that can be displayed in the
+;; mode-line.
+(defun uniline-fix-anzu-count (positions here)
+  "Calulate anzu count via POSITIONS and HERE."
+  (cl-loop for (start . end) in positions
+           collect t into before
+           when (and (>= here start) (<= here end))
+           return (length before)
+           finally return 0))
+
+(advice-add #'anzu--where-is-here :override #'uniline-fix-anzu-count)
+
+(setq anzu-cons-mode-line-p nil) ; manage modeline segment ourselves
+;; Ensure anzu state is cleared when searches & iedit are done
+(with-eval-after-load 'anzu
+  (add-hook 'isearch-mode-end-hook #'anzu--reset-status t)
+  (add-hook 'iedit-mode-end-hook #'anzu--reset-status)
+  (advice-add #'evil-force-normal-state :after #'anzu--reset-status)
+  ;; Fix matches segment mirroring across all buffers
+  (mapc #'make-variable-buffer-local
+        '(anzu--total-matched
+          anzu--current-position anzu--state anzu--cached-count
+          anzu--cached-positions anzu--last-command
+          anzu--last-isearch-string anzu--overflow-p)))
+
+(defun uniline--anzu ()
+  "Show the match index and total number thereof.
+Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
+`evil-search'."
+  (when (and (bound-and-true-p anzu--state)
+             (not (bound-and-true-p iedit-mode)))
+    (concat
+     (propertize
+      (let ((here anzu--current-position)
+            (total anzu--total-matched))
+        (cond ((eq anzu--state 'replace-query)
+               (format " %d replace " anzu--cached-count))
+              ((eq anzu--state 'replace)
+               (format " %d/%d " here total))
+              (anzu--overflow-p
+               (format " %s+ " total))
+              (t
+               (format " %s/%d " here total))))
+      'face (uniline--face 'uniline-panel))
+     (uniline-spc))))
 ;;
 ;; Mode
 ;;
@@ -312,6 +372,7 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
         (setq uniline--mode-line-format
               '(:eval (uniline--format
                        '(uniline-spc
+                         uniline--anzu
                          uniline-evil
                          uniline-buffer-name
                          uniline-position)
