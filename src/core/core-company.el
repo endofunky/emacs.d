@@ -37,7 +37,8 @@
   (:states 'insert :keymaps 'prog-mode-map
    "<tab>" 'ef-tab-indent-or-complete)
   :functions (ef-check-expansion
-	      ef-minibuffer-completion-hook)
+	      ef-minibuffer-completion-hook
+              ef-without-orderless)
   :hook
   (company-mode . evil-normalize-keymaps)
   :config
@@ -77,6 +78,12 @@
   (defun ef-evil-complete-lambda (arg)
     "Ignores passed in arg like a lambda and runs company-complete"
     (company-complete))
+
+  (defun ef-without-orderless (fn &rest args)
+    (let ((completion-styles '(partial-completion)))
+      (apply fn args)))
+
+  (advice-add 'company-calculate-candidates :around #'ef-without-orderless)
 
   (global-company-mode t))
 
