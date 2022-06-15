@@ -52,11 +52,11 @@ the confirmation prompt when called via `before-save-hook', for example."
   (if (boundp 'read-process-output-max)
       (setq read-process-output-max (* 1024 1024)))
 
-  (when (featurep 'direnv)
+  (when (featurep 'envrc)
     (defun ef-lsp-direnv-ad (orig-fun &rest args)
       "Update direnv environment and enable `lsp' when the current buffer's
 file is part of a project and a supported lsp binary is present."
-      (direnv-update-environment)
+      (envrc--update)
       (when (projectile-project-p)
         ;; Ensure lsp packages have been required so all the major-mode to LSP
         ;; server mappings exist.

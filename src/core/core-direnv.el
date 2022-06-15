@@ -1,12 +1,11 @@
 (require 'core-lib)
 
-(use-package direnv
+(use-package envrc
   :if (executable-find "direnv")
   :demand t
-  :commands (direnv-mode)
+  :commands (envrc-global-mode)
   :config
-  (declare-function direnv-update-environment "direnv")
-  (direnv-mode)
-  (advice-add 'prog-mode :before #'direnv-update-environment))
+  (envrc-global-mode))
+
 
 (provide 'core-direnv)
