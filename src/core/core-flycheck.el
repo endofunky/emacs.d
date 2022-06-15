@@ -52,11 +52,6 @@
         (delete-window win)
       (flycheck-list-errors))))
 
-(use-package flycheck-color-mode-line
-  :after flycheck
-  :commands flycheck-color-mode-line-mode
-  :hook (flycheck-mode . flycheck-color-mode-line-mode))
-
 (use-package pkg-info
   :after flycheck)
 
