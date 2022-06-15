@@ -13,25 +13,25 @@
 
 (defface uniline
   `((t (:inherit mode-line
-        :height 0.9
         :box (:line-width (1 . 7)
-              :color ,(face-background 'mode-line)))))
+              :color ,(face-background 'mode-line))
+        )))
   "Face used for default."
   :group 'uniline-faces)
 
 (defface uniline-inactive
   `((t (:inherit mode-line-inactive
-        :height 0.9
         :box (:line-width (1 . 7)
-              :color ,(face-background 'mode-line-inactive)))))
+              :color ,(face-background 'mode-line-inactive))
+        )))
   "Face used for inactive."
   :group 'uniline-faces)
 
 (defface uniline-highlight
   `((t (:inherit mode-line-highlight
-        :height 0.9
         :box (:line-width (1 . 7)
-              :color ,(face-background 'mode-line-inactive)))))
+              :color ,(face-background 'mode-line-inactive))
+        )))
   "Face used for inactive."
   :group 'uniline-faces)
 
@@ -126,19 +126,18 @@ If INACTIVE-FACE is nil, will use `mode-line-inactive' face."
 (defun uniline--format (left-segments right-segments)
   "Return a string of `window-width' length containing LEFT-SEGMENTS and
 RIGHT-SEGMENTS, aligned respectively."
-  (let* ((left (uniline--format-segments left-segments))
-         (right (uniline--format-segments right-segments))
-         (reserve (length right))
-         (reserve (if (and window-system (eq 'right (get-scroll-bar-mode)))
-                      (- reserve 3)
-                    reserve)))
+  (let* ((lhs (uniline--format-segments left-segments))
+         (rhs (uniline--format-segments right-segments)))
     (concat
-     left
+     lhs
      (propertize " "
-                 'display `((space :align-to (- (+ right right-fringe right-margin)
-                                                ,reserve)))
+                 'display `((space
+                             :align-to
+                             (- (+ right right-fringe right-margin scroll-bar)
+                                ,(string-width
+                                  rhs))))
                  'face '(:inherit uniline))
-     right)))
+     rhs)))
 
 (defun uniline--format-segments (segments)
   "Return a string from a list of SEGMENTS."
@@ -201,7 +200,6 @@ If FRAME is nil, it means the current frame."
   "The major mode, including environment and text-scale info."
   (propertize
    (concat
-    (uniline-spc)
     (propertize (format-mode-line
                  (or (and (boundp 'delighted-modes)
                           (cadr (assq major-mode delighted-modes)))
@@ -302,10 +300,12 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
                    (`interrupted (propertize "⛔ Interrupted"
                                              'face (uniline--face 'uniline-error-face)))
                    (`suspicious  ""))))
-      (propertize text
-                  'help-echo "Show Flycheck Errors"
-                  'local-map (make-mode-line-mouse-map
-                              'mouse-1 #'flycheck-list-errors)))))
+      (concat
+       (propertize text
+                   'help-echo "Show Flycheck Errors"
+                   'local-map (make-mode-line-mouse-map
+                               'mouse-1 #'flycheck-list-errors))
+       (uniline-spc)))))
 
 
 (defun uniline-evil (&rest _)
@@ -438,7 +438,8 @@ mouse-1: Reload to start server")
                          uniline-major-mode
                          uniline-lsp
                          uniline-encoding
-                         uniline-ro))))
+                         uniline-ro
+                         uniline-spc))))
 
         (setq-default mode-line-format uniline--mode-line-format)
         (uniline--force-refresh uniline--mode-line-format))
