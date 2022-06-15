@@ -193,7 +193,7 @@ If FRAME is nil, it means the current frame."
 ;; Segments
 ;;
 
-(defun uniline-major-mode ()
+(defun uniline-major-mode (&rest _)
   "The major mode, including environment and text-scale info."
   (propertize
    (concat
@@ -218,7 +218,7 @@ If FRAME is nil, it means the current frame."
     (uniline-spc))
    'face (uniline--face 'uniline-major-mode-face)))
 
-(defun uniline-encoding ()
+(defun uniline-encoding (&rest _)
   "Displays the eol and the encoding style of the buffer."
   (let ((face (uniline--face 'uniline))
         (mouse-face 'uniline-highlight))
@@ -310,7 +310,7 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
     (unless (bound-and-true-p anzu--state)
       evil-mode-line-tag)))
 
-(defun uniline-ro ()
+(defun uniline-ro (&rest _)
   (when buffer-read-only
     (concat
      (uniline-spc)
@@ -341,7 +341,7 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
           anzu--cached-positions anzu--last-command
           anzu--last-isearch-string anzu--overflow-p)))
 
-(defun uniline--anzu ()
+(defun uniline--anzu (&rest _)
   "Show the match index and total number thereof.
 Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
 `evil-search'."
