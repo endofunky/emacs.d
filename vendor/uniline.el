@@ -280,7 +280,7 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
   (propertize ":%l:%c "
               'face (uniline--face 'uniline-position-face)))
 
-(defun uniline-flycheck ()
+(defun uniline-flycheck (&rest _)
   "Return the status of flycheck to be displayed in the mode-line."
   (when (and (fboundp 'flycheck-mode) flycheck-mode)
     (let* ((text (pcase flycheck-last-status-change
