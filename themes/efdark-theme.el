@@ -88,11 +88,12 @@
    `(font-lock-warning-face ((,class (:foreground ,red :weight bold :background ,background-red))))
 
    ;; Tree-sitter face
-   `(tree-sitter-hl-face:punctuation.delimiter ((,class (:background nil))))
+   `(tree-sitter-hl-face:embedded ((,class (:background nil))))
    `(tree-sitter-hl-face:punctuation.bracket ((,class (:background nil))))
+   `(tree-sitter-hl-face:punctuation.delimiter ((,class (:background nil))))
    `(tree-sitter-hl-face:punctuation.special ((,class (:background nil))))
-   `(tree-sitter-hl-face:variable.special ((,class (:inherit font-lock-variable-name-face))))
    `(tree-sitter-hl-face:type.builtin ((,class (:inherit font-lock-type-face))))
+   `(tree-sitter-hl-face:variable.special ((,class (:inherit font-lock-variable-name-face))))
 
    ;; Flyspell faces
    `(flyspell-duplicate ((,class (:underline (:style line :color ,orange)))))
