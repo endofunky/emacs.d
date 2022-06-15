@@ -1,4 +1,3 @@
-(require 'core-direnv)
 (require 'core-evil)
 (require 'core-shackle)
 

@@ -33,7 +33,7 @@
   :functions (lsp-organize-imports
               lsp--require-packages
               lsp--filter-clients
-              ef-lsp-direnv-ad)
+              ef-lsp-envrc-ad)
   :config
   (require 'lsp-modeline)
   (require 'lsp-headerline)
@@ -53,8 +53,8 @@ the confirmation prompt when called via `before-save-hook', for example."
       (setq read-process-output-max (* 1024 1024)))
 
   (when (featurep 'envrc)
-    (defun ef-lsp-direnv-ad (orig-fun &rest args)
-      "Update direnv environment and enable `lsp' when the current buffer's
+    (defun ef-lsp-envrc-ad (orig-fun &rest args)
+      "Update envrc environment and enable `lsp' when the current buffer's
 file is part of a project and a supported lsp binary is present."
       (envrc--update)
       (when (projectile-project-p)
@@ -69,7 +69,7 @@ file is part of a project and a supported lsp binary is present."
                      #'lsp--server-binary-present?))
             (apply orig-fun args))))
 
-    (advice-add 'lsp :around #'ef-lsp-direnv-ad))
+    (advice-add 'lsp :around #'ef-lsp-envrc-ad))
 
   (ef-add-popup "*lsp-performance*" :ephemeral t :size 0.15)
   (ef-add-popup "*lsp session*" :ephemeral t)
