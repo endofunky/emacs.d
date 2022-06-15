@@ -25,7 +25,6 @@
   (company-minimum-prefix-length 2)
   (company-require-match 'never)
   (company-selection-wrap-around t)
-  (company-show-numbers t)
   (evil-complete-next-func 'ef-evil-complete-lambda)
   (evil-complete-previous-func 'ef-evil-complete-lambda)
   :general
