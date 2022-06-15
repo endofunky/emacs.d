@@ -10,10 +10,6 @@
   "A dark theme inspired from One Dark and Niflheim."
   :group 'faces)
 
-(defcustom efdark-use-paddings-in-mode-line t
-  "When non-nil, use top and bottom paddings in the mode-line."
-  :type 'boolean)
-
 (defun true-color-p ()
   "Return non-nil on displays that support 256 colors."
   (or
@@ -100,12 +96,8 @@
    `(flyspell-incorrect ((,class (:underline (:style line :color ,red)))))
 
    ;; Mode line faces
-   `(mode-line ((,class (:background ,mode-line :height 0.9 :foreground ,light
-                         :box ,(when efdark-use-paddings-in-mode-line
-                                 (list :line-width 6 :color mode-line))))))
-   `(mode-line-inactive ((,class (:background ,mode-line :height 0.9 :foreground ,comment
-                                  :box ,(when efdark-use-paddings-in-mode-line
-                                          (list :line-width 6 :color mode-line))))))
+   `(mode-line ((,class (:background ,mode-line :foreground ,light))))
+   `(mode-line-inactive ((,class (:background ,mode-line :foreground ,comment))))
    `(header-line ((,class (:inherit mode-line-inactive))))
 
    ;; macrostep

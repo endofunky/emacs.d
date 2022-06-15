@@ -1,0 +1,331 @@
+;;
+;; Custom
+;;
+
+(defgroup uniline nil
+  "A new, minimal mode-line."
+  :group 'mode-line)
+
+(defgroup uniline-faces nil
+  "The faces of `uniline'."
+  :group 'uniline
+  :group 'faces)
+
+(defface uniline
+  `((t (:inherit mode-line
+        :height 0.9
+        :box (:line-width (1 . 6)
+              :color ,(face-background 'mode-line)))))
+  "Face used for default."
+  :group 'uniline-faces)
+
+(defface uniline-inactive
+  `((t (:inherit mode-line-inactive
+        :height 0.9
+        :box (:line-width (1 . 6)
+              :color ,(face-background 'mode-line-inactive)))))
+  "Face used for inactive."
+  :group 'uniline-faces)
+
+(defface uniline-highlight
+  `((t (:inherit mode-line-highlight
+        :height 0.9
+        :box (:line-width (1 . 6)
+              :color ,(face-background 'mode-line-inactive)))))
+  "Face used for inactive."
+  :group 'uniline-faces)
+
+(defface uniline-spc-face
+  '((t (:inherit uniline)))
+  "Face used for the white space."
+  :group 'uniline-faces)
+
+(defface uniline-major-mode-face
+  '((t (:inherit (font-lock-builtin-face uniline))))
+  "Face used for the major-mode segment in the mode-line."
+  :group 'uniline-faces)
+
+(defface uniline-buffer-name-face
+  '((t (:inherit (font-lock-builtin-face uniline))))
+  "Face used for the buffer name segment in the mode-line."
+  :group 'uniline-faces)
+
+(defface uniline-buffer-name-modified-face
+  '((t (:inherit (warning uniline))))
+  "Face used for the buffer name segment in the mode-line."
+  :group 'uniline-faces)
+
+(defface uniline-position-face
+  '((t (:inherit uniline)))
+  "Face used for the position segment in the mode-line."
+  :group 'uniline-faces)
+
+(defface uniline-ok-face
+  '((t :inherit (success uniline)))
+  "Face for ok status in the mode-line.")
+
+(defface uniline-warning-face
+  '((t :inherit (warning uniline)))
+  "Face for warning status in the mode-line.")
+
+(defface uniline-error-face
+  '((t :inherit (error uniline)))
+  "Face for error status in the mode-line.")
+
+(defface uniline-ro-face
+  '((t :inherit (error uniline)))
+  "Face for error status in the mode-line.")
+
+;;
+;; Temp vars
+;;
+
+(defvar uniline--original-mode-line-format)
+(defvar uniline--mode-line-format)
+
+;;
+;; Defintions for byte-compiler
+;;
+(defvar evil-mode)
+(defvar evil-mode-line-tag)
+(defvar flycheck-mode)
+(defvar flycheck-last-status-change)
+(defvar flycheck-current-errors)
+(declare-function flycheck-count-errors "flycheck")
+(declare-function flycheck-list-errors "flycheck")
+
+;;
+;; Helpers
+;;
+
+(defun uniline--face (face &optional inactive-face)
+  "Display FACE in mode-line.
+If INACTIVE-FACE is nil, will use `mode-line-inactive' face."
+  (if (uniline--active)
+      face
+    (or inactive-face 'uniline-inactive)))
+
+(defun uniline--format (left-segments right-segments)
+  "Return a string of `window-width' length containing LEFT-SEGMENTS and
+RIGHT-SEGMENTS, aligned respectively."
+  (let* ((left (uniline--format-segments left-segments))
+         (right (uniline--format-segments right-segments))
+         (reserve (length right)))
+    (concat
+     left
+     (propertize " "
+                 'display `((space :align-to (- right ,reserve)))
+                 'face '(:inherit uniline))
+     right)))
+
+(defun uniline--format-segments (segments)
+  "Return a string from a list of SEGMENTS."
+  (format-mode-line (mapcar
+                     (lambda (segment)
+                       `(:eval (,segment)))
+                     segments)))
+
+(defun uniline--force-refresh (format)
+  "Updates the modeline format in each buffer."
+  (dolist (buf (buffer-list))
+    (with-current-buffer buf
+      (setq mode-line-format format))))
+
+(defsubst uniline-spc ()
+  "Text style with whitespace."
+  (propertize " " 'face 'uniline-spc-face))
+
+
+;;
+;; Current window tracking (from doom-modeline)
+;;
+
+(defun uniline--get-current-window (&optional frame)
+  "Get the current window but should exclude the child windows.
+If FRAME is nil, it means the current frame."
+  (if (and (fboundp 'frame-parent) (frame-parent frame))
+      (frame-selected-window (frame-parent frame))
+    (frame-selected-window frame)))
+
+(defvar uniline-current-window (uniline--get-current-window))
+
+(defun uniline--active ()
+  "Whether is an active window."
+  (unless (and (bound-and-true-p mini-frame-frame)
+               (and (frame-live-p mini-frame-frame)
+                    (frame-visible-p mini-frame-frame)))
+    (and uniline-current-window
+         (eq (uniline--get-current-window) uniline-current-window))))
+
+(defun uniline-set-selected-window (&rest _)
+  "Set `uniline-current-window' appropriately."
+  (let ((win (uniline--get-current-window)))
+    (setq uniline-current-window
+          (if (minibuffer-window-active-p win)
+              (minibuffer-selected-window)
+            win))))
+
+(defun uniline-unset-selected-window ()
+  "Unset `uniline-current-window' appropriately."
+  (setq uniline-current-window nil))
+
+(add-hook 'pre-redisplay-functions #'uniline-set-selected-window)
+
+;;
+;; Segments
+;;
+
+(defun uniline-major-mode ()
+  "The major mode, including environment and text-scale info."
+  (propertize
+   (concat
+    (uniline-spc)
+    (propertize (format-mode-line
+                 (or (and (boundp 'delighted-modes)
+                          (cadr (assq major-mode delighted-modes)))
+                     mode-name))
+                'help-echo "Major mode\n\
+  mouse-1: Display major mode menu\n\
+  mouse-2: Show help for major mode\n\
+  mouse-3: Toggle minor modes"
+                'mouse-face 'unilight-highlight
+                'local-map mode-line-major-mode-keymap)
+    (and (boundp 'text-scale-mode-amount)
+         (/= text-scale-mode-amount 0)
+         (format
+          (if (> text-scale-mode-amount 0)
+              " (%+d)"
+            " (%-d)")
+          text-scale-mode-amount))
+    (uniline-spc))
+   'face (uniline--face 'uniline-major-mode-face)))
+
+(defun uniline-encoding ()
+  "Displays the eol and the encoding style of the buffer."
+  (let ((face (uniline--face 'uniline))
+        (mouse-face 'uniline-highlight))
+    (concat
+     ;; coding system
+     (let* ((sys (coding-system-plist buffer-file-coding-system))
+            (cat (plist-get sys :category))
+            (sym (if (memq cat
+                           '(coding-category-undecided coding-category-utf-8))
+                     'utf-8
+                   (plist-get sys :name))))
+       (propertize
+        (upcase (symbol-name sym))
+        'face face
+        'mouse-face mouse-face
+        'help-echo 'mode-line-mule-info-help-echo
+        'local-map mode-line-coding-system-map))
+
+     " "
+
+     ;; eol type
+     (let ((eol (coding-system-eol-type buffer-file-coding-system)))
+       (propertize
+        (pcase eol
+          (0 "LF")
+          (1 "CRLF")
+          (2 "CR")
+          (_ ""))
+        'face face
+        'mouse-face mouse-face
+        'help-echo (format "End-of-line style: %s\nmouse-1: Cycle"
+                           (pcase eol
+                             (0 "Unix-style LF")
+                             (1 "DOS-style CRLF")
+                             (2 "Mac-style CR")
+                             (_ "Undecided")))
+        'local-map (let ((map (make-sparse-keymap)))
+                     (define-key map [mode-line mouse-1] 'mode-line-change-eol)
+                     map))))))
+
+(defun uniline-buffer-name (&rest _)
+  "Update buffer file name in mode-line."
+  (propertize "%b"
+              'face (if (and buffer-file-name
+                             (buffer-modified-p (current-buffer)))
+                        (uniline--face 'uniline-buffer-name-modified-face)
+                      (uniline--face 'uniline-buffer-name-face))
+              'mouse-face 'uniline-highlight
+              'help-echo "Buffer name
+mouse-1: Previous buffer\nmouse-3: Next buffer"
+              'local-map mode-line-buffer-identification-keymap))
+
+(defun uniline-position (&rest _)
+  (propertize ":%l:%c "
+              'face (uniline--face 'uniline-position-face)))
+
+(defun uniline-flycheck ()
+  "Return the status of flycheck to be displayed in the mode-line."
+  (when (and (fboundp 'flycheck-mode) flycheck-mode)
+    (let* ((text (pcase flycheck-last-status-change
+                   (`finished (if flycheck-current-errors
+                                  (let ((count (let-alist (flycheck-count-errors flycheck-current-errors)
+                                                 (+ (or .warning 0) (or .error 0)))))
+                                    (propertize (format "✖ %s Issue%s" count (if (eq 1 count) "" "s"))
+                                                'face (uniline--face 'uniline-error-face)))
+                                (propertize "✔ No Issues"
+                                            'face (uniline--face 'uniline-ok-face))))
+                   (`running     (propertize "⟲ Running"
+                                             'face (uniline--face 'uniline-warning-face)))
+                   (`no-checker  (propertize "⚠ No Checker"
+                                             'face (uniline--face 'uniline-warning-face)))
+                   (`not-checked "✖ Disabled")
+                   (`errored     (propertize "⚠ Error"
+                                             'face (uniline--face 'uniline-error-face)))
+                   (`interrupted (propertize "⛔ Interrupted"
+                                             'face (uniline--face 'uniline-error-face)))
+                   (`suspicious  ""))))
+      (propertize text
+                  'help-echo "Show Flycheck Errors"
+                  'local-map (make-mode-line-mouse-map
+                              'mouse-1 #'flycheck-list-errors)))))
+
+
+(defun uniline-evil (&rest _)
+  (when (and (fboundp 'evil-mode)
+             evil-mode)
+    evil-mode-line-tag))
+
+(defun uniline-ro ()
+  (when buffer-read-only
+    (concat
+     (uniline-spc)
+     (propertize "RO" 'face (uniline--face 'uniline-ro-face)))))
+;;
+;; Mode
+;;
+
+(define-minor-mode uniline-mode
+  "Toggle `uniline' on or off."
+  :group 'uniline
+  :global t
+  :lighter nil
+  (if uniline-mode
+      (progn
+        (require 'all-the-icons)
+
+        (setq uniline--original-mode-line-format mode-line-format)
+
+        (setq uniline--mode-line-format
+              '(:eval (uniline--format
+                       '(uniline-spc
+                         uniline-evil
+                         uniline-buffer-name
+                         uniline-position)
+                       '(uniline-flycheck
+                         uniline-major-mode
+                         uniline-encoding
+                         uniline-ro))))
+
+        (setq-default mode-line-format uniline--mode-line-format)
+        (uniline--force-refresh uniline--mode-line-format))
+    (progn
+      ;; Reset the original modeline state
+      (setq-default mode-line-format uniline--original-mode-line-format)
+      (uniline--force-refresh uniline--original-mode-line-format)
+      (setq uniline--original-mode-line-format nil))))
+
+(provide 'uniline)
