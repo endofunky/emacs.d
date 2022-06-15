@@ -24,7 +24,7 @@
                               vterm-mode))
   (company-idle-delay 0.2)
   (company-minimum-prefix-length 2)
-  (company-require-match nil)
+  (company-require-match 'never)
   (company-selection-wrap-around t)
   (company-show-numbers t)
   (company-tooltip-align-annotations t)
