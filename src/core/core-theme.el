@@ -1,13 +1,6 @@
 (require 'core-lib)
 (require 'core-shackle)
 
-(use-package zerodark-theme
-  :disabled
-  :demand t
-  :config
-  (load-theme 'zerodark t))
-
-;; ji
 (use-package efdark-theme
   :load-path "themes/"
   :straight nil
