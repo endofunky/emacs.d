@@ -24,7 +24,7 @@
       (default (if (true-color-p) "#abb2bf" "#afafaf"))
       (light (if (true-color-p) "#ccd4e3" "#d7d7d7"))
       (background (if (true-color-p) "#1f2229" "#333333"))
-      (background-darker (if (true-color-p) "#1d1f25" "#222222"))
+      (background-darker (if (true-color-p) "#1a1c21" "#222222"))
       (background-lighter (if (true-color-p) "#3a3f4b" "#5f5f5f"))
       (mode-line (if (true-color-p) "#16171c" "#222222"))
       (background-red (if (true-color-p) "#4c3840" "#5f5f5f"))
