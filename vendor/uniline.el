@@ -128,11 +128,15 @@ If INACTIVE-FACE is nil, will use `mode-line-inactive' face."
 RIGHT-SEGMENTS, aligned respectively."
   (let* ((left (uniline--format-segments left-segments))
          (right (uniline--format-segments right-segments))
-         (reserve (length right)))
+         (reserve (length right))
+         (reserve (if (and window-system (eq 'right (get-scroll-bar-mode)))
+                      (- reserve 3)
+                    reserve)))
     (concat
      left
      (propertize " "
-                 'display `((space :align-to (- right ,reserve)))
+                 'display `((space :align-to (- (+ right right-fringe right-margin)
+                                                ,reserve)))
                  'face '(:inherit uniline))
      right)))
 
