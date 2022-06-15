@@ -91,6 +91,7 @@
    `(tree-sitter-hl-face:punctuation.delimiter ((,class (:background nil))))
    `(tree-sitter-hl-face:punctuation.bracket ((,class (:background nil))))
    `(tree-sitter-hl-face:punctuation.special ((,class (:background nil))))
+   `(tree-sitter-hl-face:variable.special ((,class (:inherit font-lock-variable-name-face))))
 
    ;; Mode line faces
    `(mode-line ((,class (:background ,mode-line :height 0.9 :foreground ,light
