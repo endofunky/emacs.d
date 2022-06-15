@@ -80,11 +80,6 @@
 
   (global-company-mode t))
 
-(use-package company-statistics
-  :after company
-  :hook
-  (company-mode . company-statistics-mode))
-
 (use-package company-box
   :if window-system
   :after company

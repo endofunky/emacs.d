@@ -11,7 +11,6 @@
  ("company-mode" . "d5145006b948f93e673f439a766da01f636d39fc")
  ("company-restclient" . "e5a3ec54edb44776738c13e13e34c85b3085277b")
  ("company-shell" . "a77f4de75912aa87314cde92c603b831d5050246")
- ("company-statistics" . "e62157d43b2c874d2edbd547c3bdfb05d0a7ae5c")
  ("compat" . "884d47ef896cff2fa6910c359f1aa0e0ff8c7acd")
  ("consult" . "b816d1c42f420411c31fe0968ddc868aa2186de7")
  ("consult-lsp" . "19606a03cf854e1b0930c4526ed92c4560dccdc2")
