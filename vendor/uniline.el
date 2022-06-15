@@ -50,11 +50,6 @@
   "Face used for the buffer name segment in the mode-line."
   :group 'uniline-faces)
 
-(defface uniline-buffer-name-modified-face
-  '((t (:inherit (warning uniline))))
-  "Face used for the buffer name segment in the mode-line."
-  :group 'uniline-faces)
-
 (defface uniline-position-face
   '((t (:inherit uniline)))
   "Face used for the position segment in the mode-line."
@@ -256,13 +251,18 @@ If FRAME is nil, it means the current frame."
                      (define-key map [mode-line mouse-1] 'mode-line-change-eol)
                      map))))))
 
+(defun uniline-buffer-mark (&rest _)
+  "Update buffer file name mark in mode-line."
+  (when buffer-file-name
+    (propertize (if (buffer-modified-p (current-buffer)) "✖ " "✔ ")
+                'face (if (buffer-modified-p (current-buffer))
+                          (uniline--face 'uniline-warning-face)
+                        (uniline--face 'uniline-ok-face)))))
+
 (defun uniline-buffer-name (&rest _)
   "Update buffer file name in mode-line."
   (propertize "%b"
-              'face (if (and buffer-file-name
-                             (buffer-modified-p (current-buffer)))
-                        (uniline--face 'uniline-buffer-name-modified-face)
-                      (uniline--face 'uniline-buffer-name-face))
+              'face (uniline--face 'uniline-buffer-name-face)
               'mouse-face 'uniline-highlight
               'help-echo "Buffer name
 mouse-1: Previous buffer\nmouse-3: Next buffer"
@@ -354,6 +354,10 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
                (format " %s/%d " here total))))
       'face (uniline--face 'uniline-panel))
      (uniline-spc))))
+
+(defun uniline-misc
+    (format-mode-line mode-line-misc-info))
+
 ;;
 ;; Mode
 ;;
@@ -374,8 +378,10 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
                        '(uniline-spc
                          uniline--anzu
                          uniline-evil
+                         uniline-buffer-mark
                          uniline-buffer-name
-                         uniline-position)
+                         uniline-position
+                         uniline-misc)
                        '(uniline-flycheck
                          uniline-major-mode
                          uniline-encoding
