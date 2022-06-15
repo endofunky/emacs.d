@@ -2,6 +2,7 @@
 (require 'core-shackle)
 
 (use-package magit
+  :defer 2
   :commands (magit-blame
              magit-checkout
              magit-diff
