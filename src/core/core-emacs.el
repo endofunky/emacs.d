@@ -72,6 +72,7 @@
   :custom
   (auto-revert-interval 1)
   (auto-revert-verbose nil)
+  (auto-revert-check-vc-info t)
   (global-auto-revert-non-file-buffers t)
   :config
   (global-auto-revert-mode 1))
