@@ -102,8 +102,6 @@
 ;;
 ;; Defintions for byte-compiler
 ;;
-(declare-function all-the-icons-octicon "ext:all-the-icons-octicon")
-
 (defvar anzu-cons-mode-line-p)
 (defvar anzu--current-position)
 (defvar anzu--total-matched)
@@ -248,55 +246,45 @@ If FRAME is nil, it means the current frame."
     (uniline-spc))
    'face 'uniline-major-mode-face))
 
-(defun uniline-vcs-text (&rest _)
-  (vc-refresh-state)
-  (when (and vc-mode buffer-file-name)
-    (let* ((backend (vc-backend buffer-file-name))
-           (state (vc-state (file-local-name buffer-file-name) backend))
-           (str (if vc-display-status
-                    (substring vc-mode (+ (if (eq backend 'Hg) 2 3) 2))
-                  "")))
-      (concat
-       (cond ((memq state '(edited added))
-              (all-the-icons-octicon "git-compare"
-                                     :height 0.9
-                                     :v-adjust 0
-                                     :face 'uniline-warning-face))
-             ((eq state 'needs-merge)
-              (all-the-icons-octicon "git-merge"
-                                     :height 0.9
-                                     :v-adjust 0
-                                     :face 'uniline-warning-face))
-             ((eq state 'needs-update)
-              (all-the-icons-octicon "arrow-down"
-                                     :height 0.9
-                                     :v-adjust 0
-                                     :face 'uniline-warning-face))
-             ((memq state '(removed conflict unregistered))
-              (all-the-icons-octicon "alert"
-                                     :height 0.9
-                                     :v-adjust 0
-                                     :face 'uniline-error-face))
-             (t
-              (all-the-icons-octicon "git-branch"
-                                     :height 0.9
-                                     :v-adjust 0
-                                     :face 'uniline-vcs-face)))
-       (uniline-spc)
-       (propertize (if (length> str 25)
-                       (concat
-                        (substring str 0 (- 25 3))
-                        "...")
-                     str)
-                   'face (cond ((eq state 'needs-update)
-                                'uniline-warning-face)
-                               ((memq state '(removed conflict unregistered))
-                                'uniline-error-face)
-                               ((memq state '(edited added))
-                                'uniline-warning-face)
-                               (t 'uniline-vcs-face)))
+(defvar-local uniline--vcs-text nil)
 
-       (uniline-spc)))))
+(defun uniline-vcs-text (&rest _)
+  uniline--vcs-text)
+
+(defun uniline--update-vcs-text (&rest _)
+  (setq uniline--vcs-text
+        (when (and vc-mode buffer-file-name)
+          (let* ((backend (vc-backend buffer-file-name))
+                 (state (vc-state (file-local-name buffer-file-name) backend))
+                 (str (if vc-display-status
+                          (substring vc-mode (+ (if (eq backend 'Hg) 2 3) 2))
+                        "")))
+            (concat
+             (cond ((memq state '(edited added))
+                    (propertize "⇆" 'face 'uniline-warning-face))
+                   ((eq state 'needs-merge)
+                    (propertize "⛙" 'face 'uniline-warning-face))
+                   ((eq state 'needs-update)
+                    (propertize "↓" 'face 'uniline-warning-face))
+                   ((memq state '(removed conflict unregistered))
+                    (propertize "⚠" 'face 'uniline-error-face))
+                   (t
+                    (propertize "@" 'face 'uniline-vcs-face)))
+             (uniline-spc)
+             (propertize (if (length> str 25)
+                             (concat
+                              (substring str 0 (- 25 3))
+                              "...")
+                           str)
+                         'face (cond ((eq state '(needs-update needs-merge))
+                                      'uniline-warning-face)
+                                     ((memq state '(removed conflict unregistered))
+                                      'uniline-error-face)
+                                     ((memq state '(edited added))
+                                      'uniline-warning-face)
+                                     (t 'uniline-vcs-face)))
+
+             (uniline-spc))))))
 
 (defun uniline-encoding (&rest _)
   "Displays the eol and the encoding style of the buffer."
@@ -574,8 +562,8 @@ mouse-1: Reload to start server")
                           (forward-word))))
       (when (> count 0)
         (propertize (if (> count 1)
-                        (format "%d Mistakes " count)
-                      "1 Mistake")
+                        (format "%d Misspells " count)
+                      "1 Misspell ")
                     'help-echo "Flyspell: mouse-1: Correct next word"
                     'local-map (let ((map (make-sparse-keymap)))
                                  (define-key map [mode-line mouse-1] 'flyspell-correct-next)
@@ -607,6 +595,7 @@ mouse-1: Reload to start server")
      (if (> info-count 0)
          (propertize (format "%d Infomational " info-count)
                      'face 'uniline-ok-face)))))
+
 
 (defun uniline--set-flycheck-format ()
   (setq mode-line-format
@@ -643,7 +632,6 @@ mouse-1: Reload to start server")
   :lighter nil
   (if uniline-mode
       (progn
-        (require 'all-the-icons)
         (setq uniline--original-mode-line-format mode-line-format)
 
         (setq uniline--mode-line-format
@@ -661,7 +649,7 @@ mouse-1: Reload to start server")
                  ;; RHS
                  '(uniline-flyspell
                    uniline-flycheck
-                   ;; uniline-vcs-text
+                   uniline-vcs-text
                    uniline-major-mode
                    uniline-lsp
                    uniline-encoding
@@ -673,6 +661,9 @@ mouse-1: Reload to start server")
         (add-hook 'flycheck-mode-hook #'uniline--flycheck-update)
         (add-hook 'flycheck-error-list-mode-hook #'uniline--set-flycheck-format)
         (add-hook 'vterm-mode-hook #'uniline--set-vterm-format)
+        (add-hook 'find-file-hook #'uniline--update-vcs-text)
+        (add-hook 'after-save-hook #'uniline--update-vcs-text)
+        (advice-add #'vc-refresh-state :after #'uniline--update-vcs-text)
         (uniline--force-refresh uniline--mode-line-format))
     (progn
       ;; Reset the original modeline state
@@ -683,6 +674,9 @@ mouse-1: Reload to start server")
       (remove-hook 'flycheck-error-list-mode-hook
                    #'uniline--set-flycheck-format)
       (remove-hook 'vterm-mode-hook #'uniline--set-vterm-format)
+      (remove-hook 'find-file-hook #'uniline--update-vcs-text)
+      (remove-hook 'after-save-hook #'uniline--update-vcs-text)
+      (advice-remove #'vc-refresh-state #'uniline--update-vcs-text)
       (uniline--force-refresh uniline--original-mode-line-format)
       (setq uniline--original-mode-line-format nil))))
 
