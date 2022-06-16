@@ -127,6 +127,8 @@
 (declare-function lsp-workspace-shutdown "ext:lsp-mode")
 (declare-function lsp-workspaces "ext:lsp-mode")
 
+(defvar minions-mode-line-minor-modes-map)
+
 ;;
 ;; Helpers
 ;;
@@ -523,6 +525,23 @@ mouse-1: Reload to start server")
                                           (ignore-errors (revert-buffer t t))))))
                                   map))
          (uniline-spc)))))
+
+(defun uniline-minions (&rest _)
+  (let ((face (uniline--face 'uniline))
+        (mouse-face 'uniline-highlight)
+        (help-echo "Minor mode
+  mouse-1: Display minor mode menu
+  mouse-2: Show help for minor mode
+  mouse-3: Toggle minor modes"))
+    (if (bound-and-true-p minions-mode)
+        `((:propertize "⚙"
+           face ,face
+           mouse-face ,mouse-face
+           help-echo "Minions
+mouse-1: Display minor modes menu"
+           local-map ,minions-mode-line-minor-modes-map)
+          ,(uniline-spc)))))
+
 ;;
 ;; Mode
 ;;
@@ -556,7 +575,8 @@ mouse-1: Reload to start server")
                    uniline-lsp
                    uniline-encoding
                    uniline-ro
-                   uniline-spc))))
+                   uniline-spc
+                   uniline-minions))))
 
         (setq-default mode-line-format uniline--mode-line-format)
         (add-hook 'flycheck-status-changed-functions #'uniline--flycheck-update)
