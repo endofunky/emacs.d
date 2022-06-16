@@ -463,7 +463,7 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
       " Macrostep "
       'face (uniline--face 'uniline-panel-warning)))))
 
-(defsubst uniline-macro ()
+(defsubst uniline-macro (&rest _)
   "Display current Emacs or evil macro being recorded."
   (when (and (uniline--active)
              (or defining-kbd-macro executing-kbd-macro))
