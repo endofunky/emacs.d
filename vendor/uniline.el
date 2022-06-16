@@ -344,31 +344,53 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
   (propertize ":%l:%c "
               'face (uniline--face 'uniline-position-face)))
 
-(defun uniline-flycheck (&rest _)
-  "Return the status of flycheck to be displayed in the mode-line."
-  (when (and (fboundp 'flycheck-mode) flycheck-mode)
-    (let* ((text (pcase flycheck-last-status-change
-                   (`finished (if flycheck-current-errors
-                                  (let ((count (let-alist (flycheck-count-errors flycheck-current-errors)
-                                                 (+ (or .warning 0) (or .error 0)))))
-                                    (propertize (format "✖ %s Issue%s" count (if (eq 1 count) "" "s"))
-                                                'face (uniline--face 'uniline-error-face)))
-                                (propertize "✔ No Issues"
-                                            'face (uniline--face 'uniline-ok-face))))
-                   (`running     (propertize "⟲ Running"
-                                             'face (uniline--face 'uniline-warning-face)))
-                   (`errored     (propertize "⚠ Error"
-                                             'face (uniline--face 'uniline-error-face)))
-                   (`interrupted (propertize "⛔ Interrupted"
-                                             'face (uniline--face 'uniline-error-face)))
-                   (`suspicious  ""))))
-      (concat
-       (propertize text
-                   'help-echo "Show Flycheck Errors"
-                   'local-map (make-mode-line-mouse-map
-                               'mouse-1 #'flycheck-list-errors))
-       (uniline-spc)))))
 
+(defvar-local uniline--flycheck-cached nil)
+(defun uniline--flycheck-update (&rest _)
+  "Return the status of flycheck to be displayed in the mode-line."
+  (setq uniline--flycheck-cached
+        (if-let* ((text (pcase flycheck-last-status-change
+                          (`finished
+                           (if flycheck-current-errors
+                               (let* ((errors (flycheck-count-errors flycheck-current-errors))
+                                      (info-count (or (alist-get 'info errors) 0))
+                                      (warning-count (or (alist-get 'warning errors) 0))
+                                      (error-count (or (alist-get 'error errors) 0)))
+                                 (concat
+                                  (if (> error-count 0)
+                                      (propertize (format "✖ %d " error-count)
+                                                  'face (uniline--face 'uniline-error-face)))
+                                  (if (> warning-count 0)
+                                      (propertize (format "⚠ %d " warning-count)
+                                                  'face (uniline--face 'uniline-warning-face)))
+                                  (if (> info-count 0)
+                                      (propertize (format "! %d " info-count)
+                                                  'face (uniline--face 'uniline-ok-face)))))
+                             (concat (propertize "✔ No Issues"
+                                                 'face (uniline--face 'uniline-ok-face))
+                                     (uniline-spc))))
+                          (`errored
+                           (concat (propertize "✖ Error"
+                                               'face (uniline--face 'uniline-error-face))
+                                   (uniline-spc)))
+                          (`interrupted
+                           (concat (propertize "⏸ Interrupted"
+                                               'face (uniline--face 'uniline-warning-face))
+                                   (uniline-spc)))
+                          (`suspicious
+                           (concat (propertize "! Suspicious"
+                                               'face (uniline--face 'uniline-error-face))
+                                   (uniline-spc))))))
+            (concat
+             (propertize text
+                         'help-echo "Show Flycheck Errors"
+                         'local-map (make-mode-line-mouse-map
+                                     'mouse-1 #'flycheck-list-errors))))))
+
+(defun uniline-flycheck (&rest _)
+  (when (and (fboundp 'flycheck-mode)
+             flycheck-mode)
+    uniline--flycheck-cached))
 
 (defun uniline-evil (&rest _)
   (when (and (fboundp 'evil-mode)
@@ -433,7 +455,8 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
 
 (defun uniline-lsp (&rest _)
   "Update `lsp-mode' state."
-  (when (fboundp 'lsp)
+  (when (and (boundp 'lsp-mode)
+             lsp-mode)
     (if-let* ((workspaces (lsp-workspaces))
               (face (uniline--face (if workspaces
                                        'uniline-lsp-face
@@ -501,7 +524,7 @@ mouse-1: Reload to start server")
                    uniline-misc)
                  ;; RHS
                  '(uniline-flycheck
-                   uniline-vcs-text
+                   ;; uniline-vcs-text
                    uniline-major-mode
                    uniline-lsp
                    uniline-encoding
@@ -509,10 +532,14 @@ mouse-1: Reload to start server")
                    uniline-spc))))
 
         (setq-default mode-line-format uniline--mode-line-format)
+        (add-hook 'flycheck-status-changed-functions #'uniline--flycheck-update)
+        (add-hook 'flycheck-mode-hook #'uniline--flycheck-update)
         (uniline--force-refresh uniline--mode-line-format))
     (progn
       ;; Reset the original modeline state
       (setq-default mode-line-format uniline--original-mode-line-format)
+      (remove-hook 'flycheck-status-changed-functions #'uniline--flycheck-update)
+      (remove-hook 'flycheck-mode-hook #'uniline--flycheck-update)
       (uniline--force-refresh uniline--original-mode-line-format)
       (setq uniline--original-mode-line-format nil))))
 
