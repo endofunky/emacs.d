@@ -559,7 +559,11 @@ mouse-1: Reload to start server")
 
 (defun uniline-flyspell (&rest _)
   (when (and (boundp 'flyspell-mode)
-             flyspell-mode)
+             flyspell-mode
+             (or (eq major-mode 'markdown-mode)
+                 (eq major-mode 'gfm-mode)
+                 (eq major-mode 'org-mode)
+                 (eq major-mode 'text-mode)))
     (let ((count 0))
       (save-excursion (goto-char (point-min))
                       (save-restriction
@@ -628,28 +632,6 @@ mouse-1: Reload to start server")
            ;; RHS
            '(uniline-major-mode)))))
 
-(defun uniline--set-write-format ()
-  (setq mode-line-format
-        '(:eval
-          (uniline--format
-           ;; LHS
-           '(uniline-macro
-             uniline--anzu
-             uniline-evil
-             uniline-buffer-mark
-             uniline-buffer-name
-             uniline-position
-             uniline-misc)
-           ;; RHS
-           '(uniline-flyspell
-             uniline-flycheck
-             ;; uniline-vcs-text
-             uniline-major-mode
-             uniline-lsp
-             uniline-encoding
-             uniline-ro
-             uniline-spc)))))
-
 ;;
 ;; Mode
 ;;
@@ -677,7 +659,8 @@ mouse-1: Reload to start server")
                    uniline-position
                    uniline-misc)
                  ;; RHS
-                 '(uniline-flycheck
+                 '(uniline-flyspell
+                   uniline-flycheck
                    ;; uniline-vcs-text
                    uniline-major-mode
                    uniline-lsp
@@ -690,10 +673,6 @@ mouse-1: Reload to start server")
         (add-hook 'flycheck-mode-hook #'uniline--flycheck-update)
         (add-hook 'flycheck-error-list-mode-hook #'uniline--set-flycheck-format)
         (add-hook 'vterm-mode-hook #'uniline--set-vterm-format)
-        (add-hook 'markdown-mode-hook #'uniline--set-write-format)
-        (add-hook 'gfm-mode-hook #'uniline--set-write-format)
-        (add-hook 'org-mode-hook #'uniline--set-write-format)
-        (add-hook 'text-mode-hook #'uniline--set-write-format)
         (uniline--force-refresh uniline--mode-line-format))
     (progn
       ;; Reset the original modeline state
@@ -704,10 +683,6 @@ mouse-1: Reload to start server")
       (remove-hook 'flycheck-error-list-mode-hook
                    #'uniline--set-flycheck-format)
       (remove-hook 'vterm-mode-hook #'uniline--set-vterm-format)
-      (remove-hook 'markdown-mode-hook #'uniline--set-write-format)
-      (remove-hook 'gfm-mode-hook #'uniline--set-write-format)
-      (remove-hook 'org-mode-hook #'uniline--set-write-format)
-      (remove-hook 'text-mode-hook #'uniline--set-write-format)
       (uniline--force-refresh uniline--original-mode-line-format)
       (setq uniline--original-mode-line-format nil))))
 
