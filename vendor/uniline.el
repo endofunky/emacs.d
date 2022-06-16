@@ -159,7 +159,12 @@ RIGHT-SEGMENTS, aligned respectively."
   "Return a string from a list of SEGMENTS."
   (format-mode-line (mapcar
                      (lambda (segment)
-                       `(:eval (,segment)))
+                       `(:eval (let* ((s (concat (,segment)))
+                                      (end (length s)))
+                                 (if (uniline--active)
+                                     s
+                                   (set-text-properties 0 end nil s)
+                                   (propertize s 'face 'uniline-inactive)))))
                      segments)))
 
 (defun uniline--force-refresh (format)
@@ -234,7 +239,7 @@ If FRAME is nil, it means the current frame."
             " (%-d)")
           text-scale-mode-amount))
     (uniline-spc))
-   'face (uniline--face 'uniline-major-mode-face)))
+   'face 'uniline-major-mode-face))
 
 (defun uniline-vcs-text (&rest _)
   (vc-refresh-state)
@@ -249,47 +254,46 @@ If FRAME is nil, it means the current frame."
               (all-the-icons-octicon "git-compare"
                                      :height 0.9
                                      :v-adjust 0
-                                     :face (uniline--face 'uniline-warning-face)))
+                                     :face 'uniline-warning-face))
              ((eq state 'needs-merge)
               (all-the-icons-octicon "git-merge"
                                      :height 0.9
                                      :v-adjust 0
-                                     :face (uniline--face 'uniline-warning-face)))
+                                     :face 'uniline-warning-face))
              ((eq state 'needs-update)
               (all-the-icons-octicon "arrow-down"
                                      :height 0.9
                                      :v-adjust 0
-                                     :face (uniline--face 'uniline-warning-face)))
+                                     :face 'uniline-warning-face))
              ((memq state '(removed conflict unregistered))
               (all-the-icons-octicon "alert"
                                      :height 0.9
                                      :v-adjust 0
-                                     :face (uniline--face 'uniline-error-face)))
+                                     :face 'uniline-error-face))
              (t
               (all-the-icons-octicon "git-branch"
                                      :height 0.9
                                      :v-adjust 0
-                                     :face (uniline--face 'uniline-vcs-face))))
+                                     :face 'uniline-vcs-face)))
        (uniline-spc)
        (propertize (if (length> str 25)
                        (concat
                         (substring str 0 (- 25 3))
                         "...")
                      str)
-                   'face (uniline--face
-                          (cond ((eq state 'needs-update)
-                                 'uniline-warning-face)
-                                ((memq state '(removed conflict unregistered))
-                                 'uniline-error-face)
-                                ((memq state '(edited added))
-                                 'uniline-warning-face)
-                                (t 'uniline-vcs-face))))
+                   'face (cond ((eq state 'needs-update)
+                                'uniline-warning-face)
+                               ((memq state '(removed conflict unregistered))
+                                'uniline-error-face)
+                               ((memq state '(edited added))
+                                'uniline-warning-face)
+                               (t 'uniline-vcs-face)))
 
        (uniline-spc)))))
 
 (defun uniline-encoding (&rest _)
   "Displays the eol and the encoding style of the buffer."
-  (let ((face (uniline--face 'uniline))
+  (let ((face 'uniline)
         (mouse-face 'uniline-highlight))
     (concat
      ;; coding system
@@ -333,13 +337,13 @@ If FRAME is nil, it means the current frame."
   (when buffer-file-name
     (propertize (if (buffer-modified-p (current-buffer)) "✖ " "✔ ")
                 'face (if (buffer-modified-p (current-buffer))
-                          (uniline--face 'uniline-warning-face)
-                        (uniline--face 'uniline-ok-face)))))
+                          'uniline-warning-face
+                        'uniline-ok-face))))
 
 (defun uniline-buffer-name (&rest _)
   "Update buffer file name in mode-line."
   (propertize "%b"
-              'face (uniline--face 'uniline-buffer-name-face)
+              'face 'uniline-buffer-name-face
               'mouse-face 'uniline-highlight
               'help-echo "Buffer name
 mouse-1: Previous buffer\nmouse-3: Next buffer"
@@ -347,7 +351,7 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
 
 (defun uniline-position (&rest _)
   (propertize ":%l:%c "
-              'face (uniline--face 'uniline-position-face)))
+              'face 'uniline-position-face))
 
 
 (defvar-local uniline--flycheck-cached nil)
@@ -365,27 +369,27 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
                             (concat
                              (if (> error-count 0)
                                  (propertize (format "✖ %d " error-count)
-                                             'face (uniline--face 'uniline-error-face)))
+                                             'face 'uniline-error-face))
                              (if (> warning-count 0)
                                  (propertize (format "⚠ %d " warning-count)
-                                             'face (uniline--face 'uniline-warning-face)))
+                                             'face 'uniline-warning-face))
                              (if (> info-count 0)
                                  (propertize (format "! %d " info-count)
-                                             'face (uniline--face 'uniline-ok-face)))))
+                                             'face 'uniline-ok-face))))
                         (concat (propertize "✔ No Issues"
-                                            'face (uniline--face 'uniline-ok-face))
+                                            'face 'uniline-ok-face)
                                 (uniline-spc))))
                      (`errored
                       (concat (propertize "✖ Error"
-                                          'face (uniline--face 'uniline-error-face))
+                                          'face 'uniline-error-face)
                               (uniline-spc)))
                      (`interrupted
                       (concat (propertize "⏸ Interrupted"
-                                          'face (uniline--face 'uniline-warning-face))
+                                          'face 'uniline-warning-face)
                               (uniline-spc)))
                      (`suspicious
                       (concat (propertize "! Suspicious"
-                                          'face (uniline--face 'uniline-error-face))
+                                          'face 'uniline-error-face)
                               (uniline-spc))))))
             (concat
              (propertize text
@@ -408,7 +412,7 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
   (when buffer-read-only
     (concat
      (uniline-spc)
-     (propertize "RO" 'face (uniline--face 'uniline-ro-face)))))
+     (propertize "RO" 'face 'uniline-ro-face))))
 
 ;; `anzu' and `evil-anzu' expose current/total state that can be displayed in the
 ;; mode-line.
@@ -453,7 +457,7 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
                (format " %s+ " total))
               (t
                (format " %s/%d " here total))))
-      'face (uniline--face 'uniline-panel))
+      'face 'uniline-panel)
      (uniline-spc))))
 
 (defun uniline-macrostep (&rest _)
@@ -461,7 +465,7 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
     (concat
      (propertize
       " Macrostep "
-      'face (uniline--face 'uniline-panel-warning)))))
+      'face 'uniline-panel-warning))))
 
 (defsubst uniline-macro (&rest _)
   "Display current Emacs or evil macro being recorded."
@@ -474,7 +478,7 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
         (concat "● " (if (bound-and-true-p evil-this-macro)
                          (char-to-string evil-this-macro)
                        "Macro"))
-        'face (uniline--face 'uniline-panel))
+        'face 'uniline-panel)
        sep))))
 
 (defun uniline-misc (&rest _)
@@ -485,9 +489,9 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
   (when (and (boundp 'lsp-mode)
              lsp-mode)
     (if-let* ((workspaces (lsp-workspaces))
-              (face (uniline--face (if workspaces
-                                       'uniline-lsp-face
-                                     'uniline-warning-face) )))
+              (face (if workspaces
+                        'uniline-lsp-face
+                      'uniline-warning-face)))
         (concat
          (propertize
           (mapconcat (lambda (workspace)
@@ -538,20 +542,20 @@ mouse-1: Reload to start server")
      (if (and (= error-count 0)
               (= warning-count 0)
               (= info-count 0))
-         (propertize "No Errors" 'face (uniline--face 'uniline-ok-face)))
+         (propertize "No Errors" 'face 'uniline-ok-face))
      (if (> error-count 0)
          (propertize (if (> error-count 1)
                          (format "%d Errors " error-count)
                        "1 Error")
-                     'face (uniline--face 'uniline-error-face)))
+                     'face 'uniline-error-face))
      (if (> warning-count 0)
          (propertize (if (> warning-count 1)
                          (format "%d Warnings " warning-count)
                        "1 Warning")
-                     'face (uniline--face 'uniline-warning-face)))
+                     'face 'uniline-warning-face))
      (if (> info-count 0)
          (propertize (format "%d Infomational " info-count)
-                     'face (uniline--face 'uniline-ok-face))))))
+                     'face 'uniline-ok-face)))))
 
 (defun uniline--set-flycheck-format ()
   (setq mode-line-format
