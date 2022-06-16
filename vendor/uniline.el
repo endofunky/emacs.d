@@ -84,6 +84,10 @@
   '((t :inherit font-lock-builtin-face :inverse-video t))
   "Face for error status in the mode-line.")
 
+(defface uniline-panel-warning
+  '((t :inherit warning :inverse-video t))
+  "Face for error status in the mode-line.")
+
 ;;
 ;; Temp vars
 ;;
@@ -450,6 +454,13 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
       'face (uniline--face 'uniline-panel))
      (uniline-spc))))
 
+(defun uniline-macrostep (&rest _)
+  (when (bound-and-true-p macrostep-mode)
+    (concat
+     (propertize
+      " Macrostep "
+      'face (uniline--face 'uniline-panel-warning)))))
+
 (defun uniline-misc (&rest _)
   (format-mode-line mode-line-misc-info))
 
@@ -516,7 +527,8 @@ mouse-1: Reload to start server")
               '(:eval
                 (uniline--format
                  ;; LHS
-                 '(uniline--anzu
+                 '(uniline-macrostep
+                   uniline--anzu
                    uniline-evil
                    uniline-buffer-mark
                    uniline-buffer-name
