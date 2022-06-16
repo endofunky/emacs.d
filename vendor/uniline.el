@@ -123,8 +123,6 @@
 (declare-function lsp-workspace-shutdown "ext:lsp-mode")
 (declare-function lsp-workspaces "ext:lsp-mode")
 
-(defvar vterm-mode)
-
 ;;
 ;; Helpers
 ;;
@@ -379,8 +377,7 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
       evil-mode-line-tag)))
 
 (defun uniline-ro (&rest _)
-  (when (and buffer-read-only
-             (not vterm-mode))
+  (when buffer-read-only
     (concat
      (uniline-spc)
      (propertize "RO" 'face (uniline--face 'uniline-ro-face)))))
