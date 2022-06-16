@@ -353,38 +353,39 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
 (defun uniline--flycheck-update (&rest _)
   "Return the status of flycheck to be displayed in the mode-line."
   (setq uniline--flycheck-cached
-        (if-let* ((text (pcase flycheck-last-status-change
-                          (`finished
-                           (if flycheck-current-errors
-                               (let* ((errors (flycheck-count-errors flycheck-current-errors))
-                                      (info-count (or (alist-get 'info errors) 0))
-                                      (warning-count (or (alist-get 'warning errors) 0))
-                                      (error-count (or (alist-get 'error errors) 0)))
-                                 (concat
-                                  (if (> error-count 0)
-                                      (propertize (format "✖ %d " error-count)
-                                                  'face (uniline--face 'uniline-error-face)))
-                                  (if (> warning-count 0)
-                                      (propertize (format "⚠ %d " warning-count)
-                                                  'face (uniline--face 'uniline-warning-face)))
-                                  (if (> info-count 0)
-                                      (propertize (format "! %d " info-count)
-                                                  'face (uniline--face 'uniline-ok-face)))))
-                             (concat (propertize "✔ No Issues"
-                                                 'face (uniline--face 'uniline-ok-face))
-                                     (uniline-spc))))
-                          (`errored
-                           (concat (propertize "✖ Error"
-                                               'face (uniline--face 'uniline-error-face))
-                                   (uniline-spc)))
-                          (`interrupted
-                           (concat (propertize "⏸ Interrupted"
-                                               'face (uniline--face 'uniline-warning-face))
-                                   (uniline-spc)))
-                          (`suspicious
-                           (concat (propertize "! Suspicious"
-                                               'face (uniline--face 'uniline-error-face))
-                                   (uniline-spc))))))
+        (if-let*
+            ((text (pcase flycheck-last-status-change
+                     (`finished
+                      (if flycheck-current-errors
+                          (let* ((errors (flycheck-count-errors flycheck-current-errors))
+                                 (info-count (or (alist-get 'info errors) 0))
+                                 (warning-count (or (alist-get 'warning errors) 0))
+                                 (error-count (or (alist-get 'error errors) 0)))
+                            (concat
+                             (if (> error-count 0)
+                                 (propertize (format "✖ %d " error-count)
+                                             'face (uniline--face 'uniline-error-face)))
+                             (if (> warning-count 0)
+                                 (propertize (format "⚠ %d " warning-count)
+                                             'face (uniline--face 'uniline-warning-face)))
+                             (if (> info-count 0)
+                                 (propertize (format "! %d " info-count)
+                                             'face (uniline--face 'uniline-ok-face)))))
+                        (concat (propertize "✔ No Issues"
+                                            'face (uniline--face 'uniline-ok-face))
+                                (uniline-spc))))
+                     (`errored
+                      (concat (propertize "✖ Error"
+                                          'face (uniline--face 'uniline-error-face))
+                              (uniline-spc)))
+                     (`interrupted
+                      (concat (propertize "⏸ Interrupted"
+                                          'face (uniline--face 'uniline-warning-face))
+                              (uniline-spc)))
+                     (`suspicious
+                      (concat (propertize "! Suspicious"
+                                          'face (uniline--face 'uniline-error-face))
+                              (uniline-spc))))))
             (concat
              (propertize text
                          'help-echo "Show Flycheck Errors"
@@ -487,41 +488,42 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
                                        'uniline-lsp-face
                                      'uniline-warning-face) )))
         (concat
-         (propertize (mapconcat (lambda (workspace)
-                                  (car (split-string (lsp--workspace-print workspace) ":")))
-                                lsp--buffer-workspaces "|")
-                     'help-echo
-                     (if workspaces
-                         (concat "LSP Connected "
-                                 (string-join
-                                  (mapcar (lambda (w)
-                                            (format "[%s]\n" (lsp--workspace-print w)))
-                                          workspaces))
-                                 "C-mouse-1: Switch to another workspace folder
+         (propertize
+          (mapconcat (lambda (workspace)
+                       (car (split-string (lsp--workspace-print workspace) ":")))
+                     lsp--buffer-workspaces "|")
+          'help-echo
+          (if workspaces
+              (concat "LSP Connected "
+                      (string-join
+                       (mapcar (lambda (w)
+                                 (format "[%s]\n" (lsp--workspace-print w)))
+                               workspaces))
+                      "C-mouse-1: Switch to another workspace folder
 mouse-1: Describe current session
 mouse-2: Quit server
 mouse-3: Reconnect to server")
-                       "LSP Disconnected
+            "LSP Disconnected
 mouse-1: Reload to start server")
-                     'face face
-                     'mouse-face 'uniline-highlight
-                     'local-map (let ((map (make-sparse-keymap)))
-                                  (if workspaces
-                                      (progn
-                                        (define-key map [mode-line C-mouse-1]
-                                          #'lsp-workspace-folders-open)
-                                        (define-key map [mode-line mouse-1]
-                                          #'lsp-describe-session)
-                                        (define-key map [mode-line mouse-2]
-                                          #'lsp-workspace-shutdown)
-                                        (define-key map [mode-line mouse-3]
-                                          #'lsp-workspace-restart))
-                                    (progn
-                                      (define-key map [mode-line mouse-1]
-                                        (lambda ()
-                                          (interactive)
-                                          (ignore-errors (revert-buffer t t))))))
-                                  map))
+          'face face
+          'mouse-face 'uniline-highlight
+          'local-map (let ((map (make-sparse-keymap)))
+                       (if workspaces
+                           (progn
+                             (define-key map [mode-line C-mouse-1]
+                               #'lsp-workspace-folders-open)
+                             (define-key map [mode-line mouse-1]
+                               #'lsp-describe-session)
+                             (define-key map [mode-line mouse-2]
+                               #'lsp-workspace-shutdown)
+                             (define-key map [mode-line mouse-3]
+                               #'lsp-workspace-restart))
+                         (progn
+                           (define-key map [mode-line mouse-1]
+                             (lambda ()
+                               (interactive)
+                               (ignore-errors (revert-buffer t t))))))
+                       map))
          (uniline-spc)))))
 ;;
 ;; Mode
