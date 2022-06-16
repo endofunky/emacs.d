@@ -113,6 +113,7 @@
 (declare-function anzu--reset-status "ext:anzu")
 (declare-function anzu--where-is-here "ext:anzu")
 
+(defvar evil-state)
 (defvar evil-mode)
 (defvar evil-mode-line-tag)
 (declare-function evil-force-normal-state "ext:evil-states")
@@ -416,6 +417,22 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
     (unless (bound-and-true-p anzu--state)
       evil-mode-line-tag)))
 
+(defun uniline-evil-unless-normal (&rest _)
+  (when (and (fboundp 'evil-mode)
+             evil-mode)
+    (unless (or (bound-and-true-p anzu--state))
+      (if (eq evil-state 'normal)
+          " "
+        evil-mode-line-tag))))
+
+(defun uniline-evil-unless-emacs (&rest _)
+  (when (and (fboundp 'evil-mode)
+             evil-mode)
+    (unless (or (bound-and-true-p anzu--state))
+      (if (eq evil-state 'emacs)
+          " "
+        evil-mode-line-tag))))
+
 (defun uniline-ro (&rest _)
   (when buffer-read-only
     (concat
@@ -593,7 +610,7 @@ mouse-1: Reload to start server")
           (uniline--format
            ;; LHS
            '(uniline--anzu
-             uniline-evil
+             uniline-evil-unless-normal
              uniline--flycheck-error-details
              uniline-misc)
            ;; RHS
@@ -605,7 +622,7 @@ mouse-1: Reload to start server")
           (uniline--format
            ;; LHS
            '(uniline--anzu
-             uniline-evil
+             uniline-evil-unless-emacs
              uniline-buffer-name
              uniline-misc)
            ;; RHS
