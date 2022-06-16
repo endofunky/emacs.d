@@ -642,8 +642,10 @@ mouse-1: Reload to start server")
              uniline-misc)
            ;; RHS
            '(uniline-flyspell
+             uniline-flycheck
              ;; uniline-vcs-text
              uniline-major-mode
+             uniline-lsp
              uniline-encoding
              uniline-ro
              uniline-spc)))))
