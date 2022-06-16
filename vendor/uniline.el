@@ -118,6 +118,7 @@
 (defvar flycheck-current-errors)
 (declare-function flycheck-count-errors "ext:flycheck")
 (declare-function flycheck-list-errors "ext:flycheck")
+(declare-function flycheck-error-list-current-errors "ext:flycheck")
 
 (defvar lsp--buffer-workspaces)
 (declare-function lsp--workspace-print "ext:lsp-mode")
@@ -526,6 +527,45 @@ mouse-1: Reload to start server")
                        map))
          (uniline-spc)))))
 ;;
+;; Mode-specific mode-line formats
+;;
+(defun uniline--flycheck-error-details (&rest _)
+  (let* ((counts (flycheck-count-errors (flycheck-error-list-current-errors)))
+         (error-count (or (alist-get 'error counts) 0))
+         (warning-count (or (alist-get 'warning counts) 0))
+         (info-count (or (alist-get 'info counts) 0)))
+    (concat
+     (if (and (= error-count 0)
+              (= warning-count 0)
+              (= info-count 0))
+         (propertize "No Errors" 'face (uniline--face 'uniline-ok-face)))
+     (if (> error-count 0)
+         (propertize (if (> error-count 1)
+                         (format "%d Errors " error-count)
+                       "1 Error")
+                     'face (uniline--face 'uniline-error-face)))
+     (if (> warning-count 0)
+         (propertize (if (> warning-count 1)
+                         (format "%d Warnings " warning-count)
+                       "1 Warning")
+                     'face (uniline--face 'uniline-warning-face)))
+     (if (> info-count 0)
+         (propertize (format "%d Infomational " info-count)
+                     'face (uniline--face 'uniline-ok-face))))))
+
+(defun uniline--set-flycheck-format ()
+  (setq mode-line-format
+        '(:eval
+          (uniline--format
+           ;; LHS
+           '(uniline--anzu
+             uniline-evil
+             uniline--flycheck-error-details
+             uniline-misc)
+           ;; RHS
+           '(uniline-major-mode)))))
+
+;;
 ;; Mode
 ;;
 
@@ -563,12 +603,14 @@ mouse-1: Reload to start server")
         (setq-default mode-line-format uniline--mode-line-format)
         (add-hook 'flycheck-status-changed-functions #'uniline--flycheck-update)
         (add-hook 'flycheck-mode-hook #'uniline--flycheck-update)
+        (add-hook 'flycheck-error-list-mode-hook #'uniline--set-flycheck-format)
         (uniline--force-refresh uniline--mode-line-format))
     (progn
       ;; Reset the original modeline state
       (setq-default mode-line-format uniline--original-mode-line-format)
       (remove-hook 'flycheck-status-changed-functions #'uniline--flycheck-update)
       (remove-hook 'flycheck-mode-hook #'uniline--flycheck-update)
+      (remove-hook 'flycheck-error-list-mode-hook #'uniline--set-flycheck-format)
       (uniline--force-refresh uniline--original-mode-line-format)
       (setq uniline--original-mode-line-format nil))))
 
