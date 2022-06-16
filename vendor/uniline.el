@@ -461,6 +461,20 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
       " Macrostep "
       'face (uniline--face 'uniline-panel-warning)))))
 
+(defsubst uniline-macro ()
+  "Display current Emacs or evil macro being recorded."
+  (when (and (uniline--active)
+             (or defining-kbd-macro executing-kbd-macro))
+    (let ((sep (propertize " " 'face 'uniline-panel )))
+      (concat
+       sep
+       (propertize
+        (concat "● " (if (bound-and-true-p evil-this-macro)
+                         (char-to-string evil-this-macro)
+                       "Macro"))
+        'face (uniline--face 'uniline-panel))
+       sep))))
+
 (defun uniline-misc (&rest _)
   (format-mode-line mode-line-misc-info))
 
@@ -528,6 +542,7 @@ mouse-1: Reload to start server")
                 (uniline--format
                  ;; LHS
                  '(uniline-macrostep
+                   uniline-macro
                    uniline--anzu
                    uniline-evil
                    uniline-buffer-mark
