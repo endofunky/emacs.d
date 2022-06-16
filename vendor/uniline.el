@@ -22,16 +22,14 @@
 (defface uniline-inactive
   `((t (:inherit mode-line-inactive
         :box (:line-width (1 . 7)
-              :color ,(face-background 'mode-line-inactive))
-        )))
+              :color ,(face-background 'mode-line-inactive)))))
   "Face used for inactive."
   :group 'uniline-faces)
 
 (defface uniline-highlight
   `((t (:inherit mode-line-highlight
         :box (:line-width (1 . 7)
-              :color ,(face-background 'mode-line-inactive))
-        )))
+              :color ,(face-background 'mode-line-inactive)))))
   "Face used for inactive."
   :group 'uniline-faces)
 
@@ -82,6 +80,10 @@
 
 (defface uniline-panel
   '((t :inherit font-lock-builtin-face :inverse-video t))
+  "Face for error status in the mode-line.")
+
+(defface uniline-record
+  '((t :inherit error :inverse-video t))
   "Face for error status in the mode-line.")
 
 (defface uniline-panel-warning
@@ -359,38 +361,40 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
   "Return the status of flycheck to be displayed in the mode-line."
   (setq uniline--flycheck-cached
         (if-let*
-            ((text (pcase flycheck-last-status-change
-                     (`finished
-                      (if flycheck-current-errors
-                          (let* ((errors (flycheck-count-errors flycheck-current-errors))
-                                 (info-count (or (alist-get 'info errors) 0))
-                                 (warning-count (or (alist-get 'warning errors) 0))
-                                 (error-count (or (alist-get 'error errors) 0)))
-                            (concat
-                             (if (> error-count 0)
-                                 (propertize (format "✖ %d " error-count)
-                                             'face 'uniline-error-face))
-                             (if (> warning-count 0)
-                                 (propertize (format "⚠ %d " warning-count)
-                                             'face 'uniline-warning-face))
-                             (if (> info-count 0)
-                                 (propertize (format "! %d " info-count)
-                                             'face 'uniline-ok-face))))
-                        (concat (propertize "✔ No Issues"
-                                            'face 'uniline-ok-face)
-                                (uniline-spc))))
-                     (`errored
-                      (concat (propertize "✖ Error"
-                                          'face 'uniline-error-face)
-                              (uniline-spc)))
-                     (`interrupted
-                      (concat (propertize "⏸ Interrupted"
-                                          'face 'uniline-warning-face)
-                              (uniline-spc)))
-                     (`suspicious
-                      (concat (propertize "! Suspicious"
-                                          'face 'uniline-error-face)
-                              (uniline-spc))))))
+            ((text
+              (pcase flycheck-last-status-change
+                (`finished
+                 (if flycheck-current-errors
+                     (let* ((errors
+                             (flycheck-count-errors flycheck-current-errors))
+                            (info-count (or (alist-get 'info errors) 0))
+                            (warning-count (or (alist-get 'warning errors) 0))
+                            (error-count (or (alist-get 'error errors) 0)))
+                       (concat
+                        (if (> error-count 0)
+                            (propertize (format "✖ %d " error-count)
+                                        'face 'uniline-error-face))
+                        (if (> warning-count 0)
+                            (propertize (format "⚠ %d " warning-count)
+                                        'face 'uniline-warning-face))
+                        (if (> info-count 0)
+                            (propertize (format "! %d " info-count)
+                                        'face 'uniline-ok-face))))
+                   (concat (propertize "✔ No Issues"
+                                       'face 'uniline-ok-face)
+                           (uniline-spc))))
+                (`errored
+                 (concat (propertize "✖ Error"
+                                     'face 'uniline-error-face)
+                         (uniline-spc)))
+                (`interrupted
+                 (concat (propertize "⏸ Interrupted"
+                                     'face 'uniline-warning-face)
+                         (uniline-spc)))
+                (`suspicious
+                 (concat (propertize "! Suspicious"
+                                     'face 'uniline-error-face)
+                         (uniline-spc))))))
             (concat
              (propertize text
                          'help-echo "Show Flycheck Errors"
@@ -414,8 +418,8 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
      (uniline-spc)
      (propertize "RO" 'face 'uniline-ro-face))))
 
-;; `anzu' and `evil-anzu' expose current/total state that can be displayed in the
-;; mode-line.
+;; `anzu' and `evil-anzu' expose current/total state that can be displayed in
+;; the mode-line.
 (defun uniline-fix-anzu-count (positions here)
   "Calulate anzu count via POSITIONS and HERE."
   (cl-loop for (start . end) in positions
@@ -471,14 +475,14 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
   "Display current Emacs or evil macro being recorded."
   (when (and (uniline--active)
              (or defining-kbd-macro executing-kbd-macro))
-    (let ((sep (propertize " " 'face 'uniline-panel )))
+    (let ((sep (propertize " " 'face 'uniline-record )))
       (concat
        sep
        (propertize
         (concat "● " (if (bound-and-true-p evil-this-macro)
                          (char-to-string evil-this-macro)
                        "Macro"))
-        'face 'uniline-panel)
+        'face 'uniline-record)
        sep))))
 
 (defun uniline-misc (&rest _)
@@ -495,7 +499,8 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
         (concat
          (propertize
           (mapconcat (lambda (workspace)
-                       (car (split-string (lsp--workspace-print workspace) ":")))
+                       (car (split-string (lsp--workspace-print workspace)
+                                          ":")))
                      lsp--buffer-workspaces "|")
           'help-echo
           (if workspaces
@@ -599,8 +604,8 @@ mouse-1: Reload to start server")
               '(:eval
                 (uniline--format
                  ;; LHS
-                 '(uniline-macrostep
-                   uniline-macro
+                 '(uniline-macro
+                   uniline-macrostep
                    uniline--anzu
                    uniline-evil
                    uniline-buffer-mark
@@ -625,9 +630,11 @@ mouse-1: Reload to start server")
     (progn
       ;; Reset the original modeline state
       (setq-default mode-line-format uniline--original-mode-line-format)
-      (remove-hook 'flycheck-status-changed-functions #'uniline--flycheck-update)
+      (remove-hook 'flycheck-status-changed-functions
+                   #'uniline--flycheck-update)
       (remove-hook 'flycheck-mode-hook #'uniline--flycheck-update)
-      (remove-hook 'flycheck-error-list-mode-hook #'uniline--set-flycheck-format)
+      (remove-hook 'flycheck-error-list-mode-hook
+                   #'uniline--set-flycheck-format)
       (remove-hook 'vterm-mode-hook #'uniline--set-vterm-format)
       (uniline--force-refresh uniline--original-mode-line-format)
       (setq uniline--original-mode-line-format nil))))
