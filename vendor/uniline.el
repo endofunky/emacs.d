@@ -90,6 +90,8 @@
   '((t :inherit warning :inverse-video t))
   "Face for error status in the mode-line.")
 
+(require 'thingatpt)
+
 ;;
 ;; Temp vars
 ;;
@@ -121,6 +123,8 @@
 (declare-function flycheck-count-errors "ext:flycheck")
 (declare-function flycheck-list-errors "ext:flycheck")
 (declare-function flycheck-error-list-current-errors "ext:flycheck")
+
+(declare-function flyspell-goto-next-error "ext:flyspell")
 
 (defvar lsp--buffer-workspaces)
 (declare-function lsp--workspace-print "ext:lsp-mode")
@@ -535,6 +539,27 @@ mouse-1: Reload to start server")
                                (ignore-errors (revert-buffer t t))))))
                        map))
          (uniline-spc)))))
+
+(defun uniline-flyspell (&rest _)
+  (when (and (boundp 'flyspell-mode)
+             flyspell-mode)
+    (let ((count 0))
+      (save-excursion (goto-char (point-min))
+                      (save-restriction
+                        (widen)
+                        (while (not (flyspell-goto-next-error))
+                          (when (word-at-point (point))
+                            (setq count (+ 1 count)))
+                          (forward-word))))
+      (when (> count 0)
+        (propertize (if (> count 1)
+                        (format "%d Mistakes " count)
+                      "1 Mistake")
+                    'help-echo "Flyspell: mouse-1: Correct next word"
+                    'local-map (let ((map (make-sparse-keymap)))
+                                 (define-key map [mode-line mouse-1] 'flyspell-correct-next)
+                                 map)
+                    'face 'uniline-error-face)))))
 ;;
 ;; Mode-specific mode-line formats
 ;;
@@ -586,6 +611,26 @@ mouse-1: Reload to start server")
            ;; RHS
            '(uniline-major-mode)))))
 
+(defun uniline--set-write-format ()
+  (setq mode-line-format
+        '(:eval
+          (uniline--format
+           ;; LHS
+           '(uniline-macro
+             uniline--anzu
+             uniline-evil
+             uniline-buffer-mark
+             uniline-buffer-name
+             uniline-position
+             uniline-misc)
+           ;; RHS
+           '(uniline-flyspell
+             ;; uniline-vcs-text
+             uniline-major-mode
+             uniline-encoding
+             uniline-ro
+             uniline-spc)))))
+
 ;;
 ;; Mode
 ;;
@@ -626,6 +671,10 @@ mouse-1: Reload to start server")
         (add-hook 'flycheck-mode-hook #'uniline--flycheck-update)
         (add-hook 'flycheck-error-list-mode-hook #'uniline--set-flycheck-format)
         (add-hook 'vterm-mode-hook #'uniline--set-vterm-format)
+        (add-hook 'markdown-mode-hook #'uniline--set-write-format)
+        (add-hook 'gfm-mode-hook #'uniline--set-write-format)
+        (add-hook 'org-mode-hook #'uniline--set-write-format)
+        (add-hook 'text-mode-hook #'uniline--set-write-format)
         (uniline--force-refresh uniline--mode-line-format))
     (progn
       ;; Reset the original modeline state
@@ -636,6 +685,10 @@ mouse-1: Reload to start server")
       (remove-hook 'flycheck-error-list-mode-hook
                    #'uniline--set-flycheck-format)
       (remove-hook 'vterm-mode-hook #'uniline--set-vterm-format)
+      (remove-hook 'markdown-mode-hook #'uniline--set-write-format)
+      (remove-hook 'gfm-mode-hook #'uniline--set-write-format)
+      (remove-hook 'org-mode-hook #'uniline--set-write-format)
+      (remove-hook 'text-mode-hook #'uniline--set-write-format)
       (uniline--force-refresh uniline--original-mode-line-format)
       (setq uniline--original-mode-line-format nil))))
 
