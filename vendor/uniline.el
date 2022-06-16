@@ -565,6 +565,18 @@ mouse-1: Reload to start server")
            ;; RHS
            '(uniline-major-mode)))))
 
+(defun uniline--set-vterm-format ()
+  (setq mode-line-format
+        '(:eval
+          (uniline--format
+           ;; LHS
+           '(uniline--anzu
+             uniline-evil
+             uniline-buffer-name
+             uniline-misc)
+           ;; RHS
+           '(uniline-major-mode)))))
+
 ;;
 ;; Mode
 ;;
@@ -604,6 +616,7 @@ mouse-1: Reload to start server")
         (add-hook 'flycheck-status-changed-functions #'uniline--flycheck-update)
         (add-hook 'flycheck-mode-hook #'uniline--flycheck-update)
         (add-hook 'flycheck-error-list-mode-hook #'uniline--set-flycheck-format)
+        (add-hook 'vterm-mode-hook #'uniline--set-vterm-format)
         (uniline--force-refresh uniline--mode-line-format))
     (progn
       ;; Reset the original modeline state
@@ -611,6 +624,7 @@ mouse-1: Reload to start server")
       (remove-hook 'flycheck-status-changed-functions #'uniline--flycheck-update)
       (remove-hook 'flycheck-mode-hook #'uniline--flycheck-update)
       (remove-hook 'flycheck-error-list-mode-hook #'uniline--set-flycheck-format)
+      (remove-hook 'vterm-mode-hook #'uniline--set-vterm-format)
       (uniline--force-refresh uniline--original-mode-line-format)
       (setq uniline--original-mode-line-format nil))))
 
