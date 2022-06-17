@@ -40,7 +40,7 @@
   (org-log-into-drawer t)
   (org-return-follows-link t)
   (org-src-fontify-natively t)
-  (org-src-preserve-indentation nil)
+  (org-src-preserve-indentation t)
   (org-src-tab-acts-natively t)
   ;;
   ;; org-habit
