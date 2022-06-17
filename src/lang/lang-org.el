@@ -186,4 +186,7 @@
   (ef-shackle '("*org-roam*" :align right :size .5 :popup t :select t :float t))
   (ef-add-popup "*org-roam diagnostics*"))
 
+(use-package ox-gfm
+  :after org)
+
 (provide 'lang-org)
