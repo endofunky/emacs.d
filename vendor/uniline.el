@@ -551,8 +551,7 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
 (defun uniline-evil (&rest _)
   (when (and (fboundp 'evil-mode)
              evil-mode)
-    (unless (bound-and-true-p anzu--state)
-      (uniline-evil--tag))))
+    (uniline-evil--tag)))
 
 (defun uniline-evil-unless-emacs (&rest _)
   (when (and (fboundp 'evil-mode)
@@ -605,7 +604,8 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
   "Show the match index and total number thereof.
 Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
 `evil-search'."
-  (when (and (bound-and-true-p anzu--state)
+  (when (and (uniline--active)
+             (bound-and-true-p anzu--state)
              (not (bound-and-true-p iedit-mode)))
     (concat
      (propertize
@@ -627,7 +627,7 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
     (concat
      (propertize
       " Macrostep "
-      'face 'uniline-panel-warning))))
+      'face (uniline--face 'uniline-panel-warning)))))
 
 (defsubst uniline-macro (&rest _)
   "Display current Emacs or evil macro being recorded."
