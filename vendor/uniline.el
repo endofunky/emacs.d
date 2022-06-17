@@ -404,6 +404,23 @@ Will return a maximum count of 256 for each."
                                     'face 'uniline-warning-face)
                         (uniline-spc))))))))
 
+(defun uniline-git-bisect (&rest _)
+  (when (and (fboundp 'magit-bisect-in-progress-p)
+             (magit-bisect-in-progress-p))
+    (propertize " Bisect "
+                'face (uniline--face 'uniline-record)
+                'help-echo "Git-bisect in progress\n\
+mouse-1: Open bisect menu\n\
+mouse-2: magit-bisect-bad\n\
+mouse-3: magit-bisect-good"
+                'mouse-face 'unilight-highlight
+                'local-map (let ((map (make-sparse-keymap)))
+                             (define-key map
+                               [mode-line mouse-1] 'magit-bisect)
+                               [mode-line mouse-2] 'magit-bisect-bad
+                               [mode-line mouse-3] 'magit-bisect-good
+                             map))))
+
 (defun uniline-eol (&rest _)
   "Displays the eol style of the buffer."
   (let ((face 'uniline)
@@ -837,7 +854,8 @@ mouse-1: Reload to start server")
               '(:eval
                 (uniline--format
                  ;; LHS
-                 '(uniline-macro
+                 '(uniline-git-bisect
+                   uniline-macro
                    uniline-macrostep
                    uniline--anzu
                    uniline-evil
