@@ -188,6 +188,8 @@
 
 (use-package hl-line
   :defer t
+  :custom
+  (hl-line-sticky-flag nil)
   :hook
   (prog-mode . hl-line-mode)
   (text-mode . hl-line-mode))
