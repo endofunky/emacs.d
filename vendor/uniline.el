@@ -104,6 +104,8 @@
 ;;
 ;; Defintions for byte-compiler
 ;;
+(declare-function all-the-icons--function-name "ext:all-the-icons")
+
 (defvar anzu-cons-mode-line-p)
 (defvar anzu--current-position)
 (defvar anzu--total-matched)
@@ -116,6 +118,7 @@
 (defvar evil-state)
 (defvar evil-mode)
 (defvar evil-mode-line-tag)
+(declare-function evil-state-property "ext:evil-common")
 (declare-function evil-force-normal-state "ext:evil-states")
 
 (defvar flycheck-mode)
@@ -139,6 +142,18 @@
 ;;
 ;; Helpers
 ;;
+
+(cl-defun uniline--icon (set name fallback &key (face 'uniline) (v-adjust 0))
+  (if window-system
+      (when-let* ((func (all-the-icons--function-name set))
+                  (icon (and (fboundp func)
+                             (apply func (list name :face face :v-adjust v-adjust)))))
+        (when-let ((props (get-text-property 0 'face icon)))
+          (when (listp props)
+            (cl-destructuring-bind (&key family _height inherit &allow-other-keys) props
+              (propertize icon 'face `(:inherit ,(or face inherit props 'uniline)
+                                       :family  ,(or family "")))))))
+    (propertize fallback 'face face)))
 
 (defun uniline--face (face &optional inactive-face)
   "Display FACE in mode-line.
@@ -171,8 +186,8 @@ RIGHT-SEGMENTS, aligned respectively."
                                       (end (length s)))
                                  (if (uniline--active)
                                      s
-                                   (set-text-properties 0 end nil s)
-                                   (propertize s 'face 'uniline-inactive)))))
+                                   (add-face-text-property 0 end 'uniline-inactive nil s)
+                                   s))))
                      segments)))
 
 (defun uniline--force-refresh (format)
@@ -250,93 +265,103 @@ If FRAME is nil, it means the current frame."
    'face 'uniline-major-mode-face))
 
 (defvar-local uniline--vcs-text nil)
+(defvar-local uniline--vcs-icon nil)
 
 (defun uniline-vcs-text (&rest _)
   uniline--vcs-text)
 
-(defun uniline--update-vcs-text (&rest _)
-  (setq uniline--vcs-text
-        (when (and vc-mode buffer-file-name)
-          (let* ((backend (vc-backend buffer-file-name))
-                 (state (vc-state (file-local-name buffer-file-name) backend))
-                 (str (if vc-display-status
-                          (substring vc-mode (+ (if (eq backend 'Hg) 2 3) 2))
-                        "")))
-            (concat
-             (cond ((memq state '(edited added))
-                    (propertize "⇆" 'face 'uniline-warning-face))
-                   ((eq state 'needs-merge)
-                    (propertize "⛙" 'face 'uniline-warning-face))
-                   ((eq state 'needs-update)
-                    (propertize "↓" 'face 'uniline-warning-face))
-                   ((memq state '(removed conflict unregistered))
-                    (propertize "⚠" 'face 'uniline-error-face))
-                   (t
-                    (propertize "@" 'face 'uniline-vcs-face)))
-             (uniline-spc)
-             (propertize (if (length> str 25)
-                             (concat
-                              (substring str 0 (- 25 3))
-                              "...")
-                           str)
-                         'face (cond ((eq state '(needs-update needs-merge))
-                                      'uniline-warning-face)
-                                     ((memq state '(removed conflict unregistered))
-                                      'uniline-error-face)
-                                     ((memq state '(edited added))
-                                      'uniline-warning-face)
-                                     (t 'uniline-vcs-face)))
+(defun uniline-vcs-icon (&rest _)
+  uniline--vcs-icon)
 
-             (uniline-spc))))))
+(defun uniline--update-vcs (&rest _)
+  (when (and vc-mode buffer-file-name)
+    (let* ((backend (vc-backend buffer-file-name))
+           (state (vc-state (file-local-name buffer-file-name) backend))
+           (str (if vc-display-status
+                    (substring vc-mode (+ (if (eq backend 'Hg) 2 3) 2))
+                  "")))
+      (setq uniline--vcs-icon
+            (concat (cond ((memq state '(edited added))
+                           (uniline--icon 'octicon "git-compare" "⇆"
+                                          :face 'uniline-warning-face))
+                          ((eq state 'needs-merge)
+                           (uniline--icon 'octicon "git-merge" "⛙"
+                                          :face 'uniline-warning-face))
+                          ((eq state 'needs-update)
+                           (uniline--icon 'octicon "arrow-down" "↓"
+                                          :face 'uniline-warning-face))
+                          ((memq state '(removed conflict unregistered))
+                           (uniline--icon 'octicon "arrow-alert" "⚠"
+                                          :face 'uniline-error-face))
+                          (t
+                           (uniline--icon 'octicon "git-branch" "@"
+                                          :face 'uniline-vcs-face)))
+                    (uniline-spc)))
+      (setq uniline--vcs-text
+            (concat (propertize (if (length> str 25)
+                                    (concat
+                                     (substring str 0 (- 25 3))
+                                     "...")
+                                  str)
+                                'face (cond ((eq state '(needs-update needs-merge))
+                                             'uniline-warning-face)
+                                            ((memq state '(removed conflict unregistered))
+                                             'uniline-error-face)
+                                            ((memq state '(edited added))
+                                             'uniline-warning-face)
+                                            (t 'uniline-vcs-face)))
+                    (uniline-spc))))))
 
-(defun uniline-encoding (&rest _)
-  "Displays the eol and the encoding style of the buffer."
+(defun uniline-eol (&rest _)
+  "Displays the eol style of the buffer."
   (let ((face 'uniline)
         (mouse-face 'uniline-highlight))
-    (concat
-     ;; coding system
-     (let* ((sys (coding-system-plist buffer-file-coding-system))
-            (cat (plist-get sys :category))
-            (sym (if (memq cat
-                           '(coding-category-undecided coding-category-utf-8))
-                     'utf-8
-                   (plist-get sys :name))))
-       (propertize
-        (upcase (symbol-name sym))
-        'face face
-        'mouse-face mouse-face
-        'help-echo 'mode-line-mule-info-help-echo
-        'local-map mode-line-coding-system-map))
+    (let ((eol (coding-system-eol-type buffer-file-coding-system)))
+      (propertize
+       (pcase eol
+         (0 "LF")
+         (1 "CRLF")
+         (2 "CR")
+         (_ ""))
+       'face face
+       'mouse-face mouse-face
+       'help-echo (format "End-of-line style: %s\nmouse-1: Cycle"
+                          (pcase eol
+                            (0 "Unix-style LF")
+                            (1 "DOS-style CRLF")
+                            (2 "Mac-style CR")
+                            (_ "Undecided")))
+       'local-map (let ((map (make-sparse-keymap)))
+                    (define-key map [mode-line mouse-1] 'mode-line-change-eol)
+                    map)))))
 
-     " "
-
-     ;; eol type
-     (let ((eol (coding-system-eol-type buffer-file-coding-system)))
-       (propertize
-        (pcase eol
-          (0 "LF")
-          (1 "CRLF")
-          (2 "CR")
-          (_ ""))
-        'face face
-        'mouse-face mouse-face
-        'help-echo (format "End-of-line style: %s\nmouse-1: Cycle"
-                           (pcase eol
-                             (0 "Unix-style LF")
-                             (1 "DOS-style CRLF")
-                             (2 "Mac-style CR")
-                             (_ "Undecided")))
-        'local-map (let ((map (make-sparse-keymap)))
-                     (define-key map [mode-line mouse-1] 'mode-line-change-eol)
-                     map))))))
+(defun uniline-encoding (&rest _)
+  "Displays the encoding of the buffer."
+  (let ((face 'uniline)
+        (mouse-face 'uniline-highlight))
+    (let* ((sys (coding-system-plist buffer-file-coding-system))
+           (cat (plist-get sys :category))
+           (sym (if (memq cat
+                          '(coding-category-undecided coding-category-utf-8))
+                    'utf-8
+                  (plist-get sys :name))))
+      (propertize
+       (upcase (symbol-name sym))
+       'face face
+       'mouse-face mouse-face
+       'help-echo 'mode-line-mule-info-help-echo
+       'local-map mode-line-coding-system-map))))
 
 (defun uniline-buffer-mark (&rest _)
   "Update buffer file name mark in mode-line."
-  (when buffer-file-name
-    (propertize (if (buffer-modified-p (current-buffer)) "✖ " "✔ ")
-                'face (if (buffer-modified-p (current-buffer))
-                          'uniline-warning-face
-                        'uniline-ok-face))))
+  (if-let ((b buffer-file-name)
+           (mod (buffer-modified-p (current-buffer))))
+      (concat
+       (propertize (uniline--icon 'faicon "floppy-o" "⚠") 'face 'uniline-error-face)
+       (uniline-spc))
+    (concat
+     (propertize (uniline--icon 'faicon "check" "✔") 'face 'uniline-ok-face)
+     (uniline-spc))))
 
 (defun uniline-buffer-name (&rest _)
   "Update buffer file name in mode-line."
@@ -406,7 +431,15 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
   (when (and (fboundp 'evil-mode)
              evil-mode)
     (unless (bound-and-true-p anzu--state)
-      evil-mode-line-tag)))
+      (let ((tag (evil-state-property evil-state :tag t)))
+        (when (functionp tag)
+          (setq tag (funcall tag)))
+        (if (stringp tag)
+            (propertize tag
+                        'face 'uniline
+                        'help-echo (evil-state-property evil-state :name)
+                        'mouse-face 'uniline-highlight)
+          tag)))))
 
 (defun uniline-evil-unless-normal (&rest _)
   (when (and (fboundp 'evil-mode)
@@ -678,6 +711,8 @@ mouse-1: Reload to start server")
                    uniline-major-mode
                    uniline-lsp
                    uniline-encoding
+                   uniline-spc
+                   uniline-eol
                    uniline-ro
                    uniline-spc))))
 
