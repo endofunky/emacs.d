@@ -442,37 +442,9 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
 (defun uniline-flycheck-text (&rest _)
   uniline--flycheck-text)
 
-(defun uniline-flycheck-icon (&rest _)
-  uniline--flycheck-icon)
-
-(defun uniline-flycheck-error-text (&rest _)
-  uniline--flycheck-error-text)
-
-(defun uniline-flycheck-error-icon (&rest _)
-  uniline--flycheck-error-icon)
-
-(defun uniline-flycheck-warning-text (&rest _)
-  uniline--flycheck-warning-text)
-
-(defun uniline-flycheck-warning-icon (&rest _)
-  uniline--flycheck-warning-icon)
-
-(defun uniline-flycheck-info-text (&rest _)
-  uniline--flycheck-info-text)
-
-(defun uniline-flycheck-info-icon (&rest _)
-  uniline--flycheck-info-icon)
-
 (defun uniline--flycheck-update (&rest _)
   "Return the status of flycheck to be displayed in the mode-line."
   (setq uniline--flycheck-text nil)
-  (setq uniline--flycheck-icon nil)
-  (setq uniline--flycheck-error-text nil)
-  (setq uniline--flycheck-error-icon nil)
-  (setq uniline--flycheck-warning-text nil)
-  (setq uniline--flycheck-warning-icon nil)
-  (setq uniline--flycheck-info-text nil)
-  (setq uniline--flycheck-info-icon nil)
   (when (and (fboundp 'flycheck-mode)
              flycheck-mode)
     (let ((help-echo "Show Flycheck Errors")
@@ -485,45 +457,16 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
                      (flycheck-count-errors flycheck-current-errors))
                     (info-count (or (alist-get 'info errors) 0))
                     (warning-count (or (alist-get 'warning errors) 0))
-                    (error-count (or (alist-get 'error errors) 0)))
-               (concat
-                (when (> error-count 0)
-                  (setq uniline--flycheck-error-text
-                        (concat
-                         (propertize (number-to-string error-count)
-                                     'face 'uniline-error-face
-                                     'help-echo help-echo
-                                     'local-map local-map)
-                         (uniline-spc)))
-
-                  (setq uniline--flycheck-error-icon
-                        (concat
-                         (uniline--icon 'octicon "bug" "✖" :face 'uniline-error-face)
-                         (uniline-spc))))
-                (when (> warning-count 0)
-                  (setq uniline--flycheck-warning-text
-                        (concat
-                         (propertize (number-to-string warning-count)
-                                     'face 'uniline-warning-face
-                                     'help-echo help-echo
-                                     'local-map local-map)
-                         (uniline-spc)))
-                  (setq uniline--flycheck-warning-icon
-                        (concat
-                         (propertize (uniline--icon 'octicon "alert" "⚠" :face 'uniline-warning-face))
-                         (uniline-spc))))
-                (when (> info-count 0)
-                  (setq uniline--flycheck-info-text
-                        (concat
-                         (propertize (number-to-string info-count)
-                                     'face 'uniline-ok-face
-                                     'help-echo help-echo
-                                     'local-map local-map)
-                         (uniline-spc)))
-                  (setq uniline--flycheck-info-icon
-                        (concat
-                         (uniline--icon 'octicon "info" "!" :face 'uniline-ok-face)
-                         (uniline-spc))))))
+                    (error-count (or (alist-get 'error errors) 0))
+                    (count (+ info-count warning-count error-count)))
+               (setq uniline--flycheck-text
+                     (concat (propertize (format "%s Issue%s" count (if (eq 1 count) "" "s"))
+                                         'face (cond ((> error-count 0) 'uniline-error-face)
+                                                     ((> warning-count 0) 'uniline-warning-face)
+                                                     (t 'uniline-ok-face))
+                                         'help-echo help-echo
+                                         'local-map local-map)
+                             (uniline-spc))))
            (setq uniline--flycheck-text
                  (concat
                   (propertize "No Issues"
@@ -532,10 +475,6 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
                               'local-map local-map)
                   (uniline-spc)))))
         (`errored
-         (setq uniline--flycheck-icon
-               (concat
-                (uniline--icon 'octicon "stop" "!" :face 'uniline-error-face)
-                (uniline-spc)))
          (setq uniline--flycheck-text
                (concat
                 (propertize "Error"
@@ -544,10 +483,6 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
                             'local-map local-map)
                 (uniline-spc))))
         (`interrupted
-         (setq uniline--flycheck-icon
-               (concat
-                (uniline--icon 'faicon "pause" "⏸" :face 'uniline-error-face)
-                (uniline-spc)))
          (setq uniline--flycheck-text
                (concat
                 (propertize "Interrupted"
@@ -835,14 +770,7 @@ mouse-1: Reload to start server")
                    uniline-misc)
                  ;; RHS
                  '(uniline-flyspell
-                   uniline-flycheck-icon
                    uniline-flycheck-text
-                   uniline-flycheck-error-icon
-                   uniline-flycheck-error-text
-                   uniline-flycheck-warning-icon
-                   uniline-flycheck-warning-text
-                   uniline-flycheck-info-icon
-                   uniline-flycheck-info-text
                    uniline-vcs-icon
                    uniline-vcs-text
                    uniline-git-unpulled-icon
