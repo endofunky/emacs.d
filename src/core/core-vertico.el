@@ -15,8 +15,19 @@
   ;; Cleans up path when moving directories with shadowed paths syntax, e.g.
   ;; cleans ~/foo/bar/// to /, and ~/foo/bar/~/ to ~/.
   (rfn-eshadow-update-overlay . vertico-directory-tidy)
+  :general
+  (:keymaps 'vertico-map
+   "C-SPC" #'ef-vertico-restrict-to-matches)
   :init
-  (vertico-mode))
+  (vertico-mode)
+  :config
+  (defun ef-vertico-restrict-to-matches ()
+    (interactive)
+    (let ((inhibit-read-only t))
+      (goto-char (point-max))
+      (insert " ")
+      (add-text-properties (minibuffer-prompt-end) (point-max)
+                           '(invisible t read-only t cursor-intangible t rear-nonsticky t)))))
 
 (use-package orderless
   :after vertico
