@@ -348,13 +348,12 @@ pair with the unpulled and unpushed commits, nil otherwise.
 
 Will return a maximum count of 256 for each."
   (if-let* ((remote (magit-get-push-branch))
-            (local (magit-get-current-branch)))
+            (local (magit-get-current-branch))
+            (result (magit-git-string "rev-list" "--left-right" "--count"
+                                      (format "-n%d" uniline--magit-counts-max)
+                                      (concat remote "..." local))))
       (mapcar #'string-to-number
-              (split-string
-               (magit-git-string "rev-list" "--left-right" "--count"
-                                 (format "-n%d" uniline--magit-counts-max)
-                                 (concat remote "..." local))
-               "\t" t))))
+              (split-string result "\t" t))))
 
 (defun uniline--update-git (&rest _)
   (setq uniline--git-unpushed-icon nil)
@@ -362,7 +361,7 @@ Will return a maximum count of 256 for each."
   (setq uniline--git-unpushed-text nil)
   (setq uniline--git-unpulled-text nil)
   (when (and buffer-file-name
-             (featurep 'magit)
+             (fboundp 'magit-git-string)
              (string= "Git" (vc-backend buffer-file-name)))
     (when-let* ((counts (uniline--magit-counts)))
       (let ((unpulled (car counts))
