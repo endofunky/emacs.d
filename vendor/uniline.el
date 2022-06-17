@@ -409,25 +409,22 @@ Will return a maximum count of 256 for each."
        'help-echo 'mode-line-mule-info-help-echo
        'local-map mode-line-coding-system-map))))
 
-(defun uniline-buffer-mark (&rest _)
-  "Update buffer file name mark in mode-line."
-  (if-let ((b buffer-file-name)
-           (mod (buffer-modified-p (current-buffer))))
-      (concat
-       (propertize (uniline--icon 'faicon "floppy-o" "⚠" :face 'uniline-error-face))
-       (uniline-spc))
-    (concat
-     (propertize (uniline--icon 'faicon "check" "✔" :face 'uniline-ok-face))
-     (uniline-spc))))
-
 (defun uniline-buffer-name (&rest _)
   "Update buffer file name in mode-line."
-  (propertize "%b"
-              'face 'uniline-buffer-name-face
-              'mouse-face 'uniline-highlight
-              'help-echo "Buffer name
+  (if (and buffer-file-name
+           (buffer-modified-p (current-buffer)))
+      (propertize "%b"
+                  'face 'uniline-error-face
+                  'mouse-face 'uniline-highlight
+                  'help-echo "Buffer name
 mouse-1: Previous buffer\nmouse-3: Next buffer"
-              'local-map mode-line-buffer-identification-keymap))
+                  'local-map mode-line-buffer-identification-keymap)
+    (propertize "%b"
+                'face 'uniline-buffer-name-face
+                'mouse-face 'uniline-highlight
+                'help-echo "Buffer name
+mouse-1: Previous buffer\nmouse-3: Next buffer"
+                'local-map mode-line-buffer-identification-keymap)))
 
 (defun uniline-position (&rest _)
   (propertize ":%l:%c "
@@ -834,7 +831,6 @@ mouse-1: Reload to start server")
                    uniline-macrostep
                    uniline--anzu
                    uniline-evil
-                   uniline-buffer-mark
                    uniline-buffer-name
                    uniline-position
                    uniline-misc)
