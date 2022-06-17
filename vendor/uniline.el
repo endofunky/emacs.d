@@ -720,6 +720,19 @@ mouse-1: Reload to start server")
                      'face 'uniline-ok-face)))))
 
 
+(defun uniline--set-mini-format ()
+  (setq mode-line-format
+        '(:eval
+          (uniline--format
+           ;; LHS
+           '(uniline--anzu
+             uniline-evil-unless-normal
+             uniline-buffer-name
+             uniline-position
+             uniline-misc)
+           ;; RHS
+           '(uniline-major-mode)))))
+
 (defun uniline--set-flycheck-format ()
   (setq mode-line-format
         '(:eval
@@ -791,6 +804,8 @@ mouse-1: Reload to start server")
         (add-hook 'flycheck-mode-hook #'uniline--flycheck-update)
         (add-hook 'flycheck-error-list-mode-hook #'uniline--set-flycheck-format)
 
+        (add-hook 'process-menu-mode-hook #'uniline--set-mini-format)
+
         (add-hook 'vterm-mode-hook #'uniline--set-vterm-format)
 
         (add-hook 'find-file-hook #'uniline--update-vcs)
@@ -800,10 +815,6 @@ mouse-1: Reload to start server")
         (add-hook 'find-file-hook #'uniline--update-git)
         (add-hook 'after-save-hook #'uniline--update-git)
         (advice-add #'vc-refresh-state :after #'uniline--update-git)
-
-        ;; (add-hook 'find-file-hook #'uniline--update-git)
-        ;; (add-hook 'after-save-hook #'uniline--update-git)
-        ;; (advice-add #'vc-refresh-state :after #'uniline--update-git)
 
         (uniline--force-refresh uniline--mode-line-format))
     (progn
@@ -815,6 +826,8 @@ mouse-1: Reload to start server")
       (remove-hook 'flycheck-mode-hook #'uniline--flycheck-update)
       (remove-hook 'flycheck-error-list-mode-hook
                    #'uniline--set-flycheck-format)
+
+      (remove-hook 'process-menu-mode-hook #'uniline--set-mini-format)
 
       (remove-hook 'vterm-mode-hook #'uniline--set-vterm-format)
 
