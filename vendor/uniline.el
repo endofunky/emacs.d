@@ -523,27 +523,27 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
      (cond
       ((evil-emacs-state-p)
        (propertize " Emacs "
-                   'face 'uniline-emacs-state-face
+                   'face (uniline--face 'uniline-emacs-state-face)
                    'help-echo help-echo
                    'mouse-face mouse-face))
       ((evil-insert-state-p)
        (propertize " Insert "
-                   'face 'uniline-panel-warning
+                   'face (uniline--face 'uniline-panel-warning)
                    'help-echo help-echo
                    'mouse-face mouse-face))
       ((evil-motion-state-p)
        (propertize " Motion "
-                   'face 'uniline-panel
+                   'face (uniline--face 'uniline-panel)
                    'help-echo help-echo
                    'mouse-face mouse-face))
       ((evil-visual-state-p)
        (propertize " Visual "
-                   'face 'uniline-panel
+                   'face (uniline--face 'uniline-panel)
                    'help-echo help-echo
                    'mouse-face mouse-face))
       ((evil-replace-state-p)
        (propertize " Replace "
-                   'face 'uniline-record
+                   'face (uniline--face 'uniline-record)
                    'help-echo help-echo
                    'mouse-face mouse-face)))
      (uniline-spc))))
