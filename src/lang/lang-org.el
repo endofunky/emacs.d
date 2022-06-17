@@ -35,7 +35,6 @@
   (org-edit-src-content-indentation 0)
   (org-enforce-todo-dependencies t)
   (org-fontify-quote-and-verse-blocks t)
-  (org-hide-emphasis-markers t)
   (org-log-done 'time)
   (org-log-into-drawer t)
   (org-return-follows-link t)
