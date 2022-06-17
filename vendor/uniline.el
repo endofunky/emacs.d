@@ -97,6 +97,10 @@
   '((t :inherit warning :inverse-video t))
   "Face for error status in the mode-line.")
 
+(defface uniline-emacs-state-face
+  '((t :inherit font-lock-keyword-face :inverse-video t))
+  "Face for error status in the mode-line.")
+
 (require 'thingatpt)
 
 ;;
@@ -470,14 +474,16 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
                     (warning-count (or (alist-get 'warning errors) 0))
                     (error-count (or (alist-get 'error errors) 0))
                     (count (+ info-count warning-count error-count)))
-               (setq uniline--flycheck-text
-                     (concat (propertize (format "%s Issue%s" count (if (eq 1 count) "" "s"))
-                                         'face (cond ((> error-count 0) 'uniline-error-face)
-                                                     ((> warning-count 0) 'uniline-warning-face)
-                                                     (t 'uniline-ok-face))
-                                         'help-echo help-echo
-                                         'local-map local-map)
-                             (uniline-spc))))
+               (setq
+                uniline--flycheck-text
+                (concat (propertize
+                         (format "%s Issue%s" count (if (eq 1 count) "" "s"))
+                         'face (cond ((> error-count 0) 'uniline-error-face)
+                                     ((> warning-count 0) 'uniline-warning-face)
+                                     (t 'uniline-ok-face))
+                         'help-echo help-echo
+                         'local-map local-map)
+                        (uniline-spc))))
            (setq uniline--flycheck-text
                  (concat
                   (propertize "No Issues"
@@ -509,15 +515,30 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
     (concat
      (cond
       ((evil-emacs-state-p)
-       (propertize " Emacs " 'face 'uniline-panel 'help-echo help-echo 'mouse-face mouse-face))
+       (propertize " Emacs "
+                   'face 'uniline-emacs-state-face
+                   'help-echo help-echo
+                   'mouse-face mouse-face))
       ((evil-insert-state-p)
-       (propertize " Insert " 'face 'uniline-panel-warning 'help-echo help-echo 'mouse-face mouse-face))
+       (propertize " Insert "
+                   'face 'uniline-panel-warning
+                   'help-echo help-echo
+                   'mouse-face mouse-face))
       ((evil-motion-state-p)
-       (propertize " Motion " 'face 'uniline-panel 'help-echo help-echo 'mouse-face mouse-face))
+       (propertize " Motion "
+                   'face 'uniline-panel
+                   'help-echo help-echo
+                   'mouse-face mouse-face))
       ((evil-visual-state-p)
-       (propertize " Visual " 'face 'uniline-panel 'help-echo help-echo 'mouse-face mouse-face))
+       (propertize " Visual "
+                   'face 'uniline-panel
+                   'help-echo help-echo
+                   'mouse-face mouse-face))
       ((evil-replace-state-p)
-       (propertize " Replace " 'face 'uniline-record 'help-echo help-echo 'mouse-face mouse-face)))
+       (propertize " Replace "
+                   'face 'uniline-record
+                   'help-echo help-echo
+                   'mouse-face mouse-face)))
      (uniline-spc))))
 
 (defun uniline-evil (&rest _)
