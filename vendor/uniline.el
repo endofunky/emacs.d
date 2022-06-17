@@ -419,10 +419,10 @@ Will return a maximum count of 256 for each."
   (if-let ((b buffer-file-name)
            (mod (buffer-modified-p (current-buffer))))
       (concat
-       (propertize (uniline--icon 'faicon "floppy-o" "⚠") 'face 'uniline-error-face)
+       (propertize (uniline--icon 'faicon "floppy-o" "⚠" :face 'uniline-error-face))
        (uniline-spc))
     (concat
-     (propertize (uniline--icon 'faicon "check" "✔") 'face 'uniline-ok-face)
+     (propertize (uniline--icon 'faicon "check" "✔" :face 'uniline-ok-face))
      (uniline-spc))))
 
 (defun uniline-buffer-name (&rest _)
