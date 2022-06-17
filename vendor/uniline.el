@@ -158,13 +158,6 @@
                                        :family  ,(or family "")))))))
     (propertize fallback 'face face)))
 
-(defun uniline--face (face &optional inactive-face)
-  "Display FACE in mode-line.
-If INACTIVE-FACE is nil, will use `mode-line-inactive' face."
-  (if (uniline--active)
-      face
-    (or inactive-face 'uniline-inactive)))
-
 (defun uniline--format (left-segments right-segments)
   "Return a string of `window-width' length containing LEFT-SEGMENTS and
 RIGHT-SEGMENTS, aligned respectively."
