@@ -155,6 +155,7 @@
           (when (listp props)
             (cl-destructuring-bind (&key family _height inherit &allow-other-keys) props
               (propertize icon 'face `(:inherit ,(or face inherit props 'uniline)
+                                       :weight normal
                                        :family  ,(or family "")))))))
     (propertize fallback 'face face)))
 
