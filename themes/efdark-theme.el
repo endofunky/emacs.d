@@ -298,6 +298,12 @@
    `(company-tooltip-selection ((,class (:foreground ,default :background ,background-lighter))))
    `(company-tooltip-mouse ((,class (:foreground ,default :background ,background-lighter))))
 
+   ;; tooltips
+   `(tooltip ((,class (:background ,background-darker :foreground ,default))))
+   `(popup-face ((,class (:inherit tooltip))))
+   `(popup-tip-face ((,class (:inherit tooltip :foreground ,purple))))
+   `(popup-selection-face ((,class (:foreground ,purple :background ,background-lighter :weight bold))))
+
    ;; web-mode
    `(web-mode-html-tag-face ((,class (:foreground ,purple :weight bold))))
    `(web-mode-symbol-face ((,class (:foreground ,red :weight bold))))
