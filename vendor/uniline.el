@@ -120,6 +120,11 @@
 (defvar evil-mode-line-tag)
 (declare-function evil-state-property "ext:evil-common")
 (declare-function evil-force-normal-state "ext:evil-states")
+(declare-function evil-emacs-state-p "ext:evil-states")
+(declare-function evil-insert-state-p "ext:evil-states")
+(declare-function evil-motion-state-p "ext:evil-states")
+(declare-function evil-visual-state-p "ext:evil-states")
+(declare-function evil-replace-state-p "ext:evil-states")
 
 (defvar flycheck-mode)
 (defvar flycheck-last-status-change)
@@ -492,27 +497,28 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
                 (uniline-spc))))
         (`suspicious t)))))
 
+(defun uniline-evil--tag ()
+  (let ((help-echo (evil-state-property evil-state :name))
+        (mouse-face 'uniline-highlight))
+    (concat
+     (cond
+      ((evil-emacs-state-p)
+       (propertize " Emacs " 'face 'uniline-panel 'help-echo help-echo 'mouse-face mouse-face))
+      ((evil-insert-state-p)
+       (propertize " Insert " 'face 'uniline-panel-warning 'help-echo help-echo 'mouse-face mouse-face))
+      ((evil-motion-state-p)
+       (propertize " Motion " 'face 'uniline-panel 'help-echo help-echo 'mouse-face mouse-face))
+      ((evil-visual-state-p)
+       (propertize " Visual " 'face 'uniline-panel 'help-echo help-echo 'mouse-face mouse-face))
+      ((evil-replace-state-p)
+       (propertize " Replace " 'face 'uniline-record 'help-echo help-echo 'mouse-face mouse-face)))
+     (uniline-spc))))
+
 (defun uniline-evil (&rest _)
   (when (and (fboundp 'evil-mode)
              evil-mode)
     (unless (bound-and-true-p anzu--state)
-      (let ((tag (evil-state-property evil-state :tag t)))
-        (when (functionp tag)
-          (setq tag (funcall tag)))
-        (if (stringp tag)
-            (propertize tag
-                        'face 'uniline
-                        'help-echo (evil-state-property evil-state :name)
-                        'mouse-face 'uniline-highlight)
-          tag)))))
-
-(defun uniline-evil-unless-normal (&rest _)
-  (when (and (fboundp 'evil-mode)
-             evil-mode)
-    (unless (or (bound-and-true-p anzu--state))
-      (if (eq evil-state 'normal)
-          " "
-        evil-mode-line-tag))))
+      (uniline-evil--tag))))
 
 (defun uniline-evil-unless-emacs (&rest _)
   (when (and (fboundp 'evil-mode)
@@ -520,7 +526,7 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
     (unless (or (bound-and-true-p anzu--state))
       (if (eq evil-state 'emacs)
           " "
-        evil-mode-line-tag))))
+        (uniline-evil--tag)))))
 
 (defun uniline-ro (&rest _)
   (when buffer-read-only
@@ -726,7 +732,7 @@ mouse-1: Reload to start server")
           (uniline--format
            ;; LHS
            '(uniline--anzu
-             uniline-evil-unless-normal
+             uniline-evil
              uniline-buffer-name
              uniline-position
              uniline-misc)
@@ -739,7 +745,7 @@ mouse-1: Reload to start server")
           (uniline--format
            ;; LHS
            '(uniline--anzu
-             uniline-evil-unless-normal
+             uniline-evil
              uniline--flycheck-error-details
              uniline-misc)
            ;; RHS
