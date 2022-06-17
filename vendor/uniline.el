@@ -51,7 +51,7 @@
   :group 'uniline-faces)
 
 (defface uniline-project-face
-  '((t (:inherit (font-lock-string-face uniline :weight bold))))
+  '((t (:inherit (uniline))))
   "Face used for the project segment in the mode-line."
   :group 'uniline-faces)
 
