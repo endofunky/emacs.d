@@ -125,7 +125,8 @@
 (declare-function flycheck-list-errors "ext:flycheck")
 (declare-function flycheck-error-list-current-errors "ext:flycheck")
 
-(declare-function flyspell-goto-next-error "ext:flyspell")
+(declare-function flyspell-overlay-p "ext:flyspell")
+(declare-function flyspell-get-word "ext:flyspell")
 
 (defvar lsp--buffer-workspaces)
 (declare-function lsp--workspace-print "ext:lsp-mode")
@@ -547,6 +548,35 @@ mouse-1: Reload to start server")
                        map))
          (uniline-spc)))))
 
+(defun uniline--has-flyspell-overlay-p (ovs)
+  (let ((r nil))
+    (while (and (not r) (consp ovs))
+      (if (flyspell-overlay-p (car ovs))
+          (setq r t)
+        (setq ovs (cdr ovs))))
+    r))
+
+(defun uniline--collect-flyspell-candidates ()
+  (save-excursion
+    (save-restriction
+      (narrow-to-region (window-start) (window-end (selected-window) t))
+      (let ((pos (point-min))
+            (pos-max (point-max))
+            (pos-list nil)
+            (word t))
+        (goto-char pos)
+        (while (and word (< pos pos-max))
+          (setq word (flyspell-get-word t))
+          (when word
+            (setq pos (nth 1 word))
+            (let* ((ovs (overlays-at pos))
+                   (r (uniline--has-flyspell-overlay-p ovs)))
+              (when r
+                (push pos pos-list)))
+            (setq pos (1+ (nth 2 word)))
+            (goto-char pos)))
+        (nreverse pos-list)))))
+
 (defun uniline-flyspell (&rest _)
   (when (and (boundp 'flyspell-mode)
              flyspell-mode
@@ -554,14 +584,7 @@ mouse-1: Reload to start server")
                  (eq major-mode 'gfm-mode)
                  (eq major-mode 'org-mode)
                  (eq major-mode 'text-mode)))
-    (let ((count 0))
-      (save-excursion (goto-char (point-min))
-                      (save-restriction
-                        (widen)
-                        (while (not (flyspell-goto-next-error))
-                          (when (word-at-point (point))
-                            (setq count (+ 1 count)))
-                          (forward-word))))
+    (let ((count (length (uniline--collect-flyspell-candidates))))
       (when (> count 0)
         (propertize (if (> count 1)
                         (format "%d Misspells " count)
