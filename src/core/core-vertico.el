@@ -119,6 +119,7 @@ exclamation mark."
   (declare-function embark-completing-read-prompter "embark")
   (declare-function embark--truncate-target "embark")
 
+  ;; https://github.com/oantolin/embark/wiki/Additional-Configuration#use-which-key-like-a-key-menu-prompt
   (defun ef-embark-which-key-indicator ()
     "An embark indicator that displays keymaps using which-key. The which-key
 help message will show the type and value of the current target followed by an
