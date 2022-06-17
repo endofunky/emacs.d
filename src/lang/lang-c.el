@@ -1,5 +1,6 @@
 (require 'core-lsp)
 (require 'core-shackle)
+(require 'core-project)
 (require 'core-company)
 
 ;; https://github.com/Hi-Angel/dotfiles/blob/bbd08c6883daed98b9feaad7f86304d332f51e3d/.emacs#L583-L642
@@ -106,13 +107,13 @@ languages with similar syntax"
   (objc-mode . ef-cc-mode-enable-lsp)
   :commands (ef-cc-mode-enable-lsp)
   :config
-  (declare-function projectile-project-root "projectile")
+  (declare-function ef-project-root "core-project")
 
   (defun ef-cc-mode-enable-lsp ()
     "Conditionally enable lsp-mode for cc-mode projects."
     (interactive)
-    (when (or (file-exists-p (expand-file-name "compile_commands.json" (projectile-project-root)))
-              (file-exists-p (expand-file-name ".ccls" (projectile-project-root))))
+    (when (or (file-exists-p (expand-file-name "compile_commands.json" (ef-project-root)))
+              (file-exists-p (expand-file-name ".ccls" (ef-project-root))))
       (lsp))))
 
 (use-package lsp-mode

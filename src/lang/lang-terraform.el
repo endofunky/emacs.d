@@ -1,4 +1,4 @@
-(require 'core-projectile)
+(require 'core-lib)
 
 (use-package terraform-mode
   :mode (("\\.tf\\'" . terraform-mode))

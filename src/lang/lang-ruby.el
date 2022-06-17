@@ -1,8 +1,6 @@
 (require 'core-lib)
-(require 'core-projectile)
+(require 'core-project)
 (require 'core-shackle)
-
-(declare-function projectile-project-root "projectile")
 
 (use-package ruby-mode
   :mode (("Appraisals\\'" . ruby-mode)
@@ -116,13 +114,6 @@ current buffer's file, if it exists"
              (ruby-test-run-command (ruby-test-command testname)))
           (message "no corresponding test/spec file found"))))))
 
-(use-package projectile-rails
-  :after ruby-mode
-  :functions (projectile-rails-global-mode)
-  :config
-  (ef-add-popup "*rails*")
-  (projectile-rails-global-mode t))
-
 (use-package rubocop
   :commands (rubocop-autocorrect-project
              rubocop-autocorrect-current-file)
@@ -134,7 +125,7 @@ current buffer's file, if it exists"
 
 (defun ef-spring-server ()
   (interactive)
-  (when-let* ((root (projectile-project-root))
+  (when-let* ((root (ef-project-root))
               (cmd (format "cd %s && %s" root  (concat
                                                 (file-name-as-directory "bin")
                                                 "spring server"))))

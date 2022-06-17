@@ -78,7 +78,7 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   (defun ef-elisp-eval-project ()
     (interactive)
     (dolist (buf (buffer-list))
-      (let ((project-root (projectile-project-root))
+      (let ((project-root (project-root (project-current t)))
             (buffer-major-mode (with-current-buffer buf
                                  major-mode))
             (buffer-file (buffer-file-name buf)))
@@ -212,9 +212,6 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
 
   ;; repl
   :repl-toggle ielm
-
-  ;; test
-  :test-toggle projectile-toggle-between-implementation-and-test
 
   ;; xref
   :xref-apropos xref-find-apropos

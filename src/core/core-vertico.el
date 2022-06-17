@@ -48,24 +48,13 @@ exclamation mark."
   :defines (marginalia-command-categories)
   :commands (marginalia-mode)
   :config
-  (add-to-list 'marginalia-command-categories
-               '(projectile-find-file . project-file))
-  (add-to-list 'marginalia-command-categories
-               '(projectile-recentf . project-file))
-  (add-to-list 'marginalia-command-categories
-               '(projectile-switch-project . project-file))
-  (add-to-list 'marginalia-command-categories
-               '(projectile-switch-to-buffer . buffer))
-  (add-to-list 'marginalia-command-categories
-               '(ef-projectile-find-file . project-file))
-
   (marginalia-mode t))
 
 (use-package consult
   :demand t
   :custom
   (consult-preview-key nil)
-  (consult-project-root-function #'projectile-project-root)
+  (consult-project-root-function #'ef-project-root)
   :hook
   (completion-list-mode . consult-preview-at-point-mode)
   :general

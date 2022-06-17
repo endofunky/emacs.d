@@ -3,7 +3,7 @@
 (require 'core-evil)
 (require 'core-flycheck)
 (require 'core-shackle)
-(require 'core-projectile)
+(require 'core-project)
 
 (use-package lsp-mode
   :commands lsp
@@ -40,8 +40,6 @@
   (require 'lsp-ui)
   (require 'lsp-diagnostics)
 
-  (declare-function projectile-project-p "projectile")
-
   (defun ef-lsp-organize-imports ()
     "Call `lsp-organize-imports' with `lsp-auto-execute-action' enabled to skip
 the confirmation prompt when called via `before-save-hook', for example."
@@ -57,7 +55,7 @@ the confirmation prompt when called via `before-save-hook', for example."
       "Update envrc environment and enable `lsp' when the current buffer's
 file is part of a project and a supported lsp binary is present."
       (envrc--update)
-      (when (projectile-project-p)
+      (when (project-current)
         ;; Ensure lsp packages have been required so all the major-mode to LSP
         ;; server mappings exist.
         (lsp--require-packages)

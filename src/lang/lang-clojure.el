@@ -173,7 +173,6 @@
   :test-file ef-cider-run-ns-tests
   :test-at-point ef-cider-run-test
   :test-all ef-cider-run-all-tests
-  :test-toggle projectile-toggle-between-implementation-and-test
   :test-report cider-test-show-report
 
   ;; trace

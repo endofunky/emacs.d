@@ -4,8 +4,7 @@
   :demand t
   :commands (minions-mode)
   :custom
-  (minions-direct '(lsp-mode
-                    projectile-mode))
+  (minions-direct '(lsp-mode))
   :config
   (minions-mode))
 
