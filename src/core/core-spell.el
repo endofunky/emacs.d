@@ -1,20 +1,20 @@
 (require 'core-lib)
 
 (use-package flyspell
+  :when (executable-find "aspell")
   :custom
   (flyspell-issue-welcome-flag nil)
   (flyspell-issue-message-flag nil)
-  :hook ((text-mode . flyspell-mode)))
+  :hook
+  (org-mode . turn-on-flyspell)
+  (text-mode . turn-on-flyspell))
 
 (use-package ispell
-  :hook (text-mode . ispell-minor-mode)
-  :config
-  (declare-function ispell-init-process@inhibit-message "ispell")
-
-  (define-advice ispell-init-process
-      (:around (old-fun &rest args) inhibit-message)
-    (let ((inhibit-message t))
-      (apply old-fun args))))
+  :when (executable-find "aspell")
+  :custom
+  (ispell-program-name "aspell")
+  (ispell-extra-args '("--sug-mode=ultra" "--lang=en_US"))
+  (ispell-silently-savep t))
 
 (use-package flyspell-correct
   :after flyspell
