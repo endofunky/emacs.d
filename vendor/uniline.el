@@ -50,6 +50,11 @@
   "Face used for the buffer name segment in the mode-line."
   :group 'uniline-faces)
 
+(defface uniline-project-face
+  '((t (:inherit (font-lock-string-face uniline :weight bold))))
+  "Face used for the project segment in the mode-line."
+  :group 'uniline-faces)
+
 (defface uniline-lsp-face
   '((t (:inherit (bold uniline))))
   "Face used for the buffer LSP segment in the mode-line."
@@ -147,6 +152,8 @@
 (declare-function magit-get-push-branch "ext:magit-git")
 (declare-function magit-get-current-branch "ext:magit-git")
 (declare-function magit-git-string "ext:magit-git")
+
+(declare-function project-root "project")
 ;;
 ;; Helpers
 ;;
@@ -534,6 +541,14 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
      (uniline-spc)
      (propertize "RO" 'face 'uniline-ro-face))))
 
+(defun uniline-project (&rest _)
+  (when-let* ((project (project-current nil))
+              (root (project-root project))
+              (parts (file-name-split root)))
+    (concat
+     (propertize (nth (- (length parts) 2) parts) 'face 'uniline-project-face)
+     (uniline-spc))))
+
 ;; `anzu' and `evil-anzu' expose current/total state that can be displayed in
 ;; the mode-line.
 (defun uniline-fix-anzu-count (positions here)
@@ -784,6 +799,7 @@ mouse-1: Reload to start server")
                    uniline-macrostep
                    uniline--anzu
                    uniline-evil
+                   uniline-project
                    uniline-buffer-name
                    uniline-position
                    uniline-misc)
