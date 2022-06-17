@@ -55,4 +55,21 @@
 (use-package pkg-info
   :after flycheck)
 
+(use-package flycheck-popup-tip
+  :after flycheck
+  :hook
+  (flycheck-mode . flycheck-popup-tip-mode)
+  (evil-insert-state-entry . flycheck-popup-tip-delete-popup)
+  (evil-replace-state-entry . flycheck-popup-tip-delete-popup)
+  :function (flycheck-popup-tip-show-popup
+             ef-disable-flycheck-popup-tip-maybe-ad)
+  :config
+  (defun ef-disable-flycheck-popup-tip-maybe-ad (&rest _)
+    (if evil-local-mode
+        (eq evil-state 'normal)
+      (not (bound-and-true-p company-backend))))
+
+  (advice-add #'flycheck-popup-tip-show-popup
+              :before-while #'ef-disable-flycheck-popup-tip-maybe-ad))
+
 (provide 'core-flycheck)
