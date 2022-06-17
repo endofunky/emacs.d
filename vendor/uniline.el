@@ -139,7 +139,7 @@
 (declare-function lsp-workspace-shutdown "ext:lsp-mode")
 (declare-function lsp-workspaces "ext:lsp-mode")
 
-(declare-function magit-get-upstream-branch "ext:magit-git")
+(declare-function magit-get-push-branch "ext:magit-git")
 (declare-function magit-get-current-branch "ext:magit-git")
 (declare-function magit-git-string "ext:magit-git")
 ;;
@@ -341,15 +341,13 @@ pair with the unpulled and unpushed commits, nil otherwise.
 (unpulled unpushed)
 
 Will return a maximum count of 256 for each."
-  (if-let* ((upstream (magit-get-upstream-branch))
+  (if-let* ((remote (magit-get-push-branch))
             (local (magit-get-current-branch)))
       (mapcar #'string-to-number
               (split-string
                (magit-git-string "rev-list" "--left-right" "--count"
                                  (format "-n%d" uniline--magit-counts-max)
-                                 (concat (magit-get-upstream-branch)
-                                         "..."
-                                         (magit-get-current-branch)))
+                                 (concat remote "..." local))
                "\t" t))))
 
 (defun uniline--update-git (&rest _)
