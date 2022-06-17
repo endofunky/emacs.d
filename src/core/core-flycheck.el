@@ -22,6 +22,7 @@
   :hook
   (evil-insert-state-exit . ef-flycheck-check-buffer-maybe)
   (evil-replace-state-exit . ef-flycheck-check-buffer-maybe)
+  (ef-escape . ef-flycheck-check-buffer-maybe)
   :general
   (:keymap 'flycheck-error-list-mode-map
    "M-e" 'quit-window)

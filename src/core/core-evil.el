@@ -1,5 +1,9 @@
 (require 'core-lib)
 
+(defvar ef-escape-hook nil
+  "Hooks to be run when normal mode is forced, eg. when hitting ESC while
+already in normal mode.")
+
 (use-package evil
   :demand t
   :general
@@ -77,6 +81,8 @@
   ;; Let emacs look up RET key behaviour in appropriate keymaps.
   (:keymaps 'evil-motion-state-map
    "RET" nil)
+  :commands (evil-force-normal-state)
+  :functions (ef-run-escape-hooks)
   :custom
   (evil-auto-indent t)
   (evil-cross-lines t)
@@ -100,10 +106,17 @@
   :commands (evil-mode)
   :init
   (declare-function evil-ex-define-cmd "evil-ex")
+  (declare-function evil-ex-define-cmd "evil-ex")
   :config
   (require 'evil-ex)
   (evil-mode 1)
-  (evil-ex-define-cmd "q" 'ef-kill-buffer-or-delete-window))
+  (evil-ex-define-cmd "q" 'ef-kill-buffer-or-delete-window)
+
+  (defun ef-run-escape-hooks ()
+    "Run ef-escape-hook hooks"
+    (run-hooks 'ef-escape-hook))
+
+  (advice-add #'evil-force-normal-state :after #'ef-run-escape-hooks))
 
 (use-package eldoc
   :after evil
