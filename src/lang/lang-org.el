@@ -159,6 +159,15 @@
                       (outline-flag-region start (point-at-eol) t)
                     (user-error msg)))))))))))
 
+(use-package org-contrib
+  :after org
+  :straight (:host github
+             :repo "emacsmirror/org-contrib")
+  :custom
+  (org-eldoc-breadcrumb-separator " → ")
+  :config
+  (require 'org-eldoc))
+
 (use-package evil-org
   :hook
   (org-mode . evil-org-mode)
