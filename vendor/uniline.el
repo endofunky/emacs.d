@@ -153,8 +153,10 @@
                              (apply func (list name :face face :v-adjust v-adjust)))))
         (when-let ((props (get-text-property 0 'face icon)))
           (when (listp props)
-            (cl-destructuring-bind (&key family _height inherit &allow-other-keys) props
+            (cl-destructuring-bind (&key family height inherit &allow-other-keys) props
               (propertize icon 'face `(:inherit ,(or face inherit props 'uniline)
+                                       :weight normal
+                                       :height ,height
                                        :family  ,(or family "")))))))
     (propertize fallback 'face face)))
 
@@ -356,13 +358,13 @@ Will return a maximum count of 256 for each."
             (unpushed (cadr counts)))
         (when (> unpulled 0)
           (setq uniline--git-unpulled-icon
-                (uniline--icon 'octicon "arrow-down" "↓" :face 'uniline-warning-face :v-adjust 0.05))
+                (uniline--icon 'octicon "arrow-down" "↓" :face 'uniline-warning-face))
           (setq uniline--git-unpulled-text
                 (concat (propertize (number-to-string unpulled) 'face 'uniline-warning-face)
                         (uniline-spc))))
         (when (> unpushed 0)
           (setq uniline--git-unpushed-icon
-                (uniline--icon 'octicon "arrow-up" "↑" :face 'uniline-warning-face :v-adjust 0.05))
+                (uniline--icon 'octicon "arrow-up" "↑" :face 'uniline-warning-face))
           (setq uniline--git-unpushed-text
                 (concat (propertize (number-to-string unpushed) 'face 'uniline-warning-face)
                         (uniline-spc))))))))
