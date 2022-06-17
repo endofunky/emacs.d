@@ -350,9 +350,9 @@
    `(org-column-title ((,class (:background ,background-blue :foreground ,blue :weight bold))))
 
    ;; org blocks
-   `(org-block-begin-line ((,class (:background ,bright-background-blue :foreground ,default :height 0.9 :extend t))))
-   `(org-block-end-line ((,class (:background ,bright-background-blue :foreground ,default :height 0.9 :extend t))))
-   `(org-block ((,class (:background ,background-blue :foreground ,default :extend t))))
+   `(org-block-begin-line ((,class (:background ,background-darker :foreground ,comment :height 0.8 :extend t))))
+   `(org-block-end-line ((,class (:background ,background-darker :foreground ,comment :height 0.8 :extend t))))
+   `(org-block ((,class (:background ,background-darker :foreground ,default :extend t))))
 
    ;; org-drill
    `(org-drill-hidden-cloze-face ((,class (:background ,red :foreground ,background))))
