@@ -355,7 +355,8 @@ Will return a maximum count of 256 for each."
   (setq uniline--git-unpulled-icon nil)
   (setq uniline--git-unpushed-text nil)
   (setq uniline--git-unpulled-text nil)
-  (when (and (featurep 'magit)
+  (when (and buffer-file-name
+             (featurep 'magit)
              (string= "Git" (vc-backend buffer-file-name)))
     (when-let* ((counts (uniline--magit-counts)))
       (let ((unpulled (car counts))
