@@ -162,17 +162,22 @@
 ;; Helpers
 ;;
 
-(cl-defun uniline--icon (set name fallback &key (face 'uniline) (v-adjust 0))
+(cl-defun uniline--icon (set name fallback
+                             &key (face 'uniline) (v-adjust 0))
   (if window-system
       (when-let* ((func (all-the-icons--function-name set))
                   (icon (and (fboundp func)
-                             (apply func (list name :face face :v-adjust v-adjust)))))
+                             (apply func (list name :face face
+                                               :v-adjust v-adjust)))))
         (when-let ((props (get-text-property 0 'face icon)))
           (when (listp props)
-            (cl-destructuring-bind (&key family _height inherit &allow-other-keys) props
-              (propertize icon 'face `(:inherit ,(or face inherit props 'uniline)
-                                       :weight normal
-                                       :family  ,(or family "")))))))
+            (cl-destructuring-bind (&key family _height inherit
+                                         &allow-other-keys)
+                props
+              (propertize icon
+                          'face `(:inherit ,(or face inherit props 'uniline)
+                                  :weight normal
+                                  :family  ,(or family "")))))))
     (propertize fallback 'face face)))
 
 (defun uniline--face (face &optional inactive-face)
@@ -200,15 +205,16 @@ RIGHT-SEGMENTS, aligned respectively."
 
 (defun uniline--format-segments (segments)
   "Return a string from a list of SEGMENTS."
-  (format-mode-line (mapcar
-                     (lambda (segment)
-                       `(:eval (let* ((s (concat (,segment)))
-                                      (end (length s)))
-                                 (if (uniline--active)
-                                     s
-                                   (add-face-text-property 0 end 'uniline-inactive nil s)
-                                   s))))
-                     segments)))
+  (format-mode-line
+   (mapcar
+    (lambda (segment)
+      `(:eval (let* ((s (concat (,segment)))
+                     (end (length s)))
+                (if (uniline--active)
+                    s
+                  (add-face-text-property 0 end 'uniline-inactive nil s)
+                  s))))
+    segments)))
 
 (defun uniline--force-refresh (format)
   "Updates the modeline format in each buffer."
@@ -318,19 +324,21 @@ If FRAME is nil, it means the current frame."
                                           :face 'uniline-vcs-face)))
                     (uniline-spc)))
       (setq uniline--vcs-text
-            (concat (propertize (if (length> str 25)
-                                    (concat
-                                     (substring str 0 (- 25 3))
-                                     "...")
-                                  str)
-                                'face (cond ((eq state '(needs-update needs-merge))
-                                             'uniline-warning-face)
-                                            ((memq state '(removed conflict unregistered))
-                                             'uniline-error-face)
-                                            ((memq state '(edited added))
-                                             'uniline-warning-face)
-                                            (t 'uniline-vcs-face)))
-                    (uniline-spc))))))
+            (concat
+             (propertize (if (length> str 25)
+                             (concat
+                              (substring str 0 (- 25 3))
+                              "...")
+                           str)
+                         'face (cond
+                                ((eq state '(needs-update needs-merge))
+                                 'uniline-warning-face)
+                                ((memq state '(removed conflict unregistered))
+                                 'uniline-error-face)
+                                ((memq state '(edited added))
+                                 'uniline-warning-face)
+                                (t 'uniline-vcs-face)))
+             (uniline-spc))))))
 
 (defvar-local uniline--git-unpushed-icon nil)
 (defvar-local uniline--git-unpulled-icon nil)
@@ -379,15 +387,21 @@ Will return a maximum count of 256 for each."
             (unpushed (cadr counts)))
         (when (> unpulled 0)
           (setq uniline--git-unpulled-icon
-                (uniline--icon 'octicon "arrow-down" "↓" :face 'uniline-warning-face :v-adjust 0.05))
+                (uniline--icon 'octicon "arrow-down" "↓"
+                               :face 'uniline-warning-face
+                               :v-adjust 0.05))
           (setq uniline--git-unpulled-text
-                (concat (propertize (number-to-string unpulled) 'face 'uniline-warning-face)
+                (concat (propertize (number-to-string unpulled)
+                                    'face 'uniline-warning-face)
                         (uniline-spc))))
         (when (> unpushed 0)
           (setq uniline--git-unpushed-icon
-                (uniline--icon 'octicon "arrow-up" "↑" :face 'uniline-warning-face :v-adjust 0.05))
+                (uniline--icon 'octicon "arrow-up" "↑"
+                               :face 'uniline-warning-face
+                               :v-adjust 0.05))
           (setq uniline--git-unpushed-text
-                (concat (propertize (number-to-string unpushed) 'face 'uniline-warning-face)
+                (concat (propertize (number-to-string unpushed)
+                                    'face 'uniline-warning-face)
                         (uniline-spc))))))))
 
 (defun uniline-eol (&rest _)
@@ -737,7 +751,8 @@ mouse-1: Reload to start server")
                       "1 Misspell ")
                     'help-echo "Flyspell: mouse-1: Correct next word"
                     'local-map (let ((map (make-sparse-keymap)))
-                                 (define-key map [mode-line mouse-1] 'flyspell-correct-next)
+                                 (define-key map [mode-line mouse-1]
+                                   'flyspell-correct-next)
                                  map)
                     'face 'uniline-error-face)))))
 ;;
