@@ -139,6 +139,9 @@
 (declare-function lsp-workspace-shutdown "ext:lsp-mode")
 (declare-function lsp-workspaces "ext:lsp-mode")
 
+(declare-function magit-get-upstream-branch "ext:magit-git")
+(declare-function magit-get-current-branch "ext:magit-git")
+(declare-function magit-git-string "ext:magit-git")
 ;;
 ;; Helpers
 ;;
@@ -311,6 +314,66 @@ If FRAME is nil, it means the current frame."
                                              'uniline-warning-face)
                                             (t 'uniline-vcs-face)))
                     (uniline-spc))))))
+
+(defvar-local uniline--git-unpushed-icon nil)
+(defvar-local uniline--git-unpulled-icon nil)
+(defvar-local uniline--git-unpushed-text nil)
+(defvar-local uniline--git-unpulled-text nil)
+
+(defun uniline-git-unpulled-icon (&rest _)
+  uniline--git-unpulled-icon)
+
+(defun uniline-git-unpushed-icon (&rest _)
+  uniline--git-unpushed-icon)
+
+(defun uniline-git-unpulled-text (&rest _)
+  uniline--git-unpulled-text)
+
+(defun uniline-git-unpushed-text (&rest _)
+  uniline--git-unpushed-text)
+
+(defconst uniline--magit-counts-max 256)
+
+(defun uniline--magit-counts ()
+  "If the current branch has a corresponding upstream branch, returns a cons
+pair with the unpulled and unpushed commits, nil otherwise.
+
+(unpulled unpushed)
+
+Will return a maximum count of 256 for each."
+  (if-let* ((upstream (magit-get-upstream-branch))
+            (local (magit-get-current-branch)))
+      (mapcar #'string-to-number
+              (split-string
+               (magit-git-string "rev-list" "--left-right" "--count"
+                                 (format "-n%d" uniline--magit-counts-max)
+                                 (concat (magit-get-upstream-branch)
+                                         "..."
+                                         (magit-get-current-branch)))
+               "\t" t))))
+
+(defun uniline--update-git (&rest _)
+  (setq uniline--git-unpushed-icon nil)
+  (setq uniline--git-unpulled-icon nil)
+  (setq uniline--git-unpushed-text nil)
+  (setq uniline--git-unpulled-text nil)
+  (when (and (featurep 'magit)
+             (string= "Git" (vc-backend buffer-file-name)))
+    (when-let* ((counts (uniline--magit-counts)))
+      (let ((unpulled (car counts))
+            (unpushed (cadr counts)))
+        (when (> unpulled 0)
+          (setq uniline--git-unpulled-icon
+                (uniline--icon 'octicon "arrow-down" "↓" :face 'uniline-warning-face :v-adjust 0.05))
+          (setq uniline--git-unpulled-text
+                (concat (propertize (number-to-string unpulled) 'face 'uniline-warning-face)
+                        (uniline-spc))))
+        (when (> unpushed 0)
+          (setq uniline--git-unpushed-icon
+                (uniline--icon 'octicon "arrow-up" "↑" :face 'uniline-warning-face :v-adjust 0.05))
+          (setq uniline--git-unpushed-text
+                (concat (propertize (number-to-string unpushed) 'face 'uniline-warning-face)
+                        (uniline-spc))))))))
 
 (defun uniline-eol (&rest _)
   "Displays the eol style of the buffer."
@@ -707,7 +770,12 @@ mouse-1: Reload to start server")
                  ;; RHS
                  '(uniline-flyspell
                    uniline-flycheck
+                   uniline-vcs-icon
                    uniline-vcs-text
+                   uniline-git-unpulled-icon
+                   uniline-git-unpulled-text
+                   uniline-git-unpushed-icon
+                   uniline-git-unpushed-text
                    uniline-major-mode
                    uniline-lsp
                    uniline-encoding
@@ -717,26 +785,46 @@ mouse-1: Reload to start server")
                    uniline-spc))))
 
         (setq-default mode-line-format uniline--mode-line-format)
+
         (add-hook 'flycheck-status-changed-functions #'uniline--flycheck-update)
         (add-hook 'flycheck-mode-hook #'uniline--flycheck-update)
         (add-hook 'flycheck-error-list-mode-hook #'uniline--set-flycheck-format)
+
         (add-hook 'vterm-mode-hook #'uniline--set-vterm-format)
-        (add-hook 'find-file-hook #'uniline--update-vcs-text)
-        (add-hook 'after-save-hook #'uniline--update-vcs-text)
-        (advice-add #'vc-refresh-state :after #'uniline--update-vcs-text)
+
+        (add-hook 'find-file-hook #'uniline--update-vcs)
+        (add-hook 'after-save-hook #'uniline--update-vcs)
+        (advice-add #'vc-refresh-state :after #'uniline--update-vcs)
+
+        (add-hook 'find-file-hook #'uniline--update-git)
+        (add-hook 'after-save-hook #'uniline--update-git)
+        (advice-add #'vc-refresh-state :after #'uniline--update-git)
+
+        ;; (add-hook 'find-file-hook #'uniline--update-git)
+        ;; (add-hook 'after-save-hook #'uniline--update-git)
+        ;; (advice-add #'vc-refresh-state :after #'uniline--update-git)
+
         (uniline--force-refresh uniline--mode-line-format))
     (progn
       ;; Reset the original modeline state
       (setq-default mode-line-format uniline--original-mode-line-format)
+
       (remove-hook 'flycheck-status-changed-functions
                    #'uniline--flycheck-update)
       (remove-hook 'flycheck-mode-hook #'uniline--flycheck-update)
       (remove-hook 'flycheck-error-list-mode-hook
                    #'uniline--set-flycheck-format)
+
       (remove-hook 'vterm-mode-hook #'uniline--set-vterm-format)
-      (remove-hook 'find-file-hook #'uniline--update-vcs-text)
-      (remove-hook 'after-save-hook #'uniline--update-vcs-text)
-      (advice-remove #'vc-refresh-state #'uniline--update-vcs-text)
+
+      (remove-hook 'find-file-hook #'uniline--update-vcs)
+      (remove-hook 'after-save-hook #'uniline--update-vcs)
+      (advice-remove #'vc-refresh-state #'uniline--update-vcs)
+
+      (remove-hook 'find-file-hook #'uniline--update-git)
+      (remove-hook 'after-save-hook #'uniline--update-git)
+      (advice-remove #'vc-refresh-state #'uniline--update-git)
+
       (uniline--force-refresh uniline--original-mode-line-format)
       (setq uniline--original-mode-line-format nil))))
 
