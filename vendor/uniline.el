@@ -1,3 +1,5 @@
+;; uniline.el -*- lexical-binding:t -*-
+
 ;;
 ;; Custom
 ;;
