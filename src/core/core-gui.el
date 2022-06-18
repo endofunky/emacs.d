@@ -27,6 +27,13 @@
   ;; Don't use GTK tooltips
   (x-gtk-use-system-tooltips nil))
 
+(use-package pixel-scroll
+  :when (and window-system
+             (fboundp 'pixel-scroll-precision-mode))
+  :straight nil
+  :hook
+  (after-init . pixel-scroll-precision-mode))
+
 (use-package frame
   :straight nil
   :if window-system
