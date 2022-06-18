@@ -11,7 +11,6 @@
    "M-e" 'ef-flymake-toggle-errors)
   :custom
   (elisp-flymake-byte-compile-load-path (append load-path '("./")))
-  (flymake-no-changes-timeout 0.2)
   :hook
   (prog-mode . flymake-mode)
   (evil-insert-state-exit . ef-flymake-check-buffer-maybe)

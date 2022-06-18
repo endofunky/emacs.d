@@ -1,11 +1,10 @@
+(require 'core-lsp)
 (require 'core-shackle)
 
 (use-package go-mode
   :mode (("\\.go\\'" . go-mode))
-  :custom
-  (lsp-go-hover-kind "NoDocumentation")
   :hook
-  (go-mode . lsp)
+  (go-mode . ef-enable-lsp-maybe)
   :functions (gofmt-before-save)
   :config
   (declare-function ef-lsp-organize-imports "core-lsp")

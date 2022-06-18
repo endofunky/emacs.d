@@ -101,9 +101,6 @@ exclamation mark."
   (:states 'normal :keymaps 'org-mode-map :prefix ef-prefix
    "i" '(consult-org-heading :wk "Search Headings")))
 
-(use-package consult-lsp
-  :commands (consult-lsp-symbols))
-
 (use-package embark
   :after vertico
   :general

@@ -29,7 +29,7 @@
   :custom
   (inf-ruby-default-implementation "pry")
   :hook
-  (ruby-mode . lsp)
+  (ruby-mode . ef-enable-lsp-maybe)
   :config
   (setq ruby-insert-encoding-magic-comment nil)
   (setq ruby-deep-arglist nil)

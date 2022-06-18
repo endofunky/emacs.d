@@ -110,11 +110,11 @@ languages with similar syntax"
   (declare-function ef-project-root "core-project")
 
   (defun ef-cc-mode-enable-lsp ()
-    "Conditionally enable lsp-mode for cc-mode projects."
+    "Conditionally enable LSP integration for cc-mode projects."
     (interactive)
     (when (or (file-exists-p (expand-file-name "compile_commands.json" (ef-project-root)))
               (file-exists-p (expand-file-name ".ccls" (ef-project-root))))
-      (lsp))))
+      (ef-enable-lsp-maybe))))
 
 (use-package company-c-headers
   :after cc-mode

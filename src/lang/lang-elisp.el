@@ -126,6 +126,7 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   :defer t
   :custom
   (eldoc-idle-delay 0.5)
+  (eldoc-echo-area-use-multiline-p 1)
   :config
   ;; Eldoc massively slows down cursor movement. This advice fixes that.
   (advice-add 'eldoc-pre-command-refresh-echo-area :override #'ignore))

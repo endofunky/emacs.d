@@ -5,7 +5,7 @@
   :custom
   (rust-format-on-save t)
   :hook
-  (rust-mode . lsp)
+  (rust-mode . ef-enable-lsp-maybe)
   :config
   (ef-add-popup "*rustfmt*"))
 
