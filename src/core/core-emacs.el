@@ -48,7 +48,10 @@
 
   ;; Keep auto-save files separately
   (auto-save-file-name-transforms
-   `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
+   `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+
+  ;; Don't show GUI dialog boxes
+  (use-dialog-box nil))
 
 ;; Enable y/n answers
 (fset 'yes-or-no-p #'y-or-n-p)
