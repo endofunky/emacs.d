@@ -201,7 +201,7 @@
   (evil-visual-state-exit . ef--evil-enable-hl-line)
   (activate-mark-hook . ef--evil-disable-hl-line)
   (deactivate-mark-hook . ef--evil-enable-hl-line)
-  :custom
+  :config
   ;; Disable hl-line when in visual state
   (defvar ef--hl-line-mode nil
     "Whether to re-enable hl-line if it was previously disabled while in evil
