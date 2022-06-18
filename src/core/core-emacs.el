@@ -353,6 +353,12 @@ visual state or mark.")
   (uniquify-ignore-buffers-re "^\\*")
   (uniquify-separator ":"))
 
+(use-package vc
+  :defer t
+  :straight nil
+  :custom
+  (vc-follow-symlinks t))
+
 (use-package xref
   :straight nil
   :defer t
