@@ -206,6 +206,10 @@
   :straight nil
   :custom
   (enable-recursive-minibuffers t)
+  (minibuffer-prompt-properties
+   '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
+  :hook
+  (minibuffer-setup . cursor-intangible-mode)
   :config
   (ef-add-hook minibuffer-setup-hook
     (set-window-fringes (get-buffer-window (current-buffer)) 0 0))
