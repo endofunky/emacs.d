@@ -76,7 +76,6 @@
  ("marginalia" . "03fa4655ecd99310a51632e285bf961476b789bc")
  ("markdown-mode" . "1f709778ac7990f4a07fdf11fe37bc6541810b29")
  ("melpa" . "5be08102d4de84c35b18cd1e3321fe8b6836ff56")
- ("minions" . "19dae1c41542777cb5b0311b6e2e77f43e2fd407")
  ("mit" . "4e90e9ae815e89f3540fb9644e6016c663ef5765")
  ("nix-mode" . "8fe2ccf0b01f694a77d2528e06c10f06057784f6")
  ("nix-update-el" . "fc6c39c2da3fcfa62f4796816c084a6389c8b6e7")
