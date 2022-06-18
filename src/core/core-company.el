@@ -41,6 +41,11 @@
    'company-backend
    (delete 'company-clang company-backends))
 
+  ;; Don't show documentation in echo area
+  (customize-set-variable
+   'company-frontends
+   (delq 'company-echo-metadata-frontend company-frontends))
+
   (declare-function company-tooltip-visible-p "company")
   (declare-function company-complete-common "company")
   (declare-function company-explicit-action-p "company")
