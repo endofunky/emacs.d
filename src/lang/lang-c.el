@@ -116,15 +116,6 @@ languages with similar syntax"
               (file-exists-p (expand-file-name ".ccls" (ef-project-root))))
       (lsp))))
 
-(use-package lsp-mode
-  :defer t
-  :config
-  (declare-function lsp-flycheck-add-mode "lsp-mode")
-
-  (lsp-flycheck-add-mode 'c-mode)
-  (lsp-flycheck-add-mode 'c++-mode)
-  (lsp-flycheck-add-mode 'objc-mode))
-
 (use-package company-c-headers
   :after cc-mode
   :config

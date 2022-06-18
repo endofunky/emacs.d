@@ -120,11 +120,6 @@
   :hook
   (cider-mode . macrostep-geiser-setup))
 
-(use-package flycheck-clj-kondo
-  :after clojure-mode
-  :config
-  (require 'flycheck-clj-kondo))
-
 (ef-deflang clojure
   :after (clojure-mode cider)
 

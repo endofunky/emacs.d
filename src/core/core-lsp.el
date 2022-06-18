@@ -1,7 +1,6 @@
 (require 'core-lib)
 (require 'core-direnv)
 (require 'core-evil)
-(require 'core-flycheck)
 (require 'core-shackle)
 (require 'core-project)
 

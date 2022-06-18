@@ -322,6 +322,11 @@
    `(flycheck-error ((,class (:underline (:color ,red :style line)))))
    `(flycheck-info ((,class (:underline (:color ,blue :style line)))))
 
+   ;; flymake
+   `(flymake-warning ((,class (:underline (:color ,orange :style line)))))
+   `(flymake-error ((,class (:underline (:color ,red :style line)))))
+   `(flymake-note ((,class (:underline (:color ,blue :style line)))))
+
    ;; FIC
    `(font-lock-fic-face ((,class (:foreground ,background :background ,red :weight bold))))
 
