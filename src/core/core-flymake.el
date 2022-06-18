@@ -13,7 +13,8 @@
   (elisp-flymake-byte-compile-load-path (append load-path '("./")))
   :hook
   (prog-mode . flymake-mode)
-  (evil-normal-state-entry . ef-flymake-check-buffer-maybe)
+  (evil-insert-state-exit . ef-flymake-check-buffer-maybe)
+  (evil-replace-state-exit . ef-flymake-check-buffer-maybe)
   (ef-escape . ef-flymake-check-buffer-maybe)
   :config
   (ef-add-hook flymake-mode-hook
