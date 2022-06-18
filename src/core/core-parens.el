@@ -4,6 +4,8 @@
   :custom
   (show-paren-priority -50) ; Highlight parens in region
   (show-paren-delay 0.1)
+  (show-paren-when-point-inside-paren t)
+  (show-paren-when-point-in-periphery t)
   :config
   (show-paren-mode t))
 
