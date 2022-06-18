@@ -30,6 +30,7 @@
  ("emacs-which-key" . "1ab1d0cc88843c9a614ed3226c5a1070e32e4823")
  ("emacsmirror-mirror" . "634e620eaa04afb10ea292bd039137667fe546d4")
  ("emacsql" . "373975cbccf7776af771e23f86043b236a330702")
+ ("embark" . "63f0d4dc09afb058450dc10dd3916027a93ee487")
  ("envrc" . "7f36664fc6d97a7ca77c6c3e0c6577b72fa0b70d")
  ("epl" . "78ab7a85c08222cd15582a298a364774e3282ce6")
  ("evil" . "157af04d2cf466e301e82b0e667c5e7203fd96a2")
