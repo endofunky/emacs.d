@@ -28,4 +28,10 @@
   (defvar company-backends)
   (add-to-list 'company-backends 'company-shell))
 
+(use-package flymake-shellcheck
+  :defer t
+  :commands flymake-shellcheck-load
+  :hook
+  (sh-mode . flymake-shellcheck-load))
+
 (provide 'lang-shell)
