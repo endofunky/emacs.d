@@ -92,6 +92,7 @@
   (company-box-show-single-candidate t)
   (company-box-backends-colors nil)
   (company-box-max-candidates 50)
+  (company-box-doc-delay 5)
   :config
   (declare-function frame-local-getq "frame-local")
   (declare-function frame-local-setq "frame-local")
