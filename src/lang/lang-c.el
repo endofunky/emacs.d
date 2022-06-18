@@ -1,7 +1,6 @@
 (require 'core-lsp)
 (require 'core-shackle)
 (require 'core-project)
-(require 'core-company)
 
 ;; https://github.com/Hi-Angel/dotfiles/blob/bbd08c6883daed98b9feaad7f86304d332f51e3d/.emacs#L583-L642
 (defun ef-c-is-in-comment ()
@@ -115,11 +114,6 @@ languages with similar syntax"
     (when (or (file-exists-p (expand-file-name "compile_commands.json" (ef-project-root)))
               (file-exists-p (expand-file-name ".ccls" (ef-project-root))))
       (ef-enable-lsp-maybe))))
-
-(use-package company-c-headers
-  :after cc-mode
-  :config
-  (add-to-list 'company-backends 'company-c-headers))
 
 (use-package cmake-mode
   :commands cmake-mode

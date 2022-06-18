@@ -176,8 +176,6 @@ already in normal mode.")
   :after evil
   :demand t
   :commands (evil-collection-init)
-  :custom
-  (evil-collection-company-use-tng nil)
   :config
   (evil-collection-init))
 

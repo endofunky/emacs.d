@@ -20,14 +20,6 @@
   :config
   (evil-define-key 'normal sh-mode-map ",r" 'anti-term))
 
-(use-package company-shell
-  :after sh-script
-  :custom
-  (company-shell-clean-manpage t)
-  :config
-  (defvar company-backends)
-  (add-to-list 'company-backends 'company-shell))
-
 (use-package flymake-shellcheck
   :defer t
   :commands flymake-shellcheck-load

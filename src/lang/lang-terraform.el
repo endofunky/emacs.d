@@ -5,10 +5,4 @@
   :hook
   (terraform-mode . ef-enable-lsp-maybe))
 
-(use-package company-terraform
-  :after terraform-mode
-  :functions (company-terraform-init)
-  :config
-  (company-terraform-init))
-
 (provide 'lang-terraform)
