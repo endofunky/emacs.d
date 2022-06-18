@@ -196,7 +196,27 @@
   (hl-line-sticky-flag nil)
   :hook
   (prog-mode . hl-line-mode)
-  (text-mode . hl-line-mode))
+  (text-mode . hl-line-mode)
+  (evil-visual-state-entry . ef--evil-disable-hl-line)
+  (evil-visual-state-exit . ef--evil-enable-hl-line)
+  (activate-mark-hook . ef--evil-disable-hl-line)
+  (deactivate-mark-hook . ef--evil-enable-hl-line)
+  :custom
+  ;; Disable hl-line when in visual state
+  (defvar ef--hl-line-mode nil
+    "Whether to re-enable hl-line if it was previously disabled while in evil
+visual state or mark.")
+
+  (defun ef--evil-disable-hl-line ()
+    "Hook function to temporarily disable hl-line for visual state and mark."
+    (when hl-line-mode
+      (hl-line-mode -1)
+      (setq ef--hl-line-mode t)))
+
+  (defun ef--evil-enable-hl-line ()
+    "Hook function to temporarily disable hl-line for visual state and mark."
+    (when ef--hl-line-mode
+      (hl-line-mode t))))
 
 (use-package hideshow
   :commands hs-minor-mode
