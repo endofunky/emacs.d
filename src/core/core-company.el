@@ -37,10 +37,6 @@
   :hook
   (company-mode . evil-normalize-keymaps)
   :config
-  (customize-set-variable
-   'company-backend
-   (delete 'company-clang company-backends))
-
   ;; Don't show documentation in echo area
   (customize-set-variable
    'company-frontends
