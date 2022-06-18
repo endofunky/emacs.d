@@ -51,10 +51,11 @@
    `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
   ;; Don't show GUI dialog boxes
-  (use-dialog-box nil))
+  (use-dialog-box nil)
 
-;; Enable y/n answers
-(fset 'yes-or-no-p #'y-or-n-p)
+  ;; The Emacs >28 way of setting:
+  ;; (fset 'yes-or-no-p #'y-or-n-p)
+  (use-short-answers t))
 
 ;; No GNU ads in minibuffer
 (fset #'display-startup-echo-area-message #'ignore)
