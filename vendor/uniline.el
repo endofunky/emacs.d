@@ -317,7 +317,7 @@ If FRAME is nil, it means the current frame."
                            (uniline--icon 'octicon "arrow-down" "↓"
                                           :face 'uniline-warning-face))
                           ((memq state '(removed conflict unregistered))
-                           (uniline--icon 'octicon "arrow-alert" "⚠"
+                           (uniline--icon 'octicon "alert" "⚠"
                                           :face 'uniline-error-face))
                           (t
                            (uniline--icon 'octicon "git-branch" "@"
@@ -404,24 +404,31 @@ Will return a maximum count of 256 for each."
                                     'face 'uniline-warning-face)
                         (uniline-spc))))))))
 
+(defvar-local uniline--bisect-text nil)
+
 (defun uniline-git-bisect (&rest _)
-  (when (and (fboundp 'magit-bisect-in-progress-p)
-             (magit-bisect-in-progress-p))
-    (concat
-     (propertize "Bisect"
-                 'face (uniline--face 'uniline-error-face)
-                 'help-echo "Git-bisect in progress\n\
+  uniline--bisect-text)
+
+(defun uniline--update-git-bisect (&rest _)
+  (setq uniline--bisect-text
+        (when (and (fboundp 'magit-bisect-in-progress-p)
+                   (string= "Git" (vc-backend buffer-file-name))
+                   (magit-bisect-in-progress-p))
+          (concat
+           (propertize "Bisect"
+                       'face (uniline--face 'uniline-error-face)
+                       'help-echo "Git-bisect in progress\n\
 mouse-1: Open bisect menu\n\
 mouse-2: magit-bisect-bad\n\
 mouse-3: magit-bisect-good"
-                 'mouse-face 'unilight-highlight
-                 'local-map (let ((map (make-sparse-keymap)))
-                              (define-key map
-                                [mode-line mouse-1] 'magit-bisect)
-                              [mode-line mouse-2] 'magit-bisect-bad
-                              [mode-line mouse-3] 'magit-bisect-good
-                              map))
-     (uniline-spc))))
+                       'mouse-face 'unilight-highlight
+                       'local-map (let ((map (make-sparse-keymap)))
+                                    (define-key map
+                                      [mode-line mouse-1] 'magit-bisect)
+                                    [mode-line mouse-2] 'magit-bisect-bad
+                                    [mode-line mouse-3] 'magit-bisect-good
+                                    map))
+           (uniline-spc)))))
 
 (defun uniline-eol (&rest _)
   "Displays the eol style of the buffer."
@@ -900,6 +907,10 @@ mouse-1: Reload to start server")
         (add-hook 'after-save-hook #'uniline--update-git)
         (advice-add #'vc-refresh-state :after #'uniline--update-git)
 
+        (add-hook 'find-file-hook #'uniline--update-git-bisect)
+        (add-hook 'after-save-hook #'uniline--update-git-bisect)
+        (advice-add #'vc-refresh-state :after #'uniline--update-git-bisect)
+
         (uniline--force-refresh uniline--mode-line-format))
     (progn
       ;; Reset the original modeline state
@@ -922,6 +933,10 @@ mouse-1: Reload to start server")
       (remove-hook 'find-file-hook #'uniline--update-git)
       (remove-hook 'after-save-hook #'uniline--update-git)
       (advice-remove #'vc-refresh-state #'uniline--update-git)
+
+      (remove-hook 'find-file-hook #'uniline--update-git-bisect)
+      (remove-hook 'after-save-hook #'uniline--update-git-bisect)
+      (advice-remove #'vc-refresh-state #'uniline--update-git-bisect)
 
       (uniline--force-refresh uniline--original-mode-line-format)
       (setq uniline--original-mode-line-format nil))))
