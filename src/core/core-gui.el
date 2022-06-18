@@ -20,6 +20,13 @@
                else do (set-window-fringes win 0 0))))
   (fringe-mode nil))
 
+(use-package x-win
+  :if (eq 'x window-system)
+  :straight nil
+  :custom
+  ;; Don't use GTK tooltips
+  (x-gtk-use-system-tooltips nil))
+
 (use-package frame
   :straight nil
   :if window-system
