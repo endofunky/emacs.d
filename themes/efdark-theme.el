@@ -320,6 +320,7 @@
    `(flycheck-fringe-info ((,class (:background nil :foreground ,blue :weight bold))))
    `(flycheck-warning ((,class (:underline (:color ,orange :style line)))))
    `(flycheck-error ((,class (:underline (:color ,red :style line)))))
+   `(flycheck-info ((,class (:underline (:color ,blue :style line)))))
 
    ;; FIC
    `(font-lock-fic-face ((,class (:foreground ,background :background ,red :weight bold))))
