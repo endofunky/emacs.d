@@ -6,16 +6,15 @@
   :custom
   (flycheck-buffer-switch-check-intermediate-buffers t)
   (flycheck-idle-buffer-switch-delay 0.01)
-  (flycheck-idle-change-delay 0.1)
   (flycheck-disabled-checkers '(ruby-reek emacs-lisp-checkdoc))
-  (flycheck-display-errors-delay 0.1)
+  (flycheck-idle-change-delay 1.0)
+  (flycheck-display-errors-delay 0.25)
   (flycheck-emacs-lisp-initialize-packages 'auto)
   (flycheck-emacs-lisp-load-path load-path)
   (flycheck-error-list-minimum-level nil)
   (flycheck-indication-mode 'left-fringe)
   (flycheck-mode-line-prefix "F")
   (flycheck-navigation-minimum-level 'error)
-  (flycheck-syntax-check-buffer)
   :commands (global-flycheck-mode)
   :functions (ef-flycheck-toggle-errors
               ef-flycheck-check-buffer-maybe)
