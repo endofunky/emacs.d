@@ -185,6 +185,10 @@ already in normal mode.")
   :after evil
   :demand t
   :commands (global-anzu-mode)
+  :general
+  (:states '(normal insert visual motion replace) :keymaps 'override
+   "C-r" 'anzu-query-replace-regexp
+   "C-M-r" 'anzu-query-replace-at-cursor-thing)
   :config
   (global-anzu-mode t))
 
