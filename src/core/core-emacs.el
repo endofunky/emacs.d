@@ -325,16 +325,6 @@
   (uniquify-ignore-buffers-re "^\\*")
   (uniquify-separator ":"))
 
-(use-package vc-mode
-  :straight nil
-  :defer t
-  :init
-  ;; Most repositories are using git nowadays, so remove the 'Git-' prefix from
-  ;; mode-line-format. If we are in a non-git repository, this will still be
-  ;; indicated.
-  (setcdr (assq 'vc-mode mode-line-format)
-          '((:eval (replace-regexp-in-string "^ Git[-:]" " " vc-mode)))))
-
 (use-package xref
   :straight nil
   :defer t
