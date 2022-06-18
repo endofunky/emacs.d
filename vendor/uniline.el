@@ -389,7 +389,7 @@ Will return a maximum count of 256 for each."
           (setq uniline--git-unpulled-icon
                 (uniline--icon 'octicon "arrow-down" "↓"
                                :face 'uniline-warning-face
-                               :v-adjust 0.05))
+                               :v-adjust -0.04))
           (setq uniline--git-unpulled-text
                 (concat (propertize (number-to-string unpulled)
                                     'face 'uniline-warning-face)
