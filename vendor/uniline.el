@@ -278,7 +278,7 @@ If FRAME is nil, it means the current frame."
   mouse-1: Display major mode menu\n\
   mouse-2: Show help for major mode\n\
   mouse-3: Toggle minor modes"
-                'mouse-face 'unilight-highlight
+                'mouse-face 'uniline-highlight
                 'local-map mode-line-major-mode-keymap)
     (and (boundp 'text-scale-mode-amount)
          (/= text-scale-mode-amount 0)
@@ -421,7 +421,7 @@ Will return a maximum count of 256 for each."
 mouse-1: Open bisect menu\n\
 mouse-2: magit-bisect-bad\n\
 mouse-3: magit-bisect-good"
-                       'mouse-face 'unilight-highlight
+                       'mouse-face 'uniline-highlight
                        'local-map (let ((map (make-sparse-keymap)))
                                     (define-key map
                                       [mode-line mouse-1] 'magit-bisect)
