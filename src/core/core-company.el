@@ -20,7 +20,7 @@
                               help-mode
                               gud-mode
                               vterm-mode))
-  (company-idle-delay 0.001)
+  (company-idle-delay 0.2)
   (company-minimum-prefix-length 2)
   (company-require-match 'never)
   (company-selection-wrap-around t)
