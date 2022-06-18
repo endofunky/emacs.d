@@ -25,6 +25,7 @@
   (company-require-match 'never)
   (company-selection-wrap-around t)
   (company-tooltip-align-annotations t)
+  (company-format-margin-function #'company-detect-icons-margin)
   (evil-complete-next-func 'ef-evil-complete-lambda)
   (evil-complete-previous-func 'ef-evil-complete-lambda)
   :general
