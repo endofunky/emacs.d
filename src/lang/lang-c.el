@@ -9,7 +9,8 @@
 
 (defun ef-c-current-line-string ()
   "returns current line as a string"
-  (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
+  (buffer-substring-no-properties (line-beginning-position)
+                                  (line-end-position)))
 
 (defvar ef-c-iter-kw
   '("if" "else" "switch" "for" "while" "do" "define" "rep" "rrep" "trav"))
@@ -64,7 +65,13 @@ languages with similar syntax"
   :init
   (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.hpp$" . c++-mode))
+  :hook
+  (c-mode . ef-cc-mode-enable-lsp)
+  (c++-mode . ef-cc-mode-enable-lsp)
+  (objc-mode . ef-cc-mode-enable-lsp)
   :config
+  (declare-function ef-project-root "core-project")
+
   (define-key c-mode-map (kbd "C-M-l") nil)
   (define-key c-mode-map (kbd "C-M-h") nil)
   (define-key c++-mode-map (kbd "C-M-l") nil)
@@ -82,6 +89,13 @@ languages with similar syntax"
     (setq-local tab-width 2)
     (setq-local indent-tabs-mode nil))
 
+  (defun ef-cc-mode-enable-lsp ()
+    "Conditionally enable LSP integration for cc-mode projects."
+    (interactive)
+    (when (or (file-exists-p (expand-file-name "compile_commands.json" (ef-project-root)))
+              (file-exists-p (expand-file-name ".ccls" (ef-project-root))))
+      (ef-enable-lsp-maybe)))
+
   ;; https://stackoverflow.com/questions/23553881/emacs-indenting-of-c11-lambda-functions-cc-mode
   (defadvice c-lineup-arglist (around my activate)
     "Improve indentation of continued C++11 lambda function opened as argument."
@@ -95,30 +109,6 @@ languages with similar syntax"
                        (looking-at ".*[(,][ \t]*\\[[^]]*\\][ \t]*[({][^}]*$"))))
               0
             ad-do-it))))
-
-(use-package ccls
-  :after cc-mode
-  :custom
-  (ccls-sem-highlight-method nil)
-  :hook
-  (c-mode . ef-cc-mode-enable-lsp)
-  (c++-mode . ef-cc-mode-enable-lsp)
-  (objc-mode . ef-cc-mode-enable-lsp)
-  :commands (ef-cc-mode-enable-lsp)
-  :config
-  (declare-function ef-project-root "core-project")
-
-  (defun ef-cc-mode-enable-lsp ()
-    "Conditionally enable LSP integration for cc-mode projects."
-    (interactive)
-    (when (or (file-exists-p (expand-file-name "compile_commands.json" (ef-project-root)))
-              (file-exists-p (expand-file-name ".ccls" (ef-project-root))))
-      (ef-enable-lsp-maybe))))
-
-(use-package cmake-mode
-  :commands cmake-mode
-  :mode (("CMakeLists\\.txt\\'" . cmake-mode)
-         ("\\.cmake\\'" . cmake-mode)))
 
 (use-package ruby-style
   :straight nil
