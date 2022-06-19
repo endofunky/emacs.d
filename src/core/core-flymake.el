@@ -11,11 +11,13 @@
    "M-e" 'ef-flymake-toggle-errors)
   :custom
   (elisp-flymake-byte-compile-load-path (append load-path '("./")))
-  (flymake-no-changes-timeout 0.5)
+  (flymake-no-changes-timeout nil)
   :hook
   (prog-mode . flymake-mode)
-  (evil-insert-state-exit . ef-flymake-check-buffer-maybe)
-  (evil-replace-state-exit . ef-flymake-check-buffer-maybe)
+  (evil-insert-state-entry . ef--flymake-disable)
+  (evil-replace-state-entry . ef--flymake-disable)
+  (evil-insert-state-exit . ef--flymake-enable)
+  (evil-replace-state-exit . ef--flymake-enable)
   (ef-escape . ef-flymake-check-buffer-maybe)
   :config
   (ef-add-hook flymake-mode-hook
@@ -52,6 +54,18 @@ diagnostics to the buffer being switched to."
         (quit-window)
       (if-let ((win (get-buffer-window (flymake--diagnostics-buffer-name))))
           (delete-window win)
-        (flymake-show-buffer-diagnostics)))))
+        (flymake-show-buffer-diagnostics))))
+
+  ;; Disable flymake while in insert or replace state
+  (defvar ef--flymake-delay nil)
+
+  (defun ef--flymake-disable ()
+    (setq ef--flymake-delay flymake-no-changes-timeout)
+    (setq flymake-no-changes-timeout nil))
+
+  (defun ef--flymake-enable ()
+    (setq flymake-no-changes-timeout ef--flymake-delay)
+    (when (bound-and-true-p flymake-mode)
+      (flymake-start))))
 
 (provide 'core-flymake)
