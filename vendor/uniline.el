@@ -138,6 +138,20 @@
 (declare-function eglot-shutdown "ext:eglot")
 (declare-function eglot-stderr-buffer "ext:eglot")
 
+(defvar flymake--diagnostics-buffer-source)
+(defvar flymake--mode-line-format)
+(defvar flymake--state)
+(defvar flymake-menu)
+
+(declare-function flymake-running-backends "ext:flymake")
+(declare-function flymake-disabled-backends "ext:flymake")
+(declare-function flymake-reporting-backends "ext:flymake")
+(declare-function warning-numeric-level "ext:warnings")
+(declare-function flymake--state-diags "ext:flymake")
+(declare-function flymake--lookup-type-property "ext:flymake")
+(declare-function flymake--diag-type "ext:flymake")
+(declare-function flymake--handle-report "ext:flymake")
+
 (declare-function jsonrpc-last-error "ext:jsonrpc")
 (declare-function jsonrpc--request-continuations "ext:jsonrpc")
 
@@ -151,13 +165,6 @@
 (declare-function evil-motion-state-p "ext:evil-states")
 (declare-function evil-visual-state-p "ext:evil-states")
 (declare-function evil-replace-state-p "ext:evil-states")
-
-(defvar flycheck-mode)
-(defvar flycheck-last-status-change)
-(defvar flycheck-current-errors)
-(declare-function flycheck-count-errors "ext:flycheck")
-(declare-function flycheck-list-errors "ext:flycheck")
-(declare-function flycheck-error-list-current-errors "ext:flycheck")
 
 (declare-function flyspell-overlay-p "ext:flyspell")
 (declare-function flyspell-get-word "ext:flyspell")
@@ -500,70 +507,6 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
   (propertize ":%l:%c "
               'face 'uniline-position-face))
 
-(defvar-local uniline--flycheck-text nil)
-(defvar-local uniline--flycheck-icon nil)
-(defvar-local uniline--flycheck-error-text nil)
-(defvar-local uniline--flycheck-error-icon nil)
-(defvar-local uniline--flycheck-warning-text nil)
-(defvar-local uniline--flycheck-warning-icon nil)
-(defvar-local uniline--flycheck-info-text nil)
-(defvar-local uniline--flycheck-info-icon nil)
-
-(defun uniline-flycheck-text (&rest _)
-  uniline--flycheck-text)
-
-(defun uniline--flycheck-update (&rest _)
-  "Return the status of flycheck to be displayed in the mode-line."
-  (setq uniline--flycheck-text nil)
-  (when (and (fboundp 'flycheck-mode)
-             flycheck-mode)
-    (let ((help-echo "Show Flycheck Errors")
-          (local-map (make-mode-line-mouse-map
-                      'mouse-1 #'flycheck-list-errors)))
-      (pcase flycheck-last-status-change
-        (`finished
-         (if flycheck-current-errors
-             (let* ((errors
-                     (flycheck-count-errors flycheck-current-errors))
-                    (info-count (or (alist-get 'info errors) 0))
-                    (warning-count (or (alist-get 'warning errors) 0))
-                    (error-count (or (alist-get 'error errors) 0))
-                    (count (+ info-count warning-count error-count)))
-               (setq
-                uniline--flycheck-text
-                (concat (propertize
-                         (format "%s Issue%s" count (if (eq 1 count) "" "s"))
-                         'face (cond ((> error-count 0) 'uniline-error-face)
-                                     ((> warning-count 0) 'uniline-warning-face)
-                                     (t 'uniline-ok-face))
-                         'help-echo help-echo
-                         'local-map local-map)
-                        (uniline-spc))))
-           (setq uniline--flycheck-text
-                 (concat
-                  (propertize "No Issues"
-                              'face 'uniline-ok-face
-                              'help-echo help-echo
-                              'local-map local-map)
-                  (uniline-spc)))))
-        (`errored
-         (setq uniline--flycheck-text
-               (concat
-                (propertize "Error"
-                            'face 'uniline-error-face
-                            'help-echo help-echo
-                            'local-map local-map)
-                (uniline-spc))))
-        (`interrupted
-         (setq uniline--flycheck-text
-               (concat
-                (propertize "Interrupted"
-                            'face 'uniline-error-face
-                            'help-echo help-echo
-                            'local-map local-map)
-                (uniline-spc))))
-        (`suspicious t)))))
-
 (defun uniline-evil--tag ()
   (let ((help-echo (evil-state-property evil-state :name))
         (mouse-face 'uniline-highlight))
@@ -810,32 +753,147 @@ mouse-1: Start server"))
                                    'flyspell-correct-next)
                                  map)
                     'face 'uniline-error-face)))))
+
+(defvar-local uniline--flymake nil)
+
+(defun uniline-flymake (&rest _)
+  uniline--flymake)
+
+(defun uniline--update-flymake (&rest _)
+  "Update flymake icon."
+  (setq flymake--mode-line-format nil)  ; remove the lighter of minor mode
+  (setq
+   uniline--flymake
+   (let* ((known (hash-table-keys flymake--state))
+          (running (flymake-running-backends))
+          (disabled (flymake-disabled-backends))
+          (reported (flymake-reporting-backends))
+          (all-disabled (and disabled (null running)))
+          (some-waiting (cl-set-difference running reported)))
+     (let
+         ((text
+           (cond
+            (some-waiting "")
+            ((null known) "")
+            (all-disabled "")
+            (t (let ((.error 0)
+                     (.warning 0)
+                     (.note 0))
+                 (progn
+                   (cl-loop
+                    with warning-level = (warning-numeric-level :warning)
+                    with note-level = (warning-numeric-level :debug)
+                    for state being the hash-values of flymake--state
+                    do (cl-loop
+                        with diags = (flymake--state-diags state)
+                        for diag in diags do
+                        (let ((severity (flymake--lookup-type-property
+                                         (flymake--diag-type diag) 'severity
+                                         (warning-numeric-level :error))))
+                          (cond ((> severity warning-level) (cl-incf .error))
+                                ((> severity note-level)    (cl-incf .warning))
+                                (t                          (cl-incf .note))))))
+                   (let ((count (+ .error .warning .note))
+                         (help-echo
+                          (concat "Flymake\n"
+                                  (cond
+                                   (some-waiting "Running...")
+                                   ((null known) "No Checker")
+                                   (all-disabled "All Checkers Disabled")
+                                   (t (format "%d/%d backends running
+mouse-1: Display minor mode menu
+mouse-2: Show help for minor mode"
+                                              (length running)
+                                              (length known))))))
+                         (local-map
+                          (let ((map (make-sparse-keymap)))
+                            (define-key map [mode-line down-mouse-1]
+                              flymake-menu)
+                            (define-key map [mode-line mouse-2]
+                              (lambda ()
+                                (interactive)
+                                (describe-function 'flymake-mode)))
+                            map)))
+                     (if (> count 0)
+                         (concat
+                          (propertize
+                           (format "%s Issue%s" count (if (eq 1 count) "" "s"))
+                           'face (cond ((> .error 0) 'uniline-error-face)
+                                       ((> .warning 0) 'uniline-warning-face)
+                                       (t 'uniline-ok-face))
+                           'help-echo help-echo
+                           'local-map local-map)
+                          (uniline-spc))
+                       (concat
+                        (propertize "No Issues"
+                                    'face 'uniline-ok-face
+                                    'help-echo help-echo
+                                    'local-map local-map)
+                        (uniline-spc))))))))))
+       (propertize
+        text
+        'help-echo (concat "Flymake\n"
+                           (cond
+                            (some-waiting "Running...")
+                            ((null known) "No Checker")
+                            (all-disabled "All Checkers Disabled")
+                            (t (format "%d/%d backends running
+mouse-1: Display minor mode menu
+mouse-2: Show help for minor mode"
+                                       (length running) (length known)))))
+        'mouse-face 'uniline-highlight
+        'local-map (let ((map (make-sparse-keymap)))
+                     (define-key map [mode-line down-mouse-1]
+                       flymake-menu)
+                     (define-key map [mode-line mouse-2]
+                       (lambda ()
+                         (interactive)
+                         (describe-function 'flymake-mode)))
+                     map))))))
+
 ;;
 ;; Mode-specific mode-line formats
 ;;
-(defun uniline--flycheck-error-details (&rest _)
-  (let* ((counts (flycheck-count-errors (flycheck-error-list-current-errors)))
-         (error-count (or (alist-get 'error counts) 0))
-         (warning-count (or (alist-get 'warning counts) 0))
-         (info-count (or (alist-get 'info counts) 0)))
-    (concat
-     (if (and (= error-count 0)
-              (= warning-count 0)
-              (= info-count 0))
-         (propertize "No Errors" 'face 'uniline-ok-face))
-     (if (> error-count 0)
-         (propertize (if (> error-count 1)
-                         (format "%d Errors " error-count)
-                       "1 Error")
-                     'face 'uniline-error-face))
-     (if (> warning-count 0)
-         (propertize (if (> warning-count 1)
-                         (format "%d Warnings " warning-count)
-                       "1 Warning")
-                     'face 'uniline-warning-face))
-     (if (> info-count 0)
-         (propertize (format "%d Infomational " info-count)
-                     'face 'uniline-ok-face)))))
+(defun uniline--flymake-error-details (&rest _)
+  (when (boundp 'flymake--state)
+    (with-current-buffer flymake--diagnostics-buffer-source
+      (let ((.error 0)
+            (.warning 0)
+            (.note 0))
+        (progn
+          (cl-loop
+           with warning-level = (warning-numeric-level :warning)
+           with note-level = (warning-numeric-level :debug)
+           for state being the hash-values of flymake--state
+           do (cl-loop
+               with diags = (flymake--state-diags state)
+               for diag in diags do
+               (let ((severity (flymake--lookup-type-property
+                                (flymake--diag-type diag) 'severity
+                                (warning-numeric-level :error))))
+                 (cond ((> severity warning-level) (cl-incf .error))
+                       ((> severity note-level)    (cl-incf .warning))
+                       (t                          (cl-incf .note))))))
+          (concat
+           (if (and (= .error 0)
+                    (= .warning 0)
+                    (= .note 0))
+               (propertize "No Issues" 'face 'uniline-ok-face))
+           (if (> .error 0)
+               (propertize (if (> .error 1)
+                               (format "%d Errors " .error)
+                             "1 Error")
+                           'face 'uniline-error-face))
+           (if (> .warning 0)
+               (propertize (if (> .warning 1)
+                               (format "%d Warnings " .warning)
+                             "1 Warning")
+                           'face 'uniline-warning-face))
+           (if (> .note 0)
+               (propertize (if (> .note 1)
+                               (format "%d Notes " .note)
+                             "1 Note")
+                           'face 'uniline-ok-face))))))))
 
 (defun uniline--set-mini-format ()
   (setq mode-line-format
@@ -850,17 +908,18 @@ mouse-1: Start server"))
            ;; RHS
            '(uniline-major-mode)))))
 
-(defun uniline--set-flycheck-format ()
+(defun uniline--set-flymake-format ()
   (setq mode-line-format
         '(:eval
           (uniline--format
            ;; LHS
            '(uniline--anzu
              uniline-evil
-             uniline--flycheck-error-details
+             uniline--flymake-error-details
              uniline-misc)
            ;; RHS
-           '(uniline-major-mode)))))
+           '(uniline-buffer-name)
+           ))))
 
 (defun uniline--set-vterm-format ()
   (setq mode-line-format
@@ -901,7 +960,7 @@ mouse-1: Start server"))
                    uniline-misc)
                  ;; RHS
                  '(uniline-flyspell
-                   uniline-flycheck-text
+                   uniline-flymake
                    uniline-vcs-icon
                    uniline-vcs-text
                    uniline-git-bisect
@@ -919,11 +978,10 @@ mouse-1: Start server"))
 
         (setq-default mode-line-format uniline--mode-line-format)
 
-        (add-hook 'flycheck-status-changed-functions #'uniline--flycheck-update)
-        (add-hook 'flycheck-mode-hook #'uniline--flycheck-update)
-        (add-hook 'flycheck-error-list-mode-hook #'uniline--set-flycheck-format)
-
         (add-hook 'process-menu-mode-hook #'uniline--set-mini-format)
+
+        (advice-add #'flymake--handle-report :after #'uniline--update-flymake)
+        (add-hook 'flymake-diagnostics-buffer-mode-hook 'uniline--set-flymake-format)
 
         (add-hook 'vterm-mode-hook #'uniline--set-vterm-format)
 
@@ -944,11 +1002,8 @@ mouse-1: Start server"))
       ;; Reset the original modeline state
       (setq-default mode-line-format uniline--original-mode-line-format)
 
-      (remove-hook 'flycheck-status-changed-functions
-                   #'uniline--flycheck-update)
-      (remove-hook 'flycheck-mode-hook #'uniline--flycheck-update)
-      (remove-hook 'flycheck-error-list-mode-hook
-                   #'uniline--set-flycheck-format)
+      (advice-remove #'flymake--handle-report #'uniline--update-flymake)
+      (remove-hook 'flymake-diagnostics-buffer-mode-hook 'uniline--set-flymake-format)
 
       (remove-hook 'process-menu-mode-hook #'uniline--set-mini-format)
 
