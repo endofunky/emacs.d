@@ -9,6 +9,7 @@
   (corfu-echo-documentation nil)
   (corfu-min-width 24)
   (corfu-preview-current nil)
+  (corfu-bar-width 1.0)
   :commands (corfu-mode)
   :general
   (:keymaps 'corfu-map

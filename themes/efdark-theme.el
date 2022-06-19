@@ -298,6 +298,13 @@
    `(company-tooltip-selection ((,class (:foreground ,default :background ,background-lighter))))
    `(company-tooltip-mouse ((,class (:foreground ,default :background ,background-lighter))))
 
+   ;; corfu
+   `(corfu-default ((,class (:foreground ,default :background ,background-darker))))
+   `(corfu-current ((,class (:background ,background-lighter))))
+   `(corfu-border ((,class (:background ,comment))))
+   `(corfu-annotations ((,class (:foreground ,purple))))
+   `(corfu-bar ((,class (:background ,orange-light))))
+
    ;; tooltips
    `(tooltip ((,class (:background ,background-darker :foreground ,default))))
    `(popup-face ((,class (:inherit tooltip))))
