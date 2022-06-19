@@ -141,7 +141,6 @@
 (declare-function jsonrpc-last-error "ext:jsonrpc")
 (declare-function jsonrpc--request-continuations "ext:jsonrpc")
 
-
 (defvar evil-state)
 (defvar evil-mode)
 (defvar evil-mode-line-tag)
@@ -163,19 +162,12 @@
 (declare-function flyspell-overlay-p "ext:flyspell")
 (declare-function flyspell-get-word "ext:flyspell")
 
-(defvar lsp--buffer-workspaces)
-(declare-function lsp--workspace-print "ext:lsp-mode")
-(declare-function lsp-describe-session "ext:lsp-mode")
-(declare-function lsp-workspace-folders-open "ext:lsp-mode")
-(declare-function lsp-workspace-restart "ext:lsp-mode")
-(declare-function lsp-workspace-shutdown "ext:lsp-mode")
-(declare-function lsp-workspaces "ext:lsp-mode")
-
 (declare-function magit-get-push-branch "ext:magit-git")
 (declare-function magit-get-current-branch "ext:magit-git")
 (declare-function magit-git-string "ext:magit-git")
 
 (declare-function project-root "project")
+
 ;;
 ;; Helpers
 ;;
@@ -243,7 +235,6 @@ RIGHT-SEGMENTS, aligned respectively."
 (defsubst uniline-spc ()
   "Text style with whitespace."
   (propertize " " 'face 'uniline-spc-face))
-
 
 ;;
 ;; Current window tracking (from uniline)
@@ -509,7 +500,6 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
   (propertize ":%l:%c "
               'face 'uniline-position-face))
 
-
 (defvar-local uniline--flycheck-text nil)
 (defvar-local uniline--flycheck-icon nil)
 (defvar-local uniline--flycheck-error-text nil)
@@ -704,52 +694,7 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
 (defun uniline-misc (&rest _)
   (format-mode-line mode-line-misc-info))
 
-(defun uniline--lsp-mode (&rest _)
-  (if-let* ((workspaces (lsp-workspaces))
-            (face (if workspaces
-                      'uniline-lsp-face
-                    'uniline-warning-face)))
-      (concat
-       (propertize
-        (mapconcat (lambda (workspace)
-                     (car (split-string (lsp--workspace-print workspace)
-                                        ":")))
-                   lsp--buffer-workspaces "|")
-        'help-echo
-        (if workspaces
-            (concat "LSP Connected "
-                    (string-join
-                     (mapcar (lambda (w)
-                               (format "[%s]\n" (lsp--workspace-print w)))
-                             workspaces))
-                    "C-mouse-1: Switch to another workspace folder
-mouse-1: Describe current session
-mouse-2: Quit server
-mouse-3: Reconnect to server")
-          "LSP Disconnected
-mouse-1: Reload to start server")
-        'face face
-        'mouse-face 'uniline-highlight
-        'local-map (let ((map (make-sparse-keymap)))
-                     (if workspaces
-                         (progn
-                           (define-key map [mode-line C-mouse-1]
-                             #'lsp-workspace-folders-open)
-                           (define-key map [mode-line mouse-1]
-                             #'lsp-describe-session)
-                           (define-key map [mode-line mouse-2]
-                             #'lsp-workspace-shutdown)
-                           (define-key map [mode-line mouse-3]
-                             #'lsp-workspace-restart))
-                       (progn
-                         (define-key map [mode-line mouse-1]
-                           (lambda ()
-                             (interactive)
-                             (ignore-errors (revert-buffer t t))))))
-                     map))
-       (uniline-spc))))
-
-(defun uniline--eglot ()
+(defun uniline-lsp ()
   "Update `eglot' state."
   (pcase-let* ((server (and (eglot-managed-p)
                             (eglot-current-server)))
@@ -815,14 +760,6 @@ mouse-1: Start server"))
                  `(eglot--managed-mode (" [" eglot--mode-line-format "] ")))))
 (add-hook 'eglot-managed-mode-hook #'uniline-override-eglot-modeline)
 (add-hook 'uniline-mode-hook #'uniline-override-eglot-modeline)
-
-(defun uniline-lsp (&rest _)
-  "Update `lsp-mode' or `eglot' state."
-  (if (and (boundp 'lsp-mode)
-           lsp-mode)
-      (uniline--lsp-mode)
-    (if (fboundp 'eglot-current-server)
-        (uniline--eglot))))
 
 (defun uniline--has-flyspell-overlay-p (ovs)
   (let ((r nil))
@@ -897,7 +834,6 @@ mouse-1: Start server"))
      (if (> info-count 0)
          (propertize (format "%d Infomational " info-count)
                      'face 'uniline-ok-face)))))
-
 
 (defun uniline--set-mini-format ()
   (setq mode-line-format
