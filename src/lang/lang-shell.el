@@ -22,8 +22,15 @@
 
 (use-package flymake-shellcheck
   :defer t
+  :after sh-script
   :commands flymake-shellcheck-load
   :hook
   (sh-mode . flymake-shellcheck-load))
+
+(use-package shfmt
+  :after sh-script
+  :if (executable-find "shfmt")
+  :hook
+  (sh-mode . shfmt-on-save-mode))
 
 (provide 'lang-shell)
