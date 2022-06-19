@@ -303,7 +303,7 @@
    `(corfu-current ((,class (:background ,background-lighter))))
    `(corfu-border ((,class (:background ,comment))))
    `(corfu-annotations ((,class (:foreground ,purple))))
-   `(corfu-bar ((,class (:background ,orange-light))))
+   `(corfu-bar ((,class (:background ,comment))))
 
    ;; tooltips
    `(tooltip ((,class (:background ,background-darker :foreground ,default))))
