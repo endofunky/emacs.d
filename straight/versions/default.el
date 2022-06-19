@@ -22,6 +22,8 @@
  ("emacs-ascii-table" . "4f68ad0b36c365c0652756691ab1703d0d46b4b4")
  ("emacs-async" . "c78bab7506a70a735d2c3deab13fa87bf44a83d3")
  ("emacs-hcl-mode" . "e4d9eef631e8a386341ae8f94f7c2579586e65b5")
+ ("emacs-reformatter" . "452a99b556ebf1953f92fe3e16c20d10d1fed466")
+ ("emacs-shfmt" . "279a51defa3e0d97dc40b8a26e078699d4e22e90")
  ("emacs-tree-sitter" . "3cfab8a0e945db9b3df84437f27945746a43cc71")
  ("emacs-which-key" . "1ab1d0cc88843c9a614ed3226c5a1070e32e4823")
  ("emacsmirror-mirror" . "634e620eaa04afb10ea292bd039137667fe546d4")
