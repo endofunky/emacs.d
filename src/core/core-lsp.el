@@ -1,4 +1,5 @@
 (require 'core-direnv)
+(require 'core-shackle)
 
 (use-package eglot
   :custom
@@ -34,20 +35,19 @@
    [remap xref-find-apropos] 'consult-eglot-symbols)
   :commands (consult-eglot-symbols))
 
-;; (ef-deflang lsp
-;;   :compile-backend-connect lsp
-;;   :compile-backend-reconnect lsp-workspace-restart
-;;   :compile-backend-quit lsp-disconnect
-;;   :compile-nav-jump lsp-find-definition
-;;   :compile-nav-pop-back pop-tag-mark
+(ef-deflang eglot
+  :after eglot
 
-;;   :doc-point lsp-describe-thing-at-point
+  :compile-backend-connect eglot
+  :compile-backend-reconnect eglot-reconnect
+  :compile-backend-quit eglot-shutdown
+  :compile-nav-jump xref-find-definitions
+  :compile-nav-pop-back pop-tag-mark
 
-;;   :refactor-imports lsp-organize-imports
-;;   :refactor-rename lsp-rename
+  :refactor-imports ef-lsp-organize-imports
+  :refactor-rename eglot-rename
 
-;;   :xref-apropos consult-lsp-symbols
-;;   :xref-definitions lsp-find-declaration
-;;   :xref-references lsp-find-references)
+  :xref-apropos consult-eglot-symbols
+  :xref-definitions xref-find-definitions)
 
 (provide 'core-lsp)
