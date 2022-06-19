@@ -124,6 +124,24 @@
 (declare-function anzu--reset-status "ext:anzu")
 (declare-function anzu--where-is-here "ext:anzu")
 
+(declare-function eglot "ext:eglot")
+(declare-function eglot--major-mode "ext:eglot")
+(declare-function eglot--project-nickname "ext:eglot")
+(declare-function eglot--server-info "ext:eglot")
+(declare-function eglot--spinner "ext:eglot")
+(declare-function eglot-clear-status "ext:eglot")
+(declare-function eglot-current-server "ext:eglot")
+(declare-function eglot-events-buffer "ext:eglot")
+(declare-function eglot-forget-pending-continuations "ext:eglot")
+(declare-function eglot-managed-p "ext:eglot")
+(declare-function eglot-reconnect "ext:eglot")
+(declare-function eglot-shutdown "ext:eglot")
+(declare-function eglot-stderr-buffer "ext:eglot")
+
+(declare-function jsonrpc-last-error "ext:jsonrpc")
+(declare-function jsonrpc--request-continuations "ext:jsonrpc")
+
+
 (defvar evil-state)
 (defvar evil-mode)
 (defvar evil-mode-line-tag)
@@ -686,53 +704,125 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
 (defun uniline-misc (&rest _)
   (format-mode-line mode-line-misc-info))
 
-(defun uniline-lsp (&rest _)
-  "Update `lsp-mode' state."
-  (when (and (boundp 'lsp-mode)
-             lsp-mode)
-    (if-let* ((workspaces (lsp-workspaces))
-              (face (if workspaces
-                        'uniline-lsp-face
-                      'uniline-warning-face)))
-        (concat
-         (propertize
-          (mapconcat (lambda (workspace)
-                       (car (split-string (lsp--workspace-print workspace)
-                                          ":")))
-                     lsp--buffer-workspaces "|")
-          'help-echo
-          (if workspaces
-              (concat "LSP Connected "
-                      (string-join
-                       (mapcar (lambda (w)
-                                 (format "[%s]\n" (lsp--workspace-print w)))
-                               workspaces))
-                      "C-mouse-1: Switch to another workspace folder
+(defun uniline--lsp-mode (&rest _)
+  (if-let* ((workspaces (lsp-workspaces))
+            (face (if workspaces
+                      'uniline-lsp-face
+                    'uniline-warning-face)))
+      (concat
+       (propertize
+        (mapconcat (lambda (workspace)
+                     (car (split-string (lsp--workspace-print workspace)
+                                        ":")))
+                   lsp--buffer-workspaces "|")
+        'help-echo
+        (if workspaces
+            (concat "LSP Connected "
+                    (string-join
+                     (mapcar (lambda (w)
+                               (format "[%s]\n" (lsp--workspace-print w)))
+                             workspaces))
+                    "C-mouse-1: Switch to another workspace folder
 mouse-1: Describe current session
 mouse-2: Quit server
 mouse-3: Reconnect to server")
-            "LSP Disconnected
+          "LSP Disconnected
 mouse-1: Reload to start server")
-          'face face
-          'mouse-face 'uniline-highlight
-          'local-map (let ((map (make-sparse-keymap)))
-                       (if workspaces
-                           (progn
-                             (define-key map [mode-line C-mouse-1]
-                               #'lsp-workspace-folders-open)
-                             (define-key map [mode-line mouse-1]
-                               #'lsp-describe-session)
-                             (define-key map [mode-line mouse-2]
-                               #'lsp-workspace-shutdown)
-                             (define-key map [mode-line mouse-3]
-                               #'lsp-workspace-restart))
+        'face face
+        'mouse-face 'uniline-highlight
+        'local-map (let ((map (make-sparse-keymap)))
+                     (if workspaces
                          (progn
+                           (define-key map [mode-line C-mouse-1]
+                             #'lsp-workspace-folders-open)
                            (define-key map [mode-line mouse-1]
-                             (lambda ()
-                               (interactive)
-                               (ignore-errors (revert-buffer t t))))))
-                       map))
-         (uniline-spc)))))
+                             #'lsp-describe-session)
+                           (define-key map [mode-line mouse-2]
+                             #'lsp-workspace-shutdown)
+                           (define-key map [mode-line mouse-3]
+                             #'lsp-workspace-restart))
+                       (progn
+                         (define-key map [mode-line mouse-1]
+                           (lambda ()
+                             (interactive)
+                             (ignore-errors (revert-buffer t t))))))
+                     map))
+       (uniline-spc))))
+
+(defun uniline--eglot ()
+  "Update `eglot' state."
+  (pcase-let* ((server (and (eglot-managed-p)
+                            (eglot-current-server)))
+               (nick (and server (eglot--project-nickname server)))
+               (pending (and server (hash-table-count
+                                     (jsonrpc--request-continuations server))))
+               (`(,_id ,doing ,done-p ,detail) (and server
+                                                    (eglot--spinner server)))
+               (last-error (and server (jsonrpc-last-error server)))
+               (face (cond (last-error 'uniline-error-face)
+                           ((and doing (not done-p)) 'uniline-ok-face)
+                           ((and pending (cl-plusp pending))
+                            'uniline-warning-face)
+                           (nick 'uniline-lsp-face)
+                           (t 'uniline-warning-face))))
+    (concat
+     (propertize (plist-get (eglot--server-info server) :name)
+                 'face (uniline--face face)
+                 'help-echo (cond
+                             (last-error
+                              (format "EGLOT\nAn error occured: %s
+mouse-3: Clear this status" (plist-get last-error :message)))
+                             ((and doing (not done-p))
+                              (format "EGLOT\n%s%s" doing
+                                      (if detail (format "%s" detail) "")))
+                             ((and pending (cl-plusp pending))
+                              (format "EGLOT\n%d outstanding requests" pending))
+                             (nick (format "EGLOT Connected (%s/%s)
+C-mouse-1: Go to server errors
+mouse-1: Go to server events
+mouse-2: Quit server
+mouse-3: Reconnect to server" nick (eglot--major-mode server)))
+                             (t "EGLOT Disconnected
+mouse-1: Start server"))
+                 'mouse-face 'uniline-highlight
+                 'local-map (let ((map (make-sparse-keymap)))
+                              (cond (last-error
+                                     (define-key map [mode-line mouse-3]
+                                       #'eglot-clear-status))
+                                    ((and pending (cl-plusp pending))
+                                     (define-key map [mode-line mouse-3]
+                                       #'eglot-forget-pending-continuations))
+                                    (nick
+                                     (define-key map [mode-line C-mouse-1]
+                                       #'eglot-stderr-buffer)
+                                     (define-key map [mode-line mouse-1]
+                                       #'eglot-events-buffer)
+                                     (define-key map [mode-line mouse-2]
+                                       #'eglot-shutdown)
+                                     (define-key map [mode-line mouse-3]
+                                       #'eglot-reconnect))
+                                    (t (define-key map [mode-line mouse-1]
+                                         #'eglot)))
+                              map))
+     (uniline-spc))))
+
+(defun uniline-override-eglot-modeline ()
+  "Override `eglot' mode-line."
+  (if (bound-and-true-p uniline-mode)
+      (setq mode-line-misc-info
+            (delq (assq 'eglot--managed-mode mode-line-misc-info) mode-line-misc-info))
+    (add-to-list 'mode-line-misc-info
+                 `(eglot--managed-mode (" [" eglot--mode-line-format "] ")))))
+(add-hook 'eglot-managed-mode-hook #'uniline-override-eglot-modeline)
+(add-hook 'uniline-mode-hook #'uniline-override-eglot-modeline)
+
+(defun uniline-lsp (&rest _)
+  "Update `lsp-mode' or `eglot' state."
+  (if (and (boundp 'lsp-mode)
+           lsp-mode)
+      (uniline--lsp-mode)
+    (if (fboundp 'eglot-current-server)
+        (uniline--eglot))))
 
 (defun uniline--has-flyspell-overlay-p (ovs)
   (let ((r nil))
