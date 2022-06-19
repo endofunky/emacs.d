@@ -696,60 +696,62 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
 
 (defun uniline-lsp ()
   "Update `eglot' state."
-  (pcase-let* ((server (and (eglot-managed-p)
-                            (eglot-current-server)))
-               (nick (and server (eglot--project-nickname server)))
-               (pending (and server (hash-table-count
-                                     (jsonrpc--request-continuations server))))
-               (`(,_id ,doing ,done-p ,detail) (and server
-                                                    (eglot--spinner server)))
-               (last-error (and server (jsonrpc-last-error server)))
-               (face (cond (last-error 'uniline-error-face)
-                           ((and doing (not done-p)) 'uniline-ok-face)
-                           ((and pending (cl-plusp pending))
-                            'uniline-warning-face)
-                           (nick 'uniline-lsp-face)
-                           (t 'uniline-warning-face))))
-    (concat
-     (propertize (plist-get (eglot--server-info server) :name)
-                 'face (uniline--face face)
-                 'help-echo (cond
-                             (last-error
-                              (format "EGLOT\nAn error occured: %s
-mouse-3: Clear this status" (plist-get last-error :message)))
-                             ((and doing (not done-p))
-                              (format "EGLOT\n%s%s" doing
-                                      (if detail (format "%s" detail) "")))
+  (when (and (fboundp 'eglot-managed-p)
+             (eglot-managed-p))
+    (pcase-let* ((server (and (eglot-managed-p)
+                              (eglot-current-server)))
+                 (nick (and server (eglot--project-nickname server)))
+                 (pending (and server (hash-table-count
+                                       (jsonrpc--request-continuations server))))
+                 (`(,_id ,doing ,done-p ,detail) (and server
+                                                      (eglot--spinner server)))
+                 (last-error (and server (jsonrpc-last-error server)))
+                 (face (cond (last-error 'uniline-error-face)
+                             ((and doing (not done-p)) 'uniline-ok-face)
                              ((and pending (cl-plusp pending))
-                              (format "EGLOT\n%d outstanding requests" pending))
-                             (nick (format "EGLOT Connected (%s/%s)
+                              'uniline-warning-face)
+                             (nick 'uniline-lsp-face)
+                             (t 'uniline-warning-face))))
+      (concat
+       (propertize (plist-get (eglot--server-info server) :name)
+                   'face (uniline--face face)
+                   'help-echo (cond
+                               (last-error
+                                (format "EGLOT\nAn error occured: %s
+mouse-3: Clear this status" (plist-get last-error :message)))
+                               ((and doing (not done-p))
+                                (format "EGLOT\n%s%s" doing
+                                        (if detail (format "%s" detail) "")))
+                               ((and pending (cl-plusp pending))
+                                (format "EGLOT\n%d outstanding requests" pending))
+                               (nick (format "EGLOT Connected (%s/%s)
 C-mouse-1: Go to server errors
 mouse-1: Go to server events
 mouse-2: Quit server
 mouse-3: Reconnect to server" nick (eglot--major-mode server)))
-                             (t "EGLOT Disconnected
+                               (t "EGLOT Disconnected
 mouse-1: Start server"))
-                 'mouse-face 'uniline-highlight
-                 'local-map (let ((map (make-sparse-keymap)))
-                              (cond (last-error
-                                     (define-key map [mode-line mouse-3]
-                                       #'eglot-clear-status))
-                                    ((and pending (cl-plusp pending))
-                                     (define-key map [mode-line mouse-3]
-                                       #'eglot-forget-pending-continuations))
-                                    (nick
-                                     (define-key map [mode-line C-mouse-1]
-                                       #'eglot-stderr-buffer)
-                                     (define-key map [mode-line mouse-1]
-                                       #'eglot-events-buffer)
-                                     (define-key map [mode-line mouse-2]
-                                       #'eglot-shutdown)
-                                     (define-key map [mode-line mouse-3]
-                                       #'eglot-reconnect))
-                                    (t (define-key map [mode-line mouse-1]
-                                         #'eglot)))
-                              map))
-     (uniline-spc))))
+                   'mouse-face 'uniline-highlight
+                   'local-map (let ((map (make-sparse-keymap)))
+                                (cond (last-error
+                                       (define-key map [mode-line mouse-3]
+                                         #'eglot-clear-status))
+                                      ((and pending (cl-plusp pending))
+                                       (define-key map [mode-line mouse-3]
+                                         #'eglot-forget-pending-continuations))
+                                      (nick
+                                       (define-key map [mode-line C-mouse-1]
+                                         #'eglot-stderr-buffer)
+                                       (define-key map [mode-line mouse-1]
+                                         #'eglot-events-buffer)
+                                       (define-key map [mode-line mouse-2]
+                                         #'eglot-shutdown)
+                                       (define-key map [mode-line mouse-3]
+                                         #'eglot-reconnect))
+                                      (t (define-key map [mode-line mouse-1]
+                                           #'eglot)))
+                                map))
+       (uniline-spc)))))
 
 (defun uniline-override-eglot-modeline ()
   "Override `eglot' mode-line."
