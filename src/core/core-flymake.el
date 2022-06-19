@@ -21,13 +21,7 @@
   (ef-escape . ef-flymake-check-buffer-maybe)
   :config
   (ef-add-hook flymake-mode-hook
-    (remove-hook 'flymake-diagnostic-functions 'ruby-flymake-auto t)
     (remove-hook 'flymake-diagnostic-functions 'elisp-flymake-checkdoc t))
-
-  (ef-add-hook eglot-managed-mode-hook :fn ef-flymake-eglot-setup
-    (when (eq major-mode 'ruby-mode)
-      (add-hook 'flymake-diagnostic-functions 'ruby-flymake-auto nil t)
-      (flymake-start)))
 
   (ef-add-popup 'flymake-diagnostics-buffer-mode
                 :size .2 :select nil :ephemeral t)

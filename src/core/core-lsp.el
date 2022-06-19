@@ -1,5 +1,6 @@
 (require 'core-direnv)
 (require 'core-shackle)
+(require 'eieio)
 
 (use-package eglot
   :custom
@@ -7,13 +8,15 @@
   (eglot-connect-timeout 10)
   (eglot-autoshutdown t)
   (eglot-auto-display-help-buffer nil)
-  (eglot-send-changes-idle-time 0.25)
+  (eglot-send-changes-idle-time 0.1)
   (eglot-ignored-server-capabilities '(:documentHighlightProvider
                                        :documentSymbolProvider))
   :commands (eglot
              eglot-ensure
              eglot-code-action-organize-imports
              ef-enable-lsp-maybe)
+  :defines (eglot-server-programs)
+  :functions (eglot-lsp-server)
   :config
   (declare-function eglot--guess-contact "ext:eglot")
 
@@ -30,10 +33,21 @@
     (when buffer-file-name
       (when (and (fboundp 'envrc-global-mode-check-buffers))
         (envrc-global-mode-check-buffers))
-      (if-let (srv (car (plist-get (eglot--guess-contact) 'eglot-lsp-server)))
-          (if (or (file-exists-p srv)
-                  (locate-file srv exec-path exec-suffixes 1))
-              (eglot-ensure))))))
+      (eglot-ensure)))
+
+  ;; Pass the correct initialization parameters to solargraph to make language
+  ;; server diagnostics work.
+  (defclass eglot-solargraph (eglot-lsp-server) ()
+    :documentation "A custom class for solargraph's Ruby langserver.")
+
+  (cl-defmethod eglot-initialization-options ((server eglot-solargraph))
+    "Passes through required solargraph initialization options."
+    (list :diagnostics t))
+
+  (add-to-list 'eglot-server-programs
+               '(ruby-mode . (eglot-solargraph "solargraph"
+                                               "socket"
+                                               "--port" :autoport))))
 
 (use-package consult-eglot
   :after (eglot consult)
