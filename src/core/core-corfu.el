@@ -1,6 +1,11 @@
 (require 'core-lib)
 
 (use-package corfu
+  :straight (corfu :type git
+                   :host github
+                   :repo "minad/corfu"
+                   :branch "main"
+                   :files ("*.el" "extensions/*.el"))
   :custom
   (corfu-auto t)
   (corfu-auto-delay 0.01)
@@ -18,8 +23,11 @@
    "<escape>" 'corfu-quit)
   :hook
   (after-init . global-corfu-mode)
+  (after-init . corfu-history-mode)
   (minibuffer-setup . ef-corfu-enable-always-in-minibuffer)
   :config
+  (add-to-list 'savehist-additional-variables 'corfu-history)
+
   ;; https://github.com/minad/corfu#completing-with-corfu-in-the-minibuffer
   (defun ef-corfu-enable-always-in-minibuffer ()
     "Enable Corfu in the minibuffer if Vertico/Mct are not active."
