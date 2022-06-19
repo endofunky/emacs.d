@@ -656,7 +656,8 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
                              (nick 'uniline-lsp-face)
                              (t 'uniline-warning-face))))
       (concat
-       (propertize (plist-get (eglot--server-info server) :name)
+       (propertize (or (plist-get (eglot--server-info server) :name)
+                       "eglot")
                    'face (uniline--face face)
                    'help-echo (cond
                                (last-error
