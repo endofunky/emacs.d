@@ -44,6 +44,8 @@
     "Passes through required solargraph initialization options."
     (list :diagnostics t))
 
+  (assoc-delete-all 'ruby-mode eglot-server-programs)
+
   (add-to-list 'eglot-server-programs
                '(ruby-mode . (eglot-solargraph "solargraph"
                                                "socket"
