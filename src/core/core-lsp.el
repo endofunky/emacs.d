@@ -13,6 +13,8 @@
              eglot-code-action-organize-imports
              ef-enable-lsp-maybe)
   :config
+  (ef-add-popup "^\\*eglot-help")
+
   (defun ef-lsp-organize-imports ()
     (interactive)
     (when (bound-and-true-p eglot--managed-mode)
