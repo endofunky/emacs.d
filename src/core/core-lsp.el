@@ -14,6 +14,7 @@
              eglot-ensure
              eglot-code-action-organize-imports
              ef-enable-lsp-maybe)
+  :functions (eglot--guess-contact)
   :config
   (ef-add-popup "^\\*eglot-help")
 
@@ -23,11 +24,15 @@
       (call-interactively #'eglot-code-action-organize-imports)))
 
   (defun ef-enable-lsp-maybe ()
+    "Enable `eglot' if a LSP server matching the major-mode can be found."
     (interactive)
     (when buffer-file-name
-      (when (and (fboundp 'envrc--update))
-        (envrc--update))
-      (eglot-ensure))))
+      (when (and (fboundp 'envrc-global-mode-check-buffers))
+        (envrc-global-mode-check-buffers))
+      (if-let (srv (car (plist-get (eglot--guess-contact) 'eglot-lsp-server)))
+          (if (or (file-exists-p srv)
+                  (locate-file srv exec-path exec-suffixes 1))
+              (eglot-ensure))))))
 
 (use-package consult-eglot
   :after (eglot consult)
