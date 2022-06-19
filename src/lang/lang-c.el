@@ -11,6 +11,7 @@
   (c-mode . ef-cc-mode-enable-lsp)
   (c++-mode . ef-cc-mode-enable-lsp)
   (objc-mode . ef-cc-mode-enable-lsp)
+  (c-mode-common . c-toggle-hungry-state)
   :config
   (declare-function ef-project-root "core-project")
 
