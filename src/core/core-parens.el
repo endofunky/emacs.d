@@ -20,9 +20,9 @@
   (sp-show-pair-from-inside t)
   :commands (show-smartparens-global-mode
              smartparens-global-mode)
-  :functions (sp-with-modes)
+  :functions (sp-with-modes
+                 sp-local-pair)
   :config
-  (declare-function sp-local-pair "smartparens")
   (show-smartparens-global-mode -1)
   (smartparens-global-mode t)
 
@@ -66,7 +66,7 @@
                                             (ef-sp-create-newline-and-enter-sexp "RET"))))
 
   (sp-local-pair 'c++-mode "[" nil :post-handlers '(:add
-                                                    maybe-complete-lambda
+                                                    ef-c-maybe-complete-lambda
                                                     (ef-sp-create-newline-and-enter-sexp "RET")))
 
 
@@ -132,5 +132,63 @@
      additional-wrap
      slurp/barf-cp
      text-objects)))
+
+;; https://github.com/Hi-Angel/dotfiles/blob/bbd08c6883daed98b9feaad7f86304d332f51e3d/.emacs#L583-L642
+(defun ef-c-is-in-comment ()
+  "tests if point is in comment"
+  (nth 4 (syntax-ppss)))
+
+(defun ef-c-current-line-string ()
+  "returns current line as a string"
+  (buffer-substring-no-properties (line-beginning-position)
+                                  (line-end-position)))
+
+(defvar ef-c-iter-kw
+  '("if" "else" "switch" "for" "while" "do" "define" "rep" "rrep" "trav"))
+
+(defun ef-c-maybe-add-semicolon-paren (_id action _context)
+  "A helper function that inserts semicolon after closing
+parentheses when appropriate. Mainly useful in C, C++, and other
+languages with similar syntax"
+  (when (eq action 'insert)
+    (save-excursion
+      ;; here, caret supposed to be in between parens, i.e. (|)
+      (forward-char) ;; skip closing brace
+      (when (and (looking-at "\\s-*$")
+                 (not (string-match-p
+                       (regexp-opt ef-c-iter-kw 'words)
+                       (ef-c-current-line-string)))
+                 (not (ef-c-is-in-comment)))
+        (insert ";")))))
+
+(defun ef-c-maybe-add-semicolon-brace (_id action _context)
+  "A helper function that inserts semicolon after closing
+parentheses when appropriate. Mainly useful in C, C++, and other
+languages with similar syntax"
+  (when (eq action 'insert)
+    (save-excursion
+      ;; here, caret supposed to be in between parens, i.e. {|}
+      (forward-char) ;; skip closing brace
+      (when (and (looking-at "\\s-*$")
+                 (string-match-p "\\breturn\\b" (ef-c-current-line-string))
+                 (not (ef-c-is-in-comment)))
+        (insert ";")))))
+
+(defun ef-c-maybe-complete-lambda (_id action _context)
+  "Completes C++ lambda, given a pair of square brackets"
+  (when (eq action 'insert)
+    (let ((curr-line (ef-c-current-line-string))
+          ;; try detecting "auto foo = []"
+          (lambda-assign-regex "=\\s-*\\[\\]$")
+          ;; try detecting "func([])" and "func(arg1, [])"
+          (lambda-inline-regex "[(,]\\s-*\\[\\]"))
+      (when (or (string-match-p lambda-assign-regex curr-line)
+                (string-match-p lambda-inline-regex curr-line))
+        (save-excursion
+          ;; here, caret supposed to be in between brackets, i.e. [|]
+          (forward-char) ;; skip closing brace
+          (insert "() {}")
+          (when (eolp)
+            (insert ";")))))))
 
 (provide 'core-parens)
