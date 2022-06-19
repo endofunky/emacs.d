@@ -12,6 +12,9 @@
   (c++-mode . ef-cc-mode-enable-lsp)
   (objc-mode . ef-cc-mode-enable-lsp)
   (c-mode-common . c-toggle-hungry-state)
+  :custom
+  ;; Left-align `#define`s
+  (c-electric-pound-behavior (quote (alignleft)))
   :config
   (declare-function ef-project-root "core-project")
 
