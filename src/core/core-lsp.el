@@ -29,6 +29,9 @@
 
 (use-package consult-eglot
   :after (eglot consult)
+  :general
+  (:keymaps 'eglot-mode-map
+   [remap xref-find-apropos] 'consult-eglot-symbols)
   :commands (consult-eglot-symbols))
 
 ;; (ef-deflang lsp
