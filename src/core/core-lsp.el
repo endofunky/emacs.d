@@ -14,12 +14,8 @@
              eglot-ensure
              eglot-code-action-organize-imports
              ef-enable-lsp-maybe)
-  :defines (eglot-server-programs)
   :config
   (declare-function eglot--guess-contact "ext:eglot")
-
-  (add-to-list 'eglot-server-programs
-               '(terraform-mode . ("terraform-ls" "serve")))
 
   (ef-add-popup "^\\*eglot-help")
 
