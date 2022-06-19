@@ -14,8 +14,9 @@
              eglot-ensure
              eglot-code-action-organize-imports
              ef-enable-lsp-maybe)
-  :functions (eglot--guess-contact)
   :config
+  (declare-function eglot--guess-contact "ext:eglot")
+
   (ef-add-popup "^\\*eglot-help")
 
   (defun ef-lsp-organize-imports ()
