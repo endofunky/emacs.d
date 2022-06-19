@@ -1,8 +1,6 @@
 (require 'core-lib)
 
 (use-package terraform-mode
-  :mode (("\\.tf\\'" . terraform-mode))
-  :hook
-  (terraform-mode . ef-enable-lsp-maybe))
+  :mode (("\\.tf\\'" . terraform-mode)))
 
 (provide 'lang-terraform)
