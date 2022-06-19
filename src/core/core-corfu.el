@@ -10,6 +10,8 @@
   (corfu-min-width 24)
   (corfu-preview-current nil)
   (corfu-bar-width 1.0)
+  (corfu-right-margin-width 2.0)
+  (corfu-left-margin-width 1.0)
   :commands (corfu-mode)
   :general
   (:keymaps 'corfu-map
