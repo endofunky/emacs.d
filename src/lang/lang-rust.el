@@ -4,8 +4,11 @@
   :custom
   (rustic-lsp-server 'rust-analyzer)
   (rustic-lsp-client 'eglot)
+  (rustic-lsp-setup-p nil)
   (rustic-format-on-save t)
   (rust-prettify-symbols-alist nil)
+  :hook
+  (rustic-mode . ef-enable-lsp-maybe)
   :config
   (ef-add-popup "*rustfmt*" :ephemeral t)
   (ef-add-popup "*rustic-compilation*" :ephemeral t)
