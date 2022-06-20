@@ -8,6 +8,8 @@
   (rust-prettify-symbols-alist nil)
   :config
   (ef-add-popup "*rustic-compilation*" :ephemeral t)
+  (ef-add-popup "*cargo-run*" :ephemeral t)
+  (ef-add-popup "*cargo-run-comint*" :ephemeral t)
   (ef-add-popup "*cargo-test*" :ephemeral t)
 
   ;; Don't ask to install LSP server if it's not installed.
@@ -15,6 +17,7 @@
 
 (ef-deflang rust
   :compile rustic-cargo-build
+  :compile-and-run rustic-cargo-run
   :test-all rustic-cargo-test
   :test-file rustic-cargo-current-test)
 
