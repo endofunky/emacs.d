@@ -25,17 +25,8 @@
   :hook
   (after-init . global-corfu-mode)
   (after-init . corfu-history-mode)
-  (minibuffer-setup . ef-corfu-enable-always-in-minibuffer)
   :config
   (add-to-list 'savehist-additional-variables 'corfu-history)
-
-  ;; https://github.com/minad/corfu#completing-with-corfu-in-the-minibuffer
-  (defun ef-corfu-enable-always-in-minibuffer ()
-    "Enable Corfu in the minibuffer if Vertico/Mct are not active."
-    (unless (or (bound-and-true-p mct--active)
-                (bound-and-true-p vertico--input))
-      (setq-local corfu-auto nil)
-      (corfu-mode 1)))
 
   (defun ef-corfu-move-to-minibuffer ()
     "Move current region completion to minibuffer via consult."
