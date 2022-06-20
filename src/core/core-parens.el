@@ -85,6 +85,12 @@
                    :post-handlers '(("[d1]" "SPC")))
     (sp-local-pair "_" "_"))
 
+  (ef-add-hook rustic-mode-hook :interactive t
+    (sp-with-modes '(rustic-mode)
+      (sp-local-pair "[" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
+      (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
+      (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))))
+
   (ef-add-hook ruby-mode-hook :interactive t
     (require 'smartparens-ruby)
 
