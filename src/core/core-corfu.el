@@ -20,7 +20,8 @@
   :commands (corfu-mode)
   :general
   (:keymaps 'corfu-map
-   "<escape>" 'corfu-quit)
+   "<escape>" 'corfu-quit
+   "M-m" 'ef-corfu-move-to-minibuffer)
   :hook
   (after-init . global-corfu-mode)
   (after-init . corfu-history-mode)
@@ -34,7 +35,13 @@
     (unless (or (bound-and-true-p mct--active)
                 (bound-and-true-p vertico--input))
       (setq-local corfu-auto nil)
-      (corfu-mode 1))))
+      (corfu-mode 1)))
+
+  (defun ef-corfu-move-to-minibuffer ()
+    "Move current region completion to minibuffer via consult."
+    (interactive)
+    (let (completion-cycle-threshold completion-cycling)
+      (apply #'consult-completion-in-region completion-in-region--data))))
 
 (use-package corfu-doc
   :after corfu
