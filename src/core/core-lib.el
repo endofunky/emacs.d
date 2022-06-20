@@ -440,16 +440,19 @@ current buffer."
   (indent-region (point-min) (point-max)))
 
 (defun ef-kill-buffers-matching (filter)
-  "Kill all other buffers matching FILTER.
+  "Kill all other buffers matching FILTER, except the *scratch* buffer.
 
-If FILTER is `nil' kill all buffers except the current one."
+If FILTER is `nil' kill all buffers except the current one and the *scratch*
+buffer."
   (interactive "sFilter: ")
   (dolist (buf (delq (current-buffer) (buffer-list)))
-    (when (or (not filter)
-              (string-match filter (string-trim (buffer-name buf))))
-      (if-let ((win (get-buffer-window buf)))
-          (delete-window win))
-      (kill-buffer buf))))
+    (let ((name (buffer-name buf)))
+      (when (and (not (string= name "*scratch*"))
+                 (or (not filter)
+                     (string-match filter (string-trim name))))
+        (if-let ((win (get-buffer-window buf)))
+            (delete-window win))
+        (kill-buffer buf)))))
 
 (defun ef-kill-other-buffers ()
   "Kill all other buffers except special buffers."
@@ -457,7 +460,7 @@ If FILTER is `nil' kill all buffers except the current one."
   (ef-kill-buffers-matching "^[^\\*]"))
 
 (defun ef-kill-all-other-buffers ()
-  "Kill all other buffers except special buffers."
+  "Kill all other buffers except the *scratch* buffer."
   (interactive)
   (ef-kill-buffers-matching nil))
 
