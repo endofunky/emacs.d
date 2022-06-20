@@ -13,6 +13,9 @@
   (ef-add-popup "*cargo-run-comint*" :ephemeral t)
   (ef-add-popup "*cargo-test*" :ephemeral t)
 
+  (ef-add-hook rustic-mode-hook
+    (setq-local mode-name "Rust"))
+
   ;; Don't ask to install LSP server if it's not installed.
   (advice-add 'rustic-install-lsp-client-p :override #'ignore))
 
