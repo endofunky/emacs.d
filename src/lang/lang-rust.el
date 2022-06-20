@@ -21,10 +21,11 @@
   (ef-add-hook rustic-mode-hook
     (setq-local mode-name "Rust"))
 
-  ;; Set the `cargo-bin' globally in "real-time" so we get the correct one from
-  ;; PATH via `envrc'. We can't `setq-local' this in a major-mode hook as
-  ;; rustic configures it's workspace wrapped in a `with-temp-buffer' which has
-  ;; a different environment.
+  ;; Set `rustic-cargo-bin' globally in "real-time" so rustic sees get the
+  ;; correct one from PATH set via `envrc'.
+  ;;
+  ;; We can't `setq-local' this in a major-mode hook as rustic configures it's
+  ;; workspace wrapped in `with-temp-buffer' which has a different environment.
   (defun ef-update-cargo-bin (&rest _)
     ;; Don't update the path when we're in the temp-buffer, which has
     ;; `fundamental-mode' as it's major-mode.
