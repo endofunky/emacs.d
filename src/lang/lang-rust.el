@@ -4,6 +4,7 @@
   :defer t
   :custom
   (rust-format-on-save t)
+  (rust-format-show-buffer nil)
   :hook
   (rust-mode . ef-enable-lsp-maybe)
   :config
