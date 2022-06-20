@@ -9,6 +9,8 @@
   (rust-prettify-symbols-alist nil)
   :hook
   (rustic-mode . ef-enable-lsp-maybe)
+  :functions (ef-update-cargo-bin)
+  :defines (rustic-cargo-bin)
   :config
   (ef-add-popup "*rustfmt*" :ephemeral t)
   (ef-add-popup "*rustic-compilation*" :ephemeral t)
@@ -18,6 +20,19 @@
 
   (ef-add-hook rustic-mode-hook
     (setq-local mode-name "Rust"))
+
+  ;; Set the `cargo-bin' globally in "real-time" so we get the correct one from
+  ;; PATH via `envrc'. We can't `setq-local' this in a major-mode hook as
+  ;; rustic configures it's workspace wrapped in a `with-temp-buffer' which has
+  ;; a different environment.
+  (defun ef-update-cargo-bin (&rest _)
+    ;; Don't update the path when we're in the temp-buffer, which has
+    ;; `fundamental-mode' as it's major-mode.
+    (unless (eq major-mode 'fundamental-mode)
+      (setq rustic-cargo-bin (or (executable-find "cargo")
+                                 "cargo"))))
+
+  (advice-add 'rustic-cargo-bin :before #'ef-update-cargo-bin)
 
   ;; Don't ask to install LSP server if it's not installed.
   (advice-add 'rustic-install-lsp-client-p :override #'ignore))
