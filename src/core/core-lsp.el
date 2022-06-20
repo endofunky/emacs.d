@@ -11,6 +11,8 @@
   (eglot-send-changes-idle-time 0.1)
   (eglot-ignored-server-capabilities '(:documentHighlightProvider
                                        :documentSymbolProvider))
+  ;; Consider files outside project jumped to via xref part of the project.
+  (eglot-extend-to-xref t)
   :commands (eglot
              eglot-ensure
              eglot-code-action-organize-imports
