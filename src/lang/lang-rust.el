@@ -1,18 +1,21 @@
 (require 'core-shackle)
 
-(use-package rust-mode
-  :defer t
+(use-package rustic
   :custom
-  (rust-format-on-save t)
-  (rust-format-show-buffer nil)
-  :hook
-  (rust-mode . ef-enable-lsp-maybe)
+  (rustic-lsp-server 'rust-analyzer)
+  (rustic-lsp-client 'eglot)
+  (rustic-format-on-save t)
+  (rust-prettify-symbols-alist nil)
   :config
-  (ef-add-popup "*rustfmt*"))
+  (ef-add-popup "*rustic-compilation*" :ephemeral t)
+  (ef-add-popup "*cargo-test*" :ephemeral t)
+
+  ;; Don't ask to install LSP server if it's not installed.
+  (advice-add 'rustic-install-lsp-client-p :override #'ignore))
 
 (ef-deflang rust
-  :compile rust-compile
-  :compile-and-run rust-run
-  :test-all rust-test)
+  :compile rustic-cargo-build
+  :test-all rustic-cargo-test
+  :test-file rustic-cargo-current-test)
 
 (provide 'lang-rust)
