@@ -7,6 +7,7 @@
   (rustic-format-on-save t)
   (rust-prettify-symbols-alist nil)
   :config
+  (ef-add-popup "*rustfmt*" :ephemeral t)
   (ef-add-popup "*rustic-compilation*" :ephemeral t)
   (ef-add-popup "*cargo-run*" :ephemeral t)
   (ef-add-popup "*cargo-run-comint*" :ephemeral t)
