@@ -14,6 +14,7 @@
  ("corfu-doc" . "5dd2a2987a9e470112151d89be3f35d95c633be5")
  ("dash.el" . "0ac1ecf6b56eb67bb81a3cf70f8d4354b5782341")
  ("dockerfile-mode" . "b63a3d12b7dea0cb9efc7f78d7ad5672ceab2a3f")
+ ("dtrace-script-mode" . "801af1ef16075d31a19830ebb8404bbf3a322f10")
  ("eglot" . "e835996e16610d0ded6d862214b3b452b8803ea8")
  ("el-get" . "bf3dba444dcd240b8cb358a0850c8c5a92606134")
  ("eldoc" . "88f5e70a8868bef0d685a57a623e51a233a33380")
