@@ -20,7 +20,8 @@
   :functions (eglot-lsp-server
               eglot--hover-info
               eglot--TextDocumentPositionParams
-              eglot--current-server-or-lose)
+              eglot--current-server-or-lose
+              eglot-alternatives)
   :config
   (declare-function eglot--guess-contact "ext:eglot")
 
@@ -55,6 +56,15 @@
                '(ruby-mode . (eglot-solargraph "solargraph"
                                                "socket"
                                                "--port" :autoport)))
+
+  ;; Prefer texlab over digestif
+  (assoc-delete-all '(tex-mode context-mode texinfo-mode bibtex-mode)
+                    eglot-server-programs)
+
+  (add-to-list 'eglot-server-programs
+               `((tex-mode context-mode texinfo-mode bibtex-mode)
+                 .
+                 ,(eglot-alternatives '(("texlab") ("digestif")))))
 
   ;; The following is taken from doom-emacs' eglot.el:
   ;; https://github.com/doomemacs/doomemacs/blob/master/modules/tools/lsp/autoload/eglot.el
