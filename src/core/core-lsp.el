@@ -34,9 +34,10 @@
   (defun ef-enable-lsp-maybe ()
     "Enable `eglot' if a LSP server matching the major-mode can be found."
     (interactive)
-    (when buffer-file-name
-      (when (and (fboundp 'envrc-global-mode-check-buffers))
-        (envrc-global-mode-check-buffers))
+    (when (and buffer-file-name)
+      (when (and (fboundp 'envrc-global-mode-check-buffers)
+                 (not (file-remote-p default-directory)))
+        (envrc-mode t))
       (eglot-ensure)))
 
   ;; Pass the correct initialization parameters to solargraph to make language
