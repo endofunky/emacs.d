@@ -96,6 +96,7 @@
  ("ruby-interpolation.el" . "1978e337601222cedf00e117bf4b5cac15d1f203")
  ("ruby-test-mode" . "d66db4aca6e6a246f65f7195ecfbc7581d35fb7a")
  ("rust-mode" . "5f654a5867ef3847a844d944ff5425ec3acdecc8")
+ ("rustic" . "0bd7932ebe30c19068b8c4fc154e00787a678200")
  ("s.el" . "08661efb075d1c6b4fa812184c1e5e90c08795a9")
  ("sesman" . "e0f555f963c9f02f8e4a50e06fc353eb4c15ee77")
  ("shackle" . "f1467db75a8fa5d51c676181fb308ccbf7b05e6f")
@@ -115,6 +116,7 @@
  ("vertico" . "afd1e1bb092d2225bb28fc32c03c41d187977fee")
  ("with-editor" . "cfcbc2731e402b9169c0dc03e89b5b57aa988502")
  ("xref" . "2ca3069ba71d8ff9b833c0da771b9bd8c6ea1a68")
+ ("xterm-color" . "1a4012854c69a5cdaeb5a73d2ad705011892fca3")
  ("yaml-mode" . "535273d5a1eb76999d20afbcf4d9f056d8ffd2da")
  ("zoutline" . "32857c6c4b9b0bcbed14d825a10b91a98d5fed0a"))
 :beta
