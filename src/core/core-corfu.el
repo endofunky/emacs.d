@@ -1,6 +1,7 @@
 (require 'core-lib)
 
 (use-package corfu
+  :when window-system
   :straight (corfu :type git
                    :host github
                    :repo "minad/corfu"
