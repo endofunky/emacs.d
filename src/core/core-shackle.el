@@ -56,6 +56,9 @@ to a regular window state and will not be shown in the popup window.")
     (add-to-list 'shackle-rules
                  (cons mode (ef-plist-merge ef-popup-defaults rules))))
 
+  (ef-shackle '(Info-mode :align right :size .5 :popup nil
+                          :select t :float t :inhibit-window-quit t))
+
   (ef-add-popup " *Metahelp*" :ephemeral t)
   (ef-add-popup " *undo-tree*" :ephemeral t)
   (ef-add-popup "*Apropos*" :size .3 :ephemeral t)
@@ -70,12 +73,9 @@ to a regular window state and will not be shown in the popup window.")
   (ef-add-popup "*Warnings*" :ephemeral t)
   (ef-add-popup "*compilation*")
   (ef-add-popup "\\`\\*WoMan.*?\\*\\'" :regexp t :ephemeral t)
-  (ef-add-popup "\\`\\*info.*?\\*\\'" :regexp t :ephemeral t :size 0.4)
-  (ef-add-popup 'Info-mode :ephemeral t :size 0.4)
   (ef-add-popup 'calendar-mode :ephemeral t)
   (ef-add-popup 'comint-mode)
   (ef-add-popup 'compilation-mode)
-  (ef-add-popup 'info-mode :ephemeral t :size 0.4)
 
   (shackle-mode t))
 
