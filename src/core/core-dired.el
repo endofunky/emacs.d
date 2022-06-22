@@ -23,6 +23,9 @@
   (dired-create-destination-dirs 'ask)
   (dired-dwim-target t)
   (dired-recursive-copies 'always)
-  (dired-recursive-deletes 'top))
+  (dired-recursive-deletes 'top)
+  :config
+  (ef-shackle '(dired-mode :align right :size .5 :popup nil
+                          :select t :float t :inhibit-window-quit t)))
 
 (provide 'core-dired)
