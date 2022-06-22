@@ -22,7 +22,9 @@
   :general
   (:keymaps 'corfu-map
    "<escape>" 'corfu-quit
-   "M-m" 'ef-corfu-move-to-minibuffer)
+   "M-m" 'ef-corfu-move-to-minibuffer
+   "C-n" 'corfu-next
+   "C-p" 'corfu-previous)
   :hook
   (after-init . global-corfu-mode)
   (after-init . corfu-history-mode)
@@ -33,7 +35,14 @@
     "Move current region completion to minibuffer via consult."
     (interactive)
     (let (completion-cycle-threshold completion-cycling)
-      (apply #'consult-completion-in-region completion-in-region--data))))
+      (apply #'consult-completion-in-region completion-in-region--data)))
+
+  ;; Ensure corfu keybinds correctly work together with evil-mode
+  ;;
+  ;; https://github.com/minad/corfu/issues/12#issuecomment-869037519
+  (advice-add 'corfu--setup :after 'evil-normalize-keymaps)
+  (advice-add 'corfu--teardown :after 'evil-normalize-keymaps)
+  (evil-make-overriding-map corfu-map))
 
 (use-package corfu-doc
   :after corfu
