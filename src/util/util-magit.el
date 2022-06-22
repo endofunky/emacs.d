@@ -58,6 +58,7 @@ what looks like a JIRA ticket ID."
 
 (use-package magit-todos
   :after magit
+  :defer t
   :functions (magit-todos-mode)
   :config
   (require 'org)
