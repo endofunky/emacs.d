@@ -339,9 +339,9 @@
 
    ;; org-mode todo
    `(org-hide ((,class (:foreground ,background))))
-   `(org-todo ((,class (:foreground ,red :background ,background-red :weight bold))))
-   `(org-done ((,class (:foreground ,green :background ,background-green :weight bold))))
-   `(org-date ((,class (:foreground ,purple :background ,background-purple :weight bold))))
+   `(org-todo ((,class (:foreground ,red ::weight bold))))
+   `(org-done ((,class (:foreground ,green :weight bold))))
+   `(org-date ((,class (:foreground ,purple :weight bold))))
    `(org-scheduled-previously ((,class (:foreground ,red))))
    `(org-scheduled ((,class (:foreground ,default))))
    `(org-upcoming-deadline ((,class (:foreground ,orange))))
