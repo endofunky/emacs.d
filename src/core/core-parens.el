@@ -77,7 +77,11 @@
     ;; Disable the ruby pre-handler for braces.
     (sp-local-pair 'ruby-mode "{" "}"
                    :pre-handlers '(:rem sp-ruby-pre-handler)
-                   :post-handlers '(:rem sp-ruby-post-handler)))
+                   :post-handlers '(:rem sp-ruby-post-handler))
+
+    ;; Disable the pre-handler for pipes
+    (sp-local-pair 'ruby-mode "|" "|"
+                   :pre-handlers '(:rem sp-ruby-pre-pipe-handler)))
 
   ;; Smartparens config for `rust-mode'.
   (with-eval-after-load 'smartparens-rust
