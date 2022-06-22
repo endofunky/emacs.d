@@ -1,7 +1,6 @@
 (require 'core-lib)
 
 (use-package corfu
-  :when window-system
   :straight (corfu :type git
                    :host github
                    :repo "minad/corfu"
@@ -45,7 +44,7 @@
   :general
   (:keymaps 'corfu-map
    [remap corfu-show-documentation] 'corfu-doc-toggle
-   "C-h" 'corfu-doc-toggle
+   "C-i" 'corfu-doc-toggle
    "C-M-p" 'corfu-doc-scroll-down
    "C-M-n" 'corfu-doc-scroll-up)
   :hook
@@ -59,5 +58,29 @@
   ;; Enable indentation+completion using the TAB key.
   ;; Completion is often bound to M-TAB.
   (tab-always-indent 'complete))
+
+(use-package popon
+  :defer t
+  :straight (popon
+             :type git
+             :repo "https://codeberg.org/akib/emacs-popon.git"))
+
+(use-package corfu-terminal
+  :when (not window-system)
+  :defer t
+  :straight (corfu-terminal
+             :type git
+             :repo "https://codeberg.org/akib/emacs-corfu-terminal.git")
+  :hook
+  (after-init . corfu-terminal-mode))
+
+(use-package corfu-doc-terminal
+  :when (not window-system)
+  :defer t
+  :straight (corfu-doc-terminal
+             :type git
+             :repo "https://codeberg.org/akib/emacs-corfu-doc-terminal.git")
+  :hook
+  (after-init . corfu-doc-terminal-mode))
 
 (provide 'core-corfu)
