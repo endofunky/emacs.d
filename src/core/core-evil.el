@@ -100,6 +100,8 @@ already in normal mode.")
   (evil-undo-function 'undo-tree-undo)
   (evil-redo-function 'undo-tree-redo)
   (evil-want-C-w-in-emacs-state t)
+  ;; When splitting the window vertically, focus the right window.
+  (evil-vsplit-window-right t)
   ;; Required for evil-collection:
   (evil-want-integration t)
   (evil-want-keybinding nil)
