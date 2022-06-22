@@ -14,6 +14,8 @@
   (flymake-no-changes-timeout 0.1)
   ;; Don't syntax check when compilation is running.
   (flymake-proc-compilation-prevents-syntax-check t)
+  ;; Don't wrap around buffer boundaries
+  (flymake-wrap-around nil)
   :hook
   (prog-mode . flymake-mode)
   (evil-insert-state-entry . ef--flymake-disable)
