@@ -22,17 +22,36 @@
   (sp-navigate-skip-match nil)
   (sp-navigate-consider-sgml-tags nil)
   :commands (show-smartparens-global-mode
-             smartparens-global-mode)
+             smartparens-global-mode
+             smartparens-mode)
   :functions (sp-local-pair
               sp-pair
               ef-current-line-string
               ef-is-in-comment)
-  :defines (sp-c-modes)
+  :defines (sp-c-modes
+            smartparens-global-mode)
   :config
   (require 'smartparens-config)
 
   (show-smartparens-global-mode -1)
   (smartparens-global-mode t)
+
+  (ef-add-hook 'eval-expression-minibuffer-setup-hook
+    :fn ef-smartparens-eval-expression
+    "Enable `smartparens-mode' in the minibuffer for `eval-expression'.
+This includes everything that calls `read--expression', e.g.
+`edebug-eval-expression'.
+Only enable it if `smartparens-global-mode' is on."
+    (when smartparens-global-mode
+      (smartparens-mode t)))
+
+  ;; When writing anything in the minibuffer it's probably lisp, so disable any
+  ;; pairs that don't make much sense.
+  (sp-local-pair '(minibuffer-mode minibuffer-inactive-mode) "'" nil
+                 :actions nil)
+
+  (sp-local-pair '(minibuffer-mode minibuffer-inactive-mode) "`" nil
+                 :actions nil)
 
   ;; Don't autopair quotes when next to a word/before another quote in order to
   ;; not unbalance them.
