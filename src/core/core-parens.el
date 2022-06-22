@@ -154,7 +154,9 @@ parentheses when appropriate, for Rust lang"
 
   ;; Smartparens config for `sp-c-modes' (`c-mode', `c++-mode').
   (with-eval-after-load 'smartparens-c
-    ;; Pair angle brackets after C/C++ #include statements.
+    ;; Insert angle-brackets after #include and templates.
+    (general-define-key :keymaps 'c++-mode-map ">" nil "<" nil)
+
     (defun ef-sp-cc-point-after-include-p (id action context)
       "Return t if point is in an #include."
       (and (sp-in-code-p id action context)
@@ -162,9 +164,38 @@ parentheses when appropriate, for Rust lang"
              (goto-char (line-beginning-position))
              (looking-at-p "[ 	]*#include[^<]+"))))
 
-    (sp-local-pair '(c++-mode objc-mode)
-                   "<" ">"
-                   :when '(ef-sp-cc-point-after-include-p)
+    ;; This is based on the angle-bracket matching from `smartparens-rust'.
+    (defun ef-sp-filter-angle-brackets (id action context)
+      "Non-nil if we should allow ID's ACTION in CONTEXT for angle brackets."
+      ;; See the docstring for `sp-pair' for the possible values of ID,
+      ;; ACTION and CONTEXT.
+      (when (sp-in-code-p id action context)
+        (save-excursion
+          (let ((on-comparison
+                 (looking-back (rx (or
+                                    (seq space "<")
+                                    (seq space ">")
+                                    (seq space "<<")
+                                    (seq space ">>")))
+                               nil)))
+            (cond
+             ;; Only insert a matching > if we're not looking at a comparison.
+             ((eq action 'insert)
+              (not on-comparison))
+             ;; Always allow wrapping in a pair if the region is active.
+             ((eq action 'wrap)
+              t)
+             ;; When pressing >, autoskip if we're not looking at a comparison.
+             ((eq action 'autoskip)
+              (not on-comparison))
+             ;; Allow navigation, highlighting and strictness checks if it's
+             ;; not a comparison.
+             ((eq action 'navigate)
+              (not on-comparison)))))))
+
+    (sp-local-pair '(c++-mode objc-mode) "<" ">"
+                   :when '(ef-sp-cc-point-after-include-p
+                           ef-sp-filter-angle-brackets)
                    :post-handlers '(("| " "SPC")))
 
     ;; Expand C-style doc comment blocks. Must be done manually because some of
