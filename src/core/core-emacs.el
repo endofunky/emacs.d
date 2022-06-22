@@ -70,9 +70,6 @@
   :after comint
   :custom
   (ansi-color-for-comint-mode t)
-  ;; For some undocumented reason Emacs uses both inotify and polls on
-  ;; files. That's stupid, just a waste of resoureces, sure let's avoid that.
-  (auto-revert-avoid-polling t)
   ;; Do not break markers in a buffer upon reverting a buffer. Details:
   ;; https://github.com/magit/magit/issues/4442
   (revert-buffer-insert-file-contents-function
