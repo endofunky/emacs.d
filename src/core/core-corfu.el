@@ -22,7 +22,7 @@
   :general
   (:keymaps 'corfu-map
    "<escape>" 'corfu-quit
-   "M-m" 'ef-corfu-move-to-minibuffer
+   "C-m" 'ef-corfu-move-to-minibuffer
    "C-n" 'corfu-next
    "C-p" 'corfu-previous)
   :hook
