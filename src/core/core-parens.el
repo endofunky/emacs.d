@@ -25,7 +25,9 @@
              smartparens-global-mode
              smartparens-mode)
   :functions (sp-local-pair
+              sp-in-code-p
               sp-pair
+              sp-point-after-word-p
               ef-current-line-string
               ef-is-in-comment)
   :defines (sp-c-modes
@@ -153,7 +155,17 @@ parentheses when appropriate, for Rust lang"
   ;; Smartparens config for `sp-c-modes' (`c-mode', `c++-mode').
   (with-eval-after-load 'smartparens-c
     ;; Pair angle brackets after C/C++ #include statements.
-    (sp-local-pair '(c-mode c++-mode objc-mode) "#include <" ">")
+    (defun ef-sp-cc-point-after-include-p (id action context)
+      "Return t if point is in an #include."
+      (and (sp-in-code-p id action context)
+           (save-excursion
+             (goto-char (line-beginning-position))
+             (looking-at-p "[ 	]*#include[^<]+"))))
+
+    (sp-local-pair '(c++-mode objc-mode)
+                   "<" ">"
+                   :when '(ef-sp-cc-point-after-include-p)
+                   :post-handlers '(("| " "SPC")))
 
     ;; Expand C-style doc comment blocks. Must be done manually because some of
     ;; these languages use specialized (and deferred) parsers, whose state we
