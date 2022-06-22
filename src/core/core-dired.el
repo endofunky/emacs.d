@@ -8,8 +8,8 @@
   (:states 'normal :prefix ef-prefix
    "d" '(ef-dired-here :wk "dired Here")
    "D" 'dired)
-  (:states 'normal :keymaps 'dired-mode-map
-   "q" 'kill-this-buffer)
+  (:keymaps 'dired-mode-map
+   [remap quit-window] 'kill-this-buffer)
   (:states 'normal :prefix ef-prefix :keymaps 'dired-mode-map
    "d" 'bury-buffer
    "D" 'bury-buffer)
