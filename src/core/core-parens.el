@@ -27,12 +27,9 @@
   :functions (sp-local-pair
               sp-pair
               ef-current-line-string
-              ef-is-in-comment
-              turn-off-smartparens-mode
-              turn-on-smartparens-mode)
+              ef-is-in-comment)
   :defines (sp-c-modes
-            smartparens-global-mode
-            smartparens-mode)
+            smartparens-global-mode)
   :config
   (require 'smartparens-config)
 
@@ -40,7 +37,7 @@
   (smartparens-global-mode t)
 
   (ef-add-hook 'eval-expression-minibuffer-setup-hook
-    :fn ef-sp-eval-expression
+    :fn ef-smartparens-eval-expression
     "Enable `smartparens-mode' in the minibuffer for `eval-expression'.
 This includes everything that calls `read--expression', e.g.
 `edebug-eval-expression'.
@@ -55,21 +52,6 @@ Only enable it if `smartparens-global-mode' is on."
 
   (sp-local-pair '(minibuffer-mode minibuffer-inactive-mode) "`" nil
                  :actions nil)
-
-  ;; Smartparens breaks evil-mode's replace state, so disable it.
-  (defvar ef-buffer-smartparens-mode nil)
-
-  (ef-add-hook 'evil-replace-state-exit-hook :fn ef-sp-evil-replace-exit
-    (defun ef-enable-smartparens-mode-maybe-h ()
-      (when ef-buffer-smartparens-mode
-        (turn-on-smartparens-mode)
-        (kill-local-variable 'ef-buffer-smartparens-mode))))
-
-  (ef-add-hook 'evil-replace-state-entry-hook :fn ef-sp-evil-replace-entry
-    (defun ef-disable-smartparens-mode-maybe-h ()
-      (when smartparens-mode
-        (setq-local ef-buffer-smartparens-mode t)
-        (turn-off-smartparens-mode))))
 
   ;; Don't autopair quotes when next to a word/before another quote in order to
   ;; not unbalance them.
