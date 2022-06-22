@@ -66,6 +66,23 @@
                  .
                  ,(eglot-alternatives '(("texlab") ("digestif")))))
 
+  ;; Add command-line options to clangd to increase number of background jobs,
+  ;; enable background indexing, clang-tidy and disable bundling of completions
+  ;; and header insertion..
+  (assoc-delete-all '(c++-mode c-mode) eglot-server-programs)
+
+  (add-to-list 'eglot-server-programs
+               `((c++-mode c-mode)
+                 .
+                 ,(eglot-alternatives '(("ccls")
+                                        ("clangd"
+                                         "-j=4"
+                                         "--background-index"
+                                         "--clang-tidy"
+                                         "--completion-style=detailed"
+                                         "--header-insertion=never")))))
+
+
   ;; The following is taken from doom-emacs' eglot.el:
   ;; https://github.com/doomemacs/doomemacs/blob/master/modules/tools/lsp/autoload/eglot.el
   ;;
