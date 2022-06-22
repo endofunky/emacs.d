@@ -102,6 +102,8 @@ already in normal mode.")
   (evil-want-C-w-in-emacs-state t)
   ;; When splitting the window vertically, focus the right window.
   (evil-vsplit-window-right t)
+  ;; When splitting horizontally, place the new and focus window below.
+  (evil-split-window-below t)
   ;; Required for evil-collection:
   (evil-want-integration t)
   (evil-want-keybinding nil)
