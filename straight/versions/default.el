@@ -2,6 +2,7 @@
  ("all-the-icons.el" . "ca1ef30004d3fb76aaa70bd47cb83e9fe017a7f7")
  ("annalist.el" . "134fa3f0fb91a636a1c005c483516d4b64905a6d")
  ("anzu" . "5abb37455ea44fa401d5f4c1bdc58adb2448db67")
+ ("auctex" . "53b82804c9dd9dbea306876f3be84ebacbeb7e74")
  ("avy" . "ba5f035be33693d1a136a5cbeedb24327f551a92")
  ("bundler.el" . "43efb6be4ed118b06d787ce7fbcffd68a31732a7")
  ("cider" . "14246b89b7451f51197d57a73f962d0ba6e945b9")
