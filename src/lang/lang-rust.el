@@ -12,11 +12,8 @@
   :functions (ef-update-cargo-bin)
   :defines (rustic-cargo-bin)
   :config
-  (ef-add-popup "*rustfmt*" :ephemeral t)
-  (ef-add-popup "*rustic-compilation*" :ephemeral t)
-  (ef-add-popup "*cargo-run*" :ephemeral t)
-  (ef-add-popup "*cargo-run-comint*" :ephemeral t)
-  (ef-add-popup "*cargo-test*" :ephemeral t)
+  (ef-add-popup "^\\*rust" :ephemeral t :regexp t)
+  (ef-add-popup "^\\*cargo" :ephemeral t :regexp t)
 
   (ef-add-hook rustic-mode-hook
     (setq-local mode-name "Rust"))
