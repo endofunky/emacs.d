@@ -42,7 +42,6 @@
  ("evil-nerd-commenter" . "386cd758a477d1b1ba742ef698ecc19916b43fbe")
  ("evil-org-mode" . "0d10ff7bb9a3a93d25cd91018b17f0a052b335f3")
  ("evil-surround" . "c9e1449bf3f740b5e9b99e7820df4eca7fc7cf02")
- ("evil-textobj-tree-sitter" . "f99b7af67d77b3276289d925e33029b53aadb315")
  ("exec-path-from-shell" . "6336db9be13d46e2d4bc3b50bc37a3fbf30fdc9e")
  ("f.el" . "d2019d4f9625bcc44349c69fe46d6645fd9ff4ff")
  ("flymake" . "6bc8782d9c05d4c9bbba524542d457e6a3b1734b")
