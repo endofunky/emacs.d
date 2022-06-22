@@ -108,11 +108,9 @@ already in normal mode.")
   (evil-want-integration t)
   (evil-want-keybinding nil)
   :commands (evil-mode)
-  :init
-  (declare-function evil-ex-define-cmd "evil-ex")
-  (declare-function evil-ex-define-cmd "evil-ex")
   :config
   (require 'evil-ex)
+  (declare-function evil-ex-define-cmd "evil-ex")
   (evil-mode 1)
   (evil-ex-define-cmd "q" 'ef-kill-buffer-or-delete-window)
 
