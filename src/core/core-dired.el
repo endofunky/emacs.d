@@ -9,7 +9,7 @@
    "d" '(ef-dired-here :wk "dired Here")
    "D" 'dired)
   (:keymaps 'dired-mode-map
-   [remap quit-window] 'kill-this-buffer)
+   "<return>" 'dired-find-alternate-file)
   (:states 'normal :prefix ef-prefix :keymaps 'dired-mode-map
    "d" 'bury-buffer
    "D" 'bury-buffer)
@@ -26,6 +26,11 @@
   (dired-recursive-deletes 'top)
   :config
   (ef-shackle '(dired-mode :align right :size .5 :popup nil
-                          :select t :float t :inhibit-window-quit t)))
+                          :select t :float t :inhibit-window-quit t))
+
+  ;; As opposed to what the documentation says, `dired-find-alternate-file' is
+  ;; actually more intuitive for <return> than the default, `find-file', so we
+  ;; enable it here.
+  (put 'dired-find-alternate-file 'disabled nil))
 
 (provide 'core-dired)
