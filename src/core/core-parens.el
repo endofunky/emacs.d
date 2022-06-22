@@ -104,6 +104,29 @@ parentheses when appropriate, for Rust lang"
     (sp-local-pair 'rust-mode '"{" nil
                    :post-handlers '(:add ef-maybe-add-semicolon-paren-rust)))
 
+  ;; Smartparens config for `markdown-mode'.
+  (with-eval-after-load 'smartparens-markdown
+    (defun ef-sp-skip-asterisk (ms mb me)
+      "Skip asterisk if at begging of line"
+      (save-excursion
+        (goto-char mb)
+        (save-match-data (looking-at "^\\* "))))
+
+    (sp-local-pair '(markdown-mode gfm-mode) "`" "`"
+                   :unless '(:add sp-point-before-word-p
+                             sp-point-before-same-p))
+
+    (sp-local-pair '(markdown-mode gfm-mode) "```" "```"
+                   :post-handlers '(:add ("||\n" "RET")))
+
+    (sp-local-pair '(markdown-mode gfm-mode) "*" "*"
+                   :unless '(sp-point-after-word-p
+                             sp-point-at-bol-p)
+                   :skip-match 'ef-sp-skip-asterisk
+                   :post-handlers '(("[d1]" "SPC")))
+
+    (sp-local-pair '(markdown-mode gfm-mode) "_" "_"))
+
   ;; `objc-mode' appears to be missing from the defaults in `sp-c-mode', so we
   ;; add it here.
   (add-to-list 'sp-c-modes 'objc-mode)
