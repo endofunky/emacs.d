@@ -198,9 +198,9 @@ parentheses when appropriate, for Rust lang"
 
     ;; Auto-complete lambda blocks in C++
     ;;
-    ;; auto foo = [] => auto foo = [|]() {};
+    ;; Expand auto foo = [] => auto foo = [|]() {};
     ;;
-    ;; foo([]) => foo([]() {});
+    ;; Expand foo([]) => foo([]() {});
     ;;
     (defun ef-maybe-complete-lambda (_id action _context)
       "Completes C++ lambda, given a pair of square brackets"
