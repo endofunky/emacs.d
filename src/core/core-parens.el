@@ -23,84 +23,169 @@
   (sp-navigate-consider-sgml-tags nil)
   :commands (show-smartparens-global-mode
              smartparens-global-mode)
-  :functions (sp-with-modes
-                 sp-local-pair)
+  :functions (sp-local-pair
+              sp-pair
+              ef-current-line-string
+              ef-is-in-comment)
   :config
   (show-smartparens-global-mode -1)
   (smartparens-global-mode t)
 
-  (defun ef-sp-skip-asterisk (ms mb me)
-    "Skip asterisk if at begging of line"
-    (save-excursion
-      (goto-char mb)
-      (save-match-data (looking-at "^\\* "))))
+  ;; Custom pairs below.
+  ;;
+  ;; Most taken from:
+  ;; https://git.sr.ht/~gagbo/doom-config/tree/master/item/modules/config/smartparens/config.el
 
-  (defun ef-sp-create-newline-and-enter-sexp (&rest _ignored)
-    "Open a new brace or bracket expression, with relevant newlines and indent"
-    (newline)
-    (indent-according-to-mode)
-    (forward-line -1)
-    (indent-according-to-mode))
+  ;; Don't autopair quotes when next to a word/before another quote in order to
+  ;; not unbalance them.
+  (let ((unless-list '(sp-point-before-word-p
+                       sp-point-after-word-p
+                       sp-point-before-same-p)))
+    (sp-pair "'"  nil :unless unless-list)
+    (sp-pair "\"" nil :unless unless-list))
 
-  ;; Disable ' pairing where it makes sense.
-  (sp-local-pair 'calc-mode "'" nil :actions nil)
-  (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
-  (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
-  (sp-local-pair 'ielm-mode "'" nil :actions nil)
-  (sp-local-pair 'latex-mode "'" nil :actions nil)
-  (sp-local-pair 'lisp-interaction-mode "'" nil :actions nil)
-  (sp-local-pair 'lisp-mode "'" nil :actions nil)
-  (sp-local-pair 'log-edit-mode "'" nil :actions nil)
-  (sp-local-pair 'org-mode "'" nil :actions nil)
-  (sp-local-pair 'tex-mode "'" nil :actions nil)
-  (sp-local-pair 'text-mode "'" nil :actions nil)
+  ;; Don't do square-bracket space-expansion where it doesn't make sense to
+  (sp-local-pair '(emacs-lisp-mode org-mode markdown-mode gfm-mode)
+                 "[" nil :post-handlers '(:rem ("| " "SPC")))
 
-  (sp-with-modes '(c-mode c++-mode cc-mode)
-    (sp-local-pair "#include <" ">")
+  ;; Expand {|} => { | }
+  ;; Expand {|} => {
+  ;;   |
+  ;; }
+  (dolist (brace '("(" "{" "["))
+    (sp-pair brace nil
+             :post-handlers '(("||\n[i]" "RET") ("| " "SPC"))
+             ;; Again, don't insert pair when next to a word/matching pair.
+             :unless '(sp-point-before-word-p
+                       sp-point-before-same-p)))
 
-    (sp-local-pair "[" nil :post-handlers '(:add
-                                            (ef-sp-create-newline-and-enter-sexp "RET")))
+  ;; Disable the ruby pre-handler for braces.
+  (sp-local-pair 'ruby-mode "{" "}"
+                 :pre-handlers '(:rem sp-ruby-pre-handler)
+                 :post-handlers '(:rem sp-ruby-post-handler))
 
-    (sp-local-pair "{" nil :post-handlers '(:add ef-c-maybe-add-semicolon-brace
-                                            (ef-sp-create-newline-and-enter-sexp "RET")))
+  ;; Pair angle brackets after C/C++ #include statements.
+  (sp-local-pair '(c-mode c++-mode objc-mode) "#include <" ">")
 
-    (sp-local-pair "(" nil :post-handlers '(:add
-                                            ef-c-maybe-add-semicolon-paren
-                                            (ef-sp-create-newline-and-enter-sexp "RET"))))
+  ;; Expand C-style doc comment blocks. Must be done manually because some of
+  ;; these languages use specialized (and deferred) parsers, whose state we
+  ;; can't access while smartparens is doing its thing.
+  (defun ef-default-expand-asterix-doc-comment-block (&rest _ignored)
+    (let ((indent (current-indentation)))
+      (newline-and-indent)
+      (save-excursion
+        (newline)
+        (insert (make-string indent 32) " */")
+        (delete-char 2))))
 
-  (sp-local-pair 'c++-mode "[" nil :post-handlers '(:add
-                                                    ef-c-maybe-complete-lambda
-                                                    (ef-sp-create-newline-and-enter-sexp "RET")))
+  (sp-local-pair
+   '(js2-mode typescript-mode rjsx-mode rust-mode c-mode c++-mode objc-mode
+              csharp-mode java-mode php-mode css-mode scss-mode less-css-mode
+              stylus-mode scala-mode)
+   "/*" "*/"
+   :actions '(insert)
+   :post-handlers '(("| " "SPC")
+                    ("|\n[i]*/[d-2]" "RET")
+                    (ef-default-expand-asterix-doc-comment-block "*")))
 
+  ;; Auto-pair auto-documentation comment blocks in cc-mode derivatives.
+  (sp-local-pair '(c-mode c++-mode objc-mode java-mode)
+                 "/*!" "*/"
+                 :post-handlers '(("* ||\n[i]" "RET") ("[d-1]< | " "SPC")))
 
-  (sp-with-modes '(go-mode)
-    (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET"))))
+  ;; Insert semicolon after closing parentheses where appropriate in C/C++
+  ;; mode.
+  (defun ef-is-in-comment ()
+    "tests if point is in comment"
+    (nth 4 (syntax-ppss)))
 
-  (sp-local-pair 'markdown-mode "'" nil :actions nil)
+  (defun ef-current-line-string ()
+    "returns current line as a string"
+    (buffer-substring-no-properties (line-beginning-position)
+                                    (line-end-position)))
 
-  (sp-with-modes '(markdown-mode)
-    (sp-local-pair "`" "`"
-                   :unless '(sp-point-after-word-p sp-point-at-bol-p)
-                   :post-handlers '(("[d1]" "SPC")))
-    (sp-local-pair "*" "*"
-                   :unless '(sp-point-after-word-p sp-point-at-bol-p)
-                   :skip-match 'ef-sp-skip-asterisk
-                   :post-handlers '(("[d1]" "SPC")))
-    (sp-local-pair "_" "_"))
+  (defvar ef-iter-kw
+    '("if" "else" "switch" "for" "while" "do" "define" "rep" "rrep" "trav"))
 
-  (ef-add-hook rustic-mode-hook :interactive t
-    (sp-with-modes '(rustic-mode)
-      (sp-local-pair "[" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
-      (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
-      (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))))
+  (defun ef-maybe-add-semicolon-paren (_id action _context)
+    "A helper function that inserts semicolon after closing
+  parentheses when appropriate. Mainly useful in C, C++, and other
+  languages with similar syntax"
+    (when (eq action 'insert)
+      (save-excursion
+        ;; here, caret supposed to be in between parens, i.e. (|)
+        (forward-char) ;; skip closing brace
+        (when (and (looking-at "\\s-*$")
+                   (not (string-match-p
+                         (regexp-opt ef-iter-kw 'words)
+                         (ef-current-line-string)))
+                   (not (ef-is-in-comment)))
+          (insert ";")))))
 
-  (ef-add-hook ruby-mode-hook :interactive t
-    (require 'smartparens-ruby)
+  (defun ef-maybe-add-semicolon-brace (_id action _context)
+    "A helper function that inserts semicolon after closing
+  parentheses when appropriate. Mainly useful in C, C++, and other
+  languages with similar syntax"
+    (when (eq action 'insert)
+      (save-excursion
+        ;; here, caret supposed to be in between parens, i.e. {|}
+        (forward-char) ;; skip closing brace
+        (when (and (looking-at "\\s-*$")
+                   (string-match-p "\\breturn\\b" (ef-current-line-string))
+                   (not (ef-is-in-comment)))
+          (insert ";")))))
 
-    (sp-with-modes '(ruby-mode)
-      (sp-local-pair "[" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
-      (sp-local-pair "{" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET")))
-      (sp-local-pair "(" nil :post-handlers '((ef-sp-create-newline-and-enter-sexp "RET"))))))
+  (sp-local-pair '(c-mode c++-mode) '"{" nil
+                 :post-handlers '(:add ef-maybe-add-semicolon-brace))
+
+  (sp-local-pair '(c-mode c++-mode) "(" nil
+                 :post-handlers '(:add
+                                  ef-maybe-add-semicolon-paren))
+
+  ;; Insert semicolon after closing parentheses where appropriate in rust-mode.
+  (defun ef-maybe-add-semicolon-paren-rust (_id action _context)
+    "A helper function that inserts semicolon after closing
+parentheses when appropriate, for Rust lang"
+    ;; here, caret supposed to be in between parens, i.e. (|)
+    (when (and (eq action 'insert)
+               (looking-at ")\\s-*$")
+               (not (ef-is-in-comment))
+               (not (string-match-p
+                     (regexp-opt '("fn" "if" "for" "while") 'words)
+                     (ef-current-line-string))))
+      (save-excursion
+        (forward-char) ;; skip closing brace
+        (insert ";"))))
+
+  (sp-local-pair 'rust-mode '"{" nil
+                 :post-handlers '(:add ef-maybe-add-semicolon-paren-rust))
+
+  ;; Auto-complete lambda blocks in C++
+  ;;
+  ;; auto foo = [] => auto foo = [|]() {};
+  ;;
+  ;; foo([]) => foo([]() {});
+  ;;
+  (defun ef-maybe-complete-lambda (_id action _context)
+    "Completes C++ lambda, given a pair of square brackets"
+    (when (eq action 'insert)
+      (let ((curr-line (ef-current-line-string))
+            ;; try detecting "auto foo = []"
+            (lambda-assign-regex "=\\s-*\\[\\]$")
+            ;; try detecting "func([])" and "func(arg1, [])"
+            (lambda-inline-regex "[(,]\\s-*\\[\\]"))
+        (when (or (string-match-p lambda-assign-regex curr-line)
+                  (string-match-p lambda-inline-regex curr-line))
+          (save-excursion
+            ;; here, caret supposed to be in between brackets, i.e. [|]
+            (forward-char) ;; skip closing brace
+            (insert "() {}")
+            (when (eolp)
+              (insert ";")))))))
+
+  (sp-local-pair 'c++-mode "[" nil
+                 :post-handlers '(:add
+                                  ef-maybe-complete-lambda)))
 
 (use-package rainbow-delimiters
   :hook
@@ -141,63 +226,5 @@
      additional-wrap
      slurp/barf-cp
      text-objects)))
-
-;; https://github.com/Hi-Angel/dotfiles/blob/bbd08c6883daed98b9feaad7f86304d332f51e3d/.emacs#L583-L642
-(defun ef-c-is-in-comment ()
-  "tests if point is in comment"
-  (nth 4 (syntax-ppss)))
-
-(defun ef-c-current-line-string ()
-  "returns current line as a string"
-  (buffer-substring-no-properties (line-beginning-position)
-                                  (line-end-position)))
-
-(defvar ef-c-iter-kw
-  '("if" "else" "switch" "for" "while" "do" "define" "rep" "rrep" "trav"))
-
-(defun ef-c-maybe-add-semicolon-paren (_id action _context)
-  "A helper function that inserts semicolon after closing
-parentheses when appropriate. Mainly useful in C, C++, and other
-languages with similar syntax"
-  (when (eq action 'insert)
-    (save-excursion
-      ;; here, caret supposed to be in between parens, i.e. (|)
-      (forward-char) ;; skip closing brace
-      (when (and (looking-at "\\s-*$")
-                 (not (string-match-p
-                       (regexp-opt ef-c-iter-kw 'words)
-                       (ef-c-current-line-string)))
-                 (not (ef-c-is-in-comment)))
-        (insert ";")))))
-
-(defun ef-c-maybe-add-semicolon-brace (_id action _context)
-  "A helper function that inserts semicolon after closing
-parentheses when appropriate. Mainly useful in C, C++, and other
-languages with similar syntax"
-  (when (eq action 'insert)
-    (save-excursion
-      ;; here, caret supposed to be in between parens, i.e. {|}
-      (forward-char) ;; skip closing brace
-      (when (and (looking-at "\\s-*$")
-                 (string-match-p "\\breturn\\b" (ef-c-current-line-string))
-                 (not (ef-c-is-in-comment)))
-        (insert ";")))))
-
-(defun ef-c-maybe-complete-lambda (_id action _context)
-  "Completes C++ lambda, given a pair of square brackets"
-  (when (eq action 'insert)
-    (let ((curr-line (ef-c-current-line-string))
-          ;; try detecting "auto foo = []"
-          (lambda-assign-regex "=\\s-*\\[\\]$")
-          ;; try detecting "func([])" and "func(arg1, [])"
-          (lambda-inline-regex "[(,]\\s-*\\[\\]"))
-      (when (or (string-match-p lambda-assign-regex curr-line)
-                (string-match-p lambda-inline-regex curr-line))
-        (save-excursion
-          ;; here, caret supposed to be in between brackets, i.e. [|]
-          (forward-char) ;; skip closing brace
-          (insert "() {}")
-          (when (eolp)
-            (insert ";")))))))
 
 (provide 'core-parens)
