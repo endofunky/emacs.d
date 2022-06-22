@@ -18,6 +18,9 @@
   (sp-highlight-wrap-tag-overlay nil)
   (sp-show-pair-delay 0)
   (sp-show-pair-from-inside t)
+  ;; Disable smartparen's navigation
+  (sp-navigate-skip-match nil)
+  (sp-navigate-consider-sgml-tags nil)
   :commands (show-smartparens-global-mode
              smartparens-global-mode)
   :functions (sp-with-modes
