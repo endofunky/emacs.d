@@ -27,6 +27,7 @@
               sp-pair
               ef-current-line-string
               ef-is-in-comment)
+  :defines (sp-c-modes)
   :config
   (require 'smartparens-config)
 
@@ -102,6 +103,10 @@ parentheses when appropriate, for Rust lang"
 
     (sp-local-pair 'rust-mode '"{" nil
                    :post-handlers '(:add ef-maybe-add-semicolon-paren-rust)))
+
+  ;; `objc-mode' appears to be missing from the defaults in `sp-c-mode', so we
+  ;; add it here.
+  (add-to-list 'sp-c-modes 'objc-mode)
 
   ;; Smartparens config for `sp-c-modes' (`c-mode', `c++-mode').
   (with-eval-after-load 'smartparens-c
