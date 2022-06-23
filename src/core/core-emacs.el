@@ -202,6 +202,7 @@
   (prog-mode . hl-line-mode)
   (text-mode . hl-line-mode)
   (dired-mode . hl-line-mode)
+  (tabulated-list-mode . hl-line-mode)
   (evil-visual-state-entry . ef--evil-disable-hl-line)
   (evil-visual-state-exit . ef--evil-enable-hl-line)
   (activate-mark-hook . ef--evil-disable-hl-line)
