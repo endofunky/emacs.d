@@ -7,9 +7,6 @@
                    :branch "main"
                    :files ("*.el" "extensions/*.el"))
   :custom
-  (corfu-auto t)
-  (corfu-auto-delay 0.01)
-  (corfu-auto-prefix 2)
   (corfu-cycle t)
   (corfu-echo-documentation nil)
   (corfu-min-width 24)
@@ -22,15 +19,9 @@
   :general
   (:keymaps 'corfu-map
    "<escape>" 'corfu-quit
-   "<tab>" 'corfu-complete
    "C-n" 'corfu-next
    "C-p" 'corfu-previous
-   "M-m" 'ef-corfu-move-to-minibuffer
-   ;; We automatically select the first candidate, so inserting with return
-   ;; leads to an uncomfortable situtation where one has to hit ESC to close to
-   ;; completion popup to insert a newline while it's open. So we unset
-   ;; <return> here inset.
-   "RET" nil)
+   "M-m" 'ef-corfu-move-to-minibuffer)
   :hook
   (after-init . global-corfu-mode)
   (after-init . corfu-history-mode)
@@ -49,7 +40,6 @@
   (advice-add 'corfu--setup :after 'evil-normalize-keymaps)
   (advice-add 'corfu--teardown :after 'evil-normalize-keymaps)
   (evil-make-overriding-map corfu-map))
-
 
 (use-package cape
   :after corfu
