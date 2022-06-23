@@ -12,7 +12,7 @@
   (python-shell-buffer-name "ipython")
   (python-shell-interpreter-args "--simple-prompt -i")
   :hook
-  (python-mode . lsp)
+  (python-mode . ef-enable-lsp-maybe)
   :config
   (ef-add-popup "*ipython*")
 
