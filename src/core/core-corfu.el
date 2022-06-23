@@ -52,10 +52,13 @@
 
 (use-package cape
   :after corfu
+  :disabled t
   :demand t
   :functions (ef-capf-merge-super-capf
               ef-capf-restore-super-capf)
   :commands (cape-dabbrev)
+  :custom
+  (cape-dabbrev-check-other-buffers nil)
   :general
   ;; Vim-style insert-state C-x keybinds for completions.
   (:state 'insert :prefix "C-x"
@@ -70,7 +73,6 @@
   (setq-default completion-at-point-functions
                 (remove 'tags-completion-at-point-function
                         completion-at-point-functions))
-
   ;; Append in order to prefer the mode-specific `completion-at-point-functions'
   ;; since they provide documentation and `cape-dabbrev' does not.
   (add-to-list 'completion-at-point-functions #'cape-dabbrev t)
