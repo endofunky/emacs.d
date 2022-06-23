@@ -86,16 +86,17 @@
     "Advice to merge all `completion-at-point-functions' in a `cape-super-capf'
 to use during completion."
     (unless ef-capf-pre-merge
-      (setq-local ef-capf-pre-merge completion-at-point-functions))
-    (setq-local completion-at-point-functions
-                (list (apply #'cape-super-capf
-                             (remove t completion-at-point-functions)))))
+      (setq-local ef-capf-pre-merge completion-at-point-functions)
+      (setq-local completion-at-point-functions
+                  (list (apply #'cape-super-capf
+                               (remove t completion-at-point-functions))))))
 
   (defun ef-capf-restore-super-capf (&rest _)
     "Restores the previous `completion-at-point-functions' after completion
 has finished."
-    (setq-local completion-at-point-functions ef-capf-pre-merge)
-    (setq-local ef-capf-pre-merge nil))
+    (when ef-capf-pre-merge
+      (setq-local completion-at-point-functions ef-capf-pre-merge)
+      (setq-local ef-capf-pre-merge nil)))
 
   ;; Adding advices around `corfu--setup' or `corfu--update' won't work here,
   ;; but this does *shrug*.
