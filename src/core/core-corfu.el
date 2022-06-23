@@ -41,60 +41,6 @@
   (advice-add 'corfu--teardown :after 'evil-normalize-keymaps)
   (evil-make-overriding-map corfu-map))
 
-(use-package cape
-  :after corfu
-  :demand t
-  :functions (ef-capf-merge-super-capf
-              ef-capf-restore-super-capf)
-  :commands (cape-dabbrev)
-  :custom
-  (cape-dabbrev-check-other-buffers nil)
-  :general
-  ;; Vim-style insert-state C-x keybinds for completions.
-  (:state 'insert :prefix "C-x"
-   "C-f" 'cape-file
-   "C-k" 'cape-dict
-   "C-n" 'cape-keyword
-   "C-s" 'dabbrev-completion
-   "s" 'cape-ispell)
-  :config
-  (declare-function cape-super-capf "cape")
-
-  ;; Append in order to prefer the mode-specific `completion-at-point-functions'
-  ;; since they provide documentation and `cape-dabbrev' does not.
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev t)
-
-  ;; `completion-at-point-functions' are run one by one. As soon as one returns
-  ;; results the chain is stopped, eg. results from multiple functions aren't
-  ;; merged. Instead, we merge all the functions in a `cape-super-capf' before
-  ;; completion and restore the original value when completion has finished.
-  (defvar ef-capf-pre-merge nil
-    "Placeholder variable to store the original value of buffer-local value of
-`completion-at-point-functions'.")
-
-  (defun ef-capf-merge-super-capf (&rest _)
-    "Advice to merge all `completion-at-point-functions' in a `cape-super-capf'
-to use during completion."
-    (unless ef-capf-pre-merge
-      (setq-local ef-capf-pre-merge completion-at-point-functions)
-      (setq-local completion-at-point-functions
-                  (list (apply #'cape-super-capf
-                               (remove t completion-at-point-functions))))))
-
-  (defun ef-capf-restore-super-capf (&rest _)
-    "Restores the previous `completion-at-point-functions' after completion
-has finished."
-    (when ef-capf-pre-merge
-      (setq-local completion-at-point-functions ef-capf-pre-merge)
-      (setq-local ef-capf-pre-merge nil)))
-
-  ;; Adding advices around `corfu--setup' or `corfu--update' won't work here,
-  ;; but this does *shrug*.
-  (advice-add 'completion-at-point :before #'ef-capf-merge-super-capf)
-  ;; This one is needed to work correctly when `corfu-auto' is true.
-  (advice-add 'corfu--capf-wrapper :before #'ef-capf-merge-super-capf)
-  (advice-add 'corfu--teardown :after #'ef-capf-restore-super-capf))
-
 (use-package corfu-doc
   :after corfu
   :custom
