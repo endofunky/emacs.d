@@ -290,6 +290,8 @@ parentheses when appropriate, for Rust lang"
   (prog-mode . rainbow-delimiters-mode))
 
 (use-package lispy
+  :custom
+  (lispy-safe-threshold 3000)
   :hook ((common-lisp-mode . lispy-mode)
          (emacs-lisp-mode . lispy-mode)
          (scheme-mode . lispy-mode)
