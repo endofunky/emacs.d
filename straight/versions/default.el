@@ -5,7 +5,6 @@
  ("auctex" . "53b82804c9dd9dbea306876f3be84ebacbeb7e74")
  ("avy" . "ba5f035be33693d1a136a5cbeedb24327f551a92")
  ("bundler.el" . "43efb6be4ed118b06d787ce7fbcffd68a31732a7")
- ("cape" . "86a1df6cbacd0e05b801208f83be5ca6c1cc8cec")
  ("cider" . "14246b89b7451f51197d57a73f962d0ba6e945b9")
  ("clojure-mode" . "b6f41d74904daa9312648f3a7bea7a72fd8e140b")
  ("cmake" . "d7bd40852a4fee3f438e8781f6d5e2613f64e3e0")

@@ -43,33 +43,6 @@
   (advice-add 'corfu--teardown :after 'evil-normalize-keymaps)
   (evil-make-overriding-map corfu-map))
 
-(use-package cape
-  :after corfu
-  :demand t
-  :functions (ef-capf-merge-super-capf)
-  :commands (cape-dabbrev)
-  :custom
-  (cape-dabbrev-check-other-buffers nil)
-  :config
-  (declare-function cape-super-capf "cape")
-
-  (defvar ef-capf-merged nil
-    "Flag variable indicating if a `cape-super-capf' for local
-`completion-at-point-functions' has been built.")
-
-  (defun ef-capf-merge-super-capf (&rest _)
-    "Advice to merge all buffer-local `completion-at-point-functions' into a
-`cape-super-capf'before the first completion."
-    (when (and (not ef-capf-merged)
-               completion-at-point-functions)
-      (setq-local ef-capf-merged t)
-      (setq-local completion-at-point-functions
-                  (list (apply #'cape-super-capf
-                               (append (remove t completion-at-point-functions)
-                                       (list #'cape-dabbrev)))))))
-
-  (advice-add 'completion-at-point :before #'ef-capf-merge-super-capf))
-
 (use-package corfu-doc
   :after corfu
   :custom
