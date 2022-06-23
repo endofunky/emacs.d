@@ -52,7 +52,6 @@
 
 (use-package cape
   :after corfu
-  :disabled t
   :demand t
   :functions (ef-capf-merge-super-capf
               ef-capf-restore-super-capf)
