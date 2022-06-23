@@ -322,7 +322,6 @@ parentheses when appropriate, for Rust lang"
      c-w
      commentary
      additional-wrap
-     slurp/barf-cp
-     text-objects)))
+     slurp/barf-cp)))
 
 (provide 'core-parens)
