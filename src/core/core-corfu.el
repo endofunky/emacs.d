@@ -52,8 +52,10 @@
 
 (use-package cape
   :after corfu
+  :demand t
   :functions (ef-capf-merge-super-capf
               ef-capf-restore-super-capf)
+  :commands (cape-dabbrev)
   :general
   ;; Vim-style insert-state C-x keybinds for completions.
   (:state 'insert :prefix "C-x"
@@ -63,7 +65,6 @@
    "C-s" 'dabbrev-completion
    "s" 'cape-ispell)
   :config
-  (declare-function cape-dabbrev "cape")
   (declare-function cape-super-capf "cape")
 
   (setq-default completion-at-point-functions
