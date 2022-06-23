@@ -49,6 +49,14 @@
   :after corfu
   :functions (ef-capf-merge-super-capf
               ef-capf-restore-super-capf)
+  :general
+  ;; Vim-style insert-state C-x keybinds for completions.
+  (:state 'insert :prefix "C-x"
+   "C-f" 'cape-file
+   "C-k" 'cape-dict
+   "C-n" 'cape-keyword
+   "C-s" 'dabbrev-completion
+   "s" 'cape-ispell)
   :config
   (declare-function cape-dabbrev "cape")
   (declare-function cape-super-capf "cape")
