@@ -43,34 +43,6 @@
   (advice-add 'corfu--teardown :after 'evil-normalize-keymaps)
   (evil-make-overriding-map corfu-map))
 
-(use-package fussy
-  :defer 1
-  :custom
-  (fussy-score-fn 'fussy-fuz-bin-score)
-  (fussy-filter-fn 'fussy-filter-orderless-flex)
-  ;; For example, project-find-file uses 'project-files which uses
-  ;; substring completion by default. Set to nil to make sure it's using
-  ;; flx.
-  (completion-category-defaults nil)
-  (completion-category-overrides nil)
-  :config
-  (push 'fussy completion-styles)
-
-  ;; `eglot' defaults to flex, so set an override to point to fussy instead.
-  (with-eval-after-load 'eglot
-    (add-to-list 'completion-category-overrides '(eglot (styles fussy basic)))))
-
-(use-package fuz-bin
-  :after fussy
-  :straight (fuz-bin
-             :repo "jcs-elpa/fuz-bin"
-             :fetcher github
-             :files (:defaults "bin"))
-  :config
-  (setq fussy-score-fn 'fussy-fuz-bin-score)
-  (let ((inhibit-message t))
-    (fuz-bin-load-dyn)))
-
 (use-package corfu-doc
   :after corfu
   :custom
