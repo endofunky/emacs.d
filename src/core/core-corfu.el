@@ -90,6 +90,8 @@ has finished."
 
   ;; Adding advices around `corfu--setup' or `corfu--update' won't work here,
   ;; but this does *shrug*.
+  (advice-add 'completion-at-point :before #'ef-capf-merge-super-capf)
+  ;; This one is needed to work correctly when `corfu-auto' is true.
   (advice-add 'corfu--capf-wrapper :before #'ef-capf-merge-super-capf)
   (advice-add 'corfu--teardown :after #'ef-capf-restore-super-capf))
 
