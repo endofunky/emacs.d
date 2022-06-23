@@ -22,10 +22,15 @@
   :general
   (:keymaps 'corfu-map
    "<escape>" 'corfu-quit
-   "<return>" 'corfu-complete
-   "C-m" 'ef-corfu-move-to-minibuffer
+   "<tab>" 'corfu-complete
    "C-n" 'corfu-next
-   "C-p" 'corfu-previous)
+   "C-p" 'corfu-previous
+   "M-m" 'ef-corfu-move-to-minibuffer
+   ;; We automatically select the first candidate, so inserting with return
+   ;; leads to an uncomfortable situtation where one has to hit ESC to close to
+   ;; completion popup to insert a newline while it's open. So we unset
+   ;; <return> here inset.
+   "RET" nil)
   :hook
   (after-init . global-corfu-mode)
   (after-init . corfu-history-mode)
