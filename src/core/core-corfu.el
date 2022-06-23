@@ -50,6 +50,7 @@
   (advice-add 'corfu--teardown :after 'evil-normalize-keymaps)
   (evil-make-overriding-map corfu-map))
 
+
 (use-package cape
   :after corfu
   :demand t
@@ -69,9 +70,6 @@
   :config
   (declare-function cape-super-capf "cape")
 
-  (setq-default completion-at-point-functions
-                (remove 'tags-completion-at-point-function
-                        completion-at-point-functions))
   ;; Append in order to prefer the mode-specific `completion-at-point-functions'
   ;; since they provide documentation and `cape-dabbrev' does not.
   (add-to-list 'completion-at-point-functions #'cape-dabbrev t)
