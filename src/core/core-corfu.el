@@ -27,6 +27,8 @@
   (after-init . corfu-history-mode)
   :config
   (add-to-list 'savehist-additional-variables 'corfu-history)
+  (remove-hook 'completion-at-point-functions
+               #'tags-completion-at-point-function)
 
   (defun ef-corfu-move-to-minibuffer ()
     "Move current region completion to minibuffer via consult."
