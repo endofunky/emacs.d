@@ -620,6 +620,13 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
       " Macrostep "
       'face (uniline--face 'uniline-panel-warning)))))
 
+(defun uniline-magit-blame (&rest _)
+  (when (bound-and-true-p magit-blame-mode)
+    (concat
+     (propertize
+      " Blame "
+      'face (uniline--face 'uniline-panel-warning)))))
+
 (defsubst uniline-macro (&rest _)
   "Display current Emacs or evil macro being recorded."
   (when (and (uniline--active)
@@ -953,6 +960,7 @@ mouse-2: Show help for minor mode"
                  ;; LHS
                  '(uniline-macro
                    uniline-macrostep
+                   uniline-magit-blame
                    uniline--anzu
                    uniline-evil
                    uniline-project
