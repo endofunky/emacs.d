@@ -13,7 +13,7 @@
    "D" 'bury-buffer)
   :init
   (defun ef-dired-here ()
-    "Open dired buffer in current directory."
+    "Open `dired' in current directory."
     (interactive)
     (dired "."))
   :custom

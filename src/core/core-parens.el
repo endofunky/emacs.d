@@ -212,11 +212,11 @@ parentheses when appropriate, for Rust lang"
     ;; Insert semicolon after closing parentheses where appropriate in C/C++
     ;; mode.
     (defun ef-is-in-comment ()
-      "tests if point is in comment"
+      "Tests if point is in comment."
       (nth 4 (syntax-ppss)))
 
     (defun ef-current-line-string ()
-      "returns current line as a string"
+      "Returns current line as a string."
       (buffer-substring-no-properties (line-beginning-position)
                                       (line-end-position)))
 
@@ -224,9 +224,8 @@ parentheses when appropriate, for Rust lang"
       '("if" "else" "switch" "for" "while" "do" "define" "rep" "rrep" "trav"))
 
     (defun ef-maybe-add-semicolon-paren (_id action _context)
-      "A helper function that inserts semicolon after closing
-  parentheses when appropriate. Mainly useful in C, C++, and other
-  languages with similar syntax"
+      "A helper function that inserts semicolon after closing parentheses when
+appropriate. Mainly useful in C, C++, and other languages with similar syntax."
       (when (eq action 'insert)
         (save-excursion
           ;; here, caret supposed to be in between parens, i.e. (|)
@@ -239,9 +238,8 @@ parentheses when appropriate, for Rust lang"
             (insert ";")))))
 
     (defun ef-maybe-add-semicolon-brace (_id action _context)
-      "A helper function that inserts semicolon after closing
-  parentheses when appropriate. Mainly useful in C, C++, and other
-  languages with similar syntax"
+      "A helper function that inserts a semicolon after closing braces when
+appropriate. Mainly useful in C, C++, and other languages with similar syntax."
       (when (eq action 'insert)
         (save-excursion
           ;; here, caret supposed to be in between parens, i.e. {|}
@@ -265,7 +263,7 @@ parentheses when appropriate, for Rust lang"
     ;; Expand foo([]) => foo([]() {});
     ;;
     (defun ef-maybe-complete-lambda (_id action _context)
-      "Completes C++ lambda, given a pair of square brackets"
+      "Completes C++ lambda, given a pair of square brackets."
       (when (eq action 'insert)
         (let ((curr-line (ef-current-line-string))
               ;; try detecting "auto foo = []"
