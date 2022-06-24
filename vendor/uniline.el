@@ -113,8 +113,6 @@
 ;;
 ;; Defintions for byte-compiler
 ;;
-(declare-function all-the-icons--function-name "ext:all-the-icons")
-
 (defvar anzu-cons-mode-line-p)
 (defvar anzu--current-position)
 (defvar anzu--total-matched)
@@ -178,24 +176,6 @@
 ;;
 ;; Helpers
 ;;
-
-(cl-defun uniline--icon (set name fallback
-                             &key (face 'uniline) (v-adjust 0))
-  (if window-system
-      (when-let* ((func (all-the-icons--function-name set))
-                  (icon (and (fboundp func)
-                             (apply func (list name :face face
-                                               :v-adjust v-adjust)))))
-        (when-let ((props (get-text-property 0 'face icon)))
-          (when (listp props)
-            (cl-destructuring-bind (&key family _height inherit
-                                         &allow-other-keys)
-                props
-              (propertize icon
-                          'face `(:inherit ,(or face inherit props 'uniline)
-                                  :weight normal
-                                  :family  ,(or family "")))))))
-    (propertize fallback 'face face)))
 
 (defun uniline--face (face &optional inactive-face)
   "Display FACE in mode-line.
@@ -307,13 +287,9 @@ If FRAME is nil, it means the current frame."
    'face 'uniline-major-mode-face))
 
 (defvar-local uniline--vcs-text nil)
-(defvar-local uniline--vcs-icon nil)
 
 (defun uniline-vcs-text (&rest _)
   uniline--vcs-text)
-
-(defun uniline-vcs-icon (&rest _)
-  uniline--vcs-icon)
 
 (defun uniline--update-vcs (&rest _)
   (when (and vc-mode buffer-file-name)
@@ -322,23 +298,6 @@ If FRAME is nil, it means the current frame."
            (str (if vc-display-status
                     (substring vc-mode (+ (if (eq backend 'Hg) 2 3) 2))
                   "")))
-      (setq uniline--vcs-icon
-            (concat (cond ((memq state '(edited added))
-                           (uniline--icon 'octicon "git-compare" "⇆"
-                                          :face 'uniline-warning-face))
-                          ((eq state 'needs-merge)
-                           (uniline--icon 'octicon "git-merge" "⛙"
-                                          :face 'uniline-warning-face))
-                          ((eq state 'needs-update)
-                           (uniline--icon 'octicon "arrow-down" "↓"
-                                          :face 'uniline-warning-face))
-                          ((memq state '(removed conflict unregistered))
-                           (uniline--icon 'octicon "alert" "⚠"
-                                          :face 'uniline-error-face))
-                          (t
-                           (uniline--icon 'octicon "git-branch" "@"
-                                          :face 'uniline-vcs-face)))
-                    (uniline-spc)))
       (setq uniline--vcs-text
             (concat
              (propertize (if (length> str 25)
@@ -356,16 +315,8 @@ If FRAME is nil, it means the current frame."
                                 (t 'uniline-vcs-face)))
              (uniline-spc))))))
 
-(defvar-local uniline--git-unpushed-icon nil)
-(defvar-local uniline--git-unpulled-icon nil)
 (defvar-local uniline--git-unpushed-text nil)
 (defvar-local uniline--git-unpulled-text nil)
-
-(defun uniline-git-unpulled-icon (&rest _)
-  uniline--git-unpulled-icon)
-
-(defun uniline-git-unpushed-icon (&rest _)
-  uniline--git-unpushed-icon)
 
 (defun uniline-git-unpulled-text (&rest _)
   uniline--git-unpulled-text)
@@ -391,8 +342,6 @@ Will return a maximum count of 256 for each."
               (split-string result "\t" t))))
 
 (defun uniline--update-git (&rest _)
-  (setq uniline--git-unpushed-icon nil)
-  (setq uniline--git-unpulled-icon nil)
   (setq uniline--git-unpushed-text nil)
   (setq uniline--git-unpulled-text nil)
   (when (and buffer-file-name
@@ -402,21 +351,13 @@ Will return a maximum count of 256 for each."
       (let ((unpulled (car counts))
             (unpushed (cadr counts)))
         (when (> unpulled 0)
-          (setq uniline--git-unpulled-icon
-                (uniline--icon 'octicon "arrow-down" "↓"
-                               :face 'uniline-warning-face
-                               :v-adjust -0.04))
           (setq uniline--git-unpulled-text
-                (concat (propertize (number-to-string unpulled)
+                (concat (propertize (concat "↓" (number-to-string unpulled))
                                     'face 'uniline-warning-face)
                         (uniline-spc))))
         (when (> unpushed 0)
-          (setq uniline--git-unpushed-icon
-                (uniline--icon 'octicon "arrow-up" "↑"
-                               :face 'uniline-warning-face
-                               :v-adjust 0.05))
           (setq uniline--git-unpushed-text
-                (concat (propertize (number-to-string unpushed)
+                (concat (propertize (concat "↑" (number-to-string unpushed))
                                     'face 'uniline-warning-face)
                         (uniline-spc))))))))
 
@@ -768,7 +709,7 @@ mouse-1: Start server"))
   uniline--flymake)
 
 (defun uniline--update-flymake (&rest _)
-  "Update flymake icon."
+  "Update flymake status."
   (setq flymake--mode-line-format nil)  ; remove the lighter of minor mode
   (setq
    uniline--flymake
@@ -970,12 +911,9 @@ mouse-2: Show help for minor mode"
                  ;; RHS
                  '(uniline-flyspell
                    uniline-flymake
-                   uniline-vcs-icon
                    uniline-vcs-text
                    uniline-git-bisect
-                   uniline-git-unpulled-icon
                    uniline-git-unpulled-text
-                   uniline-git-unpushed-icon
                    uniline-git-unpushed-text
                    uniline-major-mode
                    uniline-lsp

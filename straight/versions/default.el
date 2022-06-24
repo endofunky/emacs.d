@@ -1,5 +1,4 @@
 (("ace-window" . "0577c426a9833ab107bab46c60d1885c611b2fb9")
- ("all-the-icons.el" . "ca1ef30004d3fb76aaa70bd47cb83e9fe017a7f7")
  ("annalist.el" . "134fa3f0fb91a636a1c005c483516d4b64905a6d")
  ("anzu" . "5abb37455ea44fa401d5f4c1bdc58adb2448db67")
  ("auctex" . "53b82804c9dd9dbea306876f3be84ebacbeb7e74")
