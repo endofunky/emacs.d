@@ -14,7 +14,7 @@
   (c-mode-common . c-toggle-hungry-state)
   :custom
   ;; Left-align `#define`s
-  (c-electric-pound-behavior (quote (alignleft)))
+  (c-electric-pound-behavior '(alignleft))
   :config
   (declare-function ef-project-root "core-project")
 
