@@ -43,7 +43,7 @@
 (general-define-key
  :states 'normal
  :prefix ef-prefix
- "S" '(ef-toggle-scratch :wk "Toggle *scratch* Buffer"))
+ "S" '(ef-toggle-scratch :wk "Toggle *scratch* buffer"))
 
 ;; Never delete the scratch buffer
 (ef-add-hook after-init-hook :fn ef-init-scratch-timer-hook

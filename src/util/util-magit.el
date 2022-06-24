@@ -21,7 +21,7 @@
    "gd" '(magit-diff :wk "Diff")
    "gs" '(magit-status :wk "Status")
    "gl" '(magit-log :wk "Log")
-   "gL" '(magit-log-all :wk "Log (All)")
+   "gL" '(magit-log-all :wk "Log (all)")
    "gb" '(magit-blame :wk "Blame")
    "gc" '(magit-checkout :wk "Checkout"))
   (:prefix ef-prefix :states '(visual)

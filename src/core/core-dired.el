@@ -6,7 +6,7 @@
   :commands (dired)
   :general
   (:states 'normal :prefix ef-prefix
-   "d" '(ef-dired-here :wk "dired Here")
+   "d" '(ef-dired-here :wk "dired here")
    "D" 'dired)
   (:keymaps 'dired-mode-map
    "<return>" 'dired-find-alternate-file)
