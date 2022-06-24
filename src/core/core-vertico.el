@@ -112,6 +112,7 @@ exclamation mark."
                        embark-isearch-highlight-indicator))
   :functions (ef-embark-hide-which-key-indicator
               ef-embark-which-key-indicator)
+  :defines (embark-indicators)
   :config
   (declare-function embark-completing-read-prompter "embark")
   (declare-function embark--truncate-target "embark")
