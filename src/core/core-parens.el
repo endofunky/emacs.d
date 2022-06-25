@@ -300,14 +300,16 @@ appropriate. Mainly useful in C, C++, and other languages with similar syntax."
 (use-package lispy
   :custom
   (lispy-safe-threshold 3000)
-  :hook ((common-lisp-mode . lispy-mode)
+  :hook ((lisp-mode . lispy-mode)
          (emacs-lisp-mode . lispy-mode)
-         (scheme-mode . lispy-mode)
          (ielm-mode . lispy-mode)
+         (scheme-mode . lispy-mode)
          (racket-mode . lispy-mode)
          (hy-mode . lispy-mode)
          (lfe-mode . lispy-mode)
-         (clojure-mode . lispy-mode))
+         (dune-mode . lispy-mode)
+         (clojure-mode . lispy-mode)
+         (fennel-mode . lispy-mode))
   :custom
   ;; Move past end-quote when pressing `\"' at the end of a string.
   (lispy-close-quotes-at-end-p t)
