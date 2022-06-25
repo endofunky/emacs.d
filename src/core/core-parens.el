@@ -313,14 +313,12 @@ appropriate. Mainly useful in C, C++, and other languages with similar syntax."
   :custom
   ;; Move past end-quote when pressing `\"' at the end of a string.
   (lispy-close-quotes-at-end-p t)
+  :hook
+  (lispy-mode . turn-off-smartparens-mode)
   :config
   (declare-function lispy-set-key-theme "lispy")
 
-  (lispy-set-key-theme '(paredit c-digits))
-
-  (ef-add-hook lispy-mode-hook
-    (if (fboundp 'turn-off-smartparens-mode)
-        (turn-off-smartparens-mode))))
+  (lispy-set-key-theme '(paredit c-digits)))
 
 (use-package lispyville
   :after lispy
