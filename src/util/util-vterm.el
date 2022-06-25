@@ -19,8 +19,8 @@
    "M-P" 'ef-popup-switch-popup-buffer
    "M-p" 'ef-popup-toggle)
   (:states 'normal :prefix ef-prefix
-   "v" '(ef-vterm-popup :wk "VTerm popup")
-   "V" '(ef-vterm-popup-and-go :wk "VTerm popup & go"))
+   "v" '(ef-vterm-popup :wk "VTerm")
+   "V" '(ef-vterm-popup-and-go :wk "VTerm & go"))
   :config
   (declare-function vterm-send-string "vterm")
   (declare-function ef--vterm-sentinel "util-vterm")
