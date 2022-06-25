@@ -36,6 +36,7 @@ already in normal mode.")
 
    ;; Help
    "H"        '(nil :wk "Emacs Help")
+   "HA"       '(about-emacs :wk "About Emacs")
    "Ha"       '(consult-apropos :wk "Apropos")
    "Hi"       '(info :wk "Info")
    "Hm"       '(woman :wk "Man")
