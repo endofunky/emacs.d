@@ -9,7 +9,7 @@ already in normal mode.")
   :general
   (:states 'normal :prefix ef-prefix
    ":"        '(eval-expression :wk "Eval expression")
-   "#"        '(display-line-numbers-mode :wk "Display line numbers")
+   "#"        '(display-line-numbers-mode :wk "Toggle line numbers")
    "<return>" '(ef-toggle-window-fullscreen :wk "Toggle fullscreen")
    "s"        '(ef-popup-switch-buffer :wk "Switch buffer")
    "U"        '(universal-argument :wk "Universal argument")
