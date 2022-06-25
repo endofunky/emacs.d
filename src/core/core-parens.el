@@ -308,6 +308,9 @@ appropriate. Mainly useful in C, C++, and other languages with similar syntax."
          (hy-mode . lispy-mode)
          (lfe-mode . lispy-mode)
          (clojure-mode . lispy-mode))
+  :custom
+  ;; Move past end-quote when pressing `\"' at the end of a string.
+  (lispy-close-quotes-at-end-p t)
   :config
   (declare-function lispy-set-key-theme "lispy")
 
