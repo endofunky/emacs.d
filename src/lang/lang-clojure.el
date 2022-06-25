@@ -115,6 +115,8 @@
   :commands (cider-xref-fn-deps-select
              cider-xref-fn-refs-select))
 
+;; The name would suggest that this is a macrostep implementation for Scheme,
+;; but it supports CIDER, too.
 (use-package macrostep-geiser
   :after cider
   :hook
