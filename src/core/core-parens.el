@@ -21,6 +21,16 @@
   ;; Disable smartparen's navigation
   (sp-navigate-skip-match nil)
   (sp-navigate-consider-sgml-tags nil)
+  :general
+  (:states 'normal :keymaps 'smartparens-mode-map
+   "M-(" 'sp-wrap-round
+   "M-{" 'sp-wrap-curly
+   "M-[" 'sp-wrap-square
+   ;; These override the keybinds for `evil-shift-right' and `evil-shift-left',
+   ;; but both are more commonly done in visual state and C-v is easy enough
+   ;; to press, so overriding them in normal state should be fine.
+   ">" 'lispyville->
+   "<" 'lispyville-<)
   :commands (show-smartparens-global-mode
              smartparens-global-mode
              smartparens-mode)
@@ -314,6 +324,8 @@ appropriate. Mainly useful in C, C++, and other languages with similar syntax."
   (:states '(normal visual) :keymaps 'lispyville-mode-map
    "\\" 'lispyville-comment-or-uncomment-line
    "#" 'lispyville-comment-or-uncomment-line)
+  :commands (lispyville->
+             lispyville-<)
   :config
   (declare-function lispyville-set-key-theme "lispyville")
 
