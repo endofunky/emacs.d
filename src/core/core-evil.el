@@ -32,7 +32,6 @@ already in normal mode.")
    "bp"       '(previous-buffer :wk "Previous buffer")
    "bN"       '(evil-buffer-new :wk "New buffer")
    "br"       '(revert-buffer :wk "Revert buffer")
-   "by"       '(ef-yank-buffer :wk "Yank buffer")
 
    ;; Help
    "H"        '(nil :wk "Emacs Help")
@@ -123,12 +122,7 @@ already in normal mode.")
     "Run ef-escape-hook hooks"
     (run-hooks 'ef-escape-hook))
 
-  (advice-add #'evil-force-normal-state :after #'ef-run-escape-hooks)
-
-  (defun ef-yank-buffer ()
-    "Yanks all buffer contents."
-    (interactive)
-    (clipboard-kill-ring-save (point-min) (point-max))))
+  (advice-add #'evil-force-normal-state :after #'ef-run-escape-hooks))
 
 (use-package eldoc
   :after evil
