@@ -139,7 +139,7 @@ already in normal mode.")
   :commands (global-undo-tree-mode)
   :general
   (:states 'normal :prefix ef-prefix
-   "u" '(undo-tree-visualize :wk "Open undo-tree"))
+   "u" '(undo-tree-visualize :wk "Undo-tree"))
   :config
   (ef-add-hook undo-tree-visualizer-mode-hook
     (setq-local show-trailing-whitespace nil))
