@@ -1,5 +1,4 @@
 (require 'core-shackle)
-(require 'xdg)
 
 (defgroup ef-org nil
   "Endomacs org-mode configuration."
@@ -10,15 +9,6 @@
   "Directory with `org-mode' files."
   :group 'ef-org
   :type 'directory)
-
-(defcustom ef-org-bib-directory
-  (expand-file-name "bib" ef-org-directory)
-  "Directory for `ebib' bibliographies and attached files."
-  :group 'ef-org
-  :type 'directory)
-
-(defvar org-habit-preceding-days)
-(defvar org-habit-following-days)
 
 (use-package org
   :defer t
@@ -54,10 +44,8 @@
   (:states 'normal :prefix ef-prefix
    "o" '(nil :wk "Org")
    "oc" '(org-capture :wk "Capture")
-   "oe" '(org-export-dispatch :wk "Export")
    "or" '(org-roam-node-find :wk "Roam")
-   "os" '(org-switchb :wk "Switch buffer")
-   "oR" '(org-roam-buffer-toggle :wk "Toggle roam buffer"))
+   "os" '(org-switchb :wk "Switch buffer"))
   (:states 'normal :prefix ef-prefix :keymaps 'org-mode-map
    "," '(org-open-at-point :wk "Open link")
    "." '(org-mark-ring-goto :wk "Pop back")
@@ -65,7 +53,9 @@
    "o," '(org-priority-up :wk "Priority up")
    "o." '(org-priority-down :wk "Priority down")
    "oA" '(ef-org-archive-done-tasks :wk "Archive tasks")
+   "oe" '(org-export-dispatch :wk "Export")
    "op" '(org-priority :wk "Cycle priority")
+   "oR" '(org-roam-buffer-toggle :wk "Toggle roam buffer")
    "ot" '(org-todo :wk "Cycle TODO")
 
    "l" '(nil :wk "org-mode links")
@@ -92,8 +82,6 @@
 
   (declare-function org-archive-subtree "org-archive")
   (declare-function org-end-of-subtree "org")
-  (declare-function org-format-outline-path "org")
-  (declare-function org-get-outline-path "org")
   (declare-function org-map-entries "org")
   (declare-function outline-flag-region "outline")
   (declare-function outline-next-heading "outline")
@@ -175,12 +163,10 @@
 
 (use-package org-roam
   :commands (org-roam-node-find org-roam-buffer-toggle)
-  :defines (org-roam-v2-ack)
   :functions (org-roam-setup)
   :init
   (unless (file-directory-p (expand-file-name "roam" ef-org-directory))
     (make-directory (expand-file-name "roam" ef-org-directory)))
-  (setq org-roam-v2-ack t)
   :hook
   (org-roam-backlinks-mode . turn-on-visual-line-mode)
   :general
