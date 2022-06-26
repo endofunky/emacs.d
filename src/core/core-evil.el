@@ -73,6 +73,7 @@ already in normal mode.")
   (evil-ex-interactive-search-highlight 'selected-window)
   (evil-ex-search-case 'smart)
   (evil-ex-search-vim-style-regexp t)
+  (evil-lookup-func #'ignore)
   (evil-kbd-macro-suppress-motion-error t)
   (evil-magic 'very-magic)
   (evil-search-module 'evil-search)
@@ -160,6 +161,10 @@ already in normal mode.")
   :demand t
   :commands (evil-collection-init)
   :config
+  ;; Disable eglot bindings since we set them up ourselves and this one
+  ;; overrides our keybinds set via general.
+  (customize-set-variable 'evil-collection-mode-list
+                          (remove 'eglot evil-collection-mode-list))
   (evil-collection-init))
 
 (use-package anzu

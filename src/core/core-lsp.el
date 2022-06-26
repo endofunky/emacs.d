@@ -1,4 +1,5 @@
 (require 'core-direnv)
+(require 'core-evil)
 (require 'core-shackle)
 
 (use-package eglot
@@ -13,6 +14,10 @@
   ;; Consider files outside project jumped to via xref part of the project.
   (eglot-extend-to-xref t)
   :general
+  (:states 'normal :keymaps 'eglot-mode-map
+   "gd" 'xref-find-definitions
+   "gr" 'xref-find-references
+   "K" 'ef-eglot-lookup-documentation)
   (:prefix ef-prefix :states 'normal :keymaps 'eglot-mode-map
    "L"  '(nil :wk "LSP")
    "Lc" '(eglot :wk "Reconnect")
