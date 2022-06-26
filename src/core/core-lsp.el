@@ -12,6 +12,17 @@
                                        :documentSymbolProvider))
   ;; Consider files outside project jumped to via xref part of the project.
   (eglot-extend-to-xref t)
+  :general
+  (:prefix ef-prefix :states 'normal :keymaps 'eglot-mode-map
+   "L"  '(nil :wk "LSP")
+   "Lc" '(eglot :wk "Reconnect")
+   "Lr" '(eglot-reconnect :wk "Reconnect")
+   "Lq" '(eglot-shutdown :wk "Quit")
+   "R"  '(nil :wk "Refactor")
+   "Ri" '(ef-lsp-organize-imports :wk "Organize imports")
+   "Rr" '(eglot-rename :wk "Rename")
+   ","  '(xref-find-definitions :wk "Find definitions")
+   "."  '(xref-go-back :wk "Go Back"))
   :commands (eglot
              eglot-ensure
              eglot-code-action-organize-imports
@@ -120,22 +131,5 @@
   (:keymaps 'eglot-mode-map
    [remap xref-find-apropos] 'consult-eglot-symbols)
   :commands (consult-eglot-symbols))
-
-(ef-deflang eglot
-  :after eglot
-
-  :compile-backend-connect eglot
-  :compile-backend-reconnect eglot-reconnect
-  :compile-backend-quit eglot-shutdown
-  :compile-nav-jump xref-find-definitions
-  :compile-nav-pop-back pop-tag-mark
-
-  :doc-point ef-eglot-lookup-documentation
-
-  :refactor-imports ef-lsp-organize-imports
-  :refactor-rename eglot-rename
-
-  :xref-apropos consult-eglot-symbols
-  :xref-definitions xref-find-definitions)
 
 (provide 'core-lsp)
