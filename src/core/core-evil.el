@@ -11,7 +11,6 @@ already in normal mode.")
    ":"        '(eval-expression :wk "Eval expression")
    "#"        '(display-line-numbers-mode :wk "Toggle line numbers")
    "s"        '(ef-popup-switch-buffer :wk "Switch buffer")
-   "U"        '(universal-argument :wk "Universal argument")
 
    ;; Buffer
    "b"        '(nil :wk "Buffer")
