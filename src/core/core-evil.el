@@ -10,7 +10,6 @@ already in normal mode.")
   (:states 'normal :prefix ef-prefix
    ":"        '(eval-expression :wk "Eval expression")
    "#"        '(display-line-numbers-mode :wk "Toggle line numbers")
-   "<return>" '(ef-toggle-window-fullscreen :wk "Toggle fullscreen")
    "s"        '(ef-popup-switch-buffer :wk "Switch buffer")
    "U"        '(universal-argument :wk "Universal argument")
 
@@ -81,6 +80,7 @@ already in normal mode.")
    "W-"       '(text-scale-adjust :wk "Decrease text scale")
    "W0"       '(text-scale-adjust :wk "Reset text scale")
    "Wd"       '(delete-window :wk "Delete window")
+   "Wf"       '(ef-toggle-window-fullscreen :wk "Toggle fullscreen")
    "WD"       '(delete-other-windows-internal :wk "Delete other window"))
   ;; Let emacs look up RET key behaviour in appropriate keymaps.
   (:keymaps 'evil-motion-state-map
