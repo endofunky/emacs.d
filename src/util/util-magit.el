@@ -17,15 +17,15 @@
   :init
   :general
   (:prefix ef-prefix :states 'normal
-   "g" '(nil :wk "Magit")
+   "g" '(nil :wk "Git")
    "gd" '(magit-diff :wk "Diff")
    "gs" '(magit-status :wk "Status")
    "gl" '(magit-log :wk "Log")
    "gL" '(magit-log-all :wk "Log (all)")
    "gb" '(magit-blame :wk "Blame")
    "gc" '(magit-checkout :wk "Checkout"))
-  (:prefix ef-prefix :states '(visual)
-   "g" '(nil :wk "Magit")
+  (:prefix ef-prefix :states 'visual
+   "g" '(nil :wk "Git")
    "gl" '(magit-log :wk "Log"))
   :config
   (ef-shackle '(magit-diff-mode :align right :size .5 :popup t :select nil :float t))
