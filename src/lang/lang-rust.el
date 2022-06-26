@@ -11,6 +11,15 @@
   (rustic-mode . ef-enable-lsp-maybe)
   :functions (ef-update-cargo-bin)
   :defines (rustic-cargo-bin)
+  :general
+  (:prefix ef-prefix :states 'normal :keymaps 'rustic-mode-map
+   "c"  '(nil :wk "Compile")
+   "cc" '(rustic-cargo-build :wk "Build")
+   "cr" '(rustic-cargo-run :wk "Run")
+
+   "t"  '(nil :wk "Test")
+   "ta" '(rustic-cargo-test :wk "At point")
+   "tp" '(rustic-cargo-current-test :wk "At point"))
   :config
   (ef-add-popup "^\\*rust" :ephemeral t :regexp t)
   (ef-add-popup "^\\*cargo" :ephemeral t :regexp t)
@@ -34,11 +43,5 @@
 
   ;; Don't ask to install LSP server if it's not installed.
   (advice-add 'rustic-install-lsp-client-p :override #'ignore))
-
-(ef-deflang rust
-  :compile rustic-cargo-build
-  :compile-and-run rustic-cargo-run
-  :test-all rustic-cargo-test
-  :test-file rustic-cargo-current-test)
 
 (provide 'lang-rust)
