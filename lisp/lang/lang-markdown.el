@@ -11,6 +11,7 @@
          ("\\.mkdn$" . markdown-mode))
   :defines (markdown-mode-map)
   :custom
+  (markdown-asymmetric-header t)
   (markdown-hide-urls nil)
   :config
   (when window-system
