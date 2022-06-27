@@ -130,7 +130,7 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   :general
   (:states '(normal visual) :keymaps 'elisp-def-mode-map
    "gd"  'elisp-def
-   "C-t" 'pop-tag-mark)
+   "C-t" 'xref-go-back)
   :commands (elisp-def elisp-def-mode)
   :hook
   (ielm-mode . elisp-def-mode)
