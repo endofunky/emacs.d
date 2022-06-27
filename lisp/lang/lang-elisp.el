@@ -10,28 +10,28 @@
               ef-elisp-describe-thing-at-point)
   :general
   (:prefix ef-local-leader :states '(normal visual) :keymaps 'emacs-lisp-mode-map
-   "c"  '(nil :wk "Compile")
-   "cc" '(emacs-lisp-byte-compile-and-load :wk "Byte-compile & load")
+   "c"   '(nil :wk "Compile")
+   "cc"  '(emacs-lisp-byte-compile-and-load :wk "Byte-compile & load")
 
-   "e"  '(nil :wk "Eval")
-   "ea" '(ef-elisp-eval-project :wk "Project")
-   "eb" '(eval-buffer :wk "Buffer")
-   "ee" '(eval-expression :wk "Expression")
+   "e"   '(nil :wk "Eval")
+   "ea"  '(ef-elisp-eval-project :wk "Project")
+   "eb"  '(eval-buffer :wk "Buffer")
+   "ee"  '(eval-expression :wk "Expression")
    "ei"  '(nil :wk "IELM insert")
    "eid" '(ef-ielm-insert-defun :wk "Defun")
    "eir" '(ef-ielm-insert-region :wk "Region")
    "eis" '(ef-ielm-insert-sexp :wk "S-exp")
-   "er" '(eval-region :wk "Region")
-   "es" '(eval-sexp :wk "S-exp")
+   "er"  '(eval-region :wk "Region")
+   "es"  '(eval-sexp :wk "S-exp")
 
-   "l"  '(nil :wk "Lint")
+   "l"   '(nil :wk "Lint")
    "lb"  '(package-lint-current-buffer :wk "Buffer")
 
-   "m"  '(nil :wk "Macro")
+   "m"   '(nil :wk "Macro")
    "me"  '(macrostep-expand :wk "Expand")
    "mq"  '(macrostep-collapse-all :wk "Quit")
 
-   "r"  '(nil :wk "REPL")
+   "r"   '(nil :wk "REPL")
    "rr"  '(ielm :wk "Open"))
   (:states 'normal :keymaps '(emacs-lisp-mode-map
                               lisp-interaction-mode-map
@@ -127,6 +127,10 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
 
 (use-package elisp-def
   :after elisp-mode
+  :general
+  (:states '(normal visual) :keymaps 'elisp-def-mode-map
+   "gd"  'elisp-def
+   "C-t" 'pop-tag-mark)
   :commands (elisp-def elisp-def-mode)
   :hook
   (ielm-mode . elisp-def-mode)
