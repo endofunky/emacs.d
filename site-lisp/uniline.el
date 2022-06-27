@@ -171,7 +171,7 @@
 (declare-function magit-get-current-branch "ext:magit-git")
 (declare-function magit-git-string "ext:magit-git")
 
-(declare-function project-root "ext:project")
+(declare-function project-root "project")
 
 ;;
 ;; Helpers

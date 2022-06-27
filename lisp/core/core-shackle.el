@@ -79,7 +79,7 @@ to a regular window state and will not be shown in the popup window.")
 
   (shackle-mode t))
 
-(declare-function shackle--match "ext:shackle")
+(declare-function shackle--match "shackle")
 (defvar shackle-rules)
 
 (defun ef-popup--get-buffer-state (buf)

@@ -313,16 +313,16 @@ appropriate. Mainly useful in C, C++, and other languages with similar syntax."
   :custom
   ;; Move past end-quote when pressing `\"' at the end of a string.
   (lispy-close-quotes-at-end-p t)
-  :functions (lispy-set-key-theme)
   :hook
   (lispy-mode . turn-off-smartparens-mode)
   :config
+  (declare-function lispy-set-key-theme "lispy")
+
   (lispy-set-key-theme '(paredit c-digits)))
 
 (use-package lispyville
   :after lispy
   :hook (lispy-mode . lispyville-mode)
-  :functions (lispyville-set-key-theme)
   :general
   (:states '(normal visual) :keymaps 'lispyville-mode-map
    "\\" 'lispyville-comment-or-uncomment-line
@@ -330,6 +330,8 @@ appropriate. Mainly useful in C, C++, and other languages with similar syntax."
   :commands (lispyville->
              lispyville-<)
   :config
+  (declare-function lispyville-set-key-theme "lispyville")
+
   (lispyville-set-key-theme
    '((operators normal)
      c-w

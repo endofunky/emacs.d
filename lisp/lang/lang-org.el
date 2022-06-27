@@ -76,12 +76,12 @@
   (require 'ox-md)
   (require 'org-roam)
 
-  (declare-function org-archive-subtree "ext:org-archive")
-  (declare-function org-end-of-subtree "ext:org")
-  (declare-function org-map-entries "ext:org")
-  (declare-function outline-flag-region "ext:outline")
-  (declare-function outline-next-heading "ext:outline")
-  (declare-function outline-previous-heading "ext:outline")
+  (declare-function org-archive-subtree "org-archive")
+  (declare-function org-end-of-subtree "org")
+  (declare-function org-map-entries "org")
+  (declare-function outline-flag-region "outline")
+  (declare-function outline-next-heading "outline")
+  (declare-function outline-previous-heading "outline")
 
   (defun ef-org-archive-done-tasks ()
     "Archive `org-mode' tasks marked as DONE."
