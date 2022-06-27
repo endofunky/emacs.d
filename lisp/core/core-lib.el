@@ -171,16 +171,6 @@ the first list are the most significant ones and overrule
 settings in the other lists."
   (apply #'ef-plist-merge (reverse plists)))
 
-(defmacro ef-eval-after-load (features &rest body)
-  "Evaluate BODY after FEATURES have been loaded by generating
-nested `eval-after-load' forms."
-  (declare (indent defun))
-  (unless (consp features)
-    (setq features (list features)))
-  (cl-flet ((acc (x xs)
-		 `(eval-after-load ',x #',(or xs (macroexp-progn (remove nil body))))))
-    (cl-reduce #'acc features :initial-value '() :from-end t)))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Lists
