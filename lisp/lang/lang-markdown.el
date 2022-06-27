@@ -14,7 +14,12 @@
   :custom
   (markdown-asymmetric-header t)
   (markdown-fontify-code-blocks-natively t)
-  (markdown-hide-urls nil)
+  (markdown-hide-urls t)
+  :general
+  (:prefix ef-local-leader :states '(normal visual) :keymaps 'markdown-mode-map
+   "l" '(nil :wk "Links")
+   "li" '(markdown-insert-link :wk "Insert")
+   "lt" '(markdown-toggle-url-hiding :wk "Toggle"))
   :config
   (add-to-list 'markdown-code-lang-modes '("go" . go-mode))
   (add-to-list 'markdown-code-lang-modes '("ruby" . ruby-mode))
