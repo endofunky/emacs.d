@@ -253,8 +253,7 @@ visual state or mark.")
   (:states 'normal :keymaps 'prog-mode-map
    "<tab>" 'indent-for-tab-command)
   (:states 'normal :prefix ef-leader :keymaps 'prog-mode-map
-   "<tab>" '(ef-indent-buffer :wk "Indent buffer")
-   "." '(pop-tag-mark :wk "Pop tag mark"))
+   "<tab>" '(ef-indent-buffer :wk "Indent buffer"))
   (:states 'visual :keymaps 'prog-mode-map
    "<tab>" 'indent-region)
   :config

@@ -46,9 +46,10 @@
    "oc" '(org-capture :wk "Capture")
    "or" '(org-roam-node-find :wk "Roam")
    "os" '(org-switchb :wk "Switch buffer"))
+  (:states 'normal :keymaps 'org-mode-map
+   "gd" '(org-open-at-point :wk "Open link")
+   "C-t" '(org-mark-ring-goto :wk "Pop back"))
   (:states 'normal :prefix ef-local-leader :keymaps 'org-mode-map
-   "," '(org-open-at-point :wk "Open link")
-   "." '(org-mark-ring-goto :wk "Pop back")
    "o" '(nil :wk "org-mode")
    "o," '(org-priority-up :wk "Priority up")
    "o." '(org-priority-down :wk "Priority down")

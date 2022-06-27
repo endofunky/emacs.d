@@ -26,9 +26,7 @@
    "Lq" '(eglot-shutdown :wk "Quit")
    "R"  '(nil :wk "Refactor")
    "Ri" '(ef-lsp-organize-imports :wk "Organize imports")
-   "Rr" '(eglot-rename :wk "Rename")
-   ","  '(xref-find-definitions :wk "Find definitions")
-   "."  '(xref-go-back :wk "Go Back"))
+   "Rr" '(eglot-rename :wk "Rename"))
   :commands (eglot
              eglot-ensure
              eglot-code-action-organize-imports
