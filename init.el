@@ -57,10 +57,10 @@
   (setq no-littering-var-directory
         (expand-file-name "var/" user-emacs-directory)))
 
-(let ((default-directory (expand-file-name "vendor" user-emacs-directory)))
+(let ((default-directory (expand-file-name "site-lisp" user-emacs-directory)))
   (normal-top-level-add-subdirs-to-load-path))
 
-(let ((default-directory (expand-file-name "src" user-emacs-directory)))
+(let ((default-directory (expand-file-name "lisp" user-emacs-directory)))
   (normal-top-level-add-subdirs-to-load-path)
   (dolist (file (directory-files-recursively default-directory "\\.el$"))
     (with-demoted-errors "Require failed: %S"

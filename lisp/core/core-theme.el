@@ -3,7 +3,7 @@
 
 (use-package efdark-theme
   :demand t
-  :load-path "themes/"
+  :load-path "site-lisp/themes/"
   :straight nil
   :custom
   (custom-safe-themes t)
@@ -28,7 +28,7 @@
 (use-package uniline
   :demand t
   :straight nil
-  :load-path "vendor/"
+  :load-path "site-lisp/"
   :commands (uniline-mode)
   :config
   (uniline-mode t))

@@ -59,6 +59,6 @@
 (use-package ruby-style
   :straight nil
   :after (cc-mode)
-  :load-path "vendor/")
+  :load-path "site-lisp/")
 
 (provide 'lang-c)

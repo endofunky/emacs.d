@@ -4,9 +4,9 @@ Lightweight [[https://github.com/jwiegley/use-package][use-package]] & [[https:/
 
 ** Directory Structure
 
-- ~src/core/~: Core emacs configuration of built-in packages
-- ~src/lang/~: Programming language specific package configuration
-- ~src/util/~: Utility package configuration (magit, restclient-mode, etc.)
+- ~lisp/core/~: Core emacs configuration of built-in packages
+- ~lisp/lang/~: Programming language specific package configuration
+- ~lisp/util/~: Utility package configuration (magit, restclient-mode, etc.)
 
 ** Debugging
 
