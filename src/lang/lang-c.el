@@ -61,15 +61,4 @@
   :after (cc-mode)
   :load-path "vendor/")
 
-(ef-deflang c++
-  :after (cc-mode)
-  :compile
-  (lambda ()
-    (interactive)
-    (compile "make -k"))
-  :compile-and-run
-  (lambda ()
-    (interactive)
-    (compile "make -k run" t)))
-
 (provide 'lang-c)

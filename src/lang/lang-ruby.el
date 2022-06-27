@@ -132,7 +132,7 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
    "t"  '(nil :wk "Test")
    "tl" '(ruby-test-toggle-implementation-and-specification :wk "Toggle")
    "tp" '(ruby-test-run-at-point :wk "At point")
-   "tt" '(ef-ruby-test-run :wk "File"))
+   "tt" '(ef-ruby-test-run :wk "Buffer"))
   :defines (ruby-test-rspec-options)
   :config
   (add-hook 'ruby-mode-hook 'ruby-test-mode)
@@ -174,17 +174,17 @@ current buffer's file, if it exists"
   (:prefix ef-local-leader :states '(normal visual) :keymaps 'rubocop-mode-map
    "l"  '(nil :wk "Lint")
    "ld" '(rubocop-check-directory :wk "Directory")
-   "lf" '(rubocop-check-current-file :wk "File")
+   "lb" '(rubocop-check-current-file :wk "Buffer")
    "la" '(rubocop-check-project :wk "Project")
 
    "la"  '(nil :wk "Auto-correct")
    "lad" '(rubocop-autocorrect-directory :wk "Directory")
-   "laf" '(rubocop-autocorrect-current-file :wk "File")
+   "lab" '(rubocop-autocorrect-current-file :wk "Buffer")
    "laa" '(rubocop-autocorrect-project :wk "Project")
 
    "lf"  '(nil :wk "Format")
    "lfd" '(rubocop-format-directory :wk "Directory")
-   "lff" '(rubocop-format-current-file :wk "File")
+   "lfb" '(rubocop-format-current-file :wk "Buffer")
    "lfa" '(rubocop-format-project :wk "Project"))
   :config
   (defun rubocop-buffer-name (file-or-dir)

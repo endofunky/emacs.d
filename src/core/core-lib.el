@@ -1,126 +1,23 @@
 (require 'use-package)
-(require 'cl-macs)
-(require 'cl-seq)
-(require 'subr-x)
 
-(defgroup ef-deflang nil
-  "Endomacs deflang configuration."
-  :group 'startup)
-
-(defcustom ef-deflang-form-regexp-eval
-  `(concat ,(eval-when-compile
-              (concat "^\\s-*("
-                      (regexp-opt '("ef-deflang") t)
-                      "\\s-+\\("))
-           (or (bound-and-true-p lisp-mode-symbol-regexp)
-               "\\(?:\\sw\\|\\s_\\|\\\\.\\)+") "\\)")
-  "Sexp providing regexp for finding ef-deflang forms in user files."
-  :type 'sexp
-  :group 'ef-deflang)
-
-(defcustom ef-deflang-enable-imenu-support t
-  "If non-nil, cause `imenu' to see `ef-deflang' declarations.
-This is done by adjusting `lisp-imenu-generic-expression' to include
-support for finding `ef-deflang'.
-
-Must be set before loading ef-deflang."
-  :type 'boolean
-  :set
-  #'(lambda (_sym value)
-      (eval-after-load 'lisp-mode
-        (if value
-            `(add-to-list 'lisp-imenu-generic-expression
-                          (list "Languages" ,ef-deflang-form-regexp-eval 2))
-          `(setq lisp-imenu-generic-expression
-                 (remove (list "Languages" ,ef-deflang-form-regexp-eval 2)
-                         lisp-imenu-generic-expression)))))
-  :group 'ef-deflang)
-
-(defgroup ef-keybinds nil
-  "Endomacs keybinds."
+(defgroup ef nil
+  "Endomacs customizations."
   :group 'faces)
 
 (defcustom ef-leader ","
   "Leader key used as prefix in keymaps."
-  :group 'ef-theme
+  :group 'ef
   :type 'string)
 
 (defcustom ef-local-leader ","
   "Local leader key used as prefix in major-mode specific keymaps."
-  :group 'ef-theme
+  :group 'ef
   :type 'string)
-
-(defgroup ef-theme nil
-  "Endomacs faces."
-  :group 'faces)
 
 (defcustom ef-fullscreen-indicator "orange red"
   "Set foreground color for fullscreen indicator in mode-line."
-  :group 'ef-theme
+  :group 'ef
   :type 'string)
-
-(defconst ef-deflang-keybinds
-  '((:compile-buffer            ("cb" :wk "Compile buffer"))
-    (:compile                   ("cc" :wk "Compile"))
-    (:compile-and-run           ("cC" :wk "Compile and run"))
-    (:compile-disassemble       ("cD" :wk "Disassemble"))
-    (:compile-recompile         ("cC" :wk "Re-Compile"))
-    (:compile-inspect           ("ci" :wk "Inspect"))
-    (:compile-defun             ("cd" :wk "Compile definition at point"))
-    (:compile-file              ("cf" :wk "Compile file"))
-    (:compile-region            ("cr" :wk "Compile region"))
-    (:compile-sexp              ("cs" :wk "Compile S-expression"))
-    (:compile-backend-connect   ("cj" :wk "Connect"))
-    (:compile-backend-reconnect ("cJ" :wk "Reconnect"))
-    (:compile-backend-quit      ("cq" :wk "Quit"))
-    (:compile-nav-jump          ("," :wk "Jump to definition"))
-    (:compile-nav-pop-back      ("." :wk "Pop Back"))
-    (:doc-apropos               ("cda" :wk "Apropos"))
-    (:doc-apropos-select        ("cdA" :wk "Apropos (select)"))
-    (:doc-point                 ("cdk" :wk "Describe thing at point"))
-    (:doc-guide                 ("cdg" :wk "Open guide"))
-    (:doc-manual                ("cdm" :wk "Open manual"))
-    (:doc-cheatsheet            ("cdc" :wk "Open cheat sheet"))
-    (:doc-search                ("cds" :wk "Search"))
-    (:eval-all                  ("ea" :wk "Eval all/project"))
-    (:eval-buffer               ("eb" :wk "Eval buffer"))
-    (:eval-expression           ("ee" :wk "Eval expression"))
-    (:eval-file                 ("ef" :wk "Eval file"))
-    (:eval-defun                ("ed" :wk "Eval definition at point"))
-    (:eval-region               ("er" :wk "Eval region"))
-    (:eval-sexp                 ("es" :wk "Eval S-expression"))
-    (:eval-undefine             ("eu" :wk "Undefine definition"))
-    (:eval-insert-defun         ("eid" :wk "Insert definition at point"))
-    (:eval-insert-region        ("eir" :wk "Insert region"))
-    (:eval-insert-sexp          ("eis" :wk "Insert S-expression"))
-    (:lint-file                 ("clf" :wk "Lint file"))
-    (:lint-project              ("clp" :wk "Lint project"))
-    (:macro-expand-all          ("me" :wk "Expand all"))
-    (:macro-expand-one          ("m1" :wk "Expand one"))
-    (:macro-expand-expression   ("mE" :wk "Expand expression"))
-    (:macro-quit                ("mq" :wk "Quit expansions"))
-    (:package-add               ("cpa" :wk "Add package"))
-    (:refactor-rename           ("crr" :wk "Rename"))
-    (:refactor-imports          ("cri" :wk "Imports"))
-    (:repl-context              ("rc" :wk "Change REPL context"))
-    (:repl-info                 ("ri" :wk "REPL info"))
-    (:repl-toggle               ("rr" :wk "Toggle REPL window"))
-    (:repl-quit                 ("r!" :wk "Quit REPL"))
-    (:specification-browse      ("csb" :wk "Browse specifications"))
-    (:specification-all         ("csa" :wk "List specifications"))
-    (:test-all                  ("ta" :wk "Test all/project"))
-    (:test-errors               ("te" :wk "Test failed tests"))
-    (:test-toggle               ("tl" :wk "Toggle test/implementation"))
-    (:test-at-point             ("tp" :wk "Test at point"))
-    (:test-file                 ("tt" :wk "Test file"))
-    (:test-report               ("tr" :wk "Show test report"))
-    (:trace-defun               ("cTd" :wk "Trace definition"))
-    (:trace-variable            ("cTv" :wk "Trace variable"))
-    (:xref-apropos              ("xa" :wk "Find symbols"))
-    (:xref-definitions          ("xd" :wk "Find definitions"))
-    (:xref-dependencies         ("xD" :wk "Find dependencies"))
-    (:xref-references           ("xr" :wk "Find references")))
-  "Keybind definitions for `ef-deflang'")
 
 (use-package gcmh
   :demand t
@@ -341,12 +238,12 @@ HOOKS is `some-hook'. Usage:
   "Generate custom-set-variables code for CVARS."
   (declare (indent defun))
   `(let ((custom--inhibit-theme-enable nil))
-     (unless (memq 'endomacs-customize custom-known-themes)
-       (deftheme endomacs-customize)
-       (enable-theme 'endomacs-customize)
-       (setq custom-enabled-themes (remq 'endomacs-customize custom-enabled-themes)))
+     (unless (memq 'ef-custom custom-known-themes)
+       (deftheme ef-custom)
+       (enable-theme 'ef-custom)
+       (setq custom-enabled-themes (remq 'ef-custom custom-enabled-themes)))
      (custom-theme-set-variables
-      'endomacs-customize
+      'ef-custom
       ,@(mapcar #'(lambda (def)
                     (let ((feature (or load-file-name (buffer-file-name)))
                           (symbol (car def))
@@ -468,52 +365,5 @@ buffer."
   "Kill all other buffers except the *scratch* buffer."
   (interactive)
   (ef-kill-buffers-matching nil))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; Language mode definition
-;;
-
-;; Global prefixes
-;; We define these early so modes don't have to ensure common prefixes exist
-;; and potentially override the mappings that already are nested under them.
-
-(defmacro ef-deflang (lang &rest args)
-  (declare (indent defun))
-  (let ((features (or (ef-as-list (plist-get args :after))
-                      (ef-mode lang)))
-        (maps (mapcar #'ef-mode-map (ef-as-list (or (plist-get args :maps)
-                                                    (ef-mode-map lang))))))
-    (cl-remf args :after)
-    (macroexpand
-     `(ef-eval-after-load
-        ,features
-
-        (general-define-key
-         :prefix ef-local-leader
-         :keymaps ',maps
-         :states '(normal visual)
-         "c"  '(nil :wk "Compile")
-         "cd" '(nil :wk "Documentation")
-         "cl" '(nil :wk "Lint")
-         "cp" '(nil :wk "Package")
-         "cr" '(nil :wk "Refactor")
-         "cs" '(nil :wk "Specification")
-         "cT" '(nil :wk "Trace")
-         "e"  '(nil :wk "Eval")
-         "ei" '(nil :wk "Insert in REPL")
-         "m"  '(nil :wk "Macro")
-         "r"  '(nil :wk "REPL")
-         "t"  '(nil :wk "Test")
-         "x"  '(nil :wk "Xref"))
-
-        (general-define-key
-         :prefix ef-local-leader
-         :states '(normal visual)
-         :keymaps ',maps
-         ,@(cl-loop for (key fn) on args by #'cddr
-                    for def = (alist-get key ef-deflang-keybinds)
-                    collect `(,(caar def) ',`(,fn ,@(cdar def))) into matches
-                    finally (return (apply #'append matches))))))))
 
 (provide 'core-lib)

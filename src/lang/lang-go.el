@@ -3,15 +3,37 @@
 
 (use-package go-mode
   :mode (("\\.go\\'" . go-mode))
-  :hook
-  (go-mode . ef-enable-lsp-maybe)
   :functions (gofmt-before-save)
   :config
+  (add-hook 'go-mode-hook 'ef-enable-lsp-maybe)
+
   (declare-function ef-lsp-organize-imports "core-lsp")
 
   (ef-add-popup "*Gofmt Errors*" :ephemeral t)
   (ef-add-popup "*go-rename*" :ephemeral t)
   (ef-add-popup 'godoc-mode :ephemeral t)
+
+  (ef-add-hook go-mode-hook
+    (add-hook 'before-save-hook #'gofmt-before-save nil t)
+    (add-hook 'before-save-hook #'ef-lsp-organize-imports nil t)
+
+    (if (not (string-match "go" compile-command))
+        (set (make-local-variable 'compile-command)
+             "go build -v && go vet"))))
+
+(use-package gotest
+  :after go-mode
+  :custom
+  (go-test-verbose t)
+  :general
+  (:prefix ef-local-leader :states '(normal visual) :keymaps 'go-mode-map
+   "t"  '(nil :wk "Test")
+   "ta" '(go-test-current-project :wk "Project")
+   "tt" '(go-test-current-file :wk "Buffer")
+   "tp" '(go-test-current-test :wk "At point")
+   "tl" '(ef-go-test-toggle :wk "Toggle"))
+  :config
+  (ef-add-popup 'go-test-mode :ephemeral t)
 
   (defconst ef-go-test-toggle-re "_test\\."
     "Match regexp for `ef-go-test-toggle'.")
@@ -31,28 +53,6 @@
                                  (file-name-extension file))))
           (if (file-exists-p test-file)
               (find-file test-file)
-            (message "Test file not found: %s" test-file))))))
-
-  (ef-add-hook go-mode-hook
-    (add-hook 'before-save-hook #'gofmt-before-save nil t)
-    (add-hook 'before-save-hook #'ef-lsp-organize-imports nil t)
-
-    (if (not (string-match "go" compile-command))
-        (set (make-local-variable 'compile-command)
-             "go build -v && go vet"))))
-
-(use-package gotest
-  :after go-mode
-  :custom
-  (go-test-verbose t)
-  :config
-  (ef-add-popup 'go-test-mode :ephemeral t))
-
-(ef-deflang go
-  :doc-search godoc
-  :test-all go-test-current-project
-  :test-at-point go-test-current-test
-  :test-file go-test-current-file
-  :test-toggle ef-go-test-toggle)
+            (message "Test file not found: %s" test-file)))))))
 
 (provide 'lang-go)

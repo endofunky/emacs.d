@@ -9,10 +9,30 @@
   :functions (ef-emacs-lisp-indent-function
               ef-elisp-describe-thing-at-point)
   :general
-  (:keymaps '(emacs-lisp-mode-map
-              lisp-interaction-mode-map)
-   "C-c C-d d"   'ef-elisp-describe-thing-at-point
-   "C-c C-d C-d" 'ef-elisp-describe-thing-at-point)
+  (:prefix ef-local-leader :states '(normal visual) :keymaps 'emacs-lisp-mode-map
+   "c"  '(nil :wk "Compile")
+   "cc" '(emacs-lisp-byte-compile-and-load :wk "Byte-compile & load")
+
+   "e"  '(nil :wk "Eval")
+   "ea" '(ef-elisp-eval-project :wk "Project")
+   "eb" '(eval-buffer :wk "Buffer")
+   "ee" '(eval-expression :wk "Expression")
+   "ei"  '(nil :wk "IELM insert")
+   "eid" '(ef-ielm-insert-defun :wk "Defun")
+   "eir" '(ef-ielm-insert-region :wk "Region")
+   "eis" '(ef-ielm-insert-sexp :wk "S-exp")
+   "er" '(eval-region :wk "Region")
+   "es" '(eval-sexp :wk "S-exp")
+
+   "l"  '(nil :wk "Lint")
+   "lb"  '(package-lint-current-buffer :wk "Buffer")
+
+   "m"  '(nil :wk "Macro")
+   "me"  '(macrostep-expand :wk "Expand")
+   "mq"  '(macrostep-collapse-all :wk "Quit")
+
+   "r"  '(nil :wk "REPL")
+   "rr"  '(ielm :wk "Open"))
   (:states 'normal :keymaps '(emacs-lisp-mode-map
                               lisp-interaction-mode-map
                               ielm-map)
@@ -180,44 +200,5 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
                 (insert expr)))))
         (pop-to-buffer buf))
     (user-error "No IELM buffer found")))
-
-(ef-deflang emacs-lisp
-  :after elisp-mode
-  :maps (emacs-lisp-mode-map lisp-interaction-mode-map)
-
-  ;; compile
-  :compile emacs-lisp-byte-compile-and-load
-  :compile-nav-jump elisp-def
-  :compile-nav-pop-back pop-tag-mark
-
-  ;; doc
-  :doc-apropos consult-apropos
-  :doc-point ef-elisp-describe-thing-at-point
-  :doc-search elisp-index-search
-
-  ;; eval
-  :eval-all ef-elisp-eval-project
-  :eval-buffer eval-buffer
-  :eval-expression eval-expression
-  :eval-region eval-region
-  :eval-sexp eval-print-last-sexp
-  :eval-insert-defun ef-ielm-insert-defun
-  :eval-insert-region ef-ielm-insert-region
-  :eval-insert-sexp ef-ielm-insert-sexp
-
-  ;; lint
-  :lint-file package-lint-current-buffer
-
-  ;; macro
-  :macro-expand-all macrostep-expand
-  :macro-quit macrostep-collapse-all
-
-  ;; repl
-  :repl-toggle ielm
-
-  ;; xref
-  :xref-apropos xref-find-apropos
-  :xref-definitions xref-find-definitions
-  :xref-references xref-find-references)
 
 (provide 'lang-elisp)
