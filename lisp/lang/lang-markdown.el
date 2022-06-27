@@ -1,4 +1,4 @@
-(require 'core-lib)
+(require 'core-evil)
 
 (use-package markdown-mode
   :mode (("\\.mark$" . markdown-mode)
@@ -15,5 +15,13 @@
   :config
   (when window-system
     (define-key markdown-mode-map (kbd "M-RET") 'toggle-frame-fullscreen)))
+
+(use-package evil-markdown
+  :after markdown-mode
+  :straight (evil-markdown :host github
+                           :repo "Somelauw/evil-markdown")
+  :hook (markdown-mode . evil-markdown-mode)
+  :config
+  (add-hook 'evil-markdown-mode-hook #'evil-normalize-keymaps))
 
 (provide 'lang-markdown)
