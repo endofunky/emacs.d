@@ -9,11 +9,17 @@
          ("\\.mdwn$" . markdown-mode)
          ("\\.mkd$" . markdown-mode)
          ("\\.mkdn$" . markdown-mode))
-  :defines (markdown-mode-map)
+  :defines (markdown-mode-map
+            markdown-code-lang-modes)
   :custom
   (markdown-asymmetric-header t)
+  (markdown-fontify-code-blocks-natively t)
   (markdown-hide-urls nil)
   :config
+  (add-to-list 'markdown-code-lang-modes '("go" . go-mode))
+  (add-to-list 'markdown-code-lang-modes '("ruby" . ruby-mode))
+  (add-to-list 'markdown-code-lang-modes '("rust" . rustic-mode))
+
   (when window-system
     (define-key markdown-mode-map (kbd "M-RET") 'toggle-frame-fullscreen)))
 
