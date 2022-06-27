@@ -31,6 +31,9 @@
    "ts" '(markdown-table-sort-lines :wk "Sort rows")
    "tt" '(markdown-insert-table :wk "Create"))
   :config
+  ;; Set up non-standard mode names for code blocks
+  (assoc-delete-all "dot" markdown-code-lang-modes)
+  (add-to-list 'markdown-code-lang-modes '("dot" . graphviz-dot-mode))
   (add-to-list 'markdown-code-lang-modes '("rust" . rustic-mode))
 
   (when window-system
