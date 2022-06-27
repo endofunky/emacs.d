@@ -19,7 +19,17 @@
   (:prefix ef-local-leader :states '(normal visual) :keymaps 'markdown-mode-map
    "l" '(nil :wk "Links")
    "li" '(markdown-insert-link :wk "Insert")
-   "lt" '(markdown-toggle-url-hiding :wk "Toggle"))
+   "lt" '(markdown-toggle-url-hiding :wk "Toggle")
+
+   "t" '(nil :wk "Table")
+   "t=" '(markdown-table-align :wk "Align")
+   "tH" '(markdown-table-move-column-left :wk "Move column left")
+   "tJ" '(markdown-table-move-row-down :wk "Move row down")
+   "tK" '(markdown-table-move-row-up :wk "Move row up")
+   "tL" '(markdown-table-move-column-right :wk "Move column right")
+   "td" '(markdown-table-delete-column :wk "Delete column")
+   "ts" '(markdown-table-sort-lines :wk "Sort rows")
+   "tt" '(markdown-insert-table :wk "Create"))
   :config
   (add-to-list 'markdown-code-lang-modes '("go" . go-mode))
   (add-to-list 'markdown-code-lang-modes '("ruby" . ruby-mode))
