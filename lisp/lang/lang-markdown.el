@@ -31,8 +31,6 @@
    "ts" '(markdown-table-sort-lines :wk "Sort rows")
    "tt" '(markdown-insert-table :wk "Create"))
   :config
-  (add-to-list 'markdown-code-lang-modes '("go" . go-mode))
-  (add-to-list 'markdown-code-lang-modes '("ruby" . ruby-mode))
   (add-to-list 'markdown-code-lang-modes '("rust" . rustic-mode))
 
   (when window-system
