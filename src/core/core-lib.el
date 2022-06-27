@@ -45,6 +45,11 @@ Must be set before loading ef-deflang."
   :group 'ef-theme
   :type 'string)
 
+(defcustom ef-local-leader ","
+  "Local leader key used as prefix in major-mode specific keymaps."
+  :group 'ef-theme
+  :type 'string)
+
 (defgroup ef-theme nil
   "Endomacs faces."
   :group 'faces)
@@ -485,7 +490,7 @@ buffer."
         ,features
 
         (general-define-key
-         :prefix ef-leader
+         :prefix ef-local-leader
          :keymaps ',maps
          :states '(normal visual)
          "c"  '(nil :wk "Compile")
@@ -503,7 +508,7 @@ buffer."
          "x"  '(nil :wk "Xref"))
 
         (general-define-key
-         :prefix ef-leader
+         :prefix ef-local-leader
          :states '(normal visual)
          :keymaps ',maps
          ,@(cl-loop for (key fn) on args by #'cddr
