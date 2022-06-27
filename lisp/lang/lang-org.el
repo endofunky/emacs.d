@@ -55,12 +55,12 @@
    "ot" '(org-todo :wk "Cycle TODO")
 
    "l" '(nil :wk "Links")
-   "li" '(org-insert-link :wk "Insert link")
-   "lr" '(org-roam-insert :wk "Insert roam link")
-   "lt" '(org-toggle-link-display :wk "Toggle links")
+   "li" '(org-insert-link :wk "Insert")
+   "lr" '(org-roam-insert :wk "Insert (Roam)")
+   "lt" '(org-toggle-link-display :wk "Toggle")
 
    "t" '(nil :wk "Table")
-   "t=" '(org-table-align :wk "align")
+   "t=" '(org-table-align :wk "Align")
    "tH" '(org-table-move-column-left :wk "Move column left")
    "tJ" '(org-table-move-row-down :wk "Move row down")
    "tK" '(org-table-move-row-up :wk "Move row up")
