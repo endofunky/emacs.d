@@ -32,6 +32,36 @@
              cider-test-run-ns-tests
              cider-test-run-project-tests)
   :general
+  (:prefix ef-local-leader :states '(normal visual) :keymaps 'cider-mode-map
+   "c"   '(nil :wk "CIDER")
+   "cj"   '(ef-cider-jack-in :wk "Jack in")
+   "cq"   '(ef-cider-quit :wk "Quit")
+
+   "e"   '(nil :wk "Eval")
+   "eb"  '(cider-eval-buffer :wk "Buffer")
+   "ed"  '(cider-eval-defun-at-point :wk "Defun")
+   "ef"  '(cider-eval-file :wk "File")
+   "ei"  '(nil :wk "Insert")
+   "eid" '(cider-insert-defun-in-repl :wk "Defun")
+   "eir" '(cider-insert-region-in-repl :wk "Region")
+   "eis" '(cider-insert-last-sexp-in-repl :wk "S-exp")
+   "er"  '(cider-eval-region :wk "Region")
+   "es"  '(cider-eval-sexp :wk "S-Exp")
+
+   "m"   '(nil :wk "Macro")
+   "me"  '(macrostep-expand :wk "Expand")
+   "mq"  '(cider-macroexpand-undo :wk "Quit expansion")
+
+   "r"   '(nil :wk "REPL")
+   "rn"  '(cider-repl-set-ns :wk "Set namespace")
+   "rr"  '(cider-switch-to-repl-buffer :wk "Open")
+   "rq"  '(cider-quit :wk "Quit")
+
+   "t"   '(nil :wk "Test")
+   "ta"  '(ef-cider-run-all-tests :wk "All")
+   "te"  '(ef-cider-test-rerun-failed-tests :wk "Failed")
+   "tp"  '(ef-cider-run-test :wk "At point")
+   "tt"  '(ef-cider-run-ns-tests :wk "File"))
   (:states '(normal) :keymaps '(cider-test-report-mode-map
                                 cider-stacktrace-mode-map
                                 cider-macroexpansion-mode-map)
