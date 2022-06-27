@@ -5,7 +5,7 @@
   :commands (ef-project-find-file)
   :general
   ([remap find-file] 'ef-project-find-file)
-  (:states 'normal :prefix ef-prefix
+  (:states 'normal :prefix ef-leader
    "f"  '(ef-project-find-file :wk "Find file")
    "p"  '(nil :wk "Project")
    "p!" '(project-shell-command :wk "Run shell command")

@@ -10,7 +10,7 @@
   :functions (ef-update-cargo-bin)
   :defines (rustic-cargo-bin)
   :general
-  (:prefix ef-prefix :states 'normal :keymaps 'rustic-mode-map
+  (:prefix ef-leader :states 'normal :keymaps 'rustic-mode-map
    "c"  '(nil :wk "Compile")
    "cc" '(rustic-cargo-build :wk "Build")
    "cr" '(rustic-cargo-run :wk "Run")

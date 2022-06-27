@@ -18,7 +18,7 @@
    "M-l" 'ef-popup-cycle-forward
    "M-P" 'ef-popup-switch-popup-buffer
    "M-p" 'ef-popup-toggle)
-  (:states 'normal :prefix ef-prefix
+  (:states 'normal :prefix ef-leader
    "v" '(ef-vterm-popup :wk "VTerm")
    "V" '(ef-vterm-popup-and-go :wk "VTerm & go"))
   :config

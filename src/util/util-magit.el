@@ -16,7 +16,7 @@
   :functions (magit-get-current-branch)
   :init
   :general
-  (:prefix ef-prefix :states 'normal
+  (:prefix ef-leader :states 'normal
    "g" '(nil :wk "Git")
    "gd" '(magit-diff :wk "Diff")
    "gs" '(magit-status :wk "Status")
@@ -24,7 +24,7 @@
    "gL" '(magit-log-all :wk "Log (all)")
    "gb" '(magit-blame :wk "Blame")
    "gc" '(magit-checkout :wk "Checkout"))
-  (:prefix ef-prefix :states 'visual
+  (:prefix ef-leader :states 'visual
    "g" '(nil :wk "Git")
    "gl" '(magit-log :wk "Log"))
   :config

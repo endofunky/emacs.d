@@ -7,7 +7,7 @@ already in normal mode.")
 (use-package evil
   :demand t
   :general
-  (:states 'normal :prefix ef-prefix
+  (:states 'normal :prefix ef-leader
    ":"        '(eval-expression :wk "Eval expression")
    "#"        '(display-line-numbers-mode :wk "Toggle line numbers")
    "s"        '(ef-popup-switch-buffer :wk "Switch buffer")
@@ -140,7 +140,7 @@ already in normal mode.")
   (undo-tree-visualizer-lazy-drawing nil)
   :commands (global-undo-tree-mode)
   :general
-  (:states 'normal :prefix ef-prefix
+  (:states 'normal :prefix ef-leader
    "u" '(undo-tree-visualize :wk "Undo-tree"))
   :config
   (ef-add-hook undo-tree-visualizer-mode-hook

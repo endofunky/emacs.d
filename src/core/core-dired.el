@@ -5,11 +5,11 @@
   :straight nil
   :commands (dired)
   :general
-  (:states 'normal :prefix ef-prefix
+  (:states 'normal :prefix ef-leader
    "D" '(ef-dired-here :wk "dired"))
   (:keymaps 'dired-mode-map
    "<return>" 'dired-find-alternate-file)
-  (:states 'normal :prefix ef-prefix :keymaps 'dired-mode-map
+  (:states 'normal :prefix ef-leader :keymaps 'dired-mode-map
    "D" 'bury-buffer)
   :init
   (defun ef-dired-here ()

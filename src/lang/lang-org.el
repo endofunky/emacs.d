@@ -41,12 +41,12 @@
   (org-mode . org-indent-mode)
   (org-mode . turn-on-auto-fill)
   :general
-  (:states 'normal :prefix ef-prefix
+  (:states 'normal :prefix ef-leader
    "o" '(nil :wk "Org")
    "oc" '(org-capture :wk "Capture")
    "or" '(org-roam-node-find :wk "Roam")
    "os" '(org-switchb :wk "Switch buffer"))
-  (:states 'normal :prefix ef-prefix :keymaps 'org-mode-map
+  (:states 'normal :prefix ef-leader :keymaps 'org-mode-map
    "," '(org-open-at-point :wk "Open link")
    "." '(org-mark-ring-goto :wk "Pop back")
    "o" '(nil :wk "org-mode")

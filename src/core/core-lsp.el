@@ -15,10 +15,11 @@
   (eglot-extend-to-xref t)
   :general
   (:states 'normal :keymaps 'eglot-mode-map
+   "C-t" 'xref-go-back
    "gd" 'xref-find-definitions
    "gr" 'xref-find-references
    "K" 'ef-eglot-lookup-documentation)
-  (:prefix ef-prefix :states 'normal :keymaps 'eglot-mode-map
+  (:prefix ef-leader :states 'normal :keymaps 'eglot-mode-map
    "L"  '(nil :wk "LSP")
    "Lc" '(eglot :wk "Reconnect")
    "Lr" '(eglot-reconnect :wk "Reconnect")
@@ -112,22 +113,22 @@
     "Request documentation for the thing at point."
     (interactive "P")
     (eglot--dbind ((Hover) contents range)
-        (jsonrpc-request (eglot--current-server-or-lose) :textDocument/hover
-                         (eglot--TextDocumentPositionParams))
-      (let ((blurb (and (not (seq-empty-p contents))
-                        (eglot--hover-info contents range)))
-            (hint (thing-at-point 'symbol)))
-        (if blurb
-            (with-current-buffer
-                (or (and (buffer-live-p ef-eglot--help-buffer)
-                         ef-eglot--help-buffer)
-                    (setq ef-eglot--help-buffer
-                          (generate-new-buffer "*eglot-help*")))
-              (with-help-window (current-buffer)
-                (rename-buffer (format "*eglot-help for %s*" hint))
-                (with-current-buffer standard-output (insert blurb))
-                (setq-local nobreak-char-display nil)))
-          (display-local-help))))
+                  (jsonrpc-request (eglot--current-server-or-lose) :textDocument/hover
+                                   (eglot--TextDocumentPositionParams))
+                  (let ((blurb (and (not (seq-empty-p contents))
+                                    (eglot--hover-info contents range)))
+                        (hint (thing-at-point 'symbol)))
+                    (if blurb
+                        (with-current-buffer
+                            (or (and (buffer-live-p ef-eglot--help-buffer)
+                                     ef-eglot--help-buffer)
+                                (setq ef-eglot--help-buffer
+                                      (generate-new-buffer "*eglot-help*")))
+                          (with-help-window (current-buffer)
+                            (rename-buffer (format "*eglot-help for %s*" hint))
+                            (with-current-buffer standard-output (insert blurb))
+                            (setq-local nobreak-char-display nil)))
+                      (display-local-help))))
     'deferred))
 
 (use-package consult-eglot

@@ -42,7 +42,7 @@
 
 (general-define-key
  :states 'normal
- :prefix ef-prefix
+ :prefix ef-leader
  "S" '(ef-toggle-scratch :wk "Toggle *scratch* buffer"))
 
 ;; Never delete the scratch buffer

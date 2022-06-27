@@ -40,8 +40,8 @@ Must be set before loading ef-deflang."
   "Endomacs keybinds."
   :group 'faces)
 
-(defcustom ef-prefix ","
-  "Prefix leader used for endomacs key-bindings."
+(defcustom ef-leader ","
+  "Leader key used as prefix in keymaps."
   :group 'ef-theme
   :type 'string)
 
@@ -485,7 +485,7 @@ buffer."
         ,features
 
         (general-define-key
-         :prefix ef-prefix
+         :prefix ef-leader
          :keymaps ',maps
          :states '(normal visual)
          "c"  '(nil :wk "Compile")
@@ -503,7 +503,7 @@ buffer."
          "x"  '(nil :wk "Xref"))
 
         (general-define-key
-         :prefix ef-prefix
+         :prefix ef-leader
          :states '(normal visual)
          :keymaps ',maps
          ,@(cl-loop for (key fn) on args by #'cddr

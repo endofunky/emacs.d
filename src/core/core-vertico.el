@@ -85,7 +85,7 @@ exclamation mark."
   ([remap switch-to-buffer-other-window] 'consult-buffer-other-window)
   ([remap switch-to-buffer-other-frame] 'consult-buffer-other-frame)
   ([remap yank-pop] 'consult-yank-pop)
-  (:states 'normal :prefix ef-prefix
+  (:states 'normal :prefix ef-leader
    "/" '(consult-ripgrep :wk "Grep (rg)")
    "i" '(consult-imenu :wk "Open imenu"))
   :functions (consult-multi-occur
@@ -98,7 +98,7 @@ exclamation mark."
   :after (consult org)
   :straight nil
   :general
-  (:states 'normal :keymaps 'org-mode-map :prefix ef-prefix
+  (:states 'normal :keymaps 'org-mode-map :prefix ef-leader
    "i" '(consult-org-heading :wk "Search Headings")))
 
 (use-package embark
