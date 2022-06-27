@@ -3,7 +3,6 @@
 
 (use-package vterm
   :when (bound-and-true-p module-file-suffix)
-  :commands (vterm ef-vterm-popup ef-vterm-run)
   :straight nil
   :custom
   (vterm-disable-bold-font nil)
@@ -21,11 +20,11 @@
   (:states 'normal :prefix ef-leader
    "v" '(ef-vterm-popup :wk "VTerm")
    "V" '(ef-vterm-popup-and-go :wk "VTerm & go"))
+  :commands (vterm
+             ef-vterm-popup
+             ef-vterm-run)
+  :functions (vterm-send-string)
   :config
-  (declare-function vterm-send-string "vterm")
-  (declare-function ef--vterm-sentinel "util-vterm")
-  (declare-function ef--vterm-sentinel-keep-buffer "util-vterm")
-
   (ef-add-hook vterm-mode-hook
     ;; Prevent premature horizontal scrolling
     (setq-local hscroll-margin 0)
@@ -99,8 +98,8 @@
 (use-package evil-collection-vterm
   :straight nil
   :after vterm
+  :functions (evil-collection-vterm-setup)
   :config
-  (declare-function evil-collection-vterm-setup "evil-collection-vterm")
   (evil-collection-vterm-setup)
 
   (evil-set-initial-state 'vterm-mode 'emacs))

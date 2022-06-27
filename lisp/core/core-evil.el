@@ -92,7 +92,7 @@ already in normal mode.")
   :commands (evil-mode)
   :config
   (require 'evil-ex)
-  (declare-function evil-ex-define-cmd "evil-ex")
+  (declare-function evil-ex-define-cmd "ext:evil-ex")
   (evil-mode 1)
   (evil-ex-define-cmd "q" 'ef-kill-buffer-or-delete-window)
 

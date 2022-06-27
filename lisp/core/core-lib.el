@@ -43,10 +43,10 @@
 
 (use-package general
   :after which-key
+  :commands (general-override-mode)
   :config
-  (declare-function general-override-mode "general")
-  (declare-function general-auto-unbind-keys "general")
-  (declare-function general-define-key "general")
+  (declare-function general-auto-unbind-keys "ext:general")
+  (declare-function general-define-key "ext:general")
 
   (general-auto-unbind-keys)
   (general-override-mode t)

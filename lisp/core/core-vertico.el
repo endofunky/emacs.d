@@ -111,12 +111,11 @@ exclamation mark."
                        embark-highlight-indicator
                        embark-isearch-highlight-indicator))
   :functions (ef-embark-hide-which-key-indicator
-              ef-embark-which-key-indicator)
+              ef-embark-which-key-indicator
+              embark-completing-read-prompter
+              embark--truncate-target)
   :defines (embark-indicators)
   :config
-  (declare-function embark-completing-read-prompter "embark")
-  (declare-function embark--truncate-target "embark")
-
   ;; https://github.com/oantolin/embark/wiki/Additional-Configuration#use-which-key-like-a-key-menu-prompt
   (defun ef-embark-which-key-indicator ()
     "An embark indicator that displays keymaps using which-key. The which-key
