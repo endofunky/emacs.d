@@ -2,9 +2,13 @@
 
 (use-package dockerfile-mode
   :mode "Dockerfile\\'"
-  :config
-  (evil-define-key 'normal dockerfile-mode-map ",cc" #'dockerfile-build-buffer)
-  (evil-define-key 'normal dockerfile-mode-map ",cb" #'dockerfile-build-no-cache-buffer)
-  (evil-define-key 'normal dockerfile-mode-map ",tt" #'dockerfile-test-function))
+  :general
+  (:prefix ef-local-leader :states 'normal :keymaps 'dockerfile-mode-map
+   "c" '(nil :wk "Compile")
+   "cc" '(dockerfile-build-buffer :wk "Build")
+   "cC" '(dockerfile-build-no-cache-buffer :wk "Build (no cache)")
+
+   "t" '(nil :wk "Test")
+   "tt" '(nil :wk "Function")))
 
 (provide 'lang-dockerfile)
