@@ -31,10 +31,6 @@
   (org-src-fontify-natively t)
   (org-src-preserve-indentation t)
   (org-src-tab-acts-natively t)
-  ;;
-  ;; org-habit
-  ;;
-  (org-habit-following-days 2)
   :commands (org-capture org-switchb)
   :hook
   (org-mode . flyspell-mode)
@@ -50,7 +46,6 @@
    "gd" '(org-open-at-point :wk "Open link")
    "C-t" '(org-mark-ring-goto :wk "Pop back"))
   (:states 'normal :prefix ef-local-leader :keymaps 'org-mode-map
-   "o" '(nil :wk "org-mode")
    "o," '(org-priority-up :wk "Priority up")
    "o." '(org-priority-down :wk "Priority down")
    "oA" '(ef-org-archive-done-tasks :wk "Archive tasks")
@@ -59,12 +54,12 @@
    "oR" '(org-roam-buffer-toggle :wk "Toggle roam buffer")
    "ot" '(org-todo :wk "Cycle TODO")
 
-   "l" '(nil :wk "org-mode links")
+   "l" '(nil :wk "Links")
    "li" '(org-insert-link :wk "Insert link")
    "lr" '(org-roam-insert :wk "Insert roam link")
    "lt" '(org-toggle-link-display :wk "Toggle links")
 
-   "t" '(nil :wk "org-table")
+   "t" '(nil :wk "Table")
    "t=" '(org-table-align :wk "align")
    "tH" '(org-table-move-column-left :wk "Move column left")
    "tJ" '(org-table-move-row-down :wk "Move row down")
