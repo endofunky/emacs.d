@@ -35,7 +35,6 @@
   (:states '(normal) :keymaps '(cider-test-report-mode-map
                                 cider-stacktrace-mode-map
                                 cider-macroexpansion-mode-map)
-
    "q" 'cider-popup-buffer-quit-function)
   (:states 'insert :keymaps 'cider-repl-mode-map
    "<down>" 'cider-repl-next-input
@@ -53,15 +52,7 @@
   (evil-set-initial-state 'cider-repl-mode 'normal)
 
   (ef-add-popup 'cider-repl-mode)
-  (ef-add-popup "*cider-repl-history*" :ephemeral t)
-  (ef-add-popup "*cider-test-report*" :ephemeral t)
-  (ef-add-popup "*cider-doc*" :ephemeral t)
-  (ef-add-popup "*cider-apropos*" :ephemeral t)
-  (ef-add-popup "*cider-error*" :ephemeral t)
-  (ef-add-popup "*cider-spec-browser*" :ephemeral t)
-  (ef-add-popup "*cider-spec-example*" :ephemeral t)
-  (ef-add-popup "*cider-macroexpansion*" :ephemeral t)
-  (ef-add-popup "*cider-inspect*" :ephemeral t)
+  (ef-add-popup "^\\*cider" :ephemeral t :regexp t)
   (ef-add-popup "*CIDER REPL Shortcuts Help*" :ephemeral t :size .5)
 
   (defun ef-cider-jack-in (params)
