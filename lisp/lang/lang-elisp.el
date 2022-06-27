@@ -87,16 +87,21 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
              (save-excursion
                (move-to-column target t)
                target))
-            ((let* ((function (buffer-substring (point) (progn (forward-sexp 1) (point))))
-                    (method (or (function-get (intern-soft function) 'lisp-indent-function)
-                                (get (intern-soft function) 'lisp-indent-hook))))
+            ((let* ((function (buffer-substring (point)
+                                                (progn (forward-sexp 1)
+                                                       (point))))
+                    (method (or (function-get (intern-soft function)
+                                              'lisp-indent-function)
+                                (get (intern-soft function)
+                                     'lisp-indent-hook))))
                (cond ((or (eq method 'defun)
                           (and (null method)
                                (> (length function) 3)
                                (string-match-p "\\`def" function)))
                       (lisp-indent-defform state indent-point))
                      ((integerp method)
-                      (lisp-indent-specform method state indent-point normal-indent))
+                      (lisp-indent-specform
+                       method state indent-point normal-indent))
                      (method
                       (funcall method indent-point state))))))))
 
