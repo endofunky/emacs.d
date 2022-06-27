@@ -25,25 +25,68 @@
          ("\\.rb\\'" . ruby-mode)
          ("\\.ru\\'" . ruby-mode)
          ("\\.thor\\'" . ruby-mode))
-  :interpreter ("ruby" . ruby-mode)
+  :interpreter "j?ruby\\(?:[0-9.]+\\)"
   :custom
-  (inf-ruby-default-implementation "pry")
-  :hook
-  (ruby-mode . ef-enable-lsp-maybe)
+  (ruby-deep-arglist nil)
+  (ruby-deep-indent-paren nil)
+  (ruby-insert-encoding-magic-comment nil)
+  :general
+  (:prefix ef-prefix :states '(normal visual) :keymaps 'ruby-mode-map
+   "c"  '(nil :wk "Compile")
+   "cd" '(ruby-disasm :wk "Disassemble"))
   :config
-  (setq ruby-insert-encoding-magic-comment nil)
-  (setq ruby-deep-arglist nil)
-  (setq ruby-deep-indent-paren nil)
-
-  (ef-add-popup "*ruby*")
+  (add-hook 'ruby-mode-hook 'ef-enable-lsp-maybe)
 
   ;; Suppress warnings
   (setenv "RUBYOPT" "-W0")
 
   (ef-add-popup "*rake-compilation*")
 
+  (defun ruby-disasm (beginning end)
+    "Disassemble the selected region or contents of current buffer into YARV
+byte-code and display it in an `asm-mode' buffer."
+    (interactive "r")
+    (let ((f (make-temp-file "ruby-disasm"))
+          (buf (or (get-buffer "*ruby-disasm*")
+                   (generate-new-buffer "*ruby-disasm*"))))
+      (if (use-region-p)
+          (append-to-file beginning end f)
+        (append-to-file (point-min) (point-max) f))
+      ;; Run the Ruby command before `with-current-buffer' since that one will
+      ;; have a different `envrc' environment.
+      (let ((disasm (shell-command-to-string
+                     (format "ruby -e \"STDOUT.puts \
+RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
+        (with-current-buffer buf
+          (erase-buffer)
+          (insert disasm)
+          (goto-char (point-min))
+          (asm-mode)))
+      (switch-to-buffer buf)
+      (delete-file f))))
+
+(use-package inf-ruby
+  :after ruby-mode
+  :custom
+  (inf-ruby-default-implementation "pry")
+  :general
+  (:prefix ef-prefix :states '(normal visual) :keymaps 'ruby-mode-map
+   "e"  '(nil :wk "Eval")
+   "eb" '(ruby-send-buffer :wk "Buffer")
+   "ed" '(ruby-send-definition :wk "Definition")
+   "el" '(ruby-send-line :wk "Line")
+   "er" '(ruby-send-region :wk "Region")
+
+   "r"  '(nil :wk "REPL")
+   "rr" '(run-ruby :wk "Open"))
+  :hook
+  ;; Switch to inf-ruby if a breakpoint has been hit.
+  (compilation-filter . inf-ruby-auto-enter)
+  :config
   (ef-add-hook inf-ruby-mode-hook
-    (comint-read-input-ring 'silent)))
+    (comint-read-input-ring 'silent))
+
+  (ef-add-popup 'inf-ruby-mode))
 
 (use-package hideshow
   :after ruby-mode
@@ -62,6 +105,7 @@
   :after ruby-mode)
 
 (use-package rake
+  :after ruby-mode
   :commands rake
   :config
   (ef-add-hook rake-compilation-mode-hook
@@ -83,6 +127,12 @@
              ruby-test-ruby-root
              ruby-test-run-command
              ruby-test-command)
+  :general
+  (:prefix ef-prefix :states '(normal visual) :keymaps 'ruby-mode-map
+   "t"  '(nil :wk "Test")
+   "tl" '(ruby-test-toggle-implementation-and-specification :wk "Toggle")
+   "tp" '(ruby-test-run-at-point :wk "At point")
+   "tt" '(ef-ruby-test-run :wk "File"))
   :defines (ruby-test-rspec-options)
   :config
   (add-hook 'ruby-mode-hook 'ruby-test-mode)
@@ -115,63 +165,32 @@ current buffer's file, if it exists"
           (message "no corresponding test/spec file found"))))))
 
 (use-package rubocop
+  :after ruby-mode
   :commands (rubocop-autocorrect-project
              rubocop-autocorrect-current-file)
+  :hook
+  (ruby-mode . rubocop-mode)
+  :general
+  (:prefix ef-prefix :states '(normal visual) :keymaps 'rubocop-mode-map
+   "l"  '(nil :wk "Lint")
+   "ld" '(rubocop-check-directory :wk "Directory")
+   "lf" '(rubocop-check-current-file :wk "File")
+   "la" '(rubocop-check-project :wk "Project")
+
+   "la"  '(nil :wk "Auto-correct")
+   "lad" '(rubocop-autocorrect-directory :wk "Directory")
+   "laf" '(rubocop-autocorrect-current-file :wk "File")
+   "laa" '(rubocop-autocorrect-project :wk "Project")
+
+   "lf"  '(nil :wk "Format")
+   "lfd" '(rubocop-format-directory :wk "Directory")
+   "lff" '(rubocop-format-current-file :wk "File")
+   "lfa" '(rubocop-format-project :wk "Project"))
   :config
   (defun rubocop-buffer-name (file-or-dir)
     "Generate a name for the RuboCop buffer from FILE-OR-DIR."
     "*rubocop*")
+
   (ef-add-popup "*rubocop*"))
-
-(defun ef-spring-server ()
-  (interactive)
-  (when-let* ((root (ef-project-root))
-              (cmd (format "cd %s && %s" root  (concat
-                                                (file-name-as-directory "bin")
-                                                "spring server"))))
-    (message "Running spring server: %s" cmd)
-    (async-shell-command cmd "*spring-server*")))
-
-(defun ruby-disasm (beginning end)
-  "Disassemble the selected region or contents of current buffer into YARV
-byte-code and display it in an `asm-mode' buffer."
-  (interactive "r")
-  (let ((f (make-temp-file "ruby-disasm"))
-        (buf (or (get-buffer "*ruby-disasm*")
-                 (generate-new-buffer "*ruby-disasm*"))))
-    (if (use-region-p)
-        (append-to-file beginning end f)
-      (append-to-file (point-min) (point-max) f))
-    (with-current-buffer buf
-      (erase-buffer)
-      (insert
-       (shell-command-to-string
-        (format "ruby -e \"STDOUT.puts \
-RubyVM::InstructionSequence.compile_file('%s').disasm\"" f)))
-      (goto-char (point-min))
-      (asm-mode))
-    (switch-to-buffer buf)
-    (delete-file f)))
-
-(ef-deflang ruby
-  ;; compile
-  :compile-disassemble ruby-disasm
-
-  ;; eval
-  :eval-buffer ruby-send-buffer
-  :eval-defun ruby-send-definition
-  :eval-region ruby-send-region
-
-  ;; lint
-  :lint-file rubocop-autocorrect-current-file
-  :lint-project rubocop-autocorrect-project
-
-  ;; repl
-  :repl-toggle run-ruby
-
-  ;; test
-  :test-toggle ruby-test-toggle-implementation-and-specification
-  :test-at-point ruby-test-run-at-point
-  :test-file ef-ruby-test-run)
 
 (provide 'lang-ruby)
