@@ -78,9 +78,13 @@
 
 (use-package autorevert
   :custom
+  ;; Check files every second.
   (auto-revert-interval 1)
+  ;; Don't spam the echo area with messages when reverting.
   (auto-revert-verbose nil)
+  ;; Make autorevert version control aware.
   (auto-revert-check-vc-info t)
+  ;; Refresh non-file buffers that implement autorevert.
   (global-auto-revert-non-file-buffers t)
   :config
   (global-auto-revert-mode 1))
