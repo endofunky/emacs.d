@@ -16,7 +16,7 @@
   (markdown-fontify-code-blocks-natively t)
   (markdown-hide-urls t)
   :general
-  (:prefix ef-local-leader :states '(normal visual) :keymaps 'markdown-mode-map
+  (:prefix ef-local-leader :states 'normal :keymaps 'markdown-mode-map
    "l" '(nil :wk "Links")
    "li" '(markdown-insert-link :wk "Insert")
    "lt" '(markdown-toggle-url-hiding :wk "Toggle")

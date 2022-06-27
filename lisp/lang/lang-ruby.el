@@ -31,7 +31,7 @@
   (ruby-deep-indent-paren nil)
   (ruby-insert-encoding-magic-comment nil)
   :general
-  (:prefix ef-local-leader :states '(normal visual) :keymaps 'ruby-mode-map
+  (:prefix ef-local-leader :states 'visual :keymaps 'ruby-mode-map
    "c"  '(nil :wk "Compile")
    "cd" '(ruby-disasm :wk "Disassemble"))
   :config
@@ -70,15 +70,17 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
   :custom
   (inf-ruby-default-implementation "pry")
   :general
-  (:prefix ef-local-leader :states '(normal visual) :keymaps 'ruby-mode-map
+  (:prefix ef-local-leader :states 'normal :keymaps 'ruby-mode-map
    "e"  '(nil :wk "Eval")
    "eb" '(ruby-send-buffer :wk "Buffer")
    "ed" '(ruby-send-definition :wk "Definition")
    "el" '(ruby-send-line :wk "Line")
-   "er" '(ruby-send-region :wk "Region")
 
    "r"  '(nil :wk "REPL")
    "rr" '(run-ruby :wk "Open"))
+  (:prefix ef-local-leader :states 'visual :keymaps 'ruby-mode-map
+   "e"  '(nil :wk "Eval")
+   "er" '(ruby-send-region :wk "Region"))
   :hook
   ;; Switch to inf-ruby if a breakpoint has been hit.
   (compilation-filter . inf-ruby-auto-enter)
@@ -128,7 +130,7 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
              ruby-test-run-command
              ruby-test-command)
   :general
-  (:prefix ef-local-leader :states '(normal visual) :keymaps 'ruby-mode-map
+  (:prefix ef-local-leader :states 'normal :keymaps 'ruby-mode-map
    "t"  '(nil :wk "Test")
    "tl" '(ruby-test-toggle-implementation-and-specification :wk "Toggle")
    "tp" '(ruby-test-run-at-point :wk "At point")
@@ -171,7 +173,7 @@ current buffer's file, if it exists"
   :hook
   (ruby-mode . rubocop-mode)
   :general
-  (:prefix ef-local-leader :states '(normal visual) :keymaps 'rubocop-mode-map
+  (:prefix ef-local-leader :states 'normal :keymaps 'rubocop-mode-map
    "l"  '(nil :wk "Lint")
    "ld" '(rubocop-check-directory :wk "Directory")
    "lb" '(rubocop-check-current-file :wk "Buffer")

@@ -26,7 +26,7 @@
   :custom
   (go-test-verbose t)
   :general
-  (:prefix ef-local-leader :states '(normal visual) :keymaps 'go-mode-map
+  (:prefix ef-local-leader :states 'normal :keymaps 'go-mode-map
    "t"  '(nil :wk "Test")
    "ta" '(go-test-current-project :wk "Project")
    "tt" '(go-test-current-file :wk "Buffer")

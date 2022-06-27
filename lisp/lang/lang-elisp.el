@@ -9,7 +9,14 @@
   :functions (ef-emacs-lisp-indent-function
               ef-elisp-describe-thing-at-point)
   :general
-  (:prefix ef-local-leader :states '(normal visual) :keymaps 'emacs-lisp-mode-map
+  (:prefix ef-local-leader :states 'visual :keymaps '(emacs-lisp-mode-map
+                                                      lisp-interaction-mode-map)
+   "e"   '(nil :wk "Eval")
+   "ei"  '(nil :wk "IELM insert")
+   "eir" '(ef-ielm-insert-region :wk "Region")
+   "er"  '(eval-region :wk "Region"))
+  (:prefix ef-local-leader :states 'normal :keymaps '(emacs-lisp-mode-map
+                                                      lisp-interaction-mode-map)
    "c"   '(nil :wk "Compile")
    "cc"  '(emacs-lisp-byte-compile-and-load :wk "Byte-compile & load")
 
@@ -19,9 +26,7 @@
    "ee"  '(eval-expression :wk "Expression")
    "ei"  '(nil :wk "IELM insert")
    "eid" '(ef-ielm-insert-defun :wk "Defun")
-   "eir" '(ef-ielm-insert-region :wk "Region")
    "eis" '(ef-ielm-insert-sexp :wk "S-exp")
-   "er"  '(eval-region :wk "Region")
    "es"  '(eval-sexp :wk "S-exp")
 
    "l"   '(nil :wk "Lint")
