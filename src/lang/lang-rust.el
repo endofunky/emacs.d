@@ -7,8 +7,6 @@
   (rustic-lsp-setup-p nil)
   (rustic-format-on-save t)
   (rust-prettify-symbols-alist nil)
-  :hook
-  (rustic-mode . ef-enable-lsp-maybe)
   :functions (ef-update-cargo-bin)
   :defines (rustic-cargo-bin)
   :general
@@ -21,6 +19,8 @@
    "ta" '(rustic-cargo-test :wk "At point")
    "tp" '(rustic-cargo-current-test :wk "At point"))
   :config
+  (add-hook 'rustic-mode-hook 'ef-enable-lsp-maybe)
+
   (ef-add-popup "^\\*rust" :ephemeral t :regexp t)
   (ef-add-popup "^\\*cargo" :ephemeral t :regexp t)
 
