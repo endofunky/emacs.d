@@ -8,13 +8,6 @@ Lightweight [[https://github.com/jwiegley/use-package][use-package]] & [[https:/
 - ~lisp/lang/~: Programming language specific package configuration
 - ~lisp/util/~: Utility package configuration (magit, restclient-mode, etc.)
 
-** Debugging
-
-The default warning level is ~:error~ and ~use-package~'s verbose mode is
-turned off. To reset the warning level to it's default and enable
-~use-package~'s verbose mode you can set the ~EMACS_INIT_DEBUG~ environment
-variable.
-
 ** Author
 
 Tobias Svensson, [[https://twitter.com/endofunky][@endofunky]], [[http://github.com/endofunky][http://github.com/endofunky]]

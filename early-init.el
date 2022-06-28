@@ -1,53 +1,56 @@
-(defconst ef-emacs-start-time (current-time)
-  "Emacs startup time before loading any configuration.")
+;;; early-init.el -*- lexical-binding: t; -*-
 
-(unless noninteractive
-  (add-hook
-   'after-init-hook
-   #'(lambda ()
-       (let ((elapsed (float-time (time-subtract (current-time)
-                                                 ef-emacs-start-time))))
-         (message "Loading emacs done in %.3fs (%d garbage collections)"
-                  elapsed
-                  gcs-done)))))
+;; Disable garbage collection completely during initialization. We will later
+;; enable it again when we pull in `gcmh-mode'.
+(setq gc-cons-threshold most-positive-fixnum)
+
+(defconst ef-initial-load-prefer-newer load-prefer-newer
+  "Initial value of `load-prefer-newer' at start-up time.")
 
 (defconst ef-initial-file-name-handler-alist file-name-handler-alist
   "Initial value of `file-name-handler-alist' at start-up time.")
 
-(defun ef-reset-startup-values ()
-  "Resets early-init.el performance overrides to their initial values"
+(defun +reset-startup-values-h ()
+  "Resets early-init.el performance overrides to their initial values."
   (setq-default file-name-handler-alist ef-initial-file-name-handler-alist
-                gc-cons-threshold (car (get 'gc-cons-threshold 'standard-value))
-                gc-cons-percentage (car (get 'gc-cons-percentage 'standard-value))))
+                load-prefer-newer ef-initial-load-prefer-newer))
 
-(add-hook 'after-init-hook #'ef-reset-startup-values)
+(unless (or (daemonp) noninteractive)
+  (unless init-file-debug
+    ;; Don't do mtime checks on `load' during init. We reset this later since
+    ;; this may lead to unexpected surprises when doing devlopment work on elisp
+    ;; files.
+    (setq load-prefer-newer nil)
 
-(setq-default file-name-handler-alist nil
-              gc-cons-threshold most-positive-fixnum
-              gc-cons-percentage 0.6
-              package--init-file-ensured t
-              package-enable-at-startup nil
-              package-quickstart t
-              package-check-signature nil
-              package-archives
-              '(("melpa-stable" . "http://stable.melpa.org/packages/")
-                ("melpa"        . "http://melpa.org/packages/")
-                ("org"          . "http://orgmode.org/elpa/")
-                ("gnu"          . "http://elpa.gnu.org/packages/"))
-              site-run-file nil)
+    ;; Avoid going through `file-name-handler-alist' every time we `require' or
+    ;; `load' during start-up.
+    (setq-default file-name-handler-alist nil)
 
-;; Disable graphical elements here to avoid flickering during startup.
-(when (and (fboundp 'scroll-bar-mode) (not (eq scroll-bar-mode -1)))
-  (scroll-bar-mode -1))
+    ;; Install hook to reset these again.
+    (add-hook 'after-init-hook #'+reset-startup-values-h))
 
-(when (and (fboundp 'tool-bar-mode) (not (eq tool-bar-mode -1)))
-  (tool-bar-mode -1))
+  ;; Disable GUI elements as early possible to avoid flickering during startup.
+  ;;
+  ;; We do this in early-init.el because the screen hasn't been drawn yet. An
+  ;; alternative is setting `inhibit-redisplay', but then we'd just see a blank
+  ;; screen when packages are being installed, and some sort of progress
+  ;; information is nice to have.
+  (when (and (fboundp 'scroll-bar-mode)) (scroll-bar-mode -1))
+  (when (and (fboundp 'tool-bar-mode)) (tool-bar-mode -1))
 
-(unless (memq (window-system) '(mac ns))
-  (when (and (fboundp 'menu-bar-mode) (not (eq menu-bar-mode -1)))
-    (menu-bar-mode -1)))
+  ;; Disable GTK tooltips if we're in X.
+  (when (eq (window-system) 'x)
+    (setq x-gtk-use-system-tooltips nil))
 
-(when (and (fboundp 'tooltip-mode) (not (eq tooltip-mode -1)))
-  (tooltip-mode -1))
+  ;; Keep menu-bar on macOS.
+  (unless (memq (window-system) '(mac ns))
+    (when (and (fboundp 'menu-bar-mode))
+      (menu-bar-mode -1)))
+
+  ;; We use straight.el to manage our packages.
+  (setq package-enable-at-startup nil)
+
+  ;; Don't load any system-wide site-lisp files.
+  (setq-default site-run-file nil))
 
 (provide 'early-init)

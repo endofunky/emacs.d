@@ -19,12 +19,6 @@
   :group 'ef
   :type 'string)
 
-(use-package gcmh
-  :demand t
-  :commands (gcmh-mode)
-  :config
-  (gcmh-mode 1))
-
 (use-package which-key
   :demand t
   :commands (which-key-mode)
