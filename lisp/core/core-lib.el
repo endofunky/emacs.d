@@ -42,12 +42,6 @@
   (which-key-prefix-prefix "")
   :hook (ef-first-command . which-key-mode))
 
-(use-package page-break-lines
-  :demand t
-  :commands (global-page-break-lines-mode)
-  :config
-  (global-page-break-lines-mode))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Hooks
