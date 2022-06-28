@@ -14,9 +14,21 @@
   :group 'ef
   :type 'string)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Core ext
+;;
+
+(use-package general
+  :config
+  (declare-function general-override-mode "general")
+  (declare-function general-auto-unbind-keys "general")
+  (declare-function general-define-key "general")
+
+  (general-auto-unbind-keys)
+  (general-override-mode t))
+
 (use-package which-key
-  :demand t
-  :commands (which-key-mode)
   :custom
   (which-key-idle-delay 0.5)
   (which-key-idle-secondary-delay 0)
@@ -27,24 +39,29 @@
   ;; We have font-lock displaying prefixes in a different color,
   ;; so there is no need for a prefix character.
   (which-key-prefix-prefix "")
-  :config
-  (which-key-mode t))
-
-(use-package general
-  :after which-key
-  :config
-  (declare-function general-override-mode "general")
-  (declare-function general-auto-unbind-keys "general")
-  (declare-function general-define-key "general")
-
-  (general-auto-unbind-keys)
-  (general-override-mode t))
+  :hook (ef-first-command . which-key-mode))
 
 (use-package page-break-lines
   :demand t
   :commands (global-page-break-lines-mode)
   :config
   (global-page-break-lines-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Hooks
+;;
+
+(defvar ef-first-command-hook nil
+  "Transient hooks run before the first user input.")
+
+(defun ef-run-first-command-hook-h ()
+  "Runs `ef-first-command-hook' and then removes this function from
+`pre-command-hook' so it fires only once."
+  (remove-hook 'pre-command-hook 'ef-run-first-command-hook-h)
+  (run-hooks 'ef-first-command-hook))
+
+(add-hook 'pre-command-hook 'ef-run-first-command-hook-h)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;

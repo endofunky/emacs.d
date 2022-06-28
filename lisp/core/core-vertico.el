@@ -11,6 +11,7 @@
   (vertico-cycle t)
   (vertico-scroll-margin 0)
   :hook
+  ;; Register `vertico-repeat'.
   (minibuffer-setup . vertico-repeat-save)
   ;; Cleans up path when moving directories with shadowed paths syntax, e.g.
   ;; cleans ~/foo/bar/// to /, and ~/foo/bar/~/ to ~/.
@@ -18,8 +19,7 @@
   :general
   (:keymaps 'vertico-map
    "C-SPC" #'ef-vertico-restrict-to-matches)
-  :init
-  (vertico-mode)
+  :hook (ef-first-command . vertico-mode)
   :config
   (defun ef-vertico-restrict-to-matches ()
     (interactive)
@@ -62,7 +62,7 @@ exclamation mark."
   (marginalia-mode t))
 
 (use-package consult
-  :demand t
+  :defer t
   :custom
   (consult-preview-key nil)
   (consult-project-root-function #'ef-project-root)

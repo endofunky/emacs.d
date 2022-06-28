@@ -278,8 +278,7 @@ visual state or mark.")
                                    search-ring
                                    regexp-search-ring
                                    extended-command-history))
-  :config
-  (savehist-mode t))
+  :hook (ef-first-command . savehist-mode))
 
 (use-package saveplace
   :straight nil
