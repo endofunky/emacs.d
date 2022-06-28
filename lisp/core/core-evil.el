@@ -111,17 +111,6 @@ current buffer."
 
   (advice-add #'evil-force-normal-state :after #'ef-run-escape-hooks))
 
-(use-package eldoc
-  :after evil
-  :defer t
-  :config
-  ;; Trigger `eldoc' after changing evil states
-  (eldoc-add-command 'evil-normal-state
-                     'evil-insert
-                     'evil-change
-                     'evil-delete
-                     'evil-replace))
-
 (use-package evil-nerd-commenter
   :after evil
   :defer t

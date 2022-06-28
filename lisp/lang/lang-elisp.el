@@ -157,16 +157,6 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   :config
   (ef-add-popup "*Package-Lint*"))
 
-(use-package eldoc
-  :defer t
-  :custom
-  (eldoc-idle-delay 0.5)
-  ;; Limit eldoc documentation in echo area to 1 line.
-  (eldoc-echo-area-use-multiline-p 1)
-  :config
-  ;; Eldoc massively slows down cursor movement. This advice fixes that.
-  (advice-add 'eldoc-pre-command-refresh-echo-area :override #'ignore))
-
 (use-package ielm
   :defer t
   :commands (ielm)
