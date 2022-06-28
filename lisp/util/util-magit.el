@@ -15,7 +15,6 @@
   (magit-display-buffer-function #'ef-magit-display-buffer-function)
   (magit-bury-buffer-function #'magit-restore-window-configuration)
   :functions (magit-get-current-branch)
-  :init
   :general
   (:prefix ef-leader :states 'normal
    "g" '(nil :wk "Git")
