@@ -149,7 +149,9 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   (lisp-interaction-mode . elisp-def-mode))
 
 (use-package macrostep
-  :after elisp-mode)
+  :defer t
+  :commands (macrostep-expand
+             macrostep-collapse-all))
 
 (use-package package-lint
   :defer t
