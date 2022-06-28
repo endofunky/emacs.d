@@ -6,7 +6,6 @@
 
 (use-package elisp-mode
   :straight nil
-  :commands (emacs-lisp-mode lisp-interaction-mode)
   :functions (ef-emacs-lisp-indent-function
               ef-elisp-describe-thing-at-point)
   :general
