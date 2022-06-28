@@ -133,14 +133,6 @@
     (setq-local truncate-lines nil)
     (set (make-local-variable 'truncate-partial-width-windows) nil)))
 
-(use-package comp
-  :straight nil
-  :when (fboundp 'native-comp-available-p)
-  :custom
-  (native-comp-async-query-on-exit t)
-  (native-comp-async-report-warnings-errors
-   (stringp (getenv "EMACS_INIT_DEBUG"))))
-
 (use-package compile
   :defer t
   :straight nil
