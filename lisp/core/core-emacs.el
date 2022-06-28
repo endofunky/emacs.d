@@ -26,6 +26,11 @@
  inhibit-splash-screen t
  inhibit-startup-message t
 
+ ;; By default this is `elisp-mode', but we use `persistent-scratch' to save
+ ;; the contents together with any buffer locals. So for the first start-up,
+ ;; just use `fundamental-mode' to speed things up a little.
+ initial-major-mode 'fundamental-mode
+
  ;; When we break lines we want to do so at 80 columns.
  fill-column 80
 
