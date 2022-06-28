@@ -76,6 +76,11 @@ Called from `after-init-hook'."
 
 (require 'straight)
 
+;; Keep straight.el's version lock file outside of the var directory so we can
+;; easrily track it in git.
+(let ((version-file (expand-file-name "versions.el" user-emacs-directory)))
+  (custom-set-variables `(straight-profiles '((nil . ,version-file)))))
+
 ;; Show use-package statements in `imenu'.
 (custom-set-variables '(use-package-enable-imenu-support t))
 
