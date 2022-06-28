@@ -329,14 +329,6 @@ HOOKS is `some-hook'. Usage:
   (interactive)
   (insert (format-time-string "%Y-%j")))
 
-(defun ef-kill-buffer-or-delete-window ()
-  "If more than one window is open, delete the current window, otherwise kill
-current buffer."
-  (interactive)
-  (if (> (length (window-list)) 1)
-      (delete-window)
-    (kill-buffer)))
-
 (defun ef-indent-buffer ()
   "Indent the currently visited buffer."
   (interactive)

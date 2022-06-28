@@ -94,6 +94,15 @@ already in normal mode.")
   (require 'evil-ex)
   (declare-function evil-ex-define-cmd "evil-ex")
   (evil-mode 1)
+
+  (defun ef-kill-buffer-or-delete-window ()
+    "If more than one window is open, delete the current window, otherwise kill
+current buffer."
+    (interactive)
+    (if (> (length (window-list)) 1)
+        (delete-window)
+      (kill-buffer)))
+
   (evil-ex-define-cmd "q" 'ef-kill-buffer-or-delete-window)
 
   (defun ef-run-escape-hooks ()
