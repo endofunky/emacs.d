@@ -2,6 +2,7 @@
 (require 'core-lsp)
 (require 'core-shackle)
 (require 'core-project)
+(require 'core-tree-sitter)
 
 (use-package cc-mode
   :defer t
@@ -18,6 +19,8 @@
   (c-electric-pound-behavior '(alignleft))
   :config
   (declare-function ef-project-root "core-project")
+
+  (ef-tree-sitter c-mode c++-mode)
 
   (define-key c-mode-map (kbd "C-M-l") nil)
   (define-key c-mode-map (kbd "C-M-h") nil)

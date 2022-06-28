@@ -1,9 +1,11 @@
 ;;; lang-nix.el --- Nix configuration -*- lexical-binding: t; -*-
 (require 'core-evil)
+(require 'core-tree-sitter)
 
 (use-package nix-mode
   :mode ("\\.nix\\'" "\\.nix.in\\'")
   :config
+  (ef-tree-sitter nix-mode)
   (evil-define-key 'normal nix-mode-map (kbd ", TAB") 'nix-mode-format))
 
 (use-package nix-drv-mode

@@ -1,5 +1,5 @@
 ;;; lang-shell.el --- Shell script configuration -*- lexical-binding: t; -*-
-(require 'core-evil)
+(require 'core-tree-sitter)
 
 (use-package sh-script
   :defer t
@@ -19,7 +19,7 @@
   (sh-indent-for-case-label 0)
   (sh-indent-for-case-alt '+)
   :config
-  (evil-define-key 'normal sh-mode-map ",r" 'anti-term))
+  (ef-tree-sitter sh-mode))
 
 (use-package flymake-shellcheck
   :defer t

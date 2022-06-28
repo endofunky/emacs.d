@@ -1,12 +1,15 @@
 ;;; lang-go.el --- Go configuration -*- lexical-binding: t; -*-
 (require 'core-lsp)
 (require 'core-shackle)
+(require 'core-tree-sitter)
 
 (use-package go-mode
   :mode (("\\.go\\'" . go-mode))
   :functions (gofmt-before-save)
   :config
   (add-hook 'go-mode-hook 'ef-enable-lsp-maybe)
+
+  (ef-tree-sitter go-mode)
 
   (declare-function ef-lsp-organize-imports "core-lsp")
 

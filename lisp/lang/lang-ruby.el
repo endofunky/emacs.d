@@ -2,6 +2,7 @@
 (require 'core-lib)
 (require 'core-project)
 (require 'core-shackle)
+(require 'core-tree-sitter)
 
 (use-package ruby-mode
   :mode (("Appraisals\\'" . ruby-mode)
@@ -37,6 +38,8 @@
    "cd" '(ruby-disasm :wk "Disassemble"))
   :config
   (add-hook 'ruby-mode-hook 'ef-enable-lsp-maybe)
+
+  (ef-tree-sitter ruby-mode)
 
   ;; Suppress warnings
   (setenv "RUBYOPT" "-W0")

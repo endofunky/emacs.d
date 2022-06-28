@@ -1,12 +1,14 @@
 ;;; lang-haskell.el --- Haskell configuration -*- lexical-binding: t; -*-
 (require 'core-lib)
 (require 'core-evil)
+(require 'core-tree-sitter)
 
 (use-package haskell-mode
   :mode ("\\.hs\\'" "\\.xmobarrc\\'" "xmobarrc\\'")
   :custom
   (haskell-font-lock-symbols nil)
   :config
+  (ef-tree-sitter haskell-mode)
   (evil-define-key 'normal haskell-mode-map ",cc" 'haskell-compile))
 
 (use-package haskell
