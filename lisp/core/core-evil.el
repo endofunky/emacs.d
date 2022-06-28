@@ -57,7 +57,6 @@ already in normal mode.")
    "W-"       '(text-scale-adjust :wk "Decrease text scale")
    "W0"       '(text-scale-adjust :wk "Reset text scale")
    "Wd"       '(delete-window :wk "Delete window")
-   "Wf"       '(ef-toggle-window-fullscreen :wk "Toggle fullscreen")
    "WD"       '(delete-other-windows-internal :wk "Delete other window"))
   ;; Let emacs look up RET key behaviour in appropriate keymaps.
   (:keymaps 'evil-motion-state-map

@@ -14,11 +14,6 @@
   :group 'ef
   :type 'string)
 
-(defcustom ef-fullscreen-indicator "orange red"
-  "Set foreground color for fullscreen indicator in mode-line."
-  :group 'ef
-  :type 'string)
-
 (use-package which-key
   :demand t
   :commands (which-key-mode)
@@ -43,11 +38,7 @@
   (declare-function general-define-key "general")
 
   (general-auto-unbind-keys)
-  (general-override-mode t)
-  (general-define-key
-   :states '(normal insert visual motion replace emacs)
-   :keymaps 'override
-   "M-f" 'ef-toggle-window-fullscreen))
+  (general-override-mode t))
 
 (use-package page-break-lines
   :demand t
@@ -218,50 +209,21 @@ HOOKS is `some-hook'. Usage:
                        `(add-hook ',hook ',fn ,append ,local))
                    hooks)))))
 
-(defmacro ef-customize (&rest cvars)
-  "Generate custom-set-variables code for CVARS."
-  (declare (indent defun))
-  `(let ((custom--inhibit-theme-enable nil))
-     (unless (memq 'ef-custom custom-known-themes)
-       (deftheme ef-custom)
-       (enable-theme 'ef-custom)
-       (setq custom-enabled-themes (remq 'ef-custom custom-enabled-themes)))
-     (custom-theme-set-variables
-      'ef-custom
-      ,@(mapcar #'(lambda (def)
-                    (let ((feature (or load-file-name (buffer-file-name)))
-                          (symbol (car def))
-                          (exp (cadr def))
-                          (comment (or (caddr def)
-                                       "Customized with ef-customize")))
-                      `'(,symbol ,exp nil nil ,comment)))
-                cvars))))
-
-(defmacro ef-keep-other-windows (fn)
-  "Temporarily disable delete-other-windows for FN."
-  `(defadvice ,fn (around ef-keep-other-windows activate)
-     (cl-letf (((symbol-function 'delete-other-windows)
-                (symbol-function 'ignore)))
-       ad-do-it)))
+(defmacro +csetq (&rest pairs)
+  "For each SYMBOL VALUE pair, calls either `custom-set' or `set-default'."
+  (let (forms)
+    (while pairs
+      (let ((variable (pop pairs))
+            (value (pop pairs)))
+        (push `(funcall (or (get ',variable 'custom-set) 'set-default)
+                        ',variable ,value)
+              forms)))
+    `(progn ,@(nreverse forms))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Commands
 ;;
-
-(defun ef-toggle-window-fullscreen ()
-  "Toggle current window fullscreen."
-  (interactive)
-  (let ((mode-line-str (propertize "FS"
-				   'font-lock-face
-				   (list :foreground ef-fullscreen-indicator))))
-    (if (= 1 (length (window-list)))
-        (progn
-          (jump-to-register :ef-fullscreen)
-          (setq global-mode-string (delete mode-line-str global-mode-string)))
-      (window-configuration-to-register :ef-fullscreen)
-      (delete-other-windows)
-      (setq global-mode-string (push mode-line-str global-mode-string)))))
 
 (defun ef-read-file (filename)
   "Return the contents of FILENAME."

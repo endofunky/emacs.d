@@ -1,73 +1,82 @@
-(require 'core-evil)
+;;; core-emacs.el --- Built-in configurations -*- lexical-binding: t; -*-
 (require 'core-lib)
-(require 'core-shackle)
 
-(use-package no-littering :defer t)
+(+csetq
+ ;; Display keystrokes in echo area as soon as possible.
+ ;; Note: Setting this to a value < 0 has the same effect as setting it to
+ ;; 0 since (at least) Emacs 25, disabling it completely.
+ echo-keystrokes 0.0001
 
-(ef-customize
-  (fill-column 80)
+ ;; We don't want tabs in most cases. Where we do, we will enable them
+ ;; explicitly.
+ indent-tabs-mode nil
 
-  ;; Word wrap at spaces
-  (word-wrap t)
+ ;; Disable bell completely.
+ ring-bell-function 'ignore
 
-  ;; Display keystrokes in echo area as soon as possible.
-  ;; Note: Setting this to a value < 0 has the same effect as setting it to
-  ;; 0 since (at least) Emacs 25, disabling to completely.
-  (echo-keystrokes 0.0001)
+ ;; Scroll one line at a time.
+ scroll-margin 0
+ scroll-conservatively 100000
+ scroll-preserve-screen-position 1
 
-  ;; Tabs are just awful
-  (indent-tabs-mode nil)
+ ;; Empty scratch buffer by default.
+ initial-scratch-message ""
 
-  ;; Disable bell completely
-  (ring-bell-function 'ignore)
+ ;; Do less advertising during start-up.
+ inhibit-splash-screen t
+ inhibit-startup-message t
 
-  ;; Keep the filesystem clean
-  (make-backup-files nil)
-  (auto-save-default nil)
+ ;; When we break lines we want to do so at 80 columns.
+ fill-column 80
 
-  ;; Scroll one line at a time
-  (scroll-margin 0)
-  (scroll-conservatively 100000)
-  (scroll-preserve-screen-position 1)
+ ;; Don't wrap long lines by default. In modes where we want this, we will
+ ;; enable it explicitly.
+ truncate-lines -1
 
-  ;; Don't display splash screen after start up
-  (inhibit-splash-screen t)
-  (inhibit-startup-message t)
+ ;; Word wrap at spaces.
+ word-wrap t
 
-  ;; Don't wrap long lines
-  (truncate-lines -1)
+ ;; Only respect file local variable specifications for variables considered
+ ;; safe. Ignore the rest.
+ enable-local-variables :safe
 
-  ;; Empty scratch buffer by default
-  (initial-scratch-message "")
+ ;; Hide commands in M-x which do not work in the current mode.
+ read-extended-command-predicate #'command-completion-default-include-p
 
-  ;; Ignore unsafe local variables
-  (enable-local-variables :safe)
+ ;; Don't show GUI dialog boxes.
+ use-dialog-box nil
 
-  ;; Hide commands in M-x which do not work in the current mode.
-  (read-extended-command-predicate #'command-completion-default-include-p)
+ ;; The Emacs >= 28 way of setting:
+ ;; (fset 'yes-or-no-p #'y-or-n-p)
+ use-short-answers t
 
-  ;; Keep auto-save files separately
-  (auto-save-file-name-transforms
-   `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+ ;; Consider a period followed by a single space to be end of sentence.
+ sentence-end-double-space nil
 
-  ;; Don't show GUI dialog boxes
-  (use-dialog-box nil)
+ ;; To quote the Linux kernel coding style:
+ ;;
+ ;;     Tabs are 8 characters, and thus indentations are also 8 characters.
+ ;;     There are heretic movements that try to make indentations 4 (or even 2!)
+ ;;     characters deep, and that is akin to trying to define the value of PI to
+ ;;     be 3.
+ ;;
+ tab-width 8
 
-  ;; The Emacs >28 way of setting:
-  ;; (fset 'yes-or-no-p #'y-or-n-p)
-  (use-short-answers t))
+ ;; Do not move the current file while creating backup.
+ backup-by-copying t)
 
-;; No GNU ads in minibuffer
+;; No GNU ads in minibuffer after start-up.
 (fset #'display-startup-echo-area-message #'ignore)
+
+;; Never use TUI pagers in sub-processes.
+(setenv "PAGER" (executable-find "cat"))
 
 ;; Show columns in mode-line
 (column-number-mode t)
 
-;; Never use TUI pagers in sub-processes
-(setenv "PAGER" (executable-find "cat"))
-
 (use-package ansi-color
   :after comint
+  :straight nil
   :custom
   (ansi-color-for-comint-mode t)
   ;; Do not break markers in a buffer upon reverting a buffer. Details:
@@ -77,6 +86,7 @@
   :defer t)
 
 (use-package autorevert
+  :straight nil
   :custom
   ;; Check files every second.
   (auto-revert-interval 1)
@@ -91,6 +101,7 @@
 
 (use-package calc
   :defer t
+  :straight nil
   :custom
   (math-additional-units
    '((GiB "1024 * MiB" "Giga Byte")
@@ -102,16 +113,9 @@
      (Kib "1024 * b" "Kilo Bit")
      (b "B / 8" "Bit"))))
 
-(use-package cus-edit
-  :straight nil
-  :defer t
-  :after no-littering
-  :custom
-  (custom-file (no-littering-expand-etc-file-name "custom.el")))
-
 (use-package comint
-  :straight nil
   :defer t
+  :straight nil
   :custom
   (comint-buffer-maximum-size 2048)
   (comint-move-point-for-output t)
@@ -139,6 +143,7 @@
 
 (use-package compile
   :defer t
+  :straight nil
   :custom
   (compilation-always-kill t)
   (compilation-ask-about-save nil)
@@ -162,30 +167,17 @@
     (setq-local bidi-display-reordering nil)
     (visual-line-mode t)))
 
-;; Do not allow the cursor in the minibuffer prompt
-(use-package cursor-sensor
-  :custom
-  (minibuffer-prompt-properties
-   '(read-only t cursor-intangible t face minibuffer-prompt))
-  :hook
-  (minibuffer-setup . cursor-intangible-mode))
-
+;; Type over region: Treat an Emacs region much like a typical selection
+;; outside of Emacs.
 (use-package delsel
-  :config
-  ;; Type over region: Treat an Emacs region much like a typical selection
-  ;; outside of Emacs
-  (delete-selection-mode t))
+  :straight nil
+  :hook (after-init . delete-selection-mode))
 
 (use-package display-line-numbers
+  :straight nil
   :commands (display-line-numbers-mode)
   :custom
   (display-line-numbers-width-start t))
-
-(use-package ibuffer
-  :defer t
-  :general
-  (:states 'normal :keymaps 'ibuffer-mode-map
-   "q" 'kill-this-buffer))
 
 (use-package files
   :straight nil
@@ -199,6 +191,7 @@
 	     (buffer-size))))
 
 (use-package hl-line
+  :straight nil
   :defer t
   :custom
   (hl-line-sticky-flag nil)
@@ -229,6 +222,7 @@ visual state or mark.")
       (hl-line-mode t))))
 
 (use-package hideshow
+  :straight nil
   :commands hs-minor-mode
   :hook (prog-mode . hs-minor-mode))
 
@@ -236,15 +230,20 @@ visual state or mark.")
   :straight nil
   :custom
   (enable-recursive-minibuffers t)
+  ;; Prevent the minibuffer prompt from being modified.
   (minibuffer-prompt-properties
    '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
   :hook
   (minibuffer-setup . cursor-intangible-mode)
   :config
+  ;; This is where `minibuffer-keyboard-quit' is defined.
+  (require 'delsel)
+
   (ef-add-hook minibuffer-setup-hook
+    ;; Don't display fringes in minibuffer
     (set-window-fringes (get-buffer-window (current-buffer)) 0 0))
 
-  ;; Escape minibuffer with single escape
+  ;; Escape minibuffer with single escape.
   (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
@@ -266,14 +265,8 @@ visual state or mark.")
 
   (global-prettify-symbols-mode -1))
 
-(use-package recentf
-  :defer t
-  :after no-littering
-  :config
-  (add-to-list 'recentf-exclude no-littering-var-directory)
-  (add-to-list 'recentf-exclude no-littering-etc-directory))
-
 (use-package savehist
+  :straight nil
   :custom
   (history-length 1000)
   (savehist-additional-variables '(search ring regexp-search-ring))
@@ -289,6 +282,7 @@ visual state or mark.")
   (savehist-mode t))
 
 (use-package saveplace
+  :straight nil
   :custom
   (save-place-limit nil)
   :init
@@ -297,6 +291,7 @@ visual state or mark.")
   (setq-default save-place t))
 
 (use-package smerge-mode
+  :straight nil
   :commands smerge-mode
   :custom
   (smerge-command-prefix (kbd "C-s"))
@@ -309,6 +304,7 @@ visual state or mark.")
         (smerge-mode t)))))
 
 (use-package so-long
+  :straight nil
   :config
   (global-so-long-mode 1))
 
@@ -328,6 +324,7 @@ visual state or mark.")
     (setq-local show-trailing-whitespace t)))
 
 (use-package transient
+  :straight nil
   :general
   (:keymaps '(transient-map transient-edit-map)
    "<escape>" 'transient-quit-all
@@ -364,6 +361,7 @@ visual state or mark.")
   (uniquify-separator ":"))
 
 (use-package vc
+  :straight nil
   :defer t
   :straight nil
   :custom
