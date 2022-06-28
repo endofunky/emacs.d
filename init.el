@@ -13,7 +13,7 @@
 Called from `after-init-hook'."
   (let ((elapsed (float-time (time-subtract (current-time)
                                             ef-emacs-start-time))))
-    (message "Loading emacs done in %.3fs (%d garbage collections)"
+    (message "Loading emacs done in %.3fs (%d garbage collection(s))"
              elapsed gcs-done)))
 
 (unless (or (daemonp) noninteractive)
