@@ -69,28 +69,4 @@
   ;; Completion is often bound to M-TAB.
   (tab-always-indent 'complete))
 
-(use-package popon
-  :defer t
-  :straight (popon
-             :type git
-             :repo "https://codeberg.org/akib/emacs-popon.git"))
-
-(use-package corfu-terminal
-  :when (not window-system)
-  :defer t
-  :straight (corfu-terminal
-             :type git
-             :repo "https://codeberg.org/akib/emacs-corfu-terminal.git")
-  :hook
-  (after-init . corfu-terminal-mode))
-
-(use-package corfu-doc-terminal
-  :when (not window-system)
-  :defer t
-  :straight (corfu-doc-terminal
-             :type git
-             :repo "https://codeberg.org/akib/emacs-corfu-doc-terminal.git")
-  :hook
-  (after-init . corfu-doc-terminal-mode))
-
 (provide 'core-corfu)
