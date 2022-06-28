@@ -23,10 +23,12 @@
    "C-p" 'corfu-previous
    "M-m" 'ef-corfu-move-to-minibuffer)
   :hook
-  (after-init . global-corfu-mode)
-  (after-init . corfu-history-mode)
+  (ef-first-command . global-corfu-mode)
+  (ef-first-command . corfu-history-mode)
   :config
-  (add-to-list 'savehist-additional-variables 'corfu-history)
+  (with-eval-after-load 'savehist
+    (add-to-list 'savehist-additional-variables 'corfu-history))
+
   (remove-hook 'completion-at-point-functions
                #'tags-completion-at-point-function)
 
