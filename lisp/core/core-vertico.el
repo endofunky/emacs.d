@@ -40,12 +40,12 @@
   (completion-styles '(orderless))
   (completion-category-defaults nil)
   :config
-  (defun ef-orderless-with-if-equals (pattern index total)
+  (defun ef-orderless-with-if-equals (pattern _index _total)
     "Orderless style dispatcher to literal match results using equal sign."
     (when (string-prefix-p "=" pattern)
       `(orderless-literal . ,(substring pattern 1))))
 
-  (defun ef-orderless-without-if-bang (pattern index total)
+  (defun ef-orderless-without-if-bang (pattern _index _total)
     "Orderless style dispatcher to discard results matching literal following
 exclamation mark."
     (when (string-prefix-p "!" pattern)

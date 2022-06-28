@@ -139,7 +139,7 @@ convert it to a symbol and return that."
   "If NAME ends in `-mode' (or its name does), return it as a
 string.  Otherwise, return it as a string with `-mode' appended."
   (if-let* ((string (ef-as-string name))
-            (_ (string-match "-mode\\'" string)))
+            (ok (string-match "-mode\\'" string)))
       string
     (concat string "-mode")))
 
@@ -153,7 +153,7 @@ symbol.  Otherwise, return it as a symbol with `-mode' appended."
 string.  Otherwise, return it as a string with `-mode-map'
 appended."
   (if-let* ((string (ef-as-string name))
-            (_ (string-match "-map\\'" string)))
+            (ok (string-match "-map\\'" string)))
       string
     (concat (ef-mode-name string) "-map")))
 
@@ -168,7 +168,7 @@ appended."
 string.  Otherwise, return it as a string with `-mode-hook'
 appended."
   (if-let* ((string (ef-as-string name))
-            (_ (string-match "-hook\\'" string)))
+            (ok (string-match "-hook\\'" string)))
       string
     (concat (ef-mode-name string) "-hook")))
 

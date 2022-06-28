@@ -333,13 +333,15 @@ visual state or mark.")
     (ef-transient-suspend-shackle-mode))
 
   (defun ef-transient-suspend-shackle-mode ()
-    (when (bound-and-true-p shackle-mode)
+    (when (and (fboundp 'shackle-mode)
+               (bound-and-true-p shackle-mode))
       (shackle-mode -1)
       (add-hook 'transient-exit-hook 'ef-transient-resume-shackle-mode)))
 
   (defun ef-transient-resume-shackle-mode ()
     (unless transient--prefix
-      (shackle-mode t)
+      (when (fboundp 'shackle-mode)
+        (shackle-mode t))
       (remove-hook 'transient-exit-hook 'ef-transient-resume-shackle-mode))))
 
 (use-package uniquify

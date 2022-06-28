@@ -45,7 +45,7 @@ windows opened from `git-commit-mode'."
 what looks like a JIRA ticket ID."
     (if-let* ((branch (magit-get-current-branch))
               (segments (split-string branch "[\\/\\.-]"))
-              (_ (string-match "^[A-Z]+-[0-9]+" branch))
+              (ok (string-match "^[A-Z]+-[0-9]+" branch))
               (label (format "[%s-%s] " (upcase (car segments)) (cadr segments))))
         (unless (string-match (regexp-quote label) (buffer-string))
           (insert label)))

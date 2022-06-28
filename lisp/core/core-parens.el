@@ -138,7 +138,7 @@ parentheses when appropriate, for Rust lang"
 
   ;; Smartparens config for `markdown-mode'.
   (with-eval-after-load 'smartparens-markdown
-    (defun ef-sp-skip-asterisk (ms mb me)
+    (defun ef-sp-skip-asterisk (_ms mb _me)
       "Skip asterisk if at begging of line"
       (save-excursion
         (goto-char mb)

@@ -101,7 +101,7 @@
     (when (cider-connected-p)
       (if-let* ((buf (cider-current-repl))
                 (win (get-buffer-window buf))
-                (_ (window-parent win)))
+                (ok (window-parent win)))
           (delete-window win))
       (cider-quit)))
 

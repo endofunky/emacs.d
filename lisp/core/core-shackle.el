@@ -107,7 +107,7 @@ See `ef-popup--buffer-state' for possible values."
   "Promotes the current buffer to a non-popup state."
   (interactive)
   (if-let* ((buffer (current-buffer))
-            (_ (ef-popup--buffer-p buffer)))
+            (ok (ef-popup--buffer-p buffer)))
       (progn
         (ef-popup--set-buffer-state buffer 'promoted)
         (setq ef-popup--buffer-list (remove buffer ef-popup--buffer-list))
@@ -123,7 +123,7 @@ See `ef-popup--buffer-state' for possible values."
   "Demotes the current promoted popup buffer to a popup state."
   (interactive)
   (if-let* ((buffer (current-buffer))
-            (_ (eq 'promoted (ef-popup--get-buffer-state buffer))))
+            (ok (eq 'promoted (ef-popup--get-buffer-state buffer))))
       (progn
         (ef-popup--set-buffer-state buffer nil)
         (bury-buffer buffer)
@@ -132,9 +132,9 @@ See `ef-popup--buffer-state' for possible values."
         (if (> (length (window-list)) 1)
             ;; We already have one or more open popups. Delete them first.
             (ef-popup--delete-all))
-        (when-let* ((_ (= 1 (length (window-list))))
+        (when-let* ((ok (= 1 (length (window-list))))
                     (win (car (window-list)))
-                    (_ (ef-popup--buffer-p (window-buffer win)))
+                    (ok (ef-popup--buffer-p (window-buffer win)))
                     (file-buffer (cl-find-if-not #'ef-popup--buffer-p (buffer-list))))
           ;; We only have one window repmaining and it's currently showing a
           ;; popup. In order to not show two popups at the same time, set
@@ -211,7 +211,7 @@ switch to a non-popup buffer."
     (read-buffer "Switch to buffer: "
                  (if-let* ((bufs (seq-filter #'ef-popup--regular-buffer-p
                                              (buffer-list)))
-                           (_ (> (length bufs) 1)))
+                           (ok (> (length bufs) 1)))
                      (cadr bufs)
                    (car bufs))
                  (confirm-nonexistent-file-or-buffer)
@@ -263,7 +263,7 @@ return nil."
 Return the return value of `kill-buffer' if the conditions were satisfied,
 nil otherwise."
   (when-let* ((rule (ef-popup--buffer-p buf))
-              (_ (plist-get (cdr rule) :ephemeral)))
+              (ok (plist-get (cdr rule) :ephemeral)))
     (kill-buffer)))
 
 (defun ef-popup--update-buffer-list ()

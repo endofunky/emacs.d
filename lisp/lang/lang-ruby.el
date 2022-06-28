@@ -190,7 +190,7 @@ current buffer's file, if it exists"
    "lfb" '(rubocop-format-current-file :wk "Buffer")
    "lfa" '(rubocop-format-project :wk "Project"))
   :config
-  (defun rubocop-buffer-name (file-or-dir)
+  (defun rubocop-buffer-name (_file-or-dir)
     "Generate a name for the RuboCop buffer from FILE-OR-DIR."
     "*rubocop*")
 
