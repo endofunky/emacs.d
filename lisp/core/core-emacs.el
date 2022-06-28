@@ -323,7 +323,6 @@ visual state or mark.")
     (setq-local show-trailing-whitespace t)))
 
 (use-package transient
-  :straight nil
   :general
   (:keymaps '(transient-map transient-edit-map)
    "<escape>" 'transient-quit-all
