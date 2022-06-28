@@ -1,3 +1,4 @@
+;;; core-tree-sitter.el --- Tree-sitter integration -*- lexical-binding: t; -*-
 (require 'use-package)
 
 (use-package tree-sitter

@@ -1,3 +1,4 @@
+;;; lang-magit.el --- Magit/Git configuration -*- lexical-binding: t; -*-
 (require 'core-evil)
 (require 'core-shackle)
 

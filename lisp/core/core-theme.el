@@ -1,3 +1,4 @@
+;;; core-theme.el --- Eye candy -*- lexical-binding: t; -*-
 (require 'core-lib)
 (require 'core-shackle)
 

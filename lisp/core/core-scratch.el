@@ -1,3 +1,4 @@
+;;; core-scratch.el --- Scratch buffer improvements -*- lexical-binding: t; -*-
 (require 'core-evil)
 
 (use-package persistent-scratch

@@ -1,3 +1,4 @@
+;;; core-gui.el --- GUI configuration -*- lexical-binding: t; -*-
 (require 'cl-macs)
 (require 'core-evil)
 (require 'core-lib)

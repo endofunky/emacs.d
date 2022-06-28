@@ -1,3 +1,4 @@
+;;; lang-vterm.el --- VTerm terminal configuration -*- lexical-binding: t; -*-
 (require 'core-evil)
 (require 'core-shackle)
 

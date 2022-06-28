@@ -1,3 +1,4 @@
+;;; lang-tex.el --- TeX/LaTeX configuration -*- lexical-binding: t; -*-
 (require 'core-lib)
 
 (use-package auctex

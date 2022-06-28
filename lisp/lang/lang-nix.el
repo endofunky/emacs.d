@@ -1,3 +1,4 @@
+;;; lang-nix.el --- Nix configuration -*- lexical-binding: t; -*-
 (require 'core-evil)
 
 (use-package nix-mode

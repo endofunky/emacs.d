@@ -1,3 +1,4 @@
+;;; lang-go.el --- Go configuration -*- lexical-binding: t; -*-
 (require 'core-lsp)
 (require 'core-shackle)
 

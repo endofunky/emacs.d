@@ -1,3 +1,4 @@
+;;; core-direnv.el --- Direnv environments -*- lexical-binding: t; -*-
 (require 'core-shackle)
 
 (use-package envrc

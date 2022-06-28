@@ -1,3 +1,4 @@
+;;; lang-dot.el --- GraphViz dot configuration -*- lexical-binding: t; -*-
 (require 'core-lib)
 
 (use-package graphviz-dot-mode

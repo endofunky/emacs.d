@@ -1,3 +1,4 @@
+;;; lang-shell.el --- Shell script configuration -*- lexical-binding: t; -*-
 (require 'core-evil)
 
 (use-package sh-script

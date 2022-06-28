@@ -1,3 +1,4 @@
+;;; lang-org.el --- `org-mode' configuration -*- lexical-binding: t; -*-
 (require 'core-shackle)
 
 (defgroup ef-org nil

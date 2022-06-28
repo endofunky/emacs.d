@@ -1,3 +1,4 @@
+;;; lang-ruby.el --- Ruby configuration -*- lexical-binding: t; -*-
 (require 'core-lib)
 (require 'core-project)
 (require 'core-shackle)

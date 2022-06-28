@@ -1,3 +1,4 @@
+;;; core-spell.el --- Spell checking -*- lexical-binding: t; -*-
 (require 'core-lib)
 
 (use-package flyspell

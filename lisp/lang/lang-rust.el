@@ -1,3 +1,4 @@
+;;; lang-rust.el --- Rust configuration -*- lexical-binding: t; -*-
 (require 'core-shackle)
 
 (use-package rustic

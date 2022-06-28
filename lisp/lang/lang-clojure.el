@@ -1,3 +1,4 @@
+;;; lang-clojure.el --- Clojure configuration -*- lexical-binding: t; -*-
 (require 'core-evil)
 (require 'core-shackle)
 

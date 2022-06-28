@@ -1,3 +1,4 @@
+;;; lang-python.el --- Python configuration -*- lexical-binding: t; -*-
 (require 'core-evil)
 (require 'core-shackle)
 

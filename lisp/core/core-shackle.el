@@ -1,3 +1,4 @@
+;;; core-shackle.el --- Popup management -*- lexical-binding: t; -*-
 (require 'core-lib)
 (require 'cl-extra)
 (require 'cl-macs)

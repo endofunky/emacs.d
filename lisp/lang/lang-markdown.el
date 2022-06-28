@@ -1,3 +1,4 @@
+;;; lang-markdown.el --- Markdown configuration -*- lexical-binding: t; -*-
 (require 'core-evil)
 
 (use-package markdown-mode

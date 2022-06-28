@@ -1,3 +1,4 @@
+;;; lang-toml.el --- TOML configuration -*- lexical-binding: t; -*-
 (require 'core-lib)
 
 (use-package toml-mode

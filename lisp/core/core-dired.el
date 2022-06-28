@@ -1,3 +1,4 @@
+;;; core-dired.el --- Directory editor -*- lexical-binding: t; -*-
 (require 'core-lib)
 
 (use-package dired

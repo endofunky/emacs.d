@@ -1,3 +1,4 @@
+;;; core-evil.el --- Evil-mode vim emulation -*- lexical-binding: t; -*-
 (require 'core-lib)
 
 (defvar ef-escape-hook nil

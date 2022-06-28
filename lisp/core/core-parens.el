@@ -1,3 +1,4 @@
+;;; core-parens.el --- Parentheses handling -*- lexical-binding: t; -*-
 (require 'core-evil)
 
 (use-package paren

@@ -1,3 +1,4 @@
+;;; lang-docker.el --- Dockerfile configuration -*- lexical-binding: t; -*-
 (require 'core-evil)
 
 (use-package dockerfile-mode

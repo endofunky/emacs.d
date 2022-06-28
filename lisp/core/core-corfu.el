@@ -1,3 +1,4 @@
+;;; core-corfu.el --- In-region completion -*- lexical-binding: t; -*-
 (require 'core-lib)
 
 (use-package corfu

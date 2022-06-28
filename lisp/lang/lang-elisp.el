@@ -1,3 +1,4 @@
+;;; lang-elisp.el --- Emacs Lisp configuration -*- lexical-binding: t; -*-
 (require 'core-evil)
 (require 'core-shackle)
 

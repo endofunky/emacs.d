@@ -1,3 +1,4 @@
+;;; lang-terraform.el --- Terraform configuration -*- lexical-binding: t; -*-
 (require 'core-lib)
 
 (use-package terraform-mode

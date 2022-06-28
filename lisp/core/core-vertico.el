@@ -1,3 +1,4 @@
+;;; core-vertico.el --- Minibuffer completion -*- lexical-binding: t; -*-
 (require 'core-lib)
 
 (use-package vertico

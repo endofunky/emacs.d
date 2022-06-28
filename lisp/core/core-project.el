@@ -1,3 +1,4 @@
+;;; core-project.el --- Project management -*- lexical-binding: t; -*-
 (require 'core-evil)
 
 (use-package project

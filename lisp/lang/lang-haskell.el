@@ -1,3 +1,4 @@
+;;; lang-haskell.el --- Haskell configuration -*- lexical-binding: t; -*-
 (require 'core-lib)
 (require 'core-evil)
 

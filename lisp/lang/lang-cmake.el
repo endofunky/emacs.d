@@ -1,3 +1,4 @@
+;;; lang-cmake.el --- CMake configuration -*- lexical-binding: t; -*-
 (require 'core-lib)
 
 (use-package cmake-mode

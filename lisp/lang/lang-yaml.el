@@ -1,3 +1,4 @@
+;;; lang-yaml.el --- YAML configuration -*- lexical-binding: t; -*-
 (require 'core-lib)
 
 (use-package yaml-mode
