@@ -119,6 +119,7 @@ current buffer."
   :defer t
   :commands (evilnc-comment-or-uncomment-lines)
   :general
+  ([remap comment-line] 'evilnc-comment-or-uncomment-lines)
   (:states '(normal visual) :keymaps 'prog-mode-map
    "\\" 'evilnc-comment-or-uncomment-lines
    "#" 'evilnc-comment-or-uncomment-lines))
