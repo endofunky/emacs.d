@@ -48,10 +48,11 @@ Called from `after-init-hook'."
      (convert-standard-filename eln-cache))))
 
 ;; Don't display native-compilation warnings unless in debug-mode.
-(setq-default native-comp-async-report-warnings-errors init-file-debug)
+(customize-set-variable 'native-comp-async-report-warnings-errors
+                        init-file-debug)
 
 ;; Warn users on exit when native-compilation is running.
-(setq-default native-comp-async-query-on-exit t)
+(customize-set-variable 'native-comp-async-query-on-exit t)
 
 ;; We use no-littering below to set up our directory structure for package-
 ;; related files, so stick with that.
@@ -114,15 +115,18 @@ Called from `after-init-hook'."
                no-littering-expand-etc-file-name)
     :config
     ;; Keep auto-save files separately in our var directory.
-    (setq auto-save-file-name-transforms
-	  `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+    (customize-set-variable
+     'auto-save-file-name-transforms
+     `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
     ;; And do the same for backup files ...
-    (setq backup-directory-alist
-          `(("." . ,(no-littering-expand-var-file-name "backup/"))))
+    (customize-set-variable
+     'backup-directory-alist
+     `(("." . ,(no-littering-expand-var-file-name "backup/"))))
 
     ;; Keep customize variables in the etc/ directory instead of .emacs.d.
-    (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
+    (customize-set-variable 'custom-file
+                            (no-littering-expand-etc-file-name "custom.el"))
 
     ;; Both of these are declared using `defvar'.
     (setq no-littering-etc-directory etc)
