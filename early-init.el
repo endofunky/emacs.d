@@ -20,7 +20,7 @@
     ;; Don't do mtime checks on `load' during init. We reset this later since
     ;; this may lead to unexpected surprises when doing devlopment work on elisp
     ;; files.
-    (customize-set-variable 'load-prefer-newer nil)
+    (setq load-prefer-newer nil)
 
     ;; Avoid going through `file-name-handler-alist' every time we `require' or
     ;; `load' during start-up.
@@ -40,7 +40,7 @@
 
   ;; Disable GTK tooltips if we're in X.
   (when (eq (window-system) 'x)
-    (customize-set-variable 'x-gtk-use-system-tooltips nil))
+    (setq x-gtk-use-system-tooltips nil))
 
   ;; Keep menu-bar on macOS.
   (unless (memq (window-system) '(mac ns))
@@ -48,12 +48,9 @@
       (menu-bar-mode -1)))
 
   ;; We use straight.el to manage our packages.
-  (customize-set-variable 'package-enable-at-startup nil)
+  (setq package-enable-at-startup nil)
 
   ;; Don't load any system-wide site-lisp files.
-  ;;
-  ;; We have to use setq here since the customize setter will prevent us from
-  ;; modifying this.
   (setq-default site-run-file nil))
 
 (provide 'early-init)
