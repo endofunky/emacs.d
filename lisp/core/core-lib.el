@@ -58,43 +58,6 @@ registered hooks so they only fire once."
 
 (add-hook 'pre-command-hook 'ef-run-first-command-hook-h)
 
-(defvar ef-switch-buffer-hook nil
-  "A list of hooks run after changing the current buffer.")
-
-(defun ef-run-switch-buffer-hooks-h (&optional _)
-  "Inhibits redisplay/garbage-collection and runs `ef-switch-buffer-hook'."
-  (let ((gc-cons-threshold most-positive-fixnum)
-        (inhibit-redisplay t))
-    (run-hooks 'ef-switch-buffer-hook)))
-
-(defun ef-init-switch-buffer-hook-h (&optional _)
-  "Initializes the switch-buffer hook.
-
-This function is run with the lowest possible priority via
-`window-buffer-change-functions' in order to not prematurely fire."
-  (add-hook 'window-buffer-change-functions #'ef-run-switch-buffer-hooks-h)
-
-  ;; `window-buffer-change-functions' doesn't trigger for files visited via
-  ;; the server.
-  (add-hook 'server-visit-hook #'ef-run-switch-buffer-hooks-h)
-
-  ;; Only setup this hook once.
-  (remove-hook 'window-buffer-change-functions #'ef-init-switch-buffer-hook-h))
-
-(add-hook 'window-buffer-change-functions #'ef-init-switch-buffer-hook-h -100)
-
-(defvar ef-first-buffer-hook nil
-  "Transient hooks run when the first buffer is opened.")
-
-(defun ef-run-first-buffer-hook-h (&optional _)
-  "Runs `ef-first-command-hook' and subsequently resets the currently
-registered hooks so they only fire once. "
-  (run-hooks 'ef-first-buffer-hook)
-  (setq ef-first-buffer-hook nil))
-
-(add-hook 'find-file-hook 'ef-run-first-buffer-hook-h)
-(add-hook 'ef-switch-buffer-hook 'ef-run-first-buffer-hook-h)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Utilities
