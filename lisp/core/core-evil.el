@@ -60,6 +60,9 @@ already in normal mode.")
    "Wd"       '(delete-window :wk "Delete window")
    "WD"       '(delete-other-windows-internal :wk "Delete other window"))
   ;; Let emacs look up RET key behaviour in appropriate keymaps.
+  (:states 'insert
+   ;; Indent newlines by default
+   [remap newline] 'newline-and-indent)
   (:keymaps 'evil-motion-state-map
    "RET" nil)
   :commands (evil-force-normal-state)
