@@ -144,12 +144,11 @@ Called from `after-init-hook'."
   :hook
   (after-init . gcmh-mode))
 
-;; Load all our configuration files in the correct order. We load core first
-;; since that sets up our editing environment (evil-mode, LSP, corfu, etc) and
-;; provides helpers for language-specific configuration.
+;; Load all modules from lisp/.
 ;;
-;; We intentionally don't place any attention to the exact order to do this
-;; since files should explicitly require their dependencies anyway.
+;; We intentionally don't place any attention to the exact order to requiring
+;; the files here since they should explicitly require their dependencies
+;; anyway.
 (let ((default-directory (expand-file-name "lisp" user-emacs-directory)))
   (normal-top-level-add-subdirs-to-load-path)
   (dolist (file (directory-files-recursively default-directory "\\.el$"))
