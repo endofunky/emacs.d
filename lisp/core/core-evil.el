@@ -172,8 +172,7 @@ current buffer."
   :general
   ([remap query-replace] 'anzu-query-replace)
   ([remap query-replace-regexp] 'anzu-query-replace-regexp)
-  :config
-  (global-anzu-mode t))
+  :hook (ef-first-command . global-anzu-mode))
 
 (use-package evil-anzu
   :demand t
