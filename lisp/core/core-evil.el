@@ -169,6 +169,9 @@ current buffer."
   :after evil
   :demand t
   :commands (global-anzu-mode)
+  :general
+  ([remap query-replace] 'anzu-query-replace)
+  ([remap query-replace-regexp] 'anzu-query-replace-regexp)
   :config
   (global-anzu-mode t))
 
