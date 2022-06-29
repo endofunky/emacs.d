@@ -1,5 +1,7 @@
 ;;; lang-tex.el --- TeX/LaTeX configuration -*- lexical-binding: t; -*-
 (require 'core-lib)
+(require 'core-lsp)
+(require 'core-shackle)
 
 (use-package auctex
   :defer t
@@ -20,13 +22,9 @@
   (TeX-save-query nil)
   ;; Do not prompt for a master file.
   (TeX-master t)
-  :hook
-  (tex-mode . ef-enable-lsp-maybe)
-  (latex-mode . ef-enable-lsp-maybe)
-  (LaTeX-mode . ef-enable-lsp-maybe)
-  (plain-tex-mode-hook . ef-enable-lsp-maybe)
   :functions (texmathp)
   :config
+  (ef-lsp tex-mode latex-mode LaTeX-mode plain-tex-mode)
   (ef-add-hook TeX-mode-hook
     ;; Tell Emacs how to parse TeX files.
     (setq-local ispell-parser 'tex)

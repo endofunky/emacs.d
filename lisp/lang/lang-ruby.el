@@ -1,5 +1,6 @@
 ;;; lang-ruby.el --- Ruby configuration -*- lexical-binding: t; -*-
 (require 'core-lib)
+(require 'core-lsp)
 (require 'core-project)
 (require 'core-shackle)
 (require 'core-tree-sitter)
@@ -37,8 +38,7 @@
    "c"  '(nil :wk "Compile")
    "cd" '(ruby-disasm :wk "Disassemble"))
   :config
-  (add-hook 'ruby-mode-hook 'ef-enable-lsp-maybe)
-
+  (ef-lsp ruby-mode)
   (ef-tree-sitter ruby-mode)
 
   ;; Suppress warnings

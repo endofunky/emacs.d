@@ -7,8 +7,7 @@
   :mode (("\\.go\\'" . go-mode))
   :functions (gofmt-before-save)
   :config
-  (add-hook 'go-mode-hook 'ef-enable-lsp-maybe)
-
+  (ef-lsp go-mode)
   (ef-tree-sitter go-mode)
 
   (declare-function ef-lsp-organize-imports "core-lsp")

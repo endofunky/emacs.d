@@ -137,4 +137,12 @@
    [remap xref-find-apropos] 'consult-eglot-symbols)
   :commands (consult-eglot-symbols))
 
+(defmacro ef-lsp (&rest modes)
+  "Enable language server protocol integration for MODES."
+  (let* ((m (ef-as-list modes))
+         (hooks (mapcar (lambda (mode)
+                          `(add-hook ',(ef-mode-hook mode) 'ef-enable-lsp-maybe))
+                        m)))
+    (macroexp-progn hooks)))
+
 (provide 'core-lsp)

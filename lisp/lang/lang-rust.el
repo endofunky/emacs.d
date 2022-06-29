@@ -1,4 +1,5 @@
 ;;; lang-rust.el --- Rust configuration -*- lexical-binding: t; -*-
+(require 'core-lsp)
 (require 'core-shackle)
 (require 'core-tree-sitter)
 
@@ -21,8 +22,7 @@
    "ta" '(rustic-cargo-test :wk "At point")
    "tp" '(rustic-cargo-current-test :wk "At point"))
   :config
-  (add-hook 'rustic-mode-hook 'ef-enable-lsp-maybe)
-
+  (ef-lsp rustic-mode)
   (ef-tree-sitter rustic-mode)
 
   (ef-add-popup "^\\*rust" :ephemeral t :regexp t)

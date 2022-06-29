@@ -1,5 +1,6 @@
 ;;; lang-python.el --- Python configuration -*- lexical-binding: t; -*-
 (require 'core-evil)
+(require 'core-lsp)
 (require 'core-shackle)
 (require 'core-tree-sitter)
 
@@ -13,11 +14,10 @@
   (python-shell-interpreter "ipython")
   (python-shell-buffer-name "ipython")
   (python-shell-interpreter-args "--simple-prompt -i")
-  :hook
-  (python-mode . ef-enable-lsp-maybe)
   :config
   (ef-add-popup "*ipython*")
 
+  (ef-lsp python-mode)
   (ef-tree-sitter python-mode)
 
   (evil-define-key 'normal inferior-python-mode-map ",r" 'run-python)
