@@ -30,6 +30,20 @@
       (add-text-properties (minibuffer-prompt-end) (point-max)
                            '(invisible t read-only t cursor-intangible t rear-nonsticky t)))))
 
+(use-package vertico-multiform
+  :after vertico
+  :straight nil
+  :custom
+  (vertico-multiform-commands
+   ;; Show grep results in a dedicated buffer.
+   '((consult-grep buffer)
+     (consult-ripgrep buffer)))
+  (vertico-multiform-commands
+   ;; Use indices for imenu.
+   '((consult-imenu indexed)))
+  :config
+  (vertico-multiform-mode))
+
 (use-package orderless
   :after vertico
   :custom
