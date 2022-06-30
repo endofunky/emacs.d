@@ -12,7 +12,7 @@
   (indicate-empty-lines nil)
   (overflow-newline-into-fringe t)
   :config
-  (ef-add-hook window-configuration-change-hook :fn ef-fringe-update-hook
+  (+add-hook window-configuration-change-hook :fn +fringe-update-h
     (let ((left (frame-parameter nil 'left-fringe))
           (right (frame-parameter nil 'right-fringe)))
       (cl-loop for win being the windows
@@ -47,7 +47,7 @@
   :config
   (let* ((file (expand-file-name "~/.emacs-font-size"))
          (font (if (file-exists-p file)
-                   (format "DejaVu Sans Mono-%s" (string-trim (ef-read-file file)))
+                   (format "DejaVu Sans Mono-%s" (string-trim (+read-file file)))
                  "DejaVu Sans Mono-11")))
     (add-to-list 'default-frame-alist `(font .  ,font))
     (set-face-attribute 'default t :font font)
@@ -66,7 +66,7 @@
 
 (use-package ns-win
   :straight nil
-  :if (ef-nsp)
+  :if (+nsp)
   :defines (mac-command-modifier
             mac-option-modifier
             ns-function-modifier
@@ -89,15 +89,15 @@
 
 (use-package ls-lisp
   :straight nil
-  :if (ef-nsp)
+  :if (+nsp)
   :after ns-win
   :config
   (setq-default ls-lisp-use-insert-directory-program nil))
 
 (use-package exec-path-from-shell
-  :if (and (ef-nsp)
+  :if (and (+nsp)
            (null (getenv "TERM_PROGRAM")))
-  :demand (and (ef-nsp)
+  :demand (and (+nsp)
                (null (getenv "TERM_PROGRAM")))
   :custom
   (exec-path-from-shell-check-startup-files nil)

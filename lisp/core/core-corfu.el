@@ -22,7 +22,7 @@
    "<escape>" 'corfu-quit
    "C-n" 'corfu-next
    "C-p" 'corfu-previous
-   "M-m" 'ef-corfu-move-to-minibuffer)
+   "M-m" '+corfu-move-to-minibuffer)
   :hook
   (ef-first-command . global-corfu-mode)
   (ef-first-command . corfu-history-mode)
@@ -33,7 +33,7 @@
   (remove-hook 'completion-at-point-functions
                #'tags-completion-at-point-function)
 
-  (defun ef-corfu-move-to-minibuffer ()
+  (defun +corfu-move-to-minibuffer ()
     "Move current region completion to minibuffer via consult."
     (interactive)
     (let (completion-cycle-threshold completion-cycling)

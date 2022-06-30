@@ -19,7 +19,7 @@
   (sh-indent-for-case-label 0)
   (sh-indent-for-case-alt '+)
   :config
-  (ef-tree-sitter sh-mode))
+  (+enable-tree-sitter sh-mode))
 
 (use-package flymake-shellcheck
   :defer t

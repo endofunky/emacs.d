@@ -6,7 +6,7 @@
   :demand t
   :commands (envrc-global-mode)
   :config
-  (ef-add-popup "*envrc*" :ephemeral t)
+  (+add-popup "*envrc*" :ephemeral t)
   (envrc-global-mode))
 
 (provide 'core-direnv)

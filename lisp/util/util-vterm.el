@@ -4,7 +4,7 @@
 
 (use-package vterm
   :when (bound-and-true-p module-file-suffix)
-  :commands (vterm ef-vterm-popup ef-vterm-run)
+  :commands (vterm +vterm-popup +vterm-run)
   :straight nil
   :custom
   (vterm-disable-bold-font nil)
@@ -13,35 +13,35 @@
   (vterm-timer-delay 0.01)
   :general
   (:states 'emacs :keymaps 'vterm-mode-map
-   "M-h" 'ef-popup-cycle-backward
-   "M-j" 'ef-popup-demote-buffer
-   "M-k" 'ef-popup-promote-buffer
-   "M-l" 'ef-popup-cycle-forward
-   "M-P" 'ef-popup-switch-popup-buffer
-   "M-p" 'ef-popup-toggle)
+   "M-h" '+popup-cycle-backward
+   "M-j" '+popup-demote-buffer
+   "M-k" '+popup-promote-buffer
+   "M-l" '+popup-cycle-forward
+   "M-P" '+popup-switch-popup-buffer
+   "M-p" '+popup-toggle)
   (:states 'normal :prefix ef-leader
-   "v" '(ef-vterm-popup :wk "VTerm")
-   "V" '(ef-vterm-popup-and-go :wk "VTerm & go"))
+   "v" '(+vterm-popup :wk "VTerm")
+   "V" '(+vterm-popup-and-go :wk "VTerm & go"))
   :config
   (declare-function vterm-send-string "vterm")
-  (declare-function ef--vterm-sentinel "util-vterm")
-  (declare-function ef--vterm-sentinel-keep-buffer "util-vterm")
+  (declare-function +vterm-sentinel "util-vterm")
+  (declare-function +vterm-sentinel-keep-buffer "util-vterm")
 
-  (ef-add-hook vterm-mode-hook
+  (+add-hook vterm-mode-hook
     ;; Prevent premature horizontal scrolling
     (setq-local hscroll-margin 0)
 
     ;; Don't move the cursor back when entering evil-normal-state.
     (setq-local evil-move-cursor-back nil))
 
-  (defun ef-vterm-popup ()
+  (defun +vterm-popup ()
     "Open vterm popup buffer"
     (interactive)
     (if-let ((buf (get-buffer "*vterm-popup*")))
         (display-buffer "*vterm-popup*")
       (vterm "*vterm-popup*")))
 
-  (defun ef-vterm-popup-and-go ()
+  (defun +vterm-popup-and-go ()
     "Go to current file's directory in vterm popup."
     (interactive)
     (if-let* ((file (buffer-file-name (current-buffer)))
@@ -55,16 +55,16 @@
 
       (message "Buffer is not visiting a file.")))
 
-  (ef-add-popup "*vterm-popup*" :size 0.4)
+  (+add-popup "*vterm-popup*" :size 0.4)
 
-  (defun ef--vterm-sentinel (process event)
+  (defun +vterm-sentinel (process event)
     "A process sentinel. Kills PROCESS's buffer if it is live."
     (let ((b (process-buffer process)))
       (when (buffer-live-p b)
         (kill-buffer b)
         (message "process finished."))))
 
-  (defun ef--vterm-sentinel-keep-buffer (process event)
+  (defun +vterm-sentinel-keep-buffer (process event)
     "A process sentinel. Kills PROCESS's buffer if it is live."
     (let ((b (process-buffer process)))
       (when (buffer-live-p b)
@@ -72,8 +72,8 @@
         (evil-normal-state)
         (message "process finished."))))
 
-  (defun ef-vterm-run (buffer command keep-buffer)
-    (ef-add-popup buffer :size 0.4)
+  (defun +vterm-run (buffer command keep-buffer)
+    (+add-popup buffer :size 0.4)
 
     (when-let ((buffer (get-buffer buffer)))
       (when-let ((win (get-buffer-window buffer)))
@@ -84,8 +84,8 @@
           (vterm-kill-buffer-on-exit nil))
       (with-current-buffer (vterm buffer)
         (if keep-buffer
-            (set-process-sentinel vterm--process #'ef--vterm-sentinel-keep-buffer)
-          (set-process-sentinel vterm--process #'ef--vterm-sentinel)))))
+            (set-process-sentinel vterm--process #'+vterm-sentinel-keep-buffer)
+          (set-process-sentinel vterm--process #'+vterm-sentinel)))))
 
   ;; DOSBox colors
   (set-face-attribute 'vterm-color-black nil :foreground "#000000" :background "#545454")

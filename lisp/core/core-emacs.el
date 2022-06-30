@@ -133,7 +133,7 @@
    "<down>" 'comint-next-input)
   :config
   (evil-set-initial-state 'comint-mode 'normal)
-  (ef-add-hook comint-mode-hook
+  (+add-hook comint-mode-hook
     "Do not use `truncate-lines' in comint buffers.."
     (setq-local truncate-lines nil)
     (set (make-local-variable 'truncate-partial-width-windows) nil)))
@@ -151,15 +151,15 @@
   ;; Avoid dropping into insert mode in compilation windows
   (compilation-start . evil-normal-state)
   (compilation-filter . comint-truncate-buffer)
-  (compilation-filter . ef-colorize-compilation-buffer)
+  (compilation-filter . +colorize-compilation-buffer)
   :config
   (require 'ansi-color)
-  (defun ef-colorize-compilation-buffer ()
+  (defun +colorize-compilation-buffer ()
     (read-only-mode nil)
     (ansi-color-apply-on-region compilation-filter-start (point))
     (read-only-mode t))
 
-  (ef-add-hook compilation-mode-hook
+  (+add-hook compilation-mode-hook
     "Enable `visual-line-mode' for compilation buffers."
     (setq-local bidi-display-reordering nil)
     (visual-line-mode t)))
@@ -181,7 +181,7 @@
   :unless noninteractive
   :config
   (setq save-silently t)
-  (ef-add-hook after-save-hook :fn ef-after-save-message-hook
+  (+add-hook after-save-hook :fn +after-save-message-h
     (message "\"%s\" %dL, %dC written"
 	     (buffer-name)
 	     (count-lines (point-min) (point-max))
@@ -197,23 +197,23 @@
   (text-mode . hl-line-mode)
   (dired-mode . hl-line-mode)
   (tabulated-list-mode . hl-line-mode)
-  (evil-visual-state-entry . ef--evil-disable-hl-line)
-  (evil-visual-state-exit . ef--evil-enable-hl-line)
-  (activate-mark-hook . ef--evil-disable-hl-line)
-  (deactivate-mark-hook . ef--evil-enable-hl-line)
+  (evil-visual-state-entry . +evil-disable-hl-line)
+  (evil-visual-state-exit . +evil-enable-hl-line)
+  (activate-mark-hook . +evil-disable-hl-line)
+  (deactivate-mark-hook . +evil-enable-hl-line)
   :config
   ;; Disable hl-line when in visual state
   (defvar ef--hl-line-mode nil
     "Whether to re-enable hl-line if it was previously disabled while in evil
 visual state or mark.")
 
-  (defun ef--evil-disable-hl-line ()
+  (defun +evil-disable-hl-line ()
     "Hook function to temporarily disable hl-line for visual state and mark."
     (when hl-line-mode
       (hl-line-mode -1)
       (setq ef--hl-line-mode t)))
 
-  (defun ef--evil-enable-hl-line ()
+  (defun +evil-enable-hl-line ()
     "Hook function to temporarily disable hl-line for visual state and mark."
     (when ef--hl-line-mode
       (hl-line-mode t))))
@@ -236,7 +236,7 @@ visual state or mark.")
   ;; This is where `minibuffer-keyboard-quit' is defined.
   (require 'delsel)
 
-  (ef-add-hook minibuffer-setup-hook
+  (+add-hook minibuffer-setup-hook
     ;; Don't display fringes in minibuffer
     (set-window-fringes (get-buffer-window (current-buffer)) 0 0))
 
@@ -253,11 +253,11 @@ visual state or mark.")
   (:states 'normal :keymaps 'prog-mode-map
    "<tab>" 'indent-for-tab-command)
   (:states 'normal :prefix ef-leader :keymaps 'prog-mode-map
-   "<tab>" '(ef-indent-buffer :wk "Indent buffer"))
+   "<tab>" '(+indent-buffer :wk "Indent buffer"))
   (:states 'visual :keymaps 'prog-mode-map
    "<tab>" 'indent-region)
   :config
-  (ef-add-hook prog-mode-hook
+  (+add-hook prog-mode-hook
     (setq-local show-trailing-whitespace t))
 
   (global-prettify-symbols-mode -1))
@@ -292,7 +292,7 @@ visual state or mark.")
   :custom
   (smerge-command-prefix (kbd "C-s"))
   :init
-  (ef-add-hook (find-file-hook after-revert-hook) :fn ef-enable-smerge-maybe
+  (+add-hook (find-file-hook after-revert-hook) :fn +enable-smerge-maybe-h
     "Auto-enable `smerge-mode' when merge conflict is detected."
     (save-excursion
       (goto-char (point-min))
@@ -316,7 +316,7 @@ visual state or mark.")
   :mode (("/LICENSE\\'" . text-mode)
          ("\\.log\\'" . text-mode))
   :config
-  (ef-add-hook text-mode-hook
+  (+add-hook text-mode-hook
     (setq-local show-trailing-whitespace t)))
 
 (use-package transient
@@ -335,19 +335,19 @@ visual state or mark.")
   (transient-bind-q-to-quit)
 
   (defadvice transient-setup (before transient-setup activate)
-    (ef-transient-suspend-shackle-mode))
+    (+transient-suspend-shackle-mode-h))
 
-  (defun ef-transient-suspend-shackle-mode ()
+  (defun +transient-suspend-shackle-mode-h ()
     (when (and (fboundp 'shackle-mode)
                (bound-and-true-p shackle-mode))
       (shackle-mode -1)
-      (add-hook 'transient-exit-hook 'ef-transient-resume-shackle-mode)))
+      (add-hook 'transient-exit-hook '+transient-resume-shackle-mode-h)))
 
-  (defun ef-transient-resume-shackle-mode ()
+  (defun +transient-resume-shackle-mode-h ()
     (unless transient--prefix
       (when (fboundp 'shackle-mode)
         (shackle-mode t))
-      (remove-hook 'transient-exit-hook 'ef-transient-resume-shackle-mode))))
+      (remove-hook 'transient-exit-hook '+transient-resume-shackle-mode-h))))
 
 (use-package uniquify
   :straight nil
@@ -370,7 +370,7 @@ visual state or mark.")
   :custom
   (xref-marker-ring-length 1024)
   :config
-  (ef-add-popup "*xref*")
+  (+add-popup "*xref*")
 
   (defadvice xref-goto-xref (after my activate)
     (delete-window (get-buffer-window (get-buffer "*xref*")))))

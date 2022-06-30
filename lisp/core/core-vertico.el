@@ -20,10 +20,10 @@
   (rfn-eshadow-update-overlay . vertico-directory-tidy)
   :general
   (:keymaps 'vertico-map
-   "C-SPC" #'ef-vertico-restrict-to-matches)
+   "C-SPC" #'+vertico-restrict-to-matches)
   :hook (ef-first-command . vertico-mode)
   :config
-  (defun ef-vertico-restrict-to-matches ()
+  (defun +vertico-restrict-to-matches ()
     (interactive)
     (let ((inhibit-read-only t))
       (goto-char (point-max))
@@ -34,20 +34,20 @@
 (use-package orderless
   :after vertico
   :custom
-  (orderless-style-dispatchers '(ef-orderless-without-if-bang
-                                 ef-orderless-with-if-equals))
+  (orderless-style-dispatchers '(+orderless-without-if-bang
+                                 +orderless-with-if-equals))
   (orderless-matching-styles '(orderless-regexp
                                orderless-flex))
   (completion-styles '(orderless))
   (completion-category-defaults nil)
   :commands (orderless-filter)
   :config
-  (defun ef-orderless-with-if-equals (pattern _index _total)
+  (defun +orderless-with-if-equals (pattern _index _total)
     "Orderless style dispatcher to literal match results using equal sign."
     (when (string-prefix-p "=" pattern)
       `(orderless-literal . ,(substring pattern 1))))
 
-  (defun ef-orderless-without-if-bang (pattern _index _total)
+  (defun +orderless-without-if-bang (pattern _index _total)
     "Orderless style dispatcher to discard results matching literal following
 exclamation mark."
     (when (string-prefix-p "!" pattern)
@@ -84,7 +84,7 @@ exclamation mark."
   ;; Don't ask if we want to compile the module.
   (fzf-native-always-compile-module t)
   :config
-  (ef-add-popup fzf-native-module-install-buffer-name :ephemeral t)
+  (+add-popup fzf-native-module-install-buffer-name :ephemeral t)
   ;; As opposed to the included binary, fzf-native will build the module
   ;; using -march=native if we do it ourselves so it creates optimal code
   ;; for the used CPU.
@@ -105,7 +105,7 @@ exclamation mark."
   :defer t
   :custom
   (consult-preview-key nil)
-  (consult-project-root-function #'ef-project-root)
+  (consult-project-root-function #'+project-root)
   :hook
   (completion-list-mode . consult-preview-at-point-mode)
   :general
@@ -154,18 +154,18 @@ exclamation mark."
   (:keymaps 'minibuffer-mode-map
    "C-." 'embark-act)
   :custom
-  (embark-indicators '(ef-embark-which-key-indicator
+  (embark-indicators '(+embark-which-key-indicator
                        embark-highlight-indicator
                        embark-isearch-highlight-indicator))
-  :functions (ef-embark-hide-which-key-indicator
-              ef-embark-which-key-indicator)
+  :functions (+embark-hide-which-key-indicator
+              +embark-which-key-indicator)
   :defines (embark-indicators)
   :config
   (declare-function embark-completing-read-prompter "embark")
   (declare-function embark--truncate-target "embark")
 
   ;; https://github.com/oantolin/embark/wiki/Additional-Configuration#use-which-key-like-a-key-menu-prompt
-  (defun ef-embark-which-key-indicator ()
+  (defun +embark-which-key-indicator ()
     "An embark indicator that displays keymaps using which-key. The which-key
 help message will show the type and value of the current target followed by an
 ellipsis if there are further targets."
@@ -187,16 +187,16 @@ ellipsis if there are further targets."
          nil nil t (lambda (binding)
                      (not (string-suffix-p "-argument" (cdr binding))))))))
 
-  (defun ef-embark-hide-which-key-indicator (fn &rest args)
+  (defun +embark-hide-which-key-indicator (fn &rest args)
     "Hide the which-key indicator immediately when using the completing-read
 prompter."
     (which-key--hide-popup-ignore-command)
     (let ((embark-indicators
-           (remq #'ef-embark-which-key-indicator embark-indicators)))
+           (remq #'+embark-which-key-indicator embark-indicators)))
       (apply fn args)))
 
   (advice-add #'embark-completing-read-prompter
-              :around #'ef-embark-hide-which-key-indicator)
+              :around #'+embark-hide-which-key-indicator)
 
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"

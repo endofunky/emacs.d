@@ -21,7 +21,7 @@
   (cider-mode . eldoc-mode)
   (cider-repl-mode . eldoc-mode)
   (cider-repl-mode . lispy-mode)
-  :functions (ef-cider-quit
+  :functions (+cider-quit
               cider-test-rerun-failed-tests
               cider-connected-p
               cider-jack-in
@@ -35,8 +35,8 @@
   :general
   (:prefix ef-local-leader :states 'normal :keymaps 'cider-mode-map
    "c"   '(nil :wk "CIDER")
-   "cj"   '(ef-cider-jack-in :wk "Jack in")
-   "cq"   '(ef-cider-quit :wk "Quit")
+   "cj"   '(+cider-jack-in :wk "Jack in")
+   "cq"   '(+cider-quit :wk "Quit")
 
    "e"   '(nil :wk "Eval")
    "eb"  '(cider-eval-buffer :wk "Buffer")
@@ -57,10 +57,10 @@
    "rq"  '(cider-quit :wk "Quit")
 
    "t"   '(nil :wk "Test")
-   "ta"  '(ef-cider-run-all-tests :wk "All")
-   "te"  '(ef-cider-test-rerun-failed-tests :wk "Failed")
-   "tp"  '(ef-cider-run-test :wk "At point")
-   "tt"  '(ef-cider-run-ns-tests :wk "File"))
+   "ta"  '(+cider-run-all-tests :wk "All")
+   "te"  '(+cider-test-rerun-failed-tests :wk "Failed")
+   "tp"  '(+cider-run-test :wk "At point")
+   "tt"  '(+cider-run-ns-tests :wk "File"))
   (:prefix ef-local-leader :states 'visual :keymaps 'cider-mode-map
    "e"   '(nil :wk "Eval")
    "ei"  '(nil :wk "Insert")
@@ -85,17 +85,17 @@
 
   (evil-set-initial-state 'cider-repl-mode 'normal)
 
-  (ef-add-popup 'cider-repl-mode)
-  (ef-add-popup "^\\*cider" :ephemeral t :regexp t)
-  (ef-add-popup "*CIDER REPL Shortcuts Help*" :ephemeral t :size .5)
+  (+add-popup 'cider-repl-mode)
+  (+add-popup "^\\*cider" :ephemeral t :regexp t)
+  (+add-popup "*CIDER REPL Shortcuts Help*" :ephemeral t :size .5)
 
-  (defun ef-cider-jack-in (params)
+  (defun +cider-jack-in (params)
     "Quit CIDER if running and jack in again"
     (interactive "P")
-    (ef-cider-quit)
+    (+cider-quit)
     (cider-jack-in params))
 
-  (defun ef-cider-quit ()
+  (defun +cider-quit ()
     "Quit CIDER"
     (interactive)
     (when (cider-connected-p)
@@ -105,25 +105,25 @@
           (delete-window win))
       (cider-quit)))
 
-  (defun ef-cider-run-test ()
+  (defun +cider-run-test ()
     "Re-evaluate buffer and run test at point"
     (interactive)
     (cider-load-buffer)
     (call-interactively #'cider-test-run-test))
 
-  (defun ef-cider-run-ns-tests ()
+  (defun +cider-run-ns-tests ()
     "Re-evaluate buffer and run tests for namespace"
     (interactive)
     (cider-load-buffer)
     (call-interactively #'cider-test-run-ns-tests))
 
-  (defun ef-cider-test-rerun-failed-tests ()
+  (defun +cider-test-rerun-failed-tests ()
     "Re-evaluate buffer and re-run all failed tests"
     (interactive)
     (cider-load-buffer)
     (call-interactively #'cider-test-rerun-failed-tests))
 
-  (defun ef-cider-run-all-tests ()
+  (defun +cider-run-all-tests ()
     "Re-evaluate buffer and run all tests"
     (interactive)
     (cider-test-run-project-tests nil)))

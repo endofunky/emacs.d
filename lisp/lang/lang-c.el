@@ -10,41 +10,41 @@
   (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.hpp$" . c++-mode))
   :hook
-  (c-mode . ef-cc-mode-enable-lsp)
-  (c++-mode . ef-cc-mode-enable-lsp)
-  (objc-mode . ef-cc-mode-enable-lsp)
+  (c-mode . +cc-mode-enable-lsp)
+  (c++-mode . +cc-mode-enable-lsp)
+  (objc-mode . +cc-mode-enable-lsp)
   (c-mode-common . c-toggle-hungry-state)
   :custom
   ;; Left-align `#define`s
   (c-electric-pound-behavior '(alignleft))
   :config
-  (declare-function ef-project-root "core-project")
+  (declare-function +project-root "core-project")
 
-  (ef-tree-sitter c-mode c++-mode)
+  (+enable-tree-sitter c-mode c++-mode)
 
   (define-key c-mode-map (kbd "C-M-l") nil)
   (define-key c-mode-map (kbd "C-M-h") nil)
   (define-key c++-mode-map (kbd "C-M-l") nil)
   (define-key c++-mode-map (kbd "C-M-h") nil)
 
-  (ef-add-hook c-mode-hook
+  (+add-hook c-mode-hook
     (setq-local c-default-style "k&r")
     (setq-local c-basic-offset 8)
     (setq-local tab-width 8)
     (setq-local indent-tabs-mode t))
 
-  (ef-add-hook c++-mode-hook
+  (+add-hook c++-mode-hook
     (setq-local c-default-style "k&r")
     (setq-local c-basic-offset 2)
     (setq-local tab-width 2)
     (setq-local indent-tabs-mode nil))
 
-  (defun ef-cc-mode-enable-lsp ()
+  (defun +cc-mode-enable-lsp ()
     "Conditionally enable LSP integration for cc-mode projects."
     (interactive)
-    (when (or (file-exists-p (expand-file-name "compile_commands.json" (ef-project-root)))
-              (file-exists-p (expand-file-name ".ccls" (ef-project-root))))
-      (ef-enable-lsp-maybe)))
+    (when (or (file-exists-p (expand-file-name "compile_commands.json" (+project-root)))
+              (file-exists-p (expand-file-name ".ccls" (+project-root))))
+      (+enable-lsp-maybe)))
 
   ;; https://stackoverflow.com/questions/23553881/emacs-indenting-of-c11-lambda-functions-cc-mode
   (defadvice c-lineup-arglist (around my activate)

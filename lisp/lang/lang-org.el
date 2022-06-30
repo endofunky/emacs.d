@@ -49,7 +49,7 @@
   (:states 'normal :prefix ef-local-leader :keymaps 'org-mode-map
    "o," '(org-priority-up :wk "Priority up")
    "o." '(org-priority-down :wk "Priority down")
-   "oA" '(ef-org-archive-done-tasks :wk "Archive tasks")
+   "oA" '(+org-archive-done-tasks :wk "Archive tasks")
    "oe" '(org-export-dispatch :wk "Export")
    "op" '(org-priority :wk "Cycle priority")
    "oR" '(org-roam-buffer-toggle :wk "Toggle roam buffer")
@@ -84,7 +84,7 @@
   (declare-function outline-next-heading "outline")
   (declare-function outline-previous-heading "outline")
 
-  (defun ef-org-archive-done-tasks ()
+  (defun +org-archive-done-tasks ()
     "Archive `org-mode' tasks marked as DONE."
     (interactive)
     (org-map-entries
@@ -106,7 +106,7 @@
   (when window-system
     (define-key org-mode-map (kbd "M-RET") 'toggle-frame-fullscreen))
 
-  (ef-add-popup "*Org Select*")
+  (+add-popup "*Org Select*")
 
   (defun org-cycle-hide-drawers (state)
     "Re-hide all drawers after a visibility state change."
@@ -175,8 +175,8 @@
   (org-roam-directory (expand-file-name "roam" ef-org-directory))
   :config
   (org-roam-setup)
-  (ef-shackle '("*org-roam*" :align right :size .5 :popup t :select t :float t))
-  (ef-add-popup "*org-roam diagnostics*"))
+  (+shackle '("*org-roam*" :align right :size .5 :popup t :select t :float t))
+  (+add-popup "*org-roam diagnostics*"))
 
 (use-package ox-gfm
   :after org)

@@ -7,18 +7,18 @@
   :mode (("\\.go\\'" . go-mode))
   :functions (gofmt-before-save)
   :config
-  (ef-lsp go-mode)
-  (ef-tree-sitter go-mode)
+  (+enable-lsp go-mode)
+  (+enable-tree-sitter go-mode)
 
-  (declare-function ef-lsp-organize-imports "core-lsp")
+  (declare-function +lsp-organize-imports "core-lsp")
 
-  (ef-add-popup "*Gofmt Errors*" :ephemeral t)
-  (ef-add-popup "*go-rename*" :ephemeral t)
-  (ef-add-popup 'godoc-mode :ephemeral t)
+  (+add-popup "*Gofmt Errors*" :ephemeral t)
+  (+add-popup "*go-rename*" :ephemeral t)
+  (+add-popup 'godoc-mode :ephemeral t)
 
-  (ef-add-hook go-mode-hook
+  (+add-hook go-mode-hook
     (add-hook 'before-save-hook #'gofmt-before-save nil t)
-    (add-hook 'before-save-hook #'ef-lsp-organize-imports nil t)
+    (add-hook 'before-save-hook #'+lsp-organize-imports nil t)
 
     (if (not (string-match "go" compile-command))
         (set (make-local-variable 'compile-command)
@@ -34,19 +34,19 @@
    "ta" '(go-test-current-project :wk "Project")
    "tt" '(go-test-current-file :wk "Buffer")
    "tp" '(go-test-current-test :wk "At point")
-   "tl" '(ef-go-test-toggle :wk "Toggle"))
+   "tl" '(+go-test-toggle :wk "Toggle"))
   :config
-  (ef-add-popup 'go-test-mode :ephemeral t)
+  (+add-popup 'go-test-mode :ephemeral t)
 
-  (defconst ef-go-test-toggle-re "_test\\."
-    "Match regexp for `ef-go-test-toggle'.")
+  (defconst +go-test-toggle-re "_test\\."
+    "Match regexp for `+go-test-toggle'.")
 
-  (defun ef-go-test-toggle ()
+  (defun +go-test-toggle ()
     "Toggle Go test/implementation."
     (interactive)
     (let ((file (buffer-file-name (current-buffer))))
-      (if (string-match ef-go-test-toggle-re file)
-          (let ((impl (replace-regexp-in-string ef-go-test-toggle-re "." file)))
+      (if (string-match +go-test-toggle-re file)
+          (let ((impl (replace-regexp-in-string +go-test-toggle-re "." file)))
             (if (file-exists-p impl)
                 (find-file impl)
               (message "Implementation not found: %s" impl)))

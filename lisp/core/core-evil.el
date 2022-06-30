@@ -11,7 +11,7 @@ already in normal mode.")
   (:states 'normal :prefix ef-leader
    ":"        '(eval-expression :wk "Eval expression")
    "#"        '(display-line-numbers-mode :wk "Toggle line numbers")
-   "s"        '(ef-popup-switch-buffer :wk "Switch buffer")
+   "s"        '(+popup-switch-buffer :wk "Switch buffer")
 
    ;; Buffer
    "b"        '(nil :wk "Buffer")
@@ -23,8 +23,8 @@ already in normal mode.")
    "bkk"      '(kill-current-buffer :wk "Kill buffer")
    "bkK"      '(kill-buffer-and-window :wk "Kill buffer & window")
    "bkm"      '(kill-matching-buffers :wk "Kill matching buffers")
-   "bko"      '(ef-kill-other-buffers :wk "Kill other file buffers")
-   "bkO"      '(ef-kill-all-other-buffers :wk "Kill other buffers")
+   "bko"      '(+kill-other-buffers :wk "Kill other file buffers")
+   "bkO"      '(+kill-all-other-buffers :wk "Kill other buffers")
    "bks"      '(kill-some-buffers :wk "Kill some buffers")
    "bl"       '(evil-switch-to-windows-last-buffer :wk "Last buffer")
    "bn"       '(next-buffer :wk "Next buffer")
@@ -35,15 +35,15 @@ already in normal mode.")
    ;; Insert
    "I"        '(nil :wk "Insert")
    "If"       '(nil :wk "File")
-   "Iff"      '(ef-insert-file-name :wk "File name")
-   "Ifb"      '(ef-insert-file-name-base :wk "File base-name")
-   "Ifd"      '(ef-insert-file-name-directory :wk "File directory")
+   "Iff"      '(+insert-file-name :wk "File name")
+   "Ifb"      '(+insert-file-name-base :wk "File base-name")
+   "Ifd"      '(+insert-file-name-directory :wk "File directory")
    "IF"       '(add-file-local-variable-prop-line :wk "File Local Prop")
    "It"       '(nil :wk "time")
-   "Iti"      '(ef-insert-iso-datetime :wk "ISO date/time")
-   "Ito"      '(ef-insert-ordinal-date :wk "Ordinal date")
-   "Itu"      '(ef-insert-unix-time :wk "UNIX timestamp")
-   "Iu"       '(ef-insert-uuid :wk "UUID")
+   "Iti"      '(+insert-iso-datetime :wk "ISO date/time")
+   "Ito"      '(+insert-ordinal-date :wk "Ordinal date")
+   "Itu"      '(+insert-unix-time :wk "UNIX timestamp")
+   "Iu"       '(+insert-uuid :wk "UUID")
    "IU"       '(insert-char :wk "Unicode")
 
    ;; Whitespace
@@ -66,7 +66,7 @@ already in normal mode.")
   (:keymaps 'evil-motion-state-map
    "RET" nil)
   :commands (evil-force-normal-state)
-  :functions (ef-run-escape-hooks)
+  :functions (+run-escape-hooks)
   :custom
   (evil-auto-indent t)
   (evil-cross-lines t)
@@ -98,7 +98,7 @@ already in normal mode.")
   (declare-function evil-ex-define-cmd "evil-ex")
   (evil-mode 1)
 
-  (defun ef-kill-buffer-or-delete-window ()
+  (defun +kill-buffer-or-delete-window ()
     "If more than one window is open, delete the current window, otherwise kill
 current buffer."
     (interactive)
@@ -106,13 +106,13 @@ current buffer."
         (delete-window)
       (kill-buffer)))
 
-  (evil-ex-define-cmd "q" 'ef-kill-buffer-or-delete-window)
+  (evil-ex-define-cmd "q" '+kill-buffer-or-delete-window)
 
-  (defun ef-run-escape-hooks ()
+  (defun +run-escape-hooks ()
     "Run ef-escape-hook hooks"
     (run-hooks 'ef-escape-hook))
 
-  (advice-add #'evil-force-normal-state :after #'ef-run-escape-hooks))
+  (advice-add #'evil-force-normal-state :after #'+run-escape-hooks))
 
 (use-package evil-nerd-commenter
   :after evil
@@ -145,18 +145,18 @@ current buffer."
   (:states 'normal :prefix ef-leader
    "u" '(undo-tree-visualize :wk "Undo-tree"))
   :config
-  (ef-add-hook undo-tree-visualizer-mode-hook
+  (+add-hook undo-tree-visualizer-mode-hook
     (setq-local show-trailing-whitespace nil))
 
   (global-undo-tree-mode t)
 
-  (defun ef-undo-tree-save-history-ad (orig-fn &rest args)
+  (defun +undo-tree-save-history-ad (orig-fn &rest args)
     "Advice for `undo-tree-save-history' to hide echo area messages."
     (let ((message-log-max nil)
           (inhibit-message t))
       (apply orig-fn args)))
 
-  (advice-add 'undo-tree-save-history :around 'ef-undo-tree-save-history-ad))
+  (advice-add 'undo-tree-save-history :around '+undo-tree-save-history-ad))
 
 (use-package evil-collection
   :after evil

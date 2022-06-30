@@ -9,7 +9,7 @@
   (:keymap 'flymake-diagnostics-buffer-mode-map
    "M-e" 'quit-window)
   (:keymap 'flymake-mode-map
-   "M-e" 'ef-flymake-toggle-errors)
+   "M-e" '+flymake-toggle-errors)
   :custom
   (elisp-flymake-byte-compile-load-path (append load-path '("./")))
   (flymake-no-changes-timeout 0.1)
@@ -19,19 +19,19 @@
   (flymake-wrap-around nil)
   :hook
   (prog-mode . flymake-mode)
-  (evil-insert-state-entry . ef--flymake-disable)
-  (evil-replace-state-entry . ef--flymake-disable)
-  (evil-insert-state-exit . ef--flymake-enable)
-  (evil-replace-state-exit . ef--flymake-enable)
-  (ef-escape . ef-flymake-check-buffer-maybe)
+  (evil-insert-state-entry . +flymake-disable)
+  (evil-replace-state-entry . +flymake-disable)
+  (evil-insert-state-exit . +flymake-enable)
+  (evil-replace-state-exit . +flymake-enable)
+  (ef-escape . +flymake-check-buffer-maybe)
   :config
-  (ef-add-hook flymake-mode-hook
+  (+add-hook flymake-mode-hook
     (remove-hook 'flymake-diagnostic-functions 'elisp-flymake-checkdoc t))
 
-  (ef-add-popup 'flymake-diagnostics-buffer-mode
+  (+add-popup 'flymake-diagnostics-buffer-mode
                 :size .2 :select nil :ephemeral t)
 
-  (defun ef-flymake-follow-diagnostics-buffer (&rest args)
+  (defun +flymake-follow-diagnostics-buffer (&rest args)
     "Window hook function that checks if the current buffer has `flymake-mode'
 enabled, the flymake diagnostics buffer is visible, and if so will follow the
 diagnostics to the buffer being switched to."
@@ -44,16 +44,16 @@ diagnostics to the buffer being switched to."
       (flymake-show-buffer-diagnostics)))
 
   (add-to-list 'window-buffer-change-functions
-               #'ef-flymake-follow-diagnostics-buffer)
+               #'+flymake-follow-diagnostics-buffer)
 
   (add-to-list 'window-selection-change-functions
-               #'ef-flymake-follow-diagnostics-buffer)
+               #'+flymake-follow-diagnostics-buffer)
 
-  (defun ef-flymake-check-buffer-maybe ()
+  (defun +flymake-check-buffer-maybe ()
     (when (bound-and-true-p flymake-mode)
       (flymake-start)))
 
-  (defun ef-flymake-toggle-errors ()
+  (defun +flymake-toggle-errors ()
     (interactive)
     (if (eq major-mode 'flymake-diagnostics-buffer-mode)
         (quit-window)
@@ -64,11 +64,11 @@ diagnostics to the buffer being switched to."
   ;; Disable flymake while in insert or replace state
   (defvar ef--flymake-delay nil)
 
-  (defun ef--flymake-disable ()
+  (defun +flymake-disable ()
     (setq ef--flymake-delay flymake-no-changes-timeout)
     (setq flymake-no-changes-timeout nil))
 
-  (defun ef--flymake-enable ()
+  (defun +flymake-enable ()
     (setq flymake-no-changes-timeout ef--flymake-delay)
     (when (bound-and-true-p flymake-mode)
       (flymake-start))))

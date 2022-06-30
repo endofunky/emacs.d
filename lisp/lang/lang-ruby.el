@@ -38,13 +38,13 @@
    "c"  '(nil :wk "Compile")
    "cd" '(ruby-disasm :wk "Disassemble"))
   :config
-  (ef-lsp ruby-mode)
-  (ef-tree-sitter ruby-mode)
+  (+enable-lsp ruby-mode)
+  (+enable-tree-sitter ruby-mode)
 
   ;; Suppress warnings
   (setenv "RUBYOPT" "-W0")
 
-  (ef-add-popup "*rake-compilation*")
+  (+add-popup "*rake-compilation*")
 
   (defun ruby-disasm (beginning end)
     "Disassemble the selected region or contents of current buffer into YARV
@@ -89,10 +89,10 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
   ;; Switch to inf-ruby if a breakpoint has been hit.
   (compilation-filter . inf-ruby-auto-enter)
   :config
-  (ef-add-hook inf-ruby-mode-hook
+  (+add-hook inf-ruby-mode-hook
     (comint-read-input-ring 'silent))
 
-  (ef-add-popup 'inf-ruby-mode))
+  (+add-popup 'inf-ruby-mode))
 
 (use-package hideshow
   :after ruby-mode
@@ -114,16 +114,16 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
   :after ruby-mode
   :commands rake
   :config
-  (ef-add-hook rake-compilation-mode-hook
+  (+add-hook rake-compilation-mode-hook
     (setq-local compilation-scroll-output t)))
 
 (use-package ruby-test-mode
   :after ruby-mode
-  :functions (ef-file-or-nil
-              ef-ruby-test-infer-file
+  :functions (+file-or-nil
+              +ruby-test-infer-file
               ruby-test-run
               ruby-test-with-ruby-directory)
-  :commands (ef-ruby-test-run
+  :commands (+ruby-test-run
              ruby-test-specification-filename
              ruby-test-toggle-implementation-and-specification
              ruby-test-unit-filename
@@ -138,33 +138,33 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
    "t"  '(nil :wk "Test")
    "tl" '(ruby-test-toggle-implementation-and-specification :wk "Toggle")
    "tp" '(ruby-test-run-at-point :wk "At point")
-   "tt" '(ef-ruby-test-run :wk "Buffer"))
+   "tt" '(+ruby-test-run :wk "Buffer"))
   :defines (ruby-test-rspec-options)
   :config
   (add-hook 'ruby-mode-hook 'ruby-test-mode)
   (setq ruby-test-rspec-options "")
 
-  (defun ef-file-or-nil (filename)
+  (defun +file-or-nil (filename)
     "Return `filename' if `file-exists-p' returns non-nil, else nil"
     (if (file-exists-p filename)
         filename
       nil))
 
-  (defun ef-ruby-test-infer-file (filename)
+  (defun +ruby-test-infer-file (filename)
     "Return the inferred test or spec for `filename', or nil if it doesn't
 exist"
-    (cl-some #'ef-file-or-nil (list (ruby-test-specification-filename filename)
+    (cl-some #'+file-or-nil (list (ruby-test-specification-filename filename)
                                     (ruby-test-unit-filename filename)
                                     (ruby-test-default-test-filename filename))))
 
-  (defun ef-ruby-test-run ()
+  (defun +ruby-test-run ()
     "Run the current test/spec or the test/spec corresponding to the
 current buffer's file, if it exists"
     (interactive)
     (let ((filename (buffer-file-name (current-buffer))))
       (if (ruby-test-any-p filename)
           (ruby-test-run)
-        (if-let* ((testname (ef-ruby-test-infer-file filename)))
+        (if-let* ((testname (+ruby-test-infer-file filename)))
             (ruby-test-with-ruby-directory
              testname
              (ruby-test-run-command (ruby-test-command testname)))
@@ -197,6 +197,6 @@ current buffer's file, if it exists"
     "Generate a name for the RuboCop buffer from FILE-OR-DIR."
     "*rubocop*")
 
-  (ef-add-popup "*rubocop*"))
+  (+add-popup "*rubocop*"))
 
 (provide 'lang-ruby)

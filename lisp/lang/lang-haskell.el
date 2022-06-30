@@ -8,7 +8,7 @@
   :custom
   (haskell-font-lock-symbols nil)
   :config
-  (ef-tree-sitter haskell-mode)
+  (+enable-tree-sitter haskell-mode)
   (evil-define-key 'normal haskell-mode-map ",cc" 'haskell-compile))
 
 (use-package haskell

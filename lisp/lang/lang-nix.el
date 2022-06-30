@@ -5,7 +5,7 @@
 (use-package nix-mode
   :mode ("\\.nix\\'" "\\.nix.in\\'")
   :config
-  (ef-tree-sitter nix-mode)
+  (+enable-tree-sitter nix-mode)
   (evil-define-key 'normal nix-mode-map (kbd ", TAB") 'nix-mode-format))
 
 (use-package nix-drv-mode
@@ -20,7 +20,7 @@
   :straight nix-mode
   :commands (nix-repl)
   :config
-  (ef-add-popup "*Nix-REPL*")
+  (+add-popup "*Nix-REPL*")
   (evil-define-key 'normal nix-mode-map ",r" 'nix-repl))
 
 (use-package nix-update

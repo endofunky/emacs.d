@@ -19,19 +19,19 @@
    "C-t" 'xref-go-back
    "gd" 'xref-find-definitions
    "gr" 'xref-find-references
-   "K" 'ef-eglot-lookup-documentation)
+   "K" '+eglot-lookup-documentation)
   (:prefix ef-leader :states 'normal :keymaps 'eglot-mode-map
    "L"  '(nil :wk "LSP")
    "Lc" '(eglot :wk "Reconnect")
    "Lr" '(eglot-reconnect :wk "Reconnect")
    "Lq" '(eglot-shutdown :wk "Quit")
    "R"  '(nil :wk "Refactor")
-   "Ri" '(ef-lsp-organize-imports :wk "Organize imports")
+   "Ri" '(+lsp-organize-imports :wk "Organize imports")
    "Rr" '(eglot-rename :wk "Rename"))
   :commands (eglot
              eglot-ensure
              eglot-code-action-organize-imports
-             ef-enable-lsp-maybe)
+             +enable-lsp-maybe)
   :defines (eglot-server-programs)
   :functions (eglot-lsp-server
               eglot--hover-info
@@ -41,14 +41,14 @@
   :config
   (declare-function eglot--guess-contact "ext:eglot")
 
-  (ef-add-popup "^\\*eglot-help" :regexp t :size 0.4)
+  (+add-popup "^\\*eglot-help" :regexp t :size 0.4)
 
-  (defun ef-lsp-organize-imports ()
+  (defun +lsp-organize-imports ()
     (interactive)
     (when (bound-and-true-p eglot--managed-mode)
       (call-interactively #'eglot-code-action-organize-imports)))
 
-  (defun ef-enable-lsp-maybe ()
+  (defun +enable-lsp-maybe ()
     "Enable `eglot' if a LSP server matching the major-mode can be found."
     (interactive)
     (when (and buffer-file-name)
@@ -108,7 +108,7 @@
 
   (defvar ef-eglot--help-buffer nil)
 
-  (defun ef-eglot-lookup-documentation (_identifier)
+  (defun +eglot-lookup-documentation (_identifier)
     "Request documentation for the thing at point."
     (interactive "P")
     (eglot--dbind ((Hover) contents range)
@@ -137,11 +137,11 @@
    [remap xref-find-apropos] 'consult-eglot-symbols)
   :commands (consult-eglot-symbols))
 
-(defmacro ef-lsp (&rest modes)
+(defmacro +enable-lsp (&rest modes)
   "Enable language server protocol integration for MODES."
-  (let* ((m (ef-as-list modes))
+  (let* ((m (+as-list modes))
          (hooks (mapcar (lambda (mode)
-                          `(add-hook ',(ef-mode-hook mode) 'ef-enable-lsp-maybe))
+                          `(add-hook ',(+mode-hook mode) '+enable-lsp-maybe))
                         m)))
     (macroexp-progn hooks)))
 

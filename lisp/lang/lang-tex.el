@@ -24,8 +24,8 @@
   (TeX-master t)
   :functions (texmathp)
   :config
-  (ef-lsp tex-mode latex-mode LaTeX-mode plain-tex-mode)
-  (ef-add-hook TeX-mode-hook
+  (+enable-lsp tex-mode latex-mode LaTeX-mode plain-tex-mode)
+  (+add-hook TeX-mode-hook
     ;; Tell Emacs how to parse TeX files.
     (setq-local ispell-parser 'tex)
     ;; Don't auto-fill in math blocks.

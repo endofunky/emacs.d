@@ -17,11 +17,11 @@
                                :repo "ubolonton/emacs-tree-sitter"
                                :files ("langs/*.el" "langs/queries")))
 
-(defmacro ef-tree-sitter (&rest modes)
+(defmacro +enable-tree-sitter (&rest modes)
   "Enable `tree-sitter-mode' for MODES."
-  (let* ((m (ef-as-list modes))
+  (let* ((m (+as-list modes))
          (hooks (mapcar (lambda (mode)
-                          `(add-hook ',(ef-mode-hook mode) 'tree-sitter-mode))
+                          `(add-hook ',(+mode-hook mode) 'tree-sitter-mode))
                         m)))
     (macroexp-progn hooks)))
 

@@ -15,10 +15,10 @@
   (python-shell-buffer-name "ipython")
   (python-shell-interpreter-args "--simple-prompt -i")
   :config
-  (ef-add-popup "*ipython*")
+  (+add-popup "*ipython*")
 
-  (ef-lsp python-mode)
-  (ef-tree-sitter python-mode)
+  (+enable-lsp python-mode)
+  (+enable-tree-sitter python-mode)
 
   (evil-define-key 'normal inferior-python-mode-map ",r" 'run-python)
   (evil-define-key 'normal python-mode-map ",eb" 'python-shell-send-buffer)

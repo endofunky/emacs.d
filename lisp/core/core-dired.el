@@ -7,13 +7,13 @@
   :commands (dired)
   :general
   (:states 'normal :prefix ef-leader
-   "D" '(ef-dired-here :wk "dired"))
+   "D" '(+dired-here :wk "dired"))
   (:keymaps 'dired-mode-map
    "<return>" 'dired-find-alternate-file)
   (:states 'normal :prefix ef-leader :keymaps 'dired-mode-map
    "D" 'bury-buffer)
   :init
-  (defun ef-dired-here ()
+  (defun +dired-here ()
     "Open `dired' in current directory."
     (interactive)
     (dired "."))
@@ -24,7 +24,7 @@
   (dired-recursive-copies 'always)
   (dired-recursive-deletes 'top)
   :config
-  (ef-shackle '(dired-mode :align right :size .5 :popup nil
+  (+shackle '(dired-mode :align right :size .5 :popup nil
                           :select t :float t :inhibit-window-quit t))
 
   ;; As opposed to what the documentation says, `dired-find-alternate-file' is

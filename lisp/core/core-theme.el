@@ -13,14 +13,14 @@
   :config
   (load-theme 'efdark t))
 
-(ef-add-hook window-configuration-change-hook :fn ef-dim-popups
+(+add-hook window-configuration-change-hook :fn +dim-popups-h
   (walk-windows (lambda (w)
                   (with-current-buffer (window-buffer w)
-                    (if (ef-popup--buffer-p (window-buffer w))
+                    (if (+popup--buffer-p (window-buffer w))
                         (buffer-face-set '(:background "#151617"))
                       (buffer-face-set 'default))))))
 
-(ef-add-hook prog-mode-hook :fn efdark-add-watchwords
+(+add-hook prog-mode-hook :fn +add-watchwords-h
   "Highlight FIXME, TODO, and NOCOMMIT in code"
   (font-lock-add-keywords
    nil '(("\\<\\(FIXME\\|BUG\\|XXX\\|TODO\\|NOCOMMIT\\)\\>"

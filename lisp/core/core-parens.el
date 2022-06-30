@@ -39,8 +39,8 @@
               sp-in-code-p
               sp-pair
               sp-point-after-word-p
-              ef-current-line-string
-              ef-is-in-comment)
+              +sp-current-line-string
+              +sp-is-in-comment)
   :defines (sp-c-modes
             smartparens-global-mode)
   :config
@@ -49,8 +49,7 @@
   (show-smartparens-global-mode -1)
   (smartparens-global-mode t)
 
-  (ef-add-hook 'eval-expression-minibuffer-setup-hook
-    :fn ef-smartparens-eval-expression
+  (+add-hook 'eval-expression-minibuffer-setup-hook :fn +sp-eval-expression-h
     "Enable `smartparens-mode' in the minibuffer for `eval-expression'.
 This includes everything that calls `read--expression', e.g.
 `edebug-eval-expression'.
@@ -98,7 +97,7 @@ Only enable it if `smartparens-global-mode' is on."
    :actions '(insert)
    :post-handlers '(("| " "SPC")
                     ("|\n[i]*/[d-2]" "RET")
-                    (ef-default-expand-asterix-doc-comment-block "*")))
+                    (+sp-default-expand-asterix-doc-comment-block "*")))
 
   ;; Auto-pair auto-documentation comment blocks in cc-mode derivatives.
   (sp-local-pair '(c-mode c++-mode objc-mode java-mode)
@@ -119,26 +118,26 @@ Only enable it if `smartparens-global-mode' is on."
   ;; Smartparens config for `rust-mode'.
   (with-eval-after-load 'smartparens-rust
     ;; Insert semicolon after closing parentheses where appropriate in rust-mode.
-    (defun ef-maybe-add-semicolon-paren-rust (_id action _context)
+    (defun +sp-maybe-add-semicolon-paren-rust (_id action _context)
       "A helper function that inserts semicolon after closing
 parentheses when appropriate, for Rust lang"
       ;; here, caret supposed to be in between parens, i.e. (|)
       (when (and (eq action 'insert)
                  (looking-at ")\\s-*$")
-                 (not (ef-is-in-comment))
+                 (not (+sp-is-in-comment))
                  (not (string-match-p
                        (regexp-opt '("fn" "if" "for" "while") 'words)
-                       (ef-current-line-string))))
+                       (+sp-current-line-string))))
         (save-excursion
           (forward-char) ;; skip closing brace
           (insert ";"))))
 
     (sp-local-pair 'rust-mode '"{" nil
-                   :post-handlers '(:add ef-maybe-add-semicolon-paren-rust)))
+                   :post-handlers '(:add +sp-maybe-add-semicolon-paren-rust)))
 
   ;; Smartparens config for `markdown-mode'.
   (with-eval-after-load 'smartparens-markdown
-    (defun ef-sp-skip-asterisk (_ms mb _me)
+    (defun +sp-skip-asterisk (_ms mb _me)
       "Skip asterisk if at begging of line"
       (save-excursion
         (goto-char mb)
@@ -154,7 +153,7 @@ parentheses when appropriate, for Rust lang"
     (sp-local-pair '(markdown-mode gfm-mode) "*" "*"
                    :unless '(sp-point-after-word-p
                              sp-point-at-bol-p)
-                   :skip-match 'ef-sp-skip-asterisk
+                   :skip-match '+sp-skip-asterisk
                    :post-handlers '(("[d1]" "SPC")))
 
     (sp-local-pair '(markdown-mode gfm-mode) "_" "_"))
@@ -168,7 +167,7 @@ parentheses when appropriate, for Rust lang"
     ;; Insert angle-brackets after #include and templates.
     (general-define-key :keymaps 'c++-mode-map ">" nil "<" nil)
 
-    (defun ef-sp-cc-point-after-include-p (id action context)
+    (defun +sp-cc-point-after-include-p (id action context)
       "Return t if point is in an #include."
       (and (sp-in-code-p id action context)
            (save-excursion
@@ -176,7 +175,7 @@ parentheses when appropriate, for Rust lang"
              (looking-at-p "[ 	]*#include[^<]+"))))
 
     ;; This is based on the angle-bracket matching from `smartparens-rust'.
-    (defun ef-sp-filter-angle-brackets (id action context)
+    (defun +sp-filter-angle-brackets (id action context)
       "Non-nil if we should allow ID's ACTION in CONTEXT for angle brackets."
       ;; See the docstring for `sp-pair' for the possible values of ID,
       ;; ACTION and CONTEXT.
@@ -205,14 +204,14 @@ parentheses when appropriate, for Rust lang"
               (not on-comparison)))))))
 
     (sp-local-pair '(c++-mode objc-mode) "<" ">"
-                   :when '(ef-sp-cc-point-after-include-p
-                           ef-sp-filter-angle-brackets)
+                   :when '(+sp-cc-point-after-include-p
+                           +sp-filter-angle-brackets)
                    :post-handlers '(("| " "SPC")))
 
     ;; Expand C-style doc comment blocks. Must be done manually because some of
     ;; these languages use specialized (and deferred) parsers, whose state we
     ;; can't access while smartparens is doing its thing.
-    (defun ef-default-expand-asterix-doc-comment-block (&rest _ignored)
+    (defun +sp-default-expand-asterix-doc-comment-block (&rest _ignored)
       (let ((indent (current-indentation)))
         (newline-and-indent)
         (save-excursion
@@ -222,11 +221,11 @@ parentheses when appropriate, for Rust lang"
 
     ;; Insert semicolon after closing parentheses where appropriate in C/C++
     ;; mode.
-    (defun ef-is-in-comment ()
+    (defun +sp-is-in-comment ()
       "Tests if point is in comment."
       (nth 4 (syntax-ppss)))
 
-    (defun ef-current-line-string ()
+    (defun +sp-current-line-string ()
       "Returns current line as a string."
       (buffer-substring-no-properties (line-beginning-position)
                                       (line-end-position)))
@@ -234,7 +233,7 @@ parentheses when appropriate, for Rust lang"
     (defvar ef-iter-kw
       '("if" "else" "switch" "for" "while" "do" "define" "rep" "rrep" "trav"))
 
-    (defun ef-maybe-add-semicolon-paren (_id action _context)
+    (defun +sp-maybe-add-semicolon-paren (_id action _context)
       "A helper function that inserts semicolon after closing parentheses when
 appropriate. Mainly useful in C, C++, and other languages with similar syntax."
       (when (eq action 'insert)
@@ -244,11 +243,11 @@ appropriate. Mainly useful in C, C++, and other languages with similar syntax."
           (when (and (looking-at "\\s-*$")
                      (not (string-match-p
                            (regexp-opt ef-iter-kw 'words)
-                           (ef-current-line-string)))
-                     (not (ef-is-in-comment)))
+                           (+sp-current-line-string)))
+                     (not (+sp-is-in-comment)))
             (insert ";")))))
 
-    (defun ef-maybe-add-semicolon-brace (_id action _context)
+    (defun +sp-maybe-add-semicolon-brace (_id action _context)
       "A helper function that inserts a semicolon after closing braces when
 appropriate. Mainly useful in C, C++, and other languages with similar syntax."
       (when (eq action 'insert)
@@ -256,16 +255,16 @@ appropriate. Mainly useful in C, C++, and other languages with similar syntax."
           ;; here, caret supposed to be in between parens, i.e. {|}
           (forward-char) ;; skip closing brace
           (when (and (looking-at "\\s-*$")
-                     (string-match-p "\\breturn\\b" (ef-current-line-string))
-                     (not (ef-is-in-comment)))
+                     (string-match-p "\\breturn\\b" (+sp-current-line-string))
+                     (not (+sp-is-in-comment)))
             (insert ";")))))
 
     (sp-local-pair '(c-mode c++-mode objc-mode) '"{" nil
-                   :post-handlers '(:add ef-maybe-add-semicolon-brace))
+                   :post-handlers '(:add +sp-maybe-add-semicolon-brace))
 
     (sp-local-pair '(c-mode c++-mode objc-mode) "(" nil
                    :post-handlers '(:add
-                                    ef-maybe-add-semicolon-paren))
+                                    +sp-maybe-add-semicolon-paren))
 
     ;; Auto-complete lambda blocks in C++
     ;;
@@ -273,10 +272,10 @@ appropriate. Mainly useful in C, C++, and other languages with similar syntax."
     ;;
     ;; Expand foo([]) => foo([]() {});
     ;;
-    (defun ef-maybe-complete-lambda (_id action _context)
+    (defun +sp-maybe-complete-lambda (_id action _context)
       "Completes C++ lambda, given a pair of square brackets."
       (when (eq action 'insert)
-        (let ((curr-line (ef-current-line-string))
+        (let ((curr-line (+sp-current-line-string))
               ;; try detecting "auto foo = []"
               (lambda-assign-regex "=\\s-*\\[\\]$")
               ;; try detecting "func([])" and "func(arg1, [])"
@@ -292,7 +291,7 @@ appropriate. Mainly useful in C, C++, and other languages with similar syntax."
 
     (sp-local-pair 'c++-mode "[" nil
                    :post-handlers '(:add
-                                    ef-maybe-complete-lambda))))
+                                    +sp-maybe-complete-lambda))))
 
 (use-package rainbow-delimiters
   :hook

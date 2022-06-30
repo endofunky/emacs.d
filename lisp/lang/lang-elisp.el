@@ -6,14 +6,14 @@
 
 (use-package elisp-mode
   :straight nil
-  :functions (ef-emacs-lisp-indent-function
-              ef-elisp-describe-thing-at-point)
+  :functions (+emacs-lisp-indent-function
+              +elisp-describe-thing-at-point)
   :general
   (:prefix ef-local-leader :states 'visual :keymaps '(emacs-lisp-mode-map
                                                       lisp-interaction-mode-map)
    "e"   '(nil :wk "Eval")
    "ei"  '(nil :wk "IELM insert")
-   "eir" '(ef-ielm-insert-region :wk "Region")
+   "eir" '(+ielm-insert-region :wk "Region")
    "er"  '(eval-region :wk "Region"))
   (:prefix ef-local-leader :states 'normal :keymaps '(emacs-lisp-mode-map
                                                       lisp-interaction-mode-map)
@@ -21,12 +21,12 @@
    "cc"  '(emacs-lisp-byte-compile-and-load :wk "Byte-compile & load")
 
    "e"   '(nil :wk "Eval")
-   "ea"  '(ef-elisp-eval-project :wk "Project")
+   "ea"  '(+elisp-eval-project :wk "Project")
    "eb"  '(eval-buffer :wk "Buffer")
    "ee"  '(eval-expression :wk "Expression")
    "ei"  '(nil :wk "IELM insert")
-   "eid" '(ef-ielm-insert-defun :wk "Defun")
-   "eis" '(ef-ielm-insert-sexp :wk "S-exp")
+   "eid" '(+ielm-insert-defun :wk "Defun")
+   "eis" '(+ielm-insert-sexp :wk "S-exp")
    "es"  '(eval-sexp :wk "S-exp")
 
    "l"   '(nil :wk "Lint")
@@ -41,9 +41,9 @@
   (:states 'normal :keymaps '(emacs-lisp-mode-map
                               lisp-interaction-mode-map
                               ielm-map)
-   "K" 'ef-elisp-describe-thing-at-point)
+   "K" '+elisp-describe-thing-at-point)
   :config
-  (defun ef-elisp-describe-thing-at-point ()
+  (defun +elisp-describe-thing-at-point ()
     "Display the full documentation of the elisp thing at point.
 The named subject may be a function, variable, library or face."
     (interactive)
@@ -54,7 +54,7 @@ The named subject may be a function, variable, library or face."
           (with-no-warnings
             (help-xref-interned (intern sym-name))))))
 
-  (defun ef-emacs-lisp-indent-function (indent-point state)
+  (defun +emacs-lisp-indent-function (indent-point state)
     "A replacement for `lisp-indent-function'.
 
 Indents plists more sensibly. Adapted from
@@ -105,7 +105,7 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
                      (method
                       (funcall method indent-point state))))))))
 
-  (defun ef-elisp-eval-project ()
+  (defun +elisp-eval-project ()
     (interactive)
     (dolist (buf (buffer-list))
       (let ((project-root (project-root (project-current t)))
@@ -124,15 +124,15 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
           (message "Evaluating: %s" buffer-file)
           (eval-buffer buf)))))
 
-  (defun ef-emacs-lisp-recompile ()
+  (defun +emacs-lisp-recompile ()
     "Recompile elc file corresponding to `buffer-file-name', if it exists."
     (interactive)
     (when (file-exists-p (byte-compile-dest-file buffer-file-name))
       (emacs-lisp-byte-compile)))
 
-  (ef-add-hook emacs-lisp-mode-hook
-    (add-hook 'after-save-hook 'ef-emacs-lisp-recompile nil t)
-    (setq-local lisp-indent-function #'ef-emacs-lisp-indent-function)
+  (+add-hook emacs-lisp-mode-hook
+    (add-hook 'after-save-hook '+emacs-lisp-recompile nil t)
+    (setq-local lisp-indent-function #'+emacs-lisp-indent-function)
     (setq-local mode-name "E-λ")))
 
 (use-package elisp-def
@@ -156,7 +156,7 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   :defer t
   :commands package-lint-current-buffer
   :config
-  (ef-add-popup "*Package-Lint*"))
+  (+add-popup "*Package-Lint*"))
 
 (use-package ielm
   :defer t
@@ -164,9 +164,9 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   :hook
   (ielm-mode . eldoc-mode)
   :config
-  (ef-add-popup "*ielm*"))
+  (+add-popup "*ielm*"))
 
-(defun ef-ielm-insert-region (start end)
+(defun +ielm-insert-region (start end)
   "Insert the curent region in the IELM REPL buffer."
   (interactive "rP")
   (if-let ((buf (get-buffer "*ielm*")))
@@ -177,7 +177,7 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
         (pop-to-buffer buf))
     (user-error "No IELM buffer found")))
 
-(defun ef-ielm-insert-defun ()
+(defun +ielm-insert-defun ()
   "Insert the top level form at point in the IELM REPL buffer."
   (interactive)
   (if-let ((buf (get-buffer "*ielm*")))
@@ -192,7 +192,7 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
         (pop-to-buffer buf))
     (user-error "No IELM buffer found")))
 
-(defun ef-ielm-insert-sexp ()
+(defun +ielm-insert-sexp ()
   "Insert the expression preceding point in the IELM REPL buffer."
   (interactive)
   (if-let ((buf (get-buffer "*ielm*")))
