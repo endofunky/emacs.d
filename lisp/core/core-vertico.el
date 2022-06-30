@@ -1,5 +1,6 @@
 ;;; core-vertico.el --- Minibuffer completion -*- lexical-binding: t; -*-
 (require 'core-lib)
+(require 'core-shackle)
 
 (use-package vertico
   :straight (vertico :type git
@@ -39,6 +40,7 @@
                                orderless-flex))
   (completion-styles '(orderless))
   (completion-category-defaults nil)
+  :commands (orderless-filter)
   :config
   (defun ef-orderless-with-if-equals (pattern _index _total)
     "Orderless style dispatcher to literal match results using equal sign."
@@ -50,6 +52,43 @@
 exclamation mark."
     (when (string-prefix-p "!" pattern)
       `(orderless-without-literal . ,(substring pattern 1)))))
+
+(use-package fussy
+  :after vertico
+  :ensure t
+  :straight (fussy :type git
+                   :host github
+                   :repo "jojojames/fussy")
+  :custom
+  (fussy-filter-fn 'fussy-filter-orderless-flex)
+  (fussy-score-fn 'fussy-fzf-native-score)
+  ;; For example, project-find-file uses 'project-files which uses
+  ;; substring completion by default. Set to nil to make sure it's using
+  ;; fussy.
+  (completion-category-defaults nil)
+  (completion-category-overrides nil)
+  :config
+  (push 'fussy completion-styles)
+
+  ;; `eglot' defaults to flex, so set an override to point to flx instead.
+  (with-eval-after-load 'eglot
+    (add-to-list 'completion-category-overrides
+                 '(eglot (styles fussy basic)))))
+
+(use-package fzf-native
+  :after vertico
+  :straight (:repo "dangduc/fzf-native"
+             :host github
+             :files (:defaults "*.c" "*.h" "*.txt"))
+  :custom
+  ;; Don't ask if we want to compile the module.
+  (fzf-native-always-compile-module t)
+  :config
+  (ef-add-popup fzf-native-module-install-buffer-name :ephemeral t)
+  ;; As opposed to the included binary, fzf-native will build the module
+  ;; using -march=native if we do it ourselves so it creates optimal code
+  ;; for the used CPU.
+  (fzf-native-load-own-build-dyn))
 
 (use-package marginalia
   :after vertico
