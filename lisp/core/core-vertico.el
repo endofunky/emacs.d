@@ -102,6 +102,13 @@ exclamation mark."
   (:states 'normal :keymaps 'org-mode-map :prefix ef-leader
    "i" '(consult-org-heading :wk "Search Headings")))
 
+(use-package consult-xref
+  :straight nil
+  :defer t
+  :custom
+  (xref-show-xrefs-function #'consult-xref)
+  (xref-show-definitions-function #'consult-xref))
+
 (use-package embark
   :after vertico
   :general
