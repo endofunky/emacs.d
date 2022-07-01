@@ -5,18 +5,29 @@
 
 (use-package rustic
   :custom
+  (rustic-format-on-save t)
+  ;; No ligatures.
+  (rust-prettify-symbols-alist nil)
+  ;; We use eglot and prefer rust-analyzer over rls.
   (rustic-lsp-server 'rust-analyzer)
   (rustic-lsp-client 'eglot)
+  ;; We use our own `+enable-lsp-maybe' function to enable eglot.
   (rustic-lsp-setup-p nil)
-  (rustic-format-on-save t)
-  (rust-prettify-symbols-alist nil)
-  :functions (+update-cargo-bin)
+  :functions (+update-cargo-bin
+              rustic-run-cargo-command)
   :defines (rustic-cargo-bin)
   :general
   (:prefix ef-local-leader :states 'normal :keymaps 'rustic-mode-map
-   "c"  '(nil :wk "Compile")
+   "c"  '(nil :wk "Cargo")
+   "cC" '(rustic-cargo-check :wk "Check")
+   "ca" '(+rust-cargo-audit :wk "Audit")
+   "cb" '(rustic-cargo-bench :wk "Bench")
    "cc" '(rustic-cargo-build :wk "Build")
+   "cd" '(rustic-cargo-build-doc :wk "Build docs")
+   "cf" '(rustic-cargo-fmt :wk "Format")
+   "co" '(rustic-cargo-outdated :wk "Outdated")
    "cr" '(rustic-cargo-run :wk "Run")
+   "cy" '(rustic-cargo-clippy :wk "Clippy")
 
    "t"  '(nil :wk "Test")
    "ta" '(rustic-cargo-test :wk "At point")
@@ -30,6 +41,11 @@
 
   (+add-hook rustic-mode-hook
     (setq-local mode-name "Rust"))
+
+  (defun +rust-cargo-audit ()
+    "Run \"cargo audit\" for the current project."
+    (interactive)
+    (rustic-run-cargo-command "cargo audit"))
 
   ;; Set `rustic-cargo-bin' globally in "real-time" so rustic sees get the
   ;; correct one from PATH set via `envrc'.
