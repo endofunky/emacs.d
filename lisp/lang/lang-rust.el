@@ -13,7 +13,7 @@
   (rustic-lsp-client 'eglot)
   ;; We use our own `+enable-lsp-maybe' function to enable eglot.
   (rustic-lsp-setup-p nil)
-  :functions (+update-cargo-bin
+  :functions (+update-cargo-bin-a
               rustic-run-cargo-command)
   :defines (rustic-cargo-bin)
   :general
@@ -52,14 +52,14 @@
   ;;
   ;; We can't `setq-local' this in a major-mode hook as rustic configures it's
   ;; workspace wrapped in `with-temp-buffer' which has a different environment.
-  (defun +update-cargo-bin (&rest _)
+  (defun +update-cargo-bin-a (&rest _)
     ;; Don't update the path when we're in the temp-buffer, which has
     ;; `fundamental-mode' as it's major-mode.
     (unless (eq major-mode 'fundamental-mode)
       (setq rustic-cargo-bin (or (executable-find "cargo")
                                  "cargo"))))
 
-  (advice-add 'rustic-cargo-bin :before #'+update-cargo-bin)
+  (advice-add 'rustic-cargo-bin :before #'+update-cargo-bin-a)
 
   ;; Don't ask to install LSP server if it's not installed.
   (advice-add 'rustic-install-lsp-client-p :override #'ignore))

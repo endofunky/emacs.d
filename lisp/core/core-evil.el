@@ -66,7 +66,7 @@ already in normal mode.")
   (:keymaps 'evil-motion-state-map
    "RET" nil)
   :commands (evil-force-normal-state)
-  :functions (+run-escape-hooks)
+  :functions (+run-escape-hooks-a)
   :custom
   (evil-auto-indent t)
   (evil-cross-lines t)
@@ -108,11 +108,11 @@ current buffer."
 
   (evil-ex-define-cmd "q" '+kill-buffer-or-delete-window)
 
-  (defun +run-escape-hooks ()
+  (defun +run-escape-hooks-a ()
     "Run ef-escape-hook hooks"
     (run-hooks 'ef-escape-hook))
 
-  (advice-add #'evil-force-normal-state :after #'+run-escape-hooks))
+  (advice-add #'evil-force-normal-state :after #'+run-escape-hooks-a))
 
 (use-package evil-nerd-commenter
   :after evil
@@ -150,13 +150,13 @@ current buffer."
 
   (global-undo-tree-mode t)
 
-  (defun +undo-tree-save-history-ad (orig-fn &rest args)
+  (defun +undo-tree-save-history-a (orig-fn &rest args)
     "Advice for `undo-tree-save-history' to hide echo area messages."
     (let ((message-log-max nil)
           (inhibit-message t))
       (apply orig-fn args)))
 
-  (advice-add 'undo-tree-save-history :around '+undo-tree-save-history-ad))
+  (advice-add 'undo-tree-save-history :around '+undo-tree-save-history-a))
 
 (use-package evil-collection
   :after evil
