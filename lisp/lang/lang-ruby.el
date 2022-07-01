@@ -136,7 +136,7 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
   :custom
   (ruby-test-rspec-options "")
   :general
-  (:prefix ef-local-leader :states 'normal :keymaps 'ruby-mode-map
+  (:prefix ef-local-leader :states 'normal :keymaps 'ruby-test-mode-map
    "t"  '(nil :wk "Test")
    "tl" '(ruby-test-toggle-implementation-and-specification :wk "Toggle")
    "tp" '(ruby-test-run-at-point :wk "At point")
