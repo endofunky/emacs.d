@@ -133,6 +133,8 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
              ruby-test-ruby-root
              ruby-test-run-command
              ruby-test-command)
+  :custom
+  (ruby-test-rspec-options "")
   :general
   (:prefix ef-local-leader :states 'normal :keymaps 'ruby-mode-map
    "t"  '(nil :wk "Test")
@@ -140,10 +142,8 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
    "tp" '(ruby-test-run-at-point :wk "At point")
    "tt" '(+ruby-test-run :wk "Buffer"))
   :defines (ruby-test-rspec-options)
+  :hook (ruby-mode . ruby-test-mode)
   :config
-  (add-hook 'ruby-mode-hook 'ruby-test-mode)
-  (setq ruby-test-rspec-options "")
-
   (defun +file-or-nil (filename)
     "Return `filename' if `file-exists-p' returns non-nil, else nil"
     (if (file-exists-p filename)
