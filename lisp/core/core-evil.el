@@ -68,23 +68,75 @@ already in normal mode.")
   :commands (evil-force-normal-state)
   :functions (+run-escape-hooks-a)
   :custom
+  ;; Always indent when opening a new line.
   (evil-auto-indent t)
+  ;; Allow horizontal motions to move to the next/previous line(s).
   (evil-cross-lines t)
-  (evil-default-cursor t)
-  (evil-default-state 'normal)
+  ;; We show the current state in the modeline, so no need to show it in the
+  ;; echo area, too.
   (evil-echo-state nil)
+  ;; Don't highlight searches in all buffers.
   (evil-ex-interactive-search-highlight 'selected-window)
-  (evil-ex-search-case 'smart)
+  ;; Enable vim-style backslash codes.
   (evil-ex-search-vim-style-regexp t)
-  (evil-lookup-func #'ignore)
-  (evil-kbd-macro-suppress-motion-error t)
-  (evil-magic 'very-magic)
+  ;; Use evil's own interactive search module.
   (evil-search-module 'evil-search)
+  ;; The default is 4, but lots of languages only use a 2 step indentation, so
+  ;; lower this to 2.
   (evil-shift-width 2)
+  ;; Use undo-tree
   (evil-undo-system 'undo-tree)
   (evil-undo-function 'undo-tree-undo)
   (evil-redo-function 'undo-tree-redo)
+  ;; We default some modes to emacs state, such as vterm, but we still want to
+  ;; comfortably move around windows, so enable the C-w prefix.
   (evil-want-C-w-in-emacs-state t)
+  ;; How characters are being interpreted when used in patters. Has the same
+  ;; meaning as in vim:
+  ;;
+  ;; Some characters in the pattern are taken literally.  They match with the
+  ;; same character in the text.  When preceded with a backslash however, these
+  ;; characters get a special meaning.
+  ;;
+  ;; Other characters have a special meaning without a backslash.  They need to
+  ;; be preceded with a backslash to match literally.
+  ;;
+  ;; If a character is taken literally or not depends on the "magic" option and
+  ;; the items mentioned next.
+  ;;
+  ;; */\m* */\M*
+  ;;
+  ;; Use of "\m" makes the pattern after it be interpreted as if "magic" is
+  ;; set, ignoring the actual value of the "magic" option.
+  ;;
+  ;; Use of "\M" makes the pattern after it be interpreted as if "nomagic" is
+  ;; used.
+  ;;
+  ;; */\v* */\V*
+  ;;
+  ;; Use of "\v" means that in the pattern after it all ASCII characters except
+  ;; "0"-"9", "a"-"z", "A"-"Z" and "_" have a special meaning.  "very magic"
+  ;;
+  ;; Use of "\V" means that in the pattern after it only the backslash has a
+  ;; special meaning.  "very nomagic"
+  ;; Examples:
+  ;; after:       \v       \m       \M       \V         matches
+  ;;            "magic" "nomagic"
+  ;;              $        $        $        \$         matches end-of-line
+  ;;              .        .        \.       \.         matches any character
+  ;;              *        *        \*       \*         any number of the
+  ;;                                                    previous atom
+  ;;              ()       \(\)     \(\)     \(\)       grouping into an atom
+  ;;              |        \|       \|       \|         separating alternatives
+  ;;              \a       \a       \a       \a         alphabetic character
+  ;;              \\       \\       \\       \\         literal backslash
+  ;;              \.       \.       .        .          literal dot
+  ;;              \{       {        {        {          literal "{"
+  ;;              a        a        a        a          literal "a"
+  ;;
+  (evil-magic 'very-magic)
+  ;; We bind lookups ourselves where we want them, so ignore the default.
+  (evil-lookup-func #'ignore)
   ;; When splitting the window vertically, focus the right window.
   (evil-vsplit-window-right t)
   ;; When splitting horizontally, place the new and focus window below.
