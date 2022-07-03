@@ -9,9 +9,7 @@
 
 (defmacro poe-rule (key &rest plist)
   (declare (indent 0))
-  `(progn
-     (assoc-delete-all ,key poe-rules)
-     (push '(,key ,@plist) poe-rules)))
+  `(push '(,key ,@plist) poe-rules))
 
 (defun poe-match (buffer-or-name)
   (let* ((buffer (get-buffer buffer-or-name))
