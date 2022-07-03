@@ -15,6 +15,7 @@
   :load-path "site-lisp/"
   :commands (poe-mode)
   :config
+  (poe-rule "*Messages*" :popup t)
   (poe-mode t))
 
 (provide 'core-shackle)
