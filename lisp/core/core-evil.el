@@ -12,6 +12,7 @@ already in normal mode.")
    ":"        '(eval-expression :wk "Eval expression")
    "#"        '(display-line-numbers-mode :wk "Toggle line numbers")
    "s"        '(+popup-switch-buffer :wk "Switch buffer")
+   "F"        '(+sudo-find-file :wk "Find file (sudo)")
 
    ;; Buffer
    "b"        '(nil :wk "Buffer")
@@ -149,6 +150,18 @@ already in normal mode.")
   (require 'evil-ex)
   (declare-function evil-ex-define-cmd "evil-ex")
   (evil-mode 1)
+
+  (defun +sudo-find-file (file)
+    "Open FILE as root."
+    (interactive "FOpen file as root: ")
+    (when (file-writable-p file)
+      (user-error "File is user writeable, aborting sudo"))
+    (find-file (if (file-remote-p file)
+                   (concat "/" (file-remote-p file 'method) ":"
+                           (file-remote-p file 'user) "@" (file-remote-p file 'host)
+                           "|sudo:root@"
+                           (file-remote-p file 'host) ":" (file-remote-p file 'localname))
+                 (concat "/sudo:root@localhost:" file))))
 
   (defun +kill-buffer-or-delete-window ()
     "If more than one window is open, delete the current window, otherwise kill
