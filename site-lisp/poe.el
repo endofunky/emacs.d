@@ -35,6 +35,18 @@
 (defun poe--display-buffer (buffer alist rule)
   (message "Display %s with alist: %s rule: %s" buffer alist rule))
 
+(defun poe--popup-buffer-p (&optional buffer)
+  (let ((buffer (or buffer
+                    (current-buffer))))
+    (and (bufferp buffer)
+         (buffer-live-p buffer)
+         (buffer-local-value 'poe-popup-mode buffer)
+         buffer)))
+
+(defun poe--popup-window-p (&optional window)
+  (poe--popup-buffer-p (window-buffer (or window
+                                          (selected-window)))))
+
 ;; ----------------------------------------------------------------------------
 ;; Modes
 ;; ----------------------------------------------------------------------------
