@@ -9,4 +9,12 @@
 
 (defun +add-popup (_mode &rest _rules))
 
+(use-package poe
+  :demand t
+  :straight nil
+  :load-path "site-lisp/"
+  :commands (poe-mode)
+  :config
+  (poe-mode t))
+
 (provide 'core-shackle)
