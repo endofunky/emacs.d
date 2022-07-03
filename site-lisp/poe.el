@@ -39,14 +39,14 @@
 ;; Modes
 ;; ----------------------------------------------------------------------------
 
-(defvar poe-buffer-mode-map (make-sparse-keymap)
-  "Active keymap in `poe-mode' popup windows. See `poe-buffer-mode'.")
+(defvar poe-popup-mode-map (make-sparse-keymap)
+  "Active keymap in `poe-mode' popup windows. See `poe-popup-mode'.")
 
-(define-minor-mode poe-buffer-mode
+(define-minor-mode poe-popup-mode
   "Minor mode for individual `poe-mode' buffers to be shown in popup windows."
   :group 'poe
   :lighter nil
-  :keymap poe-buffer-mode-map)
+  :keymap poe-popup-mode-map)
 
 (defvar poe-mode-map (make-sparse-keymap)
   "Global keymap for `poe-mode'.")
