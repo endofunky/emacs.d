@@ -26,6 +26,15 @@
                                           buffer-name)))))
      return plist)))
 
+(defun poe--display-buffer-condition (buffer _action)
+  (poe-match buffer))
+
+(defun poe--display-buffer-action (buffer alist)
+  (poe--display-buffer buffer alist (poe-match buffer)))
+
+(defun poe--display-buffer (buffer alist rule)
+  (message "Display %s with alist: %s rule: %s" buffer alist rule))
+
 ;; ----------------------------------------------------------------------------
 ;; Modes
 ;; ----------------------------------------------------------------------------
@@ -47,6 +56,13 @@
   :group 'poe
   :global t
   :lighter nil
-  :keymap poe-mode-map)
+  :keymap poe-mode-map
+  (if poe-mode
+      (setq display-buffer-alist
+            (cons '(poe--display-buffer-condition poe--display-buffer-action)
+                  display-buffer-alist))
+    (setq display-buffer-alist
+          (remove '(poe--display-buffer-condition poe--display-buffer-action)
+                  display-buffer-alist))))
 
 (provide 'poe)
