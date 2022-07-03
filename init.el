@@ -40,7 +40,7 @@ Called from `after-init-hook'."
 ;; recompiling them every time we start emacs.
 (let ((eln-cache (expand-file-name "var/eln-cache/" user-emacs-directory)))
   (unless (file-exists-p eln-cache)
-    (make-directory eln-cache))
+    (make-directory eln-cache t))
 
   ;; Move native-compilation cache files to var directory.
   (when (fboundp 'startup-redirect-eln-cache)
