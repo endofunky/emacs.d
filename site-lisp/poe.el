@@ -12,14 +12,13 @@
   `(push '(,key ,@plist) poe-rules))
 
 (defun poe-match (buffer-or-name)
-  (let* ((buffer (get-buffer buffer-or-name))
-         (buffer-major-mode (buffer-local-value 'major-mode buffer))
-         (buffer-name (buffer-name buffer)))
+  (when-let* ((buffer (get-buffer buffer-or-name))
+              (buffer-major-mode (buffer-local-value 'major-mode buffer))
+              (buffer-name (buffer-name buffer)))
     (cl-loop
      for (condition . plist) in poe-rules
      when (or (and (symbolp condition)
-                   (eq condition
-                       buffer-major-mode))
+                   (eq condition buffer-major-mode))
               (and (stringp condition)
                    (or (string= condition buffer-name)
                        (and (plist-get plist :regexp)
