@@ -11,7 +11,7 @@ already in normal mode.")
   (:states 'normal :prefix ef-leader
    ":"        '(eval-expression :wk "Eval expression")
    "#"        '(display-line-numbers-mode :wk "Toggle line numbers")
-   "s"        '(+popup-switch-buffer :wk "Switch buffer")
+   "s"        '(switch-to-buffer :wk "Switch buffer")
    "F"        '(+sudo-find-file :wk "Find file (sudo)")
 
    ;; Buffer
