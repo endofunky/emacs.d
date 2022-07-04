@@ -72,6 +72,53 @@ a window."
   (let ((ignore-window-parameters t))
     (split-window window size side)))
 
+(defun poe--popup-kill-buffer (buffer)
+  (let ((inhibit-quit t))
+    (cond
+     ;; Buffer isn't live anymore, no need to kill it.
+     ((not (buffer-live-p buffer)))
+     ((not (get-buffer-window buffer t))
+      (with-demoted-errors "Error killing transient buffer: %s"
+        (with-current-buffer buffer
+          (let (confirm-kill-processes)
+            ;; Don't ask to kill processes.
+            (when-let (process (get-buffer-process buffer))
+              (when (eq (process-type process) 'real)
+                (kill-process process)))
+            (let (kill-buffer-query-functions)
+              ;; HACK The debugger backtrace buffer, when killed, called
+              ;;      `top-level'. This causes jumpiness when the popup
+              ;;      manager tries to clean it up.
+              (cl-letf (((symbol-function #'top-level) #'ignore))
+                (kill-buffer buffer))))))))))
+
+(defvar poe--popup-inhibit-kill-buffer nil)
+
+(defun poe--popup-delete-window (window)
+  (let ((buffer (window-buffer window))
+        (inhibit-quit t))
+    ;; If the window buffer is file-backed and has been modified, ask if we
+    ;; want to save it.
+    (and (or (buffer-file-name buffer)
+             (if-let (base-buffer (buffer-base-buffer buffer))
+                 (buffer-file-name base-buffer)))
+         (buffer-modified-p buffer)
+         (y-or-n-p "Popup buffer is modified. Save it?")
+         (with-current-buffer buffer (save-buffer)))
+    ;; Delete window or restore window configuration.
+    (let ((ignore-window-parameters t))
+      (if-let (wconf (window-parameter window 'saved-wconf))
+          (set-window-configuration wconf)
+        (delete-window window)))
+    ;; Kill the buffer unless it's still a live-buffer.
+    (unless (window-live-p window)
+      (with-current-buffer buffer
+        (set-buffer-modified-p nil)
+        (poe-popup-mode -1)
+        (when (and (not poe--popup-inhibit-kill-buffer)
+                   (plist-get (window-parameter window 'poe-rule) :ephemeral))
+          (poe--popup-kill-buffer buffer))))))
+
 (defun poe--display-buffer (buffer alist rule)
   (let ((alist (poe--alist alist rule))
         (actions (or (cdr (assq 'actions alist))
@@ -92,6 +139,8 @@ a window."
       (when (plist-get rule :popup)
         (with-selected-window window
           (set-window-parameter window 'split-window #'poe--popup-split-window)
+          (set-window-parameter window 'delete-window #'poe--popup-delete-window)
+          (set-window-parameter window 'poe-rule rule)
           (set-window-dedicated-p window 'popup)
           (poe-popup-mode t)))
       window)))
