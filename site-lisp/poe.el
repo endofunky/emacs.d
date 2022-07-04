@@ -15,6 +15,8 @@
 
 (defvar poe-dim-popups t)
 
+(defvar poe-remove-fringes-from-popups t)
+
 (defvar poe-rules nil)
 
 (defvar poe-popup-default-rule
@@ -75,13 +77,17 @@ display buffer actions."
               (buffer-name (buffer-name buffer)))
     (cl-loop
      for (condition . plist) in poe-rules
-     when (or (and (symbolp condition)
-                   (eq condition buffer-major-mode))
-              (and (stringp condition)
-                   (or (string= condition buffer-name)
-                       (and (plist-get plist :regexp)
-                            (string-match condition
-                                          buffer-name)))))
+     when (or
+           ;; Symbol, compare to major-mode
+           (and (symbolp condition)
+                (eq condition buffer-major-mode))
+           ;; String, compare to buffer name or match against it if the :regexp
+           ;; rule is set.
+           (and (stringp condition)
+                (or (string= condition buffer-name)
+                    (and (plist-get plist :regexp)
+                         (string-match condition
+                                       buffer-name)))))
      return plist)))
 
 (defun poe--popup-split-window (window size side)
@@ -235,15 +241,17 @@ Defaults to the currently selected window."
     (setq poe--popup-buffer-list
           (poe--move-to-front buf poe--popup-buffer-list))))
 
-(defun poe--dim-popups-h ()
+(defun poe--popup-dim-h ()
   (when poe-dim-popups
-    (walk-windows
-     (lambda (w)
-       (with-current-buffer (window-buffer w)
-         (if (poe--popup-buffer-p (window-buffer w))
-             (buffer-face-set
-              `(:background ,(face-background 'poe-popup-dimmed-face)))
-           (buffer-face-set 'default)))))))
+    (if (poe--popup-buffer-p)
+        (buffer-face-set
+         `(:background ,(face-background 'poe-popup-dimmed-face)))
+      (buffer-face-set 'default))))
+
+(defun poe--popup-remove-fringes-h ()
+  (when poe-remove-fringes-from-popups
+    (let ((f (if (poe--popup-buffer-p) 0)))
+      (set-window-fringes nil f f fringes-outside-margins))))
 
 ;; ----------------------------------------------------------------------------
 ;; Public
@@ -332,12 +340,14 @@ popup windows."
   (if poe-mode
       (progn
         (add-hook 'window-configuration-change-hook #'poe--popup-update-buffer-list-h)
-        (add-hook 'window-configuration-change-hook #'poe--dim-popups-h)
+        (add-hook 'poe-popup-mode-hook #'poe--popup-dim-h)
+        (add-hook 'poe-popup-mode-hook #'poe--popup-remove-fringes-h)
         (setq display-buffer-alist
               (cons '(poe--display-buffer-condition poe--display-buffer-action)
                     display-buffer-alist)))
     (remove-hook 'window-configuration-change-hook #'poe--popup-update-buffer-list-h)
-    (remove-hook 'window-configuration-change-hook #'poe--dim-popups-h)
+    (remove-hook 'poe-popup-mode-hook #'poe--popup-dim-h)
+    (remove-hook 'poe-popup-mode-hook #'poe--popup-remove-fringes-h)
     (setq display-buffer-alist
           (remove '(poe--display-buffer-condition poe--display-buffer-action)
                   display-buffer-alist))))
