@@ -37,7 +37,8 @@
     (interactive)
     (if-let ((buf (get-buffer "*vterm-popup*")))
         (display-buffer "*vterm-popup*")
-      (vterm "*vterm-popup*")))
+      (vterm--internal #'ignore "*vterm-popup*")
+      (display-buffer "*vterm-popup*")))
 
   (defun +vterm-popup-and-go ()
     "Go to current file's directory in vterm popup."
