@@ -36,8 +36,8 @@
   (+enable-lsp rustic-mode)
   (+enable-tree-sitter rustic-mode)
 
-  (+add-popup "^\\*rust" :ephemeral t :regexp t)
-  (+add-popup "^\\*cargo" :ephemeral t :regexp t)
+  (poe-popup "^\\*rust" :ephemeral t :regexp t)
+  (poe-popup "^\\*cargo" :ephemeral t :regexp t)
 
   (+add-hook rustic-mode-hook
     (setq-local mode-name "Rust"))

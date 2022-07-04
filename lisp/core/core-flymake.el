@@ -28,7 +28,7 @@
   (+add-hook flymake-mode-hook
     (remove-hook 'flymake-diagnostic-functions 'elisp-flymake-checkdoc t))
 
-  (+add-popup 'flymake-diagnostics-buffer-mode
+  (poe-popup 'flymake-diagnostics-buffer-mode
                 :size .2 :select nil :ephemeral t)
 
   (defun +flymake-follow-diagnostics-buffer (&rest args)

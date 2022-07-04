@@ -85,9 +85,9 @@
 
   (evil-set-initial-state 'cider-repl-mode 'normal)
 
-  (+add-popup 'cider-repl-mode)
-  (+add-popup "^\\*cider" :ephemeral t :regexp t)
-  (+add-popup "*CIDER REPL Shortcuts Help*" :ephemeral t :size .5)
+  (poe-popup 'cider-repl-mode)
+  (poe-popup "^\\*cider" :ephemeral t :regexp t)
+  (poe-popup "*CIDER REPL Shortcuts Help*" :ephemeral t :size .5)
 
   (defun +cider-jack-in (params)
     "Quit CIDER if running and jack in again"

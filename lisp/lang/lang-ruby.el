@@ -44,7 +44,7 @@
   ;; Suppress warnings
   (setenv "RUBYOPT" "-W0")
 
-  (+add-popup "*rake-compilation*")
+  (poe-popup "*rake-compilation*")
 
   (defun ruby-disasm (beginning end)
     "Disassemble the selected region or contents of current buffer into YARV
@@ -92,7 +92,7 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
   (+add-hook inf-ruby-mode-hook
     (comint-read-input-ring 'silent))
 
-  (+add-popup 'inf-ruby-mode))
+  (poe-popup 'inf-ruby-mode))
 
 (use-package hideshow
   :after ruby-mode
@@ -197,6 +197,6 @@ current buffer's file, if it exists"
     "Generate a name for the RuboCop buffer from FILE-OR-DIR."
     "*rubocop*")
 
-  (+add-popup "*rubocop*"))
+  (poe-popup "*rubocop*"))
 
 (provide 'lang-ruby)

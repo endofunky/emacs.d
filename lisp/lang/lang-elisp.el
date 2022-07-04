@@ -156,7 +156,7 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   :defer t
   :commands package-lint-current-buffer
   :config
-  (+add-popup "*Package-Lint*"))
+  (poe-popup "*Package-Lint*"))
 
 (use-package ielm
   :defer t
@@ -164,7 +164,7 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   :hook
   (ielm-mode . eldoc-mode)
   :config
-  (+add-popup "*ielm*"))
+  (poe-popup "*ielm*"))
 
 (defun +ielm-insert-region (start end)
   "Insert the curent region in the IELM REPL buffer."

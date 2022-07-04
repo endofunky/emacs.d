@@ -13,12 +13,10 @@
   (vterm-timer-delay 0.01)
   :general
   (:states 'emacs :keymaps 'vterm-mode-map
-   "M-h" '+popup-cycle-backward
-   "M-j" '+popup-demote-buffer
-   "M-k" '+popup-promote-buffer
-   "M-l" '+popup-cycle-forward
-   "M-P" '+popup-switch-popup-buffer
-   "M-p" '+popup-toggle)
+   "M-h" 'poe-popup-next
+   "M-l" 'poe-popup-prev
+   "M-p" 'poe-popup-toggle
+   "M-q" 'poe-popup-kill)
   (:states 'normal :prefix ef-leader
    "v" '(+vterm-popup :wk "VTerm")
    "V" '(+vterm-popup-and-go :wk "VTerm & go"))
@@ -55,7 +53,7 @@
 
       (message "Buffer is not visiting a file.")))
 
-  (+add-popup "*vterm-popup*" :size 0.4)
+  (poe-popup "*vterm-popup*" :size 0.4)
 
   (defun +vterm-sentinel (process event)
     "A process sentinel. Kills PROCESS's buffer if it is live."
@@ -73,7 +71,7 @@
         (message "process finished."))))
 
   (defun +vterm-run (buffer command keep-buffer)
-    (+add-popup buffer :size 0.4)
+    (poe-popup buffer :size 0.4)
 
     (when-let ((buffer (get-buffer buffer)))
       (when-let ((win (get-buffer-window buffer)))

@@ -84,7 +84,7 @@ exclamation mark."
   ;; Don't ask if we want to compile the module.
   (fzf-native-always-compile-module t)
   :config
-  (+add-popup fzf-native-module-install-buffer-name :ephemeral t)
+  (poe-popup fzf-native-module-install-buffer-name :ephemeral t)
   ;; As opposed to the included binary, fzf-native will build the module
   ;; using -march=native if we do it ourselves so it creates optimal code
   ;; for the used CPU.

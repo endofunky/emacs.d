@@ -20,7 +20,7 @@
   :straight nix-mode
   :commands (nix-repl)
   :config
-  (+add-popup "*Nix-REPL*")
+  (poe-popup "*Nix-REPL*")
   (evil-define-key 'normal nix-mode-map ",r" 'nix-repl))
 
 (use-package nix-update

@@ -370,7 +370,7 @@ visual state or mark.")
   :custom
   (xref-marker-ring-length 1024)
   :config
-  (+add-popup "*xref*")
+  (poe-popup "*xref*")
 
   (defadvice xref-goto-xref (after my activate)
     (delete-window (get-buffer-window (get-buffer "*xref*")))))

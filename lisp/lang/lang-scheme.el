@@ -42,10 +42,10 @@
 
   (evil-set-initial-state 'geiser-repl-mode 'normal)
 
-  (+add-popup "*geiser*" :ephemeral t)
-  (+add-popup "^\\*[gG]eiser" :regexp t :ephemeral t)
-  (+add-popup "^\\*Geiser documentation\\*$" :regexp t :ephemeral t :size 0.4)
-  (+add-popup  "^\\* [A-Za-z0-9_-]+ REPL \\*" :regexp t))
+  (poe-popup "*geiser*" :ephemeral t)
+  (poe-popup "^\\*[gG]eiser" :regexp t :ephemeral t)
+  (poe-popup "^\\*Geiser documentation\\*$" :regexp t :ephemeral t :size 0.4)
+  (poe-popup  "^\\* [A-Za-z0-9_-]+ REPL \\*" :regexp t))
 
 (use-package geiser-guile
   :after geiser)

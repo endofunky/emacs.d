@@ -106,7 +106,7 @@
   (when window-system
     (define-key org-mode-map (kbd "M-RET") 'toggle-frame-fullscreen))
 
-  (+add-popup "*Org Select*")
+  (poe-popup "*Org Select*")
 
   (defun org-cycle-hide-drawers (state)
     "Re-hide all drawers after a visibility state change."
@@ -176,7 +176,7 @@
   :config
   (org-roam-setup)
   (+shackle '("*org-roam*" :align right :size .5 :popup t :select t :float t))
-  (+add-popup "*org-roam diagnostics*"))
+  (poe-popup "*org-roam diagnostics*"))
 
 (use-package ox-gfm
   :after org)

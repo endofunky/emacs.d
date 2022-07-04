@@ -12,9 +12,9 @@
 
   (declare-function +lsp-organize-imports "core-lsp")
 
-  (+add-popup "*Gofmt Errors*" :ephemeral t)
-  (+add-popup "*go-rename*" :ephemeral t)
-  (+add-popup 'godoc-mode :ephemeral t)
+  (poe-popup "*Gofmt Errors*" :ephemeral t)
+  (poe-popup "*go-rename*" :ephemeral t)
+  (poe-popup 'godoc-mode :ephemeral t)
 
   (+add-hook go-mode-hook
     (add-hook 'before-save-hook #'gofmt-before-save nil t)
@@ -36,7 +36,7 @@
    "tp" '(go-test-current-test :wk "At point")
    "tl" '(+go-test-toggle :wk "Toggle"))
   :config
-  (+add-popup 'go-test-mode :ephemeral t)
+  (poe-popup 'go-test-mode :ephemeral t)
 
   (defconst +go-test-toggle-re "_test\\."
     "Match regexp for `+go-test-toggle'.")

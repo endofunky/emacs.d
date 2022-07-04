@@ -15,7 +15,7 @@
   (python-shell-buffer-name "ipython")
   (python-shell-interpreter-args "--simple-prompt -i")
   :config
-  (+add-popup "*ipython*")
+  (poe-popup "*ipython*")
 
   (+enable-lsp python-mode)
   (+enable-tree-sitter python-mode)
