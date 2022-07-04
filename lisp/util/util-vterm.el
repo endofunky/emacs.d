@@ -1,6 +1,6 @@
 ;;; lang-vterm.el --- VTerm terminal configuration -*- lexical-binding: t; -*-
 (require 'core-evil)
-(require 'core-shackle)
+(require 'core-popup)
 
 (use-package vterm
   :when (bound-and-true-p module-file-suffix)

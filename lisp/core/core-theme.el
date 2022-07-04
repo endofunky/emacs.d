@@ -1,6 +1,6 @@
 ;;; core-theme.el --- Eye candy -*- lexical-binding: t; -*-
 (require 'core-lib)
-(require 'core-shackle)
+(require 'core-popup)
 
 (use-package efdark-theme
   :demand t

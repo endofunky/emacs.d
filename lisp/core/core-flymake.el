@@ -1,6 +1,6 @@
 ;;; core-flymake.el --- Flymake syntax checker -*- lexical-binding: t; -*-
 (require 'core-lib)
-(require 'core-shackle)
+(require 'core-popup)
 (require 'core-evil)
 
 (use-package flymake

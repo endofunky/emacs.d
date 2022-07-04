@@ -1,5 +1,6 @@
 ;;; core-evil.el --- Evil-mode vim emulation -*- lexical-binding: t; -*-
 (require 'core-lib)
+(require 'core-popup)
 
 (defvar ef-escape-hook nil
   "Hooks to be run when normal mode is forced, eg. when hitting ESC while
@@ -216,8 +217,6 @@ current buffer."
     (setq-local show-trailing-whitespace nil))
 
   (global-undo-tree-mode t)
-
-  (poe-popup " *undo-tree*" :select t)
 
   (defun +undo-tree-save-history-a (orig-fn &rest args)
     "Advice for `undo-tree-save-history' to hide echo area messages."

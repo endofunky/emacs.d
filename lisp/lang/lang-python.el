@@ -1,7 +1,7 @@
 ;;; lang-python.el --- Python configuration -*- lexical-binding: t; -*-
 (require 'core-evil)
 (require 'core-lsp)
-(require 'core-shackle)
+(require 'core-popup)
 (require 'core-tree-sitter)
 
 (use-package python

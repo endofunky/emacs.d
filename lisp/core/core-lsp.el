@@ -1,7 +1,7 @@
 ;;; core-lsp.el --- Language server protocol integration -*- lexical-binding: t; -*-
 (require 'core-direnv)
 (require 'core-evil)
-(require 'core-shackle)
+(require 'core-popup)
 
 (use-package eglot
   :custom

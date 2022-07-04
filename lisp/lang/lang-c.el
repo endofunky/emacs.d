@@ -1,6 +1,6 @@
 ;;; lang-c.el --- C/C++/Objective-C configuration -*- lexical-binding: t; -*-
 (require 'core-lsp)
-(require 'core-shackle)
+(require 'core-popup)
 (require 'core-project)
 (require 'core-tree-sitter)
 

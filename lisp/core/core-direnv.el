@@ -1,5 +1,5 @@
 ;;; core-direnv.el --- Direnv environments -*- lexical-binding: t; -*-
-(require 'core-shackle)
+(require 'core-popup)
 
 (use-package envrc
   :if (executable-find "direnv")

@@ -2,7 +2,7 @@
 (require 'core-lib)
 (require 'core-lsp)
 (require 'core-project)
-(require 'core-shackle)
+(require 'core-popup)
 (require 'core-tree-sitter)
 
 (use-package ruby-mode

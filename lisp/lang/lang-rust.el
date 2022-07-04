@@ -1,6 +1,6 @@
 ;;; lang-rust.el --- Rust configuration -*- lexical-binding: t; -*-
 (require 'core-lsp)
-(require 'core-shackle)
+(require 'core-popup)
 (require 'core-tree-sitter)
 
 (use-package rustic

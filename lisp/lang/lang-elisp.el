@@ -1,6 +1,6 @@
 ;;; lang-elisp.el --- Emacs Lisp configuration -*- lexical-binding: t; -*-
 (require 'core-evil)
-(require 'core-shackle)
+(require 'core-popup)
 
 (defvar calculate-lisp-indent-last-sexp)
 

@@ -1,6 +1,6 @@
 ;;; lang-magit.el --- Magit/Git configuration -*- lexical-binding: t; -*-
 (require 'core-evil)
-(require 'core-shackle)
+(require 'core-popup)
 
 (use-package magit
   :defer 2

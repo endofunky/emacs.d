@@ -1,6 +1,6 @@
 ;;; core-vertico.el --- Minibuffer completion -*- lexical-binding: t; -*-
 (require 'core-lib)
-(require 'core-shackle)
+(require 'core-popup)
 
 (use-package vertico
   :straight (vertico :type git

@@ -1,7 +1,7 @@
 ;;; lang-tex.el --- TeX/LaTeX configuration -*- lexical-binding: t; -*-
 (require 'core-lib)
 (require 'core-lsp)
-(require 'core-shackle)
+(require 'core-popup)
 
 (use-package auctex
   :defer t

@@ -1,6 +1,6 @@
 ;;; lang-go.el --- Go configuration -*- lexical-binding: t; -*-
 (require 'core-lsp)
-(require 'core-shackle)
+(require 'core-popup)
 (require 'core-tree-sitter)
 
 (use-package go-mode

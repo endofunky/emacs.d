@@ -1,5 +1,5 @@
 ;;; lang-org.el --- `org-mode' configuration -*- lexical-binding: t; -*-
-(require 'core-shackle)
+(require 'core-popup)
 
 (defgroup ef-org nil
   "Endomacs org-mode configuration."

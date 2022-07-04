@@ -1,6 +1,6 @@
 (require 'core-evil)
 (require 'core-lib)
-(require 'core-shackle)
+(require 'core-popup)
 
 (use-package geiser
   :custom
