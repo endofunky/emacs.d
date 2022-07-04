@@ -36,7 +36,7 @@ See: `poe-popup-dimmed-face'."
            ((const :tag "Popup" :popup) boolean)
            ((const :tag "Select" :select) boolean)
            ((const :tag "Side" :side)
-            (choice :tag "Alignment" :value nil
+            (choice :tag "Side" :value nil
                     (const :tag "Default" nil)
                     (const :tag "Top" top)
                     (const :tag "Bottom" bottom)
