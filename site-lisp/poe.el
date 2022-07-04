@@ -296,14 +296,16 @@ Defaults to the currently selected window."
           (poe--move-to-front buf poe--popup-buffer-list))))
 
 (defun poe--popup-dim-h ()
-  (when poe-dim-popups
+  (when (and (bound-and-true-p poe-popup-mode)
+             poe-dim-popups)
     (if (poe--popup-buffer-p)
         (buffer-face-set
          `(:background ,(face-background 'poe-popup-dimmed-face)))
       (buffer-face-set 'default))))
 
 (defun poe--popup-remove-fringes-h ()
-  (when poe-remove-fringes-from-popups
+  (when (and (bound-and-true-p poe-popup-mode)
+             poe-remove-fringes-from-popups)
     (let ((f (if (poe--popup-buffer-p) 0)))
       (set-window-fringes nil f f fringes-outside-margins))))
 
