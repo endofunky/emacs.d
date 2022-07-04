@@ -6,22 +6,61 @@
   "A window and popup manager."
   :group 'convenience)
 
+(defcustom poe-popup-slot -1911
+  "Slot number to use for popup windows."
+  :group 'poe
+  :type 'integer)
+
+(defcustom poe-remove-fringes-from-popups t
+  "Remove fringes from popup windows."
+  :group 'poe
+  :type 'boolean)
+
+(defcustom poe-dim-popups t
+  "Change (\"dim\") popup windows with a different background
+color.
+
+See: `poe-popup-dimmed-face'."
+  :group 'poe
+  :type 'boolean)
+
 (defface poe-popup-dimmed-face
   `((t (:background "#151617")))
   "Face used for default."
   :group 'poe)
 
-(defvar poe-popup-slot -1911)
+(defconst poe-rules-custom-type
+  '(plist :options
+          (((const :tag "Regexp" :regexp) boolean)
+           ((const :tag "Same" :same) boolean)
+           ((const :tag "Popup" :popup) boolean)
+           ((const :tag "Side" :side)
+            (choice :tag "Alignment" :value nil
+                    (const :tag "Default" nil)
+                    (const :tag "Top" top)
+                    (const :tag "Bottom" bottom)
+                    (const :tag "Left" left)
+                    (const :tag "Right" right)
+                    (function :tag "Function")))
+           ((const :tag "Size" :size) number)))
+  "Shared custom :type fields for rules.")
 
-(defvar poe-dim-popups t)
+(defcustom poe-rules nil
+  "Window display rules."
+  :group 'poe
+  :type '(alist :key-type (choice :tag "Condition"
+                                  (symbol :tag "Major mode")
+                                  (string :tag "Buffer name"))
+                :value-type poe-rules-custom-type))
 
-(defvar poe-remove-fringes-from-popups t)
+(defcustom poe-popup-default-rule '(:side bottom
+                                    :size 0.2)
+  "Default rules to include for popup windows.
 
-(defvar poe-rules nil)
-
-(defvar poe-popup-default-rule
-  '(:side bottom
-    :size 0.2))
+Supported rules are the same as for `poe-rules', however, the
+\":popup\" rule has no effect."
+  :group 'poe
+  :type poe-rules-custom-type)
 
 (defvar poe--popup-buffer-list nil
   "List of popup buffers in the order they were opened in.
