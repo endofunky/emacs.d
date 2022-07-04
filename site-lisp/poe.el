@@ -6,6 +6,8 @@
   "A window and popup manager."
   :group 'convenience)
 
+(defvar poe-popup-slot -1911)
+
 (defvar poe-rules nil)
 
 (defvar poe-popup-default-rule
@@ -37,9 +39,10 @@ has been extracted."
   ;;
   ;; Most of the time we want a panel of the bottom of the screen, so let's not
   ;; require specifying those rules ever single time we're declaring a popup.
-  (let ((rule (if (plist-get rule :popupe)
+  (let ((rule (if (plist-get rule :popup)
                   (poe--plist-merge poe-popup-default-rule
-                                    rule)
+                                    rule
+                                    `(:slot ,poe-popup-slot))
                 rule)))
     `((actions         . ,(plist-get rule :actions))
       (side            . ,(plist-get rule :side))
