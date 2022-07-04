@@ -257,12 +257,14 @@ Defaults to the currently selected window."
 ;; Public
 ;; ----------------------------------------------------------------------------
 
+;;;###autoload
 (defun poe-rule (key &rest plist)
   "Add a new display-buffer rule to `poe-rules'."
   ;; Avoid having duplicate rules for a condition.
   (setq poe-rules (cl-delete key poe-rules :key #'car :test #'equal))
   (push (cons key plist) poe-rules))
 
+;;;###autoload
 (defun poe-popup-discard ()
   "Kills the currently visible popup, if any. "
   (interactive)
@@ -270,6 +272,7 @@ Defaults to the currently selected window."
     (let ((poe--popup-force-kill-buffer t))
       (delete-window win))))
 
+;;;###autoload
 (defun poe-popup-kill ()
   "Kills the currently visible popup, if any.
 
@@ -282,6 +285,7 @@ as a popup, display that buffer."
     (when-let ((buf (car poe--popup-buffer-list)))
       (display-buffer buf))))
 
+;;;###autoload
 (defun poe-popup-toggle ()
   "Toggle visibility of the last opened popup window."
   (interactive)
@@ -290,6 +294,7 @@ as a popup, display that buffer."
     (when-let ((buf (car poe--popup-buffer-list)))
       (display-buffer buf))))
 
+;;;###autoload
 (defun poe-popup-next ()
   "Cycle visibility of popup windows forwards."
   (interactive)
@@ -301,6 +306,7 @@ as a popup, display that buffer."
                   (butlast poe--popup-buffer-list)))
       (display-buffer (car poe--popup-buffer-list)))))
 
+;;;###autoload
 (defun poe-popup-prev ()
   "Cycle visibility of popup windows backwards."
   (interactive)
@@ -321,6 +327,7 @@ as a popup, display that buffer."
 
 See `poe-popup-mode'.")
 
+;;;###autoload
 (define-minor-mode poe-popup-mode
   "Minor mode for individual `poe-mode' buffers to be shown in
 popup windows."
@@ -331,6 +338,7 @@ popup windows."
 (defvar poe-mode-map (make-sparse-keymap)
   "Global keymap for `poe-mode'.")
 
+;;;###autoload
 (define-minor-mode poe-mode
   "Toggle `poe' on or off."
   :group 'poe
@@ -339,13 +347,15 @@ popup windows."
   :keymap poe-mode-map
   (if poe-mode
       (progn
-        (add-hook 'window-configuration-change-hook #'poe--popup-update-buffer-list-h)
+        (add-hook 'window-configuration-change-hook
+                  #'poe--popup-update-buffer-list-h)
         (add-hook 'poe-popup-mode-hook #'poe--popup-dim-h)
         (add-hook 'poe-popup-mode-hook #'poe--popup-remove-fringes-h)
         (setq display-buffer-alist
               (cons '(poe--display-buffer-condition poe--display-buffer-action)
                     display-buffer-alist)))
-    (remove-hook 'window-configuration-change-hook #'poe--popup-update-buffer-list-h)
+    (remove-hook 'window-configuration-change-hook
+                 #'poe--popup-update-buffer-list-h)
     (remove-hook 'poe-popup-mode-hook #'poe--popup-dim-h)
     (remove-hook 'poe-popup-mode-hook #'poe--popup-remove-fringes-h)
     (setq display-buffer-alist
