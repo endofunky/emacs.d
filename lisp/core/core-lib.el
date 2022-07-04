@@ -37,6 +37,7 @@
   (which-key-separator " ")
   (which-key-sort-order 'which-key-key-order-alpha)
   (which-key-sort-uppercase-first nil)
+  (which-key-popup-type 'minibuffer)
   ;; We have font-lock displaying prefixes in a different color,
   ;; so there is no need for a prefix character.
   (which-key-prefix-prefix "")
