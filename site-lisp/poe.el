@@ -247,7 +247,7 @@ popup-window."
   (poe--display-buffer buffer alist (poe--match buffer)))
 
 (defun poe--popup-buffer-p (&optional buffer)
-  "Return BUFFER if the bufferis a popup buffer,`nil' otherwise.
+  "Return BUFFER if the buffer is a popup buffer, `nil' otherwise.
 
 Defaults to the current buffer."
   (let ((buffer (or buffer
@@ -256,6 +256,15 @@ Defaults to the current buffer."
          (buffer-live-p buffer)
          (buffer-local-value 'poe-popup-mode buffer)
          buffer)))
+
+(defun poe--regular-buffer-p (&optional buffer)
+  "Return BUFFER if the buffer is a regular buffer, `nil' otherwise.
+
+Defaults to the current buffer."
+  (let ((buffer (or buffer
+                    (current-buffer))))
+    (when (not (poe--popup-buffer-p buffer))
+      buffer)))
 
 (defun poe--popup-window-p (&optional window)
   "Return WINDOW if the window's buffer is a popup buffer, `nil'
@@ -297,22 +306,6 @@ Defaults to the currently selected window."
   (when poe-remove-fringes-from-popups
     (let ((f (if (poe--popup-buffer-p) 0)))
       (set-window-fringes nil f f fringes-outside-margins))))
-
-;; ----------------------------------------------------------------------------
-;; Package-specific overrides
-;; ----------------------------------------------------------------------------
-
-(defvar undo-tree-visualizer-diff)
-
-(defun poe--undo-tree-visualize-popup-a (orig-fun &rest args)
-  (if undo-tree-visualizer-diff
-      (apply orig-fun args)
-    (cl-letf (((symbol-function 'switch-to-buffer-other-window)
-               #'pop-to-buffer))
-      (apply orig-fun args))))
-
-(with-eval-after-load 'undo-tree
-  (advice-add 'undo-tree-visualize :around #'poe--undo-tree-visualize-popup-a))
 
 ;; ----------------------------------------------------------------------------
 ;; Public

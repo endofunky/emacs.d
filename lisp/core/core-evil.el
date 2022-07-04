@@ -206,6 +206,8 @@ current buffer."
   (undo-tree-visualizer-timestamps t)
   (undo-tree-visualizer-lazy-drawing nil)
   :commands (global-undo-tree-mode)
+  :functions (+undo-tree-visualize-popup-a
+              +undo-tree-save-history-a)
   :general
   (:states 'normal :prefix ef-leader
    "u" '(undo-tree-visualize :wk "Undo-tree"))
@@ -215,7 +217,7 @@ current buffer."
 
   (global-undo-tree-mode t)
 
-  (poe-rule " *undo-tree*" :select t :side 'right)
+  (poe-popup " *undo-tree*" :select t)
 
   (defun +undo-tree-save-history-a (orig-fn &rest args)
     "Advice for `undo-tree-save-history' to hide echo area messages."
@@ -223,7 +225,17 @@ current buffer."
           (inhibit-message t))
       (apply orig-fn args)))
 
-  (advice-add 'undo-tree-save-history :around '+undo-tree-save-history-a))
+  (advice-add 'undo-tree-save-history :around #'+undo-tree-save-history-a)
+
+  (defun +undo-tree-visualize-popup-a (orig-fun &rest args)
+    "Make `undo-tree-visualize' use `pop-to-buffer'."
+    (if undo-tree-visualizer-diff
+        (apply orig-fun args)
+      (cl-letf (((symbol-function 'switch-to-buffer-other-window)
+                 #'pop-to-buffer))
+        (apply orig-fun args))))
+
+  (advice-add 'undo-tree-visualize :around #'+undo-tree-visualize-popup-a))
 
 (use-package evil-collection
   :after evil
