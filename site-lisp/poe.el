@@ -35,6 +35,7 @@ See: `poe-popup-dimmed-face'."
            ((const :tag "Same" :same) boolean)
            ((const :tag "Popup" :popup) boolean)
            ((const :tag "Select" :select) boolean)
+           ((const :tag "Inhibit window quit" :inhibit-window-quit) boolean)
            ((const :tag "Side" :side)
             (choice :tag "Side" :value nil
                     (const :tag "Default" nil)
@@ -233,6 +234,8 @@ popup-window."
           (poe-popup-mode t)))
       (when (plist-get rule :select)
         (select-window window))
+      (when (plist-get rule :inhibit-window-quit)
+        (set-window-parameter window 'quit-restore nil))
       window)))
 
 (defun poe--display-buffer-condition (buffer _action)
