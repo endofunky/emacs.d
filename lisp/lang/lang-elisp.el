@@ -164,7 +164,7 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   :hook
   (ielm-mode . eldoc-mode)
   :config
-  (poe-popup "*ielm*"))
+  (poe-popup "*ielm*" :select t))
 
 (defun +ielm-insert-region (start end)
   "Insert the curent region in the IELM REPL buffer."
