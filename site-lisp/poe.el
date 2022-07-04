@@ -14,6 +14,13 @@
   '(:side bottom
     :size 0.2))
 
+(defvar poe--popup-buffer-list nil
+  "List of popup buffers in the order they were opened in.
+
+The `car' of this list will be the most recently visible popup.
+Used for cycling popup buffers with `poe-popup-next' and
+`poe-popup-prev'.")
+
 (defun poe--plist-merge (&rest plists)
   "Create a single property list from all plists in PLISTS.
 The process starts by copying the first list, and then setting
@@ -120,6 +127,7 @@ a window."
         (poe-popup-mode -1)
         (when (and (not poe--popup-inhibit-kill-buffer)
                    (plist-get (window-parameter window 'poe-rule) :ephemeral))
+          (setq poe--popup-buffer-list (remove buffer poe--popup-buffer-list))
           (poe--popup-kill-buffer buffer))))))
 
 (defun poe--display-buffer (buffer alist rule)
@@ -166,6 +174,26 @@ a window."
   (poe--popup-buffer-p (window-buffer (or window
                                           (selected-window)))))
 
+(defun poe--move-to-front (elt list)
+  "Add/mode ELT to the front of LIST."
+  (cons elt (remove elt list)))
+
+(defun poe--popup-buffers ()
+  "Returns a list of open popup buffers."
+  (seq-filter #'poe--popup-buffer-p (buffer-list)))
+
+(defun poe--popup-windows ()
+  "Returns a list of open popup windows."
+  (seq-filter #'poe--popup-window-p (window-list)))
+
+(defun poe--popup-update-buffer-list ()
+  "Function called from `window-configuration-change-hook' to update
+`ef-popup--buffer-list' with any changes."
+  (dolist (buf (cl-set-difference (poe--popup-buffers)
+                                  poe--popup-buffer-list))
+    (setq poe--popup-buffer-list
+          (poe--move-to-front buf poe--popup-buffer-list))))
+
 ;; ----------------------------------------------------------------------------
 ;; Public
 ;; ----------------------------------------------------------------------------
@@ -174,6 +202,36 @@ a window."
   ;; Avoid having duplicate rules for a condition.
   (setq poe-rules (cl-delete key poe-rules :key #'car :test #'equal))
   (push (cons key plist) poe-rules))
+
+(defun poe-popup-toggle ()
+  "Toggle visibility of the last opened popup window."
+  (interactive)
+  (if-let ((win (car (poe--popup-windows))))
+      (delete-window win)
+    (when-let ((buf (car poe--popup-buffer-list)))
+      (display-buffer buf))))
+
+(defun poe-popup-next ()
+  "Cycle visibility of popup windows forwards."
+  (interactive)
+  (if (= 0 (length (poe--popup-windows)))
+      (poe-popup-toggle)
+    (when poe--popup-buffer-list
+      (setq poe--popup-buffer-list
+            (cons (car (last poe--popup-buffer-list))
+                  (butlast poe--popup-buffer-list)))
+      (display-buffer (car poe--popup-buffer-list)))))
+
+(defun poe-popup-prev ()
+  "Cycle visibility of popup windows backwards."
+  (interactive)
+  (if (= 0 (length (poe--popup-windows)))
+      (poe-popup-toggle)
+    (when poe--popup-buffer-list
+      (setq poe--popup-buffer-list
+            (append (cdr poe--popup-buffer-list)
+                    (list (car poe--popup-buffer-list))))
+      (display-buffer (car poe--popup-buffer-list)))))
 
 ;; ----------------------------------------------------------------------------
 ;; Modes
@@ -201,9 +259,12 @@ popup windows."
   :lighter nil
   :keymap poe-mode-map
   (if poe-mode
-      (setq display-buffer-alist
-            (cons '(poe--display-buffer-condition poe--display-buffer-action)
-                  display-buffer-alist))
+      (progn
+        (add-hook 'window-configuration-change-hook #'poe--popup-update-buffer-list)
+        (setq display-buffer-alist
+              (cons '(poe--display-buffer-condition poe--display-buffer-action)
+                    display-buffer-alist)))
+    (remove-hook 'window-configuration-change-hook #'poe--popup-update-buffer-list)
     (setq display-buffer-alist
           (remove '(poe--display-buffer-condition poe--display-buffer-action)
                   display-buffer-alist))))
