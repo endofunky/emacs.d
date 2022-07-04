@@ -304,9 +304,10 @@ Defaults to the currently selected window."
   (push (cons key plist) poe-rules))
 
 ;;;###autoload
-(defmacro poe-popup (key &rest plist)
+(defun poe-popup (key &rest plist)
   "Add a new display-buffer rule for a popup window to `poe-rules'."
-  `(poe-rule ,key ,@(plist-put plist :popup t)))
+  (setq poe-rules (cl-delete key poe-rules :key #'car :test #'equal))
+  (push (cons key (plist-put plist :popup t)) poe-rules))
 
 ;;;###autoload
 (defun poe-popup-discard ()
