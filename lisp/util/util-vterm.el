@@ -54,7 +54,7 @@
 
       (message "Buffer is not visiting a file.")))
 
-  (poe-popup "*vterm-popup*" :size 0.4)
+  (poe-popup "*vterm-popup*" :size 0.4 :select t)
 
   (defun +vterm-sentinel (process event)
     "A process sentinel. Kills PROCESS's buffer if it is live."
