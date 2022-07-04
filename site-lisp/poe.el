@@ -34,6 +34,7 @@ See: `poe-popup-dimmed-face'."
           (((const :tag "Regexp" :regexp) boolean)
            ((const :tag "Same" :same) boolean)
            ((const :tag "Popup" :popup) boolean)
+           ((const :tag "Select" :select) boolean)
            ((const :tag "Side" :side)
             (choice :tag "Alignment" :value nil
                     (const :tag "Default" nil)
@@ -230,6 +231,8 @@ popup-window."
           (set-window-parameter window 'poe-rule rule)
           (set-window-dedicated-p window 'popup)
           (poe-popup-mode t)))
+      (when (plist-get rule :select)
+        (select-window window))
       window)))
 
 (defun poe--display-buffer-condition (buffer _action)
