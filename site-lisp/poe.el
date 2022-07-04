@@ -167,12 +167,10 @@ a window."
 ;; Public
 ;; ----------------------------------------------------------------------------
 
-(defmacro poe-rule (key &rest plist)
-  (declare (indent 0))
-  `(progn
-     ;; Avoid having duplicate rules for a condition.
-     (setq poe-rules (cl-delete ,key poe-rules :key #'car :test #'equal))
-     (push '(,key ,@plist) poe-rules)))
+(defun poe-rule (key &rest plist)
+  ;; Avoid having duplicate rules for a condition.
+  (setq poe-rules (cl-delete key poe-rules :key #'car :test #'equal))
+  (push (cons key plist) poe-rules))
 
 ;; ----------------------------------------------------------------------------
 ;; Modes
