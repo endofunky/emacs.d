@@ -16,6 +16,12 @@
   :group 'poe
   :type 'boolean)
 
+(defcustom poe-redirect-switch-to-buffer t
+  "Redirect `switch-to-buffer' and related calls to `display-buffer'
+for managed buffers."
+  :group 'poe
+  :type 'boolean)
+
 (defcustom poe-dim-popups t
   "Change (\"dim\") popup windows with a different background
 color.
@@ -238,6 +244,13 @@ them in a popup-window."
         (select-window window))
       window)))
 
+(defun poe--switch-to-buffer-redirect-a (orig-fun &rest args)
+  "Redirect `switch-to-buffer' and related functions to
+`display-buffer' so they can be handled by poe."
+  (if (poe--match (car args))
+      (apply #'display-buffer args)
+    (apply orig-fun args)))
+
 (defun poe--display-buffer-condition (buffer _action)
   "Condition function for `display-buffer-alist'."
   (poe--match buffer))
@@ -413,9 +426,16 @@ popup windows."
                   #'poe--popup-update-buffer-list-h)
         (setq display-buffer-alist
               (cons '(poe--display-buffer-condition poe--display-buffer-action)
-                    display-buffer-alist)))
+                    display-buffer-alist))
+        (when poe-redirect-switch-to-buffer
+          (advice-add 'switch-to-buffer-other-window
+                      :around #'poe--switch-to-buffer-redirect-a)
+          (advice-add 'switch-to-buffer
+                      :around #'poe--switch-to-buffer-redirect-a)))
     (remove-hook 'window-configuration-change-hook
                  #'poe--popup-update-buffer-list-h)
+    (advice-remove 'switch-to-buffer-other-window #'poe--switch-to-buffer-redirect-a)
+    (advice-remove 'switch-to-buffer #'poe--switch-to-buffer-redirect-a)
     (setq display-buffer-alist
           (remove '(poe--display-buffer-condition poe--display-buffer-action)
                   display-buffer-alist))))
