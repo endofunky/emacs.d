@@ -32,6 +32,20 @@ has been extracted."
         (setq rtn (plist-put rtn p v))))
     rtn))
 
+(defun poe--alist (alist rule)
+  ;; If this is a popup, merge the default popup rules.
+  ;;
+  ;; Most of the time we want a panel of the bottom of the screen, so let's not
+  ;; require specifying those rules ever single time we're declaring a popup.
+  (let ((rule (if (plist-get rule :popupe)
+                  (poe--plist-merge poe-popup-default-rule
+                                    rule)
+                rule)))
+    `((actions         . ,(plist-get rule :actions))
+      (side            . ,(plist-get rule :side))
+      (size            . ,(plist-get rule :size))
+      (slot            . ,(plist-get rule :slot)))))
+
 (defun poe--match (buffer-or-name)
   (when-let* ((buffer (get-buffer buffer-or-name))
               (buffer-major-mode (buffer-local-value 'major-mode buffer))
@@ -47,19 +61,16 @@ has been extracted."
                                           buffer-name)))))
      return plist)))
 
-(defun poe--alist (alist rule)
-  ;; If this is a popup, merge the default popup rules.
-  ;;
-  ;; Most of the time we want a panel of the bottom of the screen, so let's not
-  ;; require specifying those rules ever single time we're declaring a popup.
-  (let ((rule (if (plist-get rule :popupe)
-                  (poe--plist-merge poe-popup-default-rule
-                                    rule)
-                rule)))
-    `((actions         . ,(plist-get rule :actions))
-      (side            . ,(plist-get rule :side))
-      (size            . ,(plist-get rule :size))
-      (slot            . ,(plist-get rule :slot)))))
+(defun poe--popup-split-window (window size side)
+  "Ensure a non-dedicated/popup window is selected when splitting
+a window."
+  (cl-loop for win
+           in (cons (or window (selected-window))
+                    (window-list nil 0 window))
+           unless (poe--popup-window-p win)
+           return (setq window win))
+  (let ((ignore-window-parameters t))
+    (split-window window size side)))
 
 (defun poe--display-buffer (buffer alist rule)
   (let ((alist (poe--alist alist rule))
@@ -79,8 +90,10 @@ has been extracted."
                                if (funcall func buffer alist)
                                return it))
       (when (plist-get rule :popup)
-        ;; TODO set up the popup here
-        (message "popup"))
+        (with-selected-window window
+          (set-window-parameter window 'split-window #'poe--popup-split-window)
+          (set-window-dedicated-p window 'popup)
+          (poe-popup-mode t)))
       window)))
 
 (defun poe--display-buffer-condition (buffer _action)
