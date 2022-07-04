@@ -42,11 +42,15 @@ has been extracted."
     rtn))
 
 (defun poe--alist (_alist rule)
-  ;; If this is a popup, merge the default popup rules.
-  ;;
-  ;; Most of the time we want a panel of the bottom of the screen, so let's not
-  ;; require specifying those rules ever single time we're declaring a popup.
+  "Transforms a poe rule into an alist in the format expected by
+display buffer actions."
   (let ((rule (if (plist-get rule :popup)
+                  ;; If this is a popup, merge the default popup rules and set
+                  ;; the fixed slot number.
+                  ;;
+                  ;; Most of the time we want a panel of the bottom of the
+                  ;; screen, so let's not require specifying those rules ever
+                  ;; single time we're declaring a popup.
                   (poe--plist-merge poe-popup-default-rule
                                     rule
                                     `(:slot ,poe-popup-slot))
@@ -57,6 +61,8 @@ has been extracted."
       (slot            . ,(plist-get rule :slot)))))
 
 (defun poe--match (buffer-or-name)
+  "Match BUFFER-OR-NAME against any conditions defined in
+`poe-rules' and, if found, returns the rule plist"
   (when-let* ((buffer (get-buffer buffer-or-name))
               (buffer-major-mode (buffer-local-value 'major-mode buffer))
               (buffer-name (buffer-name buffer)))
@@ -83,6 +89,8 @@ a window."
     (split-window window size side)))
 
 (defun poe--popup-kill-buffer (buffer)
+  "Kill the popup-buffer BUFFER after killing any associated
+buffer-process. "
   (let ((inhibit-quit t))
     (cond
      ;; Buffer isn't live anymore, no need to kill it.
@@ -102,9 +110,18 @@ a window."
               (cl-letf (((symbol-function #'top-level) #'ignore))
                 (kill-buffer buffer))))))))))
 
-(defvar poe--popup-inhibit-kill-buffer nil)
+(defvar poe--popup-inhibit-kill-buffer nil
+  "Variable that can be set during a delete-window cycle to inhibit
+any `kill-buffer' calls issued for buffers with the :ephemeral
+rule.")
 
 (defun poe--popup-delete-window (window)
+  "A `delete-window' window-parameter function for popup buffers.
+
+Will ask to save if the popup is file backed and modified, restore the
+window-configuration and kill the popup buffer if it's marked as :ephemeral,
+unless the window is still visiable after restoring the previous window
+configuration."
   (let ((buffer (window-buffer window))
         (inhibit-quit t))
     ;; If the window buffer is file-backed and has been modified, ask if we
@@ -131,6 +148,8 @@ a window."
           (poe--popup-kill-buffer buffer))))))
 
 (defun poe--display-buffer (buffer alist rule)
+  "Handles displaying of poe-managed buffers, optionally opening them in a
+popup-window."
   (let ((alist (poe--alist alist rule))
         (actions (or (cdr (assq 'actions alist))
                      ;; Use same window if :same is set, unless it's a popup
@@ -157,12 +176,17 @@ a window."
       window)))
 
 (defun poe--display-buffer-condition (buffer _action)
+  "Condition function for `display-buffer-alist'."
   (poe--match buffer))
 
 (defun poe--display-buffer-action (buffer alist)
+  "Action function for `display-buffer-alist'."
   (poe--display-buffer buffer alist (poe--match buffer)))
 
 (defun poe--popup-buffer-p (&optional buffer)
+  "Return BUFFER if the bufferis a popup buffer,`nil' otherwise.
+
+Defaults to the current buffer."
   (let ((buffer (or buffer
                     (current-buffer))))
     (and (bufferp buffer)
@@ -171,8 +195,13 @@ a window."
          buffer)))
 
 (defun poe--popup-window-p (&optional window)
-  (poe--popup-buffer-p (window-buffer (or window
-                                          (selected-window)))))
+  "Return WINDOW if the window's buffer is a popup buffer, `nil'
+otherwise.
+
+Defaults to the currently selected window."
+  (let ((window (or window (selected-window))))
+    (and (poe--popup-buffer-p (window-buffer window))
+         window)))
 
 (defun poe--move-to-front (elt list)
   "Add/mode ELT to the front of LIST."
@@ -199,6 +228,7 @@ a window."
 ;; ----------------------------------------------------------------------------
 
 (defun poe-rule (key &rest plist)
+  "Add a new display-buffer rule to `poe-rules'."
   ;; Avoid having duplicate rules for a condition.
   (setq poe-rules (cl-delete key poe-rules :key #'car :test #'equal))
   (push (cons key plist) poe-rules))
