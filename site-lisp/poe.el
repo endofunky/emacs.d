@@ -225,6 +225,8 @@ popup-window."
     (when-let (window (cl-loop for func in actions
                                if (funcall func buffer alist)
                                return it))
+      (when (plist-get rule :inhibit-window-quit)
+        (set-window-parameter window 'quit-restore nil))
       (when (plist-get rule :popup)
         (with-selected-window window
           (set-window-parameter window 'split-window #'poe--popup-split-window)
@@ -234,8 +236,6 @@ popup-window."
           (poe-popup-mode t)))
       (when (plist-get rule :select)
         (select-window window))
-      (when (plist-get rule :inhibit-window-quit)
-        (set-window-parameter window 'quit-restore nil))
       window)))
 
 (defun poe--display-buffer-condition (buffer _action)
