@@ -12,7 +12,7 @@ already in normal mode.")
   (:states 'normal :prefix ef-leader
    ":"        '(eval-expression :wk "Eval expression")
    "#"        '(display-line-numbers-mode :wk "Toggle line numbers")
-   "s"        '(pop-to-buffer :wk "Change buffer")
+   "s"        '(switch-to-buffer :wk "Change buffer")
    "F"        '(+sudo-find-file :wk "Find file (sudo)")
 
    ;; Buffer
@@ -207,8 +207,7 @@ current buffer."
   (undo-tree-visualizer-timestamps t)
   (undo-tree-visualizer-lazy-drawing nil)
   :commands (global-undo-tree-mode)
-  :functions (+undo-tree-visualize-popup-a
-              +undo-tree-save-history-a)
+  :functions (+undo-tree-save-history-a)
   :general
   (:states 'normal :prefix ef-leader
    "u" '(undo-tree-visualize :wk "Undo-tree"))
@@ -224,17 +223,7 @@ current buffer."
           (inhibit-message t))
       (apply orig-fn args)))
 
-  (advice-add 'undo-tree-save-history :around #'+undo-tree-save-history-a)
-
-  (defun +undo-tree-visualize-popup-a (orig-fun &rest args)
-    "Make `undo-tree-visualize' use `pop-to-buffer'."
-    (if undo-tree-visualizer-diff
-        (apply orig-fun args)
-      (cl-letf (((symbol-function 'switch-to-buffer-other-window)
-                 #'pop-to-buffer))
-        (apply orig-fun args))))
-
-  (advice-add 'undo-tree-visualize :around #'+undo-tree-visualize-popup-a))
+  (advice-add 'undo-tree-save-history :around #'+undo-tree-save-history-a))
 
 (use-package evil-collection
   :after evil

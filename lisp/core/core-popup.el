@@ -29,6 +29,19 @@
   (poe-popup " *undo-tree*" :select t :ephemeral t)
   (poe-popup 'calendar-mode :ephemeral t)
   (poe-popup 'comint-mode)
-  (poe-popup 'compilation-mode))
+  (poe-popup 'compilation-mode)
+
+  ;; `undo-tree-visualize' sets the major mode *after* calling
+  ;; `switch-to-buffer-other-window', which disablees all buffer-local minor
+  ;; modes (including `poe-popup-mode'. So let's re-enable it here (all the
+  ;; window parameters will still be set).
+  (with-eval-after-load 'undo-tree
+    (defun +undo-tree-poe-popup-h ()
+      "Re-enable `poe-popup-mode' for `undo-tree-visualize', if required."
+      (when (and (bound-and-true-p poe-mode)
+                 (poe--match (current-buffer)))
+        (poe-popup-mode t)))
+
+    (add-hook 'undo-tree-visualizer-mode-hook #'+undo-tree-poe-popup-h)))
 
 (provide 'core-popup)
