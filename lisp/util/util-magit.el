@@ -12,7 +12,7 @@
              magit-status)
   :custom
   (magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
-  (magit-display-buffer-function #'+magit-display-buffer-function)
+  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
   (magit-bury-buffer-function #'magit-restore-window-configuration)
   :functions (magit-get-current-branch)
   :general
@@ -28,18 +28,6 @@
    "g" '(nil :wk "Git")
    "gl" '(magit-log :wk "Log"))
   :config
-  (+shackle '(magit-diff-mode :align right :size .5 :popup t :select nil :float t))
-  (+shackle '(magit-process-mode :align below :size .2 :popup t :select nil :float t))
-
-  ;; This depends on the two shackle rules above to work correctly
-  (defun +magit-display-buffer-function (buffer)
-    "Open magit windows full-frame, except for `magit-process-mode' buffers and
-windows opened from `git-commit-mode'."
-    (if (or (bound-and-true-p git-commit-mode)
-            (eq (buffer-local-value 'major-mode buffer) 'magit-process-mode))
-        (display-buffer buffer)
-      (display-buffer-full-frame buffer '(magit--display-buffer-fullframe))))
-
   (+add-hook git-commit-setup-hook :fn +git-commit-add-jira-ticket-h
     "Add JIRA tickets as prefix to commit message if the branch name starts with
 what looks like a JIRA ticket ID."
