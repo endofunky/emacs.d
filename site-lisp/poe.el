@@ -273,8 +273,8 @@ Defaults to the currently selected window."
 (defun poe-popup-kill ()
   "Kills the currently visible popup, if any.
 
-If there is more than one buffer in the buffer-list that is managed as a popup,
-display that buffer."
+If there is more than one buffer in the buffer-list that is managed
+as a popup, display that buffer."
   (interactive)
   (when-let ((win (car (poe--popup-windows))))
     (let ((poe--popup-force-kill-buffer t))
