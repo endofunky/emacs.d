@@ -7,11 +7,7 @@
 
 (defvar poe-rules nil)
 
-(defmacro poe-rule (key &rest plist)
-  (declare (indent 0))
-  `(push '(,key ,@plist) poe-rules))
-
-(defun poe-match (buffer-or-name)
+(defun poe--match (buffer-or-name)
   (when-let* ((buffer (get-buffer buffer-or-name))
               (buffer-major-mode (buffer-local-value 'major-mode buffer))
               (buffer-name (buffer-name buffer)))
@@ -26,14 +22,35 @@
                                           buffer-name)))))
      return plist)))
 
-(defun poe--display-buffer-condition (buffer _action)
-  (poe-match buffer))
-
-(defun poe--display-buffer-action (buffer alist)
-  (poe--display-buffer buffer alist (poe-match buffer)))
+(defun poe--alist (alist rule)
+  '((side . bottom)
+    (reusable-frames . nil)
+    (size . 0.2)))
 
 (defun poe--display-buffer (buffer alist rule)
-  (message "Display %s with alist: %s rule: %s" buffer alist rule))
+  (let ((alist (poe--alist alist rule))
+        (actions (or (cdr (assq 'actions alist))
+                     ;; Use same window if :same is set, unless it's a popup
+                     ;; window, in which case displaying it in the same window
+                     ;; doesn't make much sense and showing a popup as
+                     ;; expected in a side-window takes precedence.
+                     (if (and (plist-get rule :same)
+                              (not (plist-get rule :popup)))
+                         '(display-buffer-reuse-window
+                           display-buffer-same-window)
+                       '(display-buffer-reuse-window
+                         display-buffer-in-side-window)))))
+    ;; Call all the display-buffer actions until we find one that works.
+    (when-let (window (cl-loop for func in actions
+                               if (funcall func buffer alist)
+                               return it))
+      window)))
+
+(defun poe--display-buffer-condition (buffer _action)
+  (poe--match buffer))
+
+(defun poe--display-buffer-action (buffer alist)
+  (poe--display-buffer buffer alist (poe--match buffer)))
 
 (defun poe--popup-buffer-p (&optional buffer)
   (let ((buffer (or buffer
@@ -46,6 +63,14 @@
 (defun poe--popup-window-p (&optional window)
   (poe--popup-buffer-p (window-buffer (or window
                                           (selected-window)))))
+
+;; ----------------------------------------------------------------------------
+;; Public
+;; ----------------------------------------------------------------------------
+
+(defmacro poe-rule (key &rest plist)
+  (declare (indent 0))
+  `(push '(,key ,@plist) poe-rules))
 
 ;; ----------------------------------------------------------------------------
 ;; Modes
