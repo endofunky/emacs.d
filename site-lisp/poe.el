@@ -207,8 +207,8 @@ configuration."
           (poe--popup-kill-buffer buffer))))))
 
 (defun poe--display-buffer (buffer alist rule)
-  "Handles displaying of poe-managed buffers, optionally opening them in a
-popup-window."
+  "Handles displaying of poe-managed buffers, optionally opening
+them in a popup-window."
   (let ((alist (poe--alist alist rule))
         (actions (or (cdr (assq 'actions alist))
                      ;; Use same window if :same is set, unless it's a popup
