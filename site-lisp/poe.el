@@ -32,7 +32,7 @@ has been extracted."
         (setq rtn (plist-put rtn p v))))
     rtn))
 
-(defun poe--alist (alist rule)
+(defun poe--alist (_alist rule)
   ;; If this is a popup, merge the default popup rules.
   ;;
   ;; Most of the time we want a panel of the bottom of the screen, so let's not
