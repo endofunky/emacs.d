@@ -275,7 +275,7 @@ Defaults to the currently selected window."
     (and (poe--popup-buffer-p (window-buffer window))
          window)))
 
-(defun poe--move-to-front (elt list)
+(defsubst poe--move-to-front (elt list)
   "Add/mode ELT to the front of LIST."
   (cons elt (remove elt list)))
 
@@ -411,17 +411,16 @@ popup windows."
       (progn
         (add-hook 'window-configuration-change-hook
                   #'poe--popup-update-buffer-list-h)
-        (add-hook 'poe-popup-mode-hook #'poe--popup-dim-h)
-        (add-hook 'poe-popup-mode-hook #'poe--popup-remove-fringes-h)
         (setq display-buffer-alist
               (cons '(poe--display-buffer-condition poe--display-buffer-action)
                     display-buffer-alist)))
     (remove-hook 'window-configuration-change-hook
                  #'poe--popup-update-buffer-list-h)
-    (remove-hook 'poe-popup-mode-hook #'poe--popup-dim-h)
-    (remove-hook 'poe-popup-mode-hook #'poe--popup-remove-fringes-h)
     (setq display-buffer-alist
           (remove '(poe--display-buffer-condition poe--display-buffer-action)
                   display-buffer-alist))))
+
+(add-hook 'poe-popup-mode-hook #'poe--popup-dim-h)
+(add-hook 'poe-popup-mode-hook #'poe--popup-remove-fringes-h)
 
 (provide 'poe)
