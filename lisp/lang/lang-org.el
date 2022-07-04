@@ -175,7 +175,6 @@
   (org-roam-directory (expand-file-name "roam" ef-org-directory))
   :config
   (org-roam-setup)
-  (+shackle '("*org-roam*" :align right :size .5 :popup t :select t :float t))
   (poe-popup "*org-roam diagnostics*"))
 
 (use-package ox-gfm

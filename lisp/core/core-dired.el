@@ -24,8 +24,7 @@
   (dired-recursive-copies 'always)
   (dired-recursive-deletes 'top)
   :config
-  (+shackle '(dired-mode :align right :size .5 :popup nil
-                          :select t :float t :inhibit-window-quit t))
+  (poe-rule 'dired-mode :same t :inhibit-window-quit t)
 
   ;; As opposed to what the documentation says, `dired-find-alternate-file' is
   ;; actually more intuitive for <return> than the default, `find-file', so we

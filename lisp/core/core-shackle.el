@@ -1,8 +1,6 @@
 ;;; core-shackle.el --- Popup management -*- lexical-binding: t; -*-
 (require 'core-lib)
 
-(defun +shackle (_shackle &rest _shackles))
-
 (use-package poe
   :demand t
   :straight nil
