@@ -215,6 +215,8 @@ current buffer."
 
   (global-undo-tree-mode t)
 
+  (poe-rule " *undo-tree*" :select t :side 'right)
+
   (defun +undo-tree-save-history-a (orig-fn &rest args)
     "Advice for `undo-tree-save-history' to hide echo area messages."
     (let ((message-log-max nil)

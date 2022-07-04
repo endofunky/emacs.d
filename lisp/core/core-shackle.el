@@ -14,7 +14,6 @@
    "M-q" 'poe-popup-kill)
   :config
   (poe-popup " *Metahelp*" :ephemeral t)
-  (poe-popup " *undo-tree*" :ephemeral t)
   (poe-popup "*Apropos*" :size .3 :ephemeral t)
   (poe-popup "*Backtrace*")
   (poe-popup "*Checkdoc Status*" :ephemeral t)
