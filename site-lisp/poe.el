@@ -122,6 +122,10 @@ buffer-process. "
 any `kill-buffer' calls issued for buffers with the :ephemeral
 rule.")
 
+(defvar poe--popup-force-kill-buffer nil
+  "Variable that can be set during a delete-window cycle to force
+a subsequent `kill-buffer', irrespective of the :ephemeral rule.")
+
 (defun poe--popup-delete-window (window)
   "A `delete-window' window-parameter function for popup buffers.
 
@@ -149,8 +153,9 @@ configuration."
       (with-current-buffer buffer
         (set-buffer-modified-p nil)
         (poe-popup-mode -1)
-        (when (and (not poe--popup-inhibit-kill-buffer)
-                   (plist-get (window-parameter window 'poe-rule) :ephemeral))
+        (when (or poe--popup-force-kill-buffer
+                  (and (not poe--popup-inhibit-kill-buffer)
+                       (plist-get (window-parameter window 'poe-rule) :ephemeral)))
           (setq poe--popup-buffer-list (remove buffer poe--popup-buffer-list))
           (poe--popup-kill-buffer buffer))))))
 
@@ -249,6 +254,25 @@ Defaults to the currently selected window."
   ;; Avoid having duplicate rules for a condition.
   (setq poe-rules (cl-delete key poe-rules :key #'car :test #'equal))
   (push (cons key plist) poe-rules))
+
+(defun poe-popup-discard ()
+  "Kills the currently visible popup, if any. "
+  (interactive)
+  (when-let ((win (car (poe--popup-windows))))
+    (let ((poe--popup-force-kill-buffer t))
+      (delete-window win))))
+
+(defun poe-popup-kill ()
+  "Kills the currently visible popup, if any.
+
+If there is more than one buffer in the buffer-list that is managed as a popup,
+display that buffer."
+  (interactive)
+  (when-let ((win (car (poe--popup-windows))))
+    (let ((poe--popup-force-kill-buffer t))
+      (delete-window win))
+    (when-let ((buf (car poe--popup-buffer-list)))
+      (display-buffer buf))))
 
 (defun poe-popup-toggle ()
   "Toggle visibility of the last opened popup window."
