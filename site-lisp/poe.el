@@ -6,7 +6,14 @@
   "A window and popup manager."
   :group 'convenience)
 
+(defface poe-popup-dimmed-face
+  `((t (:background "#151617")))
+  "Face used for default."
+  :group 'poe)
+
 (defvar poe-popup-slot -1911)
+
+(defvar poe-dim-popups t)
 
 (defvar poe-rules nil)
 
@@ -215,13 +222,23 @@ Defaults to the currently selected window."
   "Returns a list of open popup windows."
   (seq-filter #'poe--popup-window-p (window-list)))
 
-(defun poe--popup-update-buffer-list ()
+(defun poe--popup-update-buffer-list-h ()
   "Function called from `window-configuration-change-hook' to update
 `ef-popup--buffer-list' with any changes."
   (dolist (buf (cl-set-difference (poe--popup-buffers)
                                   poe--popup-buffer-list))
     (setq poe--popup-buffer-list
           (poe--move-to-front buf poe--popup-buffer-list))))
+
+(defun poe--dim-popups-h ()
+  (when poe-dim-popups
+    (walk-windows
+     (lambda (w)
+       (with-current-buffer (window-buffer w)
+         (if (poe--popup-buffer-p (window-buffer w))
+             (buffer-face-set
+              `(:background ,(face-background 'poe-popup-dimmed-face)))
+           (buffer-face-set 'default)))))))
 
 ;; ----------------------------------------------------------------------------
 ;; Public
@@ -290,11 +307,13 @@ popup windows."
   :keymap poe-mode-map
   (if poe-mode
       (progn
-        (add-hook 'window-configuration-change-hook #'poe--popup-update-buffer-list)
+        (add-hook 'window-configuration-change-hook #'poe--popup-update-buffer-list-h)
+        (add-hook 'window-configuration-change-hook #'poe--dim-popups-h)
         (setq display-buffer-alist
               (cons '(poe--display-buffer-condition poe--display-buffer-action)
                     display-buffer-alist)))
-    (remove-hook 'window-configuration-change-hook #'poe--popup-update-buffer-list)
+    (remove-hook 'window-configuration-change-hook #'poe--popup-update-buffer-list-h)
+    (remove-hook 'window-configuration-change-hook #'poe--dim-popups-h)
     (setq display-buffer-alist
           (remove '(poe--display-buffer-condition poe--display-buffer-action)
                   display-buffer-alist))))
