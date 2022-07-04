@@ -299,6 +299,22 @@ Defaults to the currently selected window."
       (set-window-fringes nil f f fringes-outside-margins))))
 
 ;; ----------------------------------------------------------------------------
+;; Package-specific overrides
+;; ----------------------------------------------------------------------------
+
+(defvar undo-tree-visualizer-diff)
+
+(defun poe--undo-tree-visualize-popup-a (orig-fun &rest args)
+  (if undo-tree-visualizer-diff
+      (apply orig-fun args)
+    (cl-letf (((symbol-function 'switch-to-buffer-other-window)
+               #'pop-to-buffer))
+      (apply orig-fun args))))
+
+(with-eval-after-load 'undo-tree
+  (advice-add 'undo-tree-visualize :around #'poe--undo-tree-visualize-popup-a))
+
+;; ----------------------------------------------------------------------------
 ;; Public
 ;; ----------------------------------------------------------------------------
 
