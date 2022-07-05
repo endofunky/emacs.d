@@ -355,18 +355,25 @@ the :size key with a number value."
                   (window--maybe-raise-frame frame))))))))))
 
 (defun poe--display-buffer-reuse-window (buffer alist _plist)
+  "Wrapper for `display-buffer-reuse-window' for `poe-mode'."
   (display-buffer-reuse-window buffer alist))
 
 (defun poe--display-buffer-same-window (buffer alist _plist)
+  "Wrapper for `display-buffer-same-window' for `poe-mode'."
   (display-buffer-same-window buffer alist))
 
 (defun poe--display-buffer-use-some-window (buffer alist _plist)
+  "Wrapper for `display-buffer-use-some-window' for `poe-mode'."
   (display-buffer-use-some-window buffer alist))
 
 (defun poe--popup-delete-other-windows (&rest _)
+  "Handler for `delete-other-windows' window-parameter for
+poe-popup-mode buffers."
   (error "Cannot make popup window the only window"))
 
 (defun poe--display-buffer-actions (alist rule)
+  "Return display-buffer actions to be used for displaying a buffer
+with ALIST and poe rules RULE."
   (or (cdr (assq 'actions alist))
       (cond
        ;; Use same window if :same is set, unless it's a popup window, in which
@@ -392,21 +399,38 @@ the :size key with a number value."
         '(poe--display-buffer-reuse-window
           poe--display-buffer-use-some-window)))))
 
+(defun poe--init-popup (window)
+  "Initialize `poe-popup-mode' and popup-specific
+window-parameters for WINDOW."
+  (with-selected-window window
+    (set-window-parameter window
+                          'split-window
+                          #'poe--popup-split-window)
+    (set-window-parameter window
+                          'delete-window
+                          #'poe--popup-delete-window)
+    (set-window-parameter window
+                          'delete-other-windows
+                          #'poe--popup-delete-other-windows)
+    (set-window-dedicated-p window 'popup)
+    (poe-popup-mode t)))
+
+(defun poe--normalize-rule (rule)
+  "Normalize RULE.
+
+If rule has :popup set to t, will merge RULE with
+`poe-popup-default-rule' and force the slot to `poe-popup-slot'.
+
+If rule is a non-popup rule, returns RULE."
+  (if (plist-get rule :popup)
+      (poe--plist-merge poe-popup-default-rule
+                        rule
+                        `(:slot ,poe-popup-slot))
+    rule))
+
 (defun poe--display-buffer (buffer alist rule)
-  "Handles displaying of poe-managed buffers, optionally opening
-them in a popup-window."
-  (let* ((rule
-          (if (plist-get rule :popup)
-              ;; If this is a popup, merge the default popup rules and set
-              ;; the fixed slot number.
-              ;;
-              ;; Most of the time we want a panel of the bottom of the
-              ;; screen, so let's not require specifying those rules ever
-              ;; single time we're declaring a popup.
-              (poe--plist-merge poe-popup-default-rule
-                                rule
-                                `(:slot ,poe-popup-slot))
-            rule))
+  "Handles displaying of poe-managed buffers."
+  (let* ((rule (poe--normalize-rule rule))
          (alist (poe--alist alist rule))
          (actions (poe--display-buffer-actions alist rule)))
     ;; Call all the display-buffer actions until we find one that works.
@@ -416,21 +440,7 @@ them in a popup-window."
       (when (plist-get rule :inhibit-window-quit)
         (set-window-parameter window 'quit-restore nil))
       (when (plist-get rule :popup)
-        (with-selected-window window
-          (set-window-parameter window
-                                'split-window
-                                #'poe--popup-split-window)
-          (set-window-parameter window
-                                'delete-window
-                                #'poe--popup-delete-window)
-          (set-window-parameter window
-                                'delete-other-windows
-                                #'poe--popup-delete-other-windows)
-          (set-window-parameter window
-                                'poe-rule
-                                rule)
-          (set-window-dedicated-p window 'popup)
-          (poe-popup-mode t)))
+        (poe--init-popup window))
       (when (plist-get rule :shrink)
         (poe--shrink-to-fit window))
       (when (plist-get rule :select)
@@ -510,6 +520,10 @@ Defaults to the currently selected window."
           (poe--move-to-front buf poe--popup-buffer-list))))
 
 (defun poe--popup-dim-h ()
+  "Hook function to dim buffer background with the :background
+property from `poe-popup-dimmed-face'.
+
+Called in `poe-popup-buffer-mode-hook'"
   (when (and (bound-and-true-p poe-popup-mode)
              poe-dim-popups)
     (if (poe--popup-buffer-p)
@@ -518,6 +532,9 @@ Defaults to the currently selected window."
       (buffer-face-set 'default))))
 
 (defun poe--popup-remove-fringes-h ()
+  "Hook function to remove finges from popup buffers.
+
+Called in `poe-popup-buffer-mode-hook'"
   (when (and (bound-and-true-p poe-popup-mode)
              poe-remove-fringes-from-popups)
     (let ((f (if (poe--popup-buffer-p) 0)))
