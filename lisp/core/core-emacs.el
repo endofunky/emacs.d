@@ -179,6 +179,8 @@
 (use-package files
   :straight nil
   :unless noninteractive
+  :general
+  ("C-x C" '(restart-emacs :wk "Restart emacs"))
   :config
   (setq save-silently t)
   (+add-hook after-save-hook :fn +after-save-message-h
