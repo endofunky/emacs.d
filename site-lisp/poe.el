@@ -654,24 +654,13 @@ as a popup, display that buffer."
   "Predicate function for `consult'.
 
 If the currently selected buffer is a popup, returns t if BUFFER is
-a popup, otherwise returns t if BUFFER is a regular buffer.
-
-If `perspective-mode' is enabled, will also check if the buffers
-are part of the current perspective."
-  (and
-   ;; When perspectives are enabled, check if the buffer is part of the
-   ;; current perspective first.
-   (if (and (bound-and-true-p persp-mode)
-            ;; Gracefully handle possible against API changes.
-            (fboundp 'persp-is-current-buffer))
-       (persp-is-current-buffer buffer t)
-     t)
-   (if (poe--popup-buffer-p)
-       (when-let ((rule (poe--match buffer)))
-         (plist-get rule :popup))
-     (if-let ((rule (poe--match buffer)))
-         (not (plist-get rule :popup))
-       t))))
+a popup, otherwise returns t if BUFFER is a regular buffer. "
+  (if (poe--popup-buffer-p)
+      (when-let ((rule (poe--match buffer)))
+        (plist-get rule :popup))
+    (if-let ((rule (poe--match buffer)))
+        (not (plist-get rule :popup))
+      t)))
 
 (defun poe--consult-source-query ()
   "Query function for `consult'.
