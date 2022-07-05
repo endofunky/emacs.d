@@ -203,6 +203,24 @@ a window."
   (let ((ignore-window-parameters t))
     (split-window window size side)))
 
+(defun poe--popup-remove-from-list (&optional buffer)
+  "Remove BUFFER from the popup buffer list.
+
+Defaults to the current buffer."
+  (let ((buffer (or buffer
+                    (current-buffer))))
+    (setq poe--popup-buffer-list
+          (remove buffer poe--popup-buffer-list))))
+
+(defvar poe--popup-inhibit-kill-buffer nil
+  "Variable that can be set during a delete-window cycle to inhibit
+any `kill-buffer' calls issued for buffers with the :ephemeral
+rule.")
+
+(defvar poe--popup-force-kill-buffer nil
+  "Variable that can be set during a delete-window cycle to force
+a subsequent `kill-buffer', irrespective of the :ephemeral rule.")
+
 (defun poe--popup-kill-buffer (buffer)
   "Kill the popup-buffer BUFFER after killing any associated
 buffer-process. "
@@ -224,15 +242,6 @@ buffer-process. "
               ;;      manager tries to clean it up.
               (cl-letf (((symbol-function #'top-level) #'ignore))
                 (kill-buffer buffer))))))))))
-
-(defvar poe--popup-inhibit-kill-buffer nil
-  "Variable that can be set during a delete-window cycle to inhibit
-any `kill-buffer' calls issued for buffers with the :ephemeral
-rule.")
-
-(defvar poe--popup-force-kill-buffer nil
-  "Variable that can be set during a delete-window cycle to force
-a subsequent `kill-buffer', irrespective of the :ephemeral rule.")
 
 (defun poe--popup-delete-window (window)
   "A `delete-window' window-parameter function for popup buffers.
@@ -263,8 +272,7 @@ the previous window configuration."
                   (and (not poe--popup-inhibit-kill-buffer)
                        (plist-get (window-parameter window 'poe-rule)
                                   :ephemeral)))
-          (setq poe--popup-buffer-list
-                (remove buffer poe--popup-buffer-list))
+          (poe--popup-remove-from-list buffer)
           (poe--popup-kill-buffer buffer))))))
 
 (defun poe--frame-splittable-p (frame)
@@ -511,6 +519,10 @@ Defaults to the currently selected window."
   "Returns a list of open popup windows."
   (seq-filter #'poe--popup-window-p (window-list)))
 
+;; ----------------------------------------------------------------------------
+;; Hooks
+;; ----------------------------------------------------------------------------
+
 (defun poe--popup-update-buffer-list-h ()
   "Function called from `window-configuration-change-hook' to update
 `ef-popup--buffer-list' with any changes."
@@ -655,6 +667,7 @@ popup windows."
       (progn
         (add-hook 'window-configuration-change-hook
                   #'poe--popup-update-buffer-list-h)
+        (add-hook 'kill-buffer-hook #'poe--popup-remove-from-list)
         (setq display-buffer-alist
               (cons '(poe--display-buffer-condition poe--display-buffer-action)
                     display-buffer-alist))
@@ -666,6 +679,7 @@ popup windows."
         (advice-add #'balance-windows :around #'poe-popup-save-a))
 
     ;; Mode disabled
+    (remove-hook 'kill-buffer-hook #'poe--popup-remove-from-list)
     (remove-hook 'window-configuration-change-hook
                  #'poe--popup-update-buffer-list-h)
     (advice-remove 'switch-to-buffer-other-window
