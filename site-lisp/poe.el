@@ -637,6 +637,49 @@ as a popup, display that buffer."
       (display-buffer (car poe--popup-buffer-list)))))
 
 ;; ----------------------------------------------------------------------------
+;; Consult source
+;; ----------------------------------------------------------------------------
+
+(defun poe--consult-source-predicate (buffer)
+  "Predicate function for `consult'.
+
+If the currently selected buffer is a popup, returns t if BUFFER is
+a popup, otherwise returns t if BUFFER is a regular buffer."
+  (if (poe--popup-buffer-p)
+      (when-let ((rule (poe--match buffer)))
+        (plist-get rule :popup))
+    (if-let ((rule (poe--match buffer)))
+        (not (plist-get rule :popup))
+      t)))
+
+(defun poe--consult-source-query ()
+  "Query function for `consult'.
+
+Uses `poe--consult-source-predicate' to provide popup context aware buffer
+lists."
+  (consult--buffer-query :sort 'visibility
+                         :predicate #'poe--consult-source-predicate
+                         :as #'buffer-name))
+
+(with-eval-after-load 'consult
+  (declare-function consult--buffer-state "ext:consult")
+  (declare-function consult--buffer-query "ext:consult")
+
+  (defvar poe-consult-source
+    (list :name     "Poe"
+          :narrow   ?s
+          :category 'buffer
+          :state    #'consult--buffer-state
+          :history  'buffer-name-history
+          :default  t
+          :items #'poe--consult-source-query)
+    "A `consult' source for `poe-mode'.
+
+Provides buffer lists based on the currently selected buffer. If a
+popup is selected, will give a list of popups, otherwise gives a
+list of regular, non-popup buffers."))
+
+;; ----------------------------------------------------------------------------
 ;; Modes
 ;; ----------------------------------------------------------------------------
 

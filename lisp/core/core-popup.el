@@ -33,6 +33,10 @@
 
   (poe-rule "*info*" :same t)
 
+  (with-eval-after-load 'consult
+    (consult-customize consult--source-buffer :hidden t :default nil)
+    (add-to-list 'consult-buffer-sources poe-consult-source))
+
   ;; Don't have evil's window movement/rotate commands affect popup windows.
   (with-eval-after-load 'evil
     (advice-add #'evil-window-rotate-downwards :around #'poe-popup-save-a)
