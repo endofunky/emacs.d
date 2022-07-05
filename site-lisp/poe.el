@@ -445,6 +445,7 @@ If rule is a non-popup rule, returns RULE."
     (when-let (window (cl-loop for func in actions
                                if (funcall func buffer alist rule)
                                return it))
+      (set-window-parameter window 'poe-rule rule)
       (when (plist-get rule :inhibit-window-quit)
         (set-window-parameter window 'quit-restore nil))
       (when (plist-get rule :popup)
