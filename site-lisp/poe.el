@@ -314,7 +314,11 @@ the :size key with a number value."
             ;; and create a new one so popups also end up where they're
             ;; expected.
             (when-let ((existing-window (poe--find-window-by-slot slot)))
-              (delete-window existing-window))
+              ;; Edge case: In some cases it may not be safe to delete the
+              ;; window, so we just ignore that one already exists and spawn a
+              ;; new one anyway.
+              (when (window-deletable-p existing-window)
+                (delete-window existing-window)))
             (let ((window (split-window (frame-root-window frame)
                                         new-size alignment)))
               (prog1 (window--display-buffer buffer window 'window alist)
