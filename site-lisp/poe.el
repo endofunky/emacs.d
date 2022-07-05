@@ -255,6 +255,24 @@ not displaying a lone minibuffer."
     (or (poe--frame-splittable-p selected-frame)
         (poe--frame-splittable-p last-non-minibuffer-frame))))
 
+(defun poe--find-window-by-slot (slot)
+  "Find window with window-parameter \"window-slot\" matching SLOT.
+
+If found, returns the existing window."
+  (when slot
+    (let ((this-slot)
+          (this-window))
+      (catch 'found
+        (dolist (window (window-list))
+          (setq this-slot (window-parameter window 'window-slot))
+          (cond
+           ((not (numberp this-slot)))
+           ((= this-slot slot)
+	    ;; A window with a matching slot has been found.
+	    (setq this-window window)
+	    (throw 'found t)))))
+      this-window)))
+
 (defun poe--display-buffer-aligned-window (buffer alist plist)
   "Display BUFFER in an aligned window.
 
@@ -288,11 +306,16 @@ the :size key with a number value."
                 (> new-size (- old-size (if horizontal window-min-width
                                           window-min-height))))
             (error "Invalid aligned window size %s, aborting" new-size)
-          (let ((window (split-window (frame-root-window frame)
-                                      new-size alignment)))
-            (prog1 (window--display-buffer buffer window 'window alist)
-              (unless (cdr (assq 'inhibit-switch-frame alist))
-                (window--maybe-raise-frame frame)))))))))
+          (let ((slot (plist-get plist :slot)))
+            (if-let ((existing-window (poe--find-window-by-slot slot)))
+                (window--display-buffer buffer existing-window 'reuse alist)
+              (let ((window (split-window (frame-root-window frame)
+                                          new-size alignment)))
+                (progn
+                  (window--display-buffer buffer window 'window alist)
+                  (set-window-parameter window 'window-slot slot)
+                  (unless (cdr (assq 'inhibit-switch-frame alist))
+                    (window--maybe-raise-frame frame)))))))))))
 
 (defun poe--display-buffer-reuse-window (buffer alist _plist)
   (display-buffer-reuse-window buffer alist))
