@@ -115,6 +115,24 @@ The `car' of this list will be the most recently visible popup.
 Used for cycling popup buffers with `poe-popup-next' and
 `poe-popup-prev'.")
 
+(defun poe--alist-merge (&rest alists)
+  "Create a single association list from all alists in ALISTS.
+The process starts by copying the first list, and then setting
+associations from the other lists.  Settings in the last list
+are the most significant ones and overrule settings in the
+other lists.
+
+Adapted from `org-combine-plists' for association lists."
+  (let ((rtn (copy-sequence (pop alists)))
+        ls)
+    (while alists
+      (setq ls (pop alists))
+      (dolist (x ls)
+        (if (null (assoc (car x) rtn))
+            (setq rtn (nconc rtn (list x)))
+          (setcdr (assq (car x) rtn) (cdr x)))))
+    rtn))
+
 (defun poe--plist-merge (&rest plists)
   "Create a single property list from all plists in PLISTS.
 The process starts by copying the first list, and then setting
@@ -135,12 +153,14 @@ has been extracted."
         (setq rtn (plist-put rtn p v))))
     rtn))
 
-(defun poe--alist (_alist rule)
+(defun poe--alist (alist rule)
   "Transforms a poe rule into an alist in the format expected by
 display buffer actions."
-  `((actions         . ,(plist-get rule :actions))
-    (size            . ,(plist-get rule :size))
-    (slot            . ,(plist-get rule :slot))))
+  (poe--alist-merge
+   alist
+   `((actions         . ,(plist-get rule :actions))
+     (size            . ,(plist-get rule :size))
+     (slot            . ,(plist-get rule :slot)))))
 
 (defun poe--match (buffer-or-name)
   "Match BUFFER-OR-NAME against any conditions defined in
