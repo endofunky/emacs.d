@@ -33,6 +33,15 @@
 
   (poe-rule "*info*" :align 'right :size .5 :select t)
 
+  ;; Don't have evil's window movement/rotate commands affect popup windows.
+  (with-eval-after-load 'evil
+    (advice-add #'evil-window-rotate-downwards :around #'poe-popup-save-a)
+    (advice-add #'evil-window-rotate-upwards   :around #'poe-popup-save-a)
+    (advice-add #'evil-window-move-very-bottom :around #'poe-popup-save-a)
+    (advice-add #'evil-window-move-very-top    :around #'poe-popup-save-a)
+    (advice-add #'evil-window-move-far-left    :around #'poe-popup-save-a)
+    (advice-add #'evil-window-move-far-right   :around #'poe-popup-save-a))
+
   ;; `undo-tree-visualize' sets the major mode *after* calling
   ;; `switch-to-buffer-other-window', which disablees all buffer-local minor
   ;; modes (including `poe-popup-mode'. So let's re-enable it here (all the
