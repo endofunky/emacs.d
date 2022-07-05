@@ -229,7 +229,7 @@ buffer-process. "
      ;; Buffer isn't live anymore, no need to kill it.
      ((not (buffer-live-p buffer)))
      ((not (get-buffer-window buffer t))
-      (with-demoted-errors "Error killing transient buffer: %s"
+      (with-demoted-errors "Error killing ephemeral buffer: %s"
         (with-current-buffer buffer
           (let (confirm-kill-processes)
             ;; Don't ask to kill processes.
