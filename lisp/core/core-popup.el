@@ -31,6 +31,8 @@
   (poe-popup 'comint-mode)
   (poe-popup 'compilation-mode)
 
+  (poe-rule "*info*" :align 'right :size .5 :select t)
+
   ;; `undo-tree-visualize' sets the major mode *after* calling
   ;; `switch-to-buffer-other-window', which disablees all buffer-local minor
   ;; modes (including `poe-popup-mode'. So let's re-enable it here (all the

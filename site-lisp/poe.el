@@ -11,6 +11,39 @@
   :group 'poe
   :type 'integer)
 
+(defcustom poe-default-size 0.5
+  "Default size of aligned windows.
+
+A floating point number between 0 and 1 is interpreted as a
+ratio.  An integer equal or greater than 1 is interpreted as a
+number of lines. If a function is specified, it is called with
+zero arguments and must return a number of the above two types."
+  :type '(choice (integer :tag "Number of lines")
+                 (float :tag "Number of lines (ratio)")
+                 (function :tag "Custom"))
+  :group 'poe)
+
+(defcustom poe-default-alignment 'below
+  "Default alignment of aligned windows.
+It may be one of the following values:
+
+above: Align above the currently selected window.
+
+below: Align below the currently selected window.
+
+left: Align on the left side of the currently selected window.
+
+right: Align on the right side of the currently selected
+window.
+
+<function>: Call the specified function with no arguments to
+determine side, must return one of the above four values."
+  :type '(choice (const :tag "Above" above)
+                 (const :tag "Below" below)
+                 (const :tag "Left" left)
+                 (const :tag "Right" right))
+  :group 'poe)
+
 (defcustom poe-remove-fringes-from-popups t
   "Remove fringes from popup windows."
   :group 'poe
@@ -42,11 +75,11 @@ See: `poe-popup-dimmed-face'."
            ((const :tag "Popup" :popup) boolean)
            ((const :tag "Select" :select) boolean)
            ((const :tag "Inhibit window quit" :inhibit-window-quit) boolean)
-           ((const :tag "Side" :side)
-            (choice :tag "Side" :value nil
+           ((const :tag "Align" :align)
+            (choice :tag "Align" :value nil
                     (const :tag "Default" nil)
-                    (const :tag "Top" top)
-                    (const :tag "Bottom" bottom)
+                    (const :tag "Above" above)
+                    (const :tag "Below" below)
                     (const :tag "Left" left)
                     (const :tag "Right" right)
                     (function :tag "Function")))
@@ -61,7 +94,7 @@ See: `poe-popup-dimmed-face'."
                                   (string :tag "Buffer name"))
                 :value-type poe-rules-custom-type))
 
-(defcustom poe-popup-default-rule '(:side bottom
+(defcustom poe-popup-default-rule '(:align below
                                     :size 0.2)
   "Default rules to include for popup windows.
 
@@ -100,21 +133,9 @@ has been extracted."
 (defun poe--alist (_alist rule)
   "Transforms a poe rule into an alist in the format expected by
 display buffer actions."
-  (let ((rule (if (plist-get rule :popup)
-                  ;; If this is a popup, merge the default popup rules and set
-                  ;; the fixed slot number.
-                  ;;
-                  ;; Most of the time we want a panel of the bottom of the
-                  ;; screen, so let's not require specifying those rules ever
-                  ;; single time we're declaring a popup.
-                  (poe--plist-merge poe-popup-default-rule
-                                    rule
-                                    `(:slot ,poe-popup-slot))
-                rule)))
-    `((actions         . ,(plist-get rule :actions))
-      (side            . ,(plist-get rule :side))
-      (size            . ,(plist-get rule :size))
-      (slot            . ,(plist-get rule :slot)))))
+  `((actions         . ,(plist-get rule :actions))
+    (size            . ,(plist-get rule :size))
+    (slot            . ,(plist-get rule :slot))))
 
 (defun poe--match (buffer-or-name)
   "Match BUFFER-OR-NAME against any conditions defined in
@@ -128,8 +149,8 @@ display buffer actions."
            ;; Symbol, compare to major-mode
            (and (symbolp condition)
                 (eq condition buffer-major-mode))
-           ;; String, compare to buffer name or match against it if the :regexp
-           ;; rule is set.
+           ;; String, compare to buffer name or match against it if
+           ;; the :regexp rule is set.
            (and (stringp condition)
                 (or (string= condition buffer-name)
                     (and (plist-get plist :regexp)
@@ -182,10 +203,10 @@ a subsequent `kill-buffer', irrespective of the :ephemeral rule.")
 (defun poe--popup-delete-window (window)
   "A `delete-window' window-parameter function for popup buffers.
 
-Will ask to save if the popup is file backed and modified, restore the
-window-configuration and kill the popup buffer if it's marked as :ephemeral,
-unless the window is still visiable after restoring the previous window
-configuration."
+Will ask to save if the popup is file backed and modified, restore
+the window-configuration and kill the popup buffer if it's marked
+as :ephemeral,unless the window is still visiable after restoring
+the previous window configuration."
   (let ((buffer (window-buffer window))
         (inhibit-quit t))
     ;; If the window buffer is file-backed and has been modified, ask if we
@@ -208,36 +229,123 @@ configuration."
         (poe-popup-mode -1)
         (when (or poe--popup-force-kill-buffer
                   (and (not poe--popup-inhibit-kill-buffer)
-                       (plist-get (window-parameter window 'poe-rule) :ephemeral)))
-          (setq poe--popup-buffer-list (remove buffer poe--popup-buffer-list))
+                       (plist-get (window-parameter window 'poe-rule)
+                                  :ephemeral)))
+          (setq poe--popup-buffer-list
+                (remove buffer poe--popup-buffer-list))
           (poe--popup-kill-buffer buffer))))))
+
+(defun poe--frame-splittable-p (frame)
+  "Return FRAME if it is splittable."
+  (when (and (window--frame-usable-p frame)
+             (not (frame-parameter frame 'unsplittable)))
+    frame))
+
+(defun poe--splittable-frame ()
+  "Return a splittable frame to work on.
+
+This can be either the selected frame or the last frame that's
+not displaying a lone minibuffer."
+  (let ((selected-frame (selected-frame))
+        (last-non-minibuffer-frame (last-nonminibuffer-frame)))
+    (or (poe--frame-splittable-p selected-frame)
+        (poe--frame-splittable-p last-non-minibuffer-frame))))
+
+(defun poe--display-buffer-aligned-window (buffer alist plist)
+  "Display BUFFER in an aligned window.
+
+ALIST is passed to `window--display-buffer' internally.
+Optionally use a different alignment and/or size if PLIST
+contains the :alignment key with an alignment different than the
+default one in `poe-default-alignment' and/or PLIST contains
+the :size key with a number value."
+  (let ((frame (poe--splittable-frame)))
+    (when frame
+      (let* ((alignment-argument (plist-get plist :align))
+             (alignments '(above below left right))
+             (alignment (cond
+                         ((functionp alignment-argument)
+                          (funcall alignment-argument))
+                         ((memq alignment-argument alignments)
+                          alignment-argument)
+                         ((functionp poe-default-alignment)
+                          (funcall poe-default-alignment))
+                         (t poe-default-alignment)))
+             (horizontal (when (memq alignment '(left right)) t))
+             (old-size (window-size (frame-root-window) horizontal))
+             (size (or (plist-get plist :size)
+                       (if (functionp poe-default-size)
+                           (funcall poe-default-size)
+                         poe-default-size)))
+             (new-size (round (if (>= size 1)
+                                  (- old-size size)
+                                (* (- 1 size) old-size)))))
+        (if (or (< new-size (if horizontal window-min-width window-min-height))
+                (> new-size (- old-size (if horizontal window-min-width
+                                          window-min-height))))
+            (error "Invalid aligned window size %s, aborting" new-size)
+          (let ((window (split-window (frame-root-window frame)
+                                      new-size alignment)))
+            (prog1 (window--display-buffer buffer window 'window alist)
+              (unless (cdr (assq 'inhibit-switch-frame alist))
+                (window--maybe-raise-frame frame)))))))))
+
+(defun poe--display-buffer-reuse-window (buffer alist _plist)
+  (display-buffer-reuse-window buffer alist))
+
+(defun poe--display-buffer-same-window (buffer alist _plist)
+  (display-buffer-same-window buffer alist))
+
+(defun poe--popup-delete-other-windows (&rest _)
+  (error "Cannot make popup window the only window"))
 
 (defun poe--display-buffer (buffer alist rule)
   "Handles displaying of poe-managed buffers, optionally opening
 them in a popup-window."
-  (let ((alist (poe--alist alist rule))
-        (actions (or (cdr (assq 'actions alist))
-                     ;; Use same window if :same is set, unless it's a popup
-                     ;; window, in which case displaying it in the same window
-                     ;; doesn't make much sense and showing a popup as
-                     ;; expected in a side-window takes precedence.
-                     (if (and (plist-get rule :same)
-                              (not (plist-get rule :popup)))
-                         '(display-buffer-reuse-window
-                           display-buffer-same-window)
-                       '(display-buffer-reuse-window
-                         display-buffer-in-side-window)))))
+  (let* ((rule
+          (if (plist-get rule :popup)
+              ;; If this is a popup, merge the default popup rules and set
+              ;; the fixed slot number.
+              ;;
+              ;; Most of the time we want a panel of the bottom of the
+              ;; screen, so let's not require specifying those rules ever
+              ;; single time we're declaring a popup.
+              (poe--plist-merge poe-popup-default-rule
+                                rule
+                                `(:slot ,poe-popup-slot))
+            rule))
+         (alist (poe--alist alist rule))
+         (actions (or (cdr (assq 'actions alist))
+                      ;; Use same window if :same is set, unless it's a popup
+                      ;; window, in which case displaying it in the same window
+                      ;; doesn't make much sense and showing a popup as
+                      ;; expected in a aligned-window takes precedence.
+                      (if (and (plist-get rule :same)
+                               (not (plist-get rule :popup)))
+                          '(poe--display-buffer-reuse-window
+                            poe--display-buffer-same-window)
+                        '(poe--display-buffer-reuse-window
+                          poe--display-buffer-aligned-window)))))
     ;; Call all the display-buffer actions until we find one that works.
     (when-let (window (cl-loop for func in actions
-                               if (funcall func buffer alist)
+                               if (funcall func buffer alist rule)
                                return it))
       (when (plist-get rule :inhibit-window-quit)
         (set-window-parameter window 'quit-restore nil))
       (when (plist-get rule :popup)
         (with-selected-window window
-          (set-window-parameter window 'split-window #'poe--popup-split-window)
-          (set-window-parameter window 'delete-window #'poe--popup-delete-window)
-          (set-window-parameter window 'poe-rule rule)
+          (set-window-parameter window
+                                'split-window
+                                #'poe--popup-split-window)
+          (set-window-parameter window
+                                'delete-window
+                                #'poe--popup-delete-window)
+          (set-window-parameter window
+                                'delete-other-windows
+                                #'poe--popup-delete-other-windows)
+          (set-window-parameter window
+                                'poe-rule
+                                rule)
           (set-window-dedicated-p window 'popup)
           (poe-popup-mode t)))
       (when (plist-get rule :select)
