@@ -221,11 +221,9 @@ the previous window configuration."
          (buffer-modified-p buffer)
          (y-or-n-p "Popup buffer is modified. Save it?")
          (with-current-buffer buffer (save-buffer)))
-    ;; Delete window or restore window configuration.
+    ;; Delete window.
     (let ((ignore-window-parameters t))
-      (if-let (wconf (window-parameter window 'saved-wconf))
-          (set-window-configuration wconf)
-        (delete-window window)))
+      (delete-window window))
     ;; Kill the buffer unless it's still a live-buffer.
     (unless (window-live-p window)
       (with-current-buffer buffer
