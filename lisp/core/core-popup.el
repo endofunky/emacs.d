@@ -55,4 +55,7 @@
 
     (add-hook 'undo-tree-visualizer-mode-hook #'+undo-tree-poe-popup-h)))
 
+(autoload 'poe-popup "poe" t)
+(autoload 'poe-rule "poe" t)
+
 (provide 'core-popup)
