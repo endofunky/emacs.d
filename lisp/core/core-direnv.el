@@ -7,6 +7,7 @@
   :commands (envrc-global-mode)
   :config
   (poe-popup "*envrc*" :ephemeral t)
+
   (envrc-global-mode))
 
 (provide 'core-direnv)
