@@ -153,6 +153,14 @@ has been extracted."
         (setq rtn (plist-put rtn p v))))
     rtn))
 
+(defun poe--transform-side (split-side)
+  "Transforms SPLIT-SIDE argument for `split-window' into a
+\"side\" suitable for for `display-buffer-alist' alists."
+  (pcase split-side
+    ('above 'top)
+    ('below 'bottom)
+    (_ split-side)))
+
 (defun poe--alist (alist rule)
   "Transforms a poe rule into an alist in the format expected by
 display buffer actions."
@@ -160,6 +168,7 @@ display buffer actions."
    alist
    `((actions         . ,(plist-get rule :actions))
      (size            . ,(plist-get rule :size))
+     (side            . ,(poe--transform-side (plist-get rule :size)))
      (slot            . ,(plist-get rule :slot)))))
 
 (defun poe--match (buffer-or-name)
