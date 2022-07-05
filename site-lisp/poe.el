@@ -608,9 +608,19 @@ as a popup, display that buffer."
   "Toggle visibility of the last opened popup window."
   (interactive)
   (if-let ((win (car (poe--popup-windows))))
+      ;; Popup window is open, so close it.
       (delete-window win)
-    (when-let ((buf (car poe--popup-buffer-list)))
-      (display-buffer buf))))
+    (if-let ((buf (car poe--popup-buffer-list)))
+        ;; We have an active "session" of displaying popups, sodisplay the most
+        ;; recent one.
+        (display-buffer buf)
+      ;; All popups have been closed, so find a buried popup window and display
+      ;; it if we found one.
+      (cl-loop for buf being the buffers
+               if (let ((rule (poe--match buf)))
+                    (plist-get rule :popup))
+               do (display-buffer buf)
+               and return it))))
 
 ;;;###autoload
 (defun poe-popup-next ()
@@ -655,8 +665,8 @@ a popup, otherwise returns t if BUFFER is a regular buffer."
 (defun poe--consult-source-query ()
   "Query function for `consult'.
 
-Uses `poe--consult-source-predicate' to provide popup context aware buffer
-lists."
+Uses `poe--consult-source-predicate' to provide popup context
+aware buffer lists."
   (consult--buffer-query :sort 'visibility
                          :predicate #'poe--consult-source-predicate
                          :as #'buffer-name))
@@ -666,7 +676,7 @@ lists."
   (declare-function consult--buffer-query "ext:consult")
 
   (defvar poe-consult-source
-    (list :name     "Poe"
+    (list :name     "Poe Buffers"
           :narrow   ?s
           :category 'buffer
           :state    #'consult--buffer-state
