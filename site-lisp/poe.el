@@ -1,4 +1,16 @@
-;;; poe.el --- A popup manager -*- lexical-binding: t; -*-
+;;; poe.el --- A popup & window manager -*- lexical-binding: t; -*-
+;;
+;; A popup and window management library, based in large parts on
+;; shackle and doom emacs's popup module. It uses shackle's window
+;; creation routines and combines those with some popup management
+;; features from doom emacs.
+;;
+;; As opposed to doom popups, in poe there will only ever be one
+;; popup shown at a time. To support a fast work flow, many
+;; commands to deal with popup exist, such as cycling backwards
+;; and forwards, "remote" killing of popups from other buffers,
+;; and more.
+;;
 (require 'cl-extra)
 (require 'cl-seq)
 
