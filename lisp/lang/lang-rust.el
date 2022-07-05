@@ -1,5 +1,5 @@
 ;;; lang-rust.el --- Rust configuration -*- lexical-binding: t; -*-
-(require 'core-lsp)
+(require 'core-eglot)
 (require 'core-popup)
 (require 'core-tree-sitter)
 

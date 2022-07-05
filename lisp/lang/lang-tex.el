@@ -1,6 +1,6 @@
 ;;; lang-tex.el --- TeX/LaTeX configuration -*- lexical-binding: t; -*-
 (require 'core-lib)
-(require 'core-lsp)
+(require 'core-eglot)
 (require 'core-popup)
 
 (use-package auctex

@@ -1,5 +1,5 @@
 ;;; lang-go.el --- Go configuration -*- lexical-binding: t; -*-
-(require 'core-lsp)
+(require 'core-eglot)
 (require 'core-popup)
 (require 'core-tree-sitter)
 
@@ -10,7 +10,7 @@
   (+enable-lsp go-mode)
   (+enable-tree-sitter go-mode)
 
-  (declare-function +lsp-organize-imports "core-lsp")
+  (declare-function +lsp-organize-imports "core-eglot")
 
   (poe-popup "*Gofmt Errors*" :ephemeral t)
   (poe-popup "*go-rename*" :ephemeral t)

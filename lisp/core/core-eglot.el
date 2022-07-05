@@ -1,4 +1,4 @@
-;;; core-lsp.el --- Language server protocol integration -*- lexical-binding: t; -*-
+;;; core-eglot.el --- Language server protocol integration -*- lexical-binding: t; -*-
 (require 'core-direnv)
 (require 'core-evil)
 (require 'core-popup)
@@ -145,4 +145,4 @@
                         m)))
     (macroexp-progn hooks)))
 
-(provide 'core-lsp)
+(provide 'core-eglot)

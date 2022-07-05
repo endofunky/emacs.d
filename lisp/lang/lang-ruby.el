@@ -1,6 +1,6 @@
 ;;; lang-ruby.el --- Ruby configuration -*- lexical-binding: t; -*-
 (require 'core-lib)
-(require 'core-lsp)
+(require 'core-eglot)
 (require 'core-project)
 (require 'core-popup)
 (require 'core-tree-sitter)
