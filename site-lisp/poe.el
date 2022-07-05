@@ -111,6 +111,13 @@ See: `poe-popup-dimmed-face'."
                                   (string :tag "Buffer name"))
                 :value-type poe-rules-custom-type))
 
+(defcustom poe-default-rule nil
+  "Default rules to include for all windows.
+
+Supported rules are the same as for `poe-rules'."
+  :group 'poe
+  :type poe-rules-custom-type)
+
 (defcustom poe-popup-default-rule '(:align below
                                     :size 0.2)
   "Default rules to include for popup windows.
@@ -436,17 +443,17 @@ window-parameters for WINDOW."
     (poe-popup-mode t)))
 
 (defun poe--normalize-rule (rule)
-  "Normalize RULE.
+  "Normalize RULE by merging with `poe-default-rule'.
 
-If rule has :popup set to t, will merge RULE with
-`poe-popup-default-rule' and force the slot to `poe-popup-slot'.
-
-If rule is a non-popup rule, returns RULE."
+If rule has :popup set to t, will also merge RULE with
+`poe-popup-default-rule' and force the slot to `poe-popup-slot'."
   (if (plist-get rule :popup)
-      (poe--plist-merge poe-popup-default-rule
+      (poe--plist-merge poe-default-rule
+                        poe-popup-default-rule
                         rule
                         `(:slot ,poe-popup-slot))
-    rule))
+    (poe--plist-merge poe-default-rule
+                      rule)))
 
 (defun poe--display-buffer (buffer alist rule)
   "Handles displaying of poe-managed buffers."
