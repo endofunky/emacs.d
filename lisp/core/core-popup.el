@@ -31,7 +31,7 @@
   (poe-popup 'comint-mode)
   (poe-popup 'compilation-mode)
 
-  (poe-rule "*info*" :align 'right :size .5 :select t)
+  (poe-rule "*info*" :same t)
 
   ;; Don't have evil's window movement/rotate commands affect popup windows.
   (with-eval-after-load 'evil

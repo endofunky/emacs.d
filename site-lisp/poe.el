@@ -351,8 +351,37 @@ the :size key with a number value."
 (defun poe--display-buffer-same-window (buffer alist _plist)
   (display-buffer-same-window buffer alist))
 
+(defun poe--display-buffer-use-some-window (buffer alist _plist)
+  (display-buffer-use-some-window buffer alist))
+
 (defun poe--popup-delete-other-windows (&rest _)
   (error "Cannot make popup window the only window"))
+
+(defun poe--display-buffer-actions (alist rule)
+  (or (cdr (assq 'actions alist))
+      (cond
+       ;; Use same window if :same is set, unless it's a popup window, in which
+       ;; case displaying it in the same window doesn't make much sense and
+       ;; showing a popup as expected in an aligned-window takes precedence.
+       ((and (plist-get rule :same)
+             (and (not (plist-get rule :popup))
+                  ;; There is `display-buffer--same-window-action' which things
+                  ;; like `info' use to reuse the currently selected window, it
+                  ;; happens to be of the (inhibit-same-window . nil) form and
+                  ;; should be permitted unless a popup is requested
+                  (and (assq 'inhibit-same-window alist)
+                       (not (cdr (assq 'inhibit-same-window alist))))))
+        '(poe--display-buffer-reuse-window
+          poe--display-buffer-same-window))
+       ;; When :popup or :side is set, display it as an aligned window.
+       ((or (plist-get rule :popup)
+            (plist-get rule :side))
+        '(poe--display-buffer-reuse-window
+          poe--display-buffer-aligned-window))
+       ;; Default to `display-buffer-use-some-window'.
+       (t
+        '(poe--display-buffer-reuse-window
+          poe--display-buffer-use-some-window)))))
 
 (defun poe--display-buffer (buffer alist rule)
   "Handles displaying of poe-managed buffers, optionally opening
@@ -370,17 +399,7 @@ them in a popup-window."
                                 `(:slot ,poe-popup-slot))
             rule))
          (alist (poe--alist alist rule))
-         (actions (or (cdr (assq 'actions alist))
-                      ;; Use same window if :same is set, unless it's a popup
-                      ;; window, in which case displaying it in the same window
-                      ;; doesn't make much sense and showing a popup as
-                      ;; expected in a aligned-window takes precedence.
-                      (if (and (plist-get rule :same)
-                               (not (plist-get rule :popup)))
-                          '(poe--display-buffer-reuse-window
-                            poe--display-buffer-same-window)
-                        '(poe--display-buffer-reuse-window
-                          poe--display-buffer-aligned-window)))))
+         (actions (poe--display-buffer-actions alist rule)))
     ;; Call all the display-buffer actions until we find one that works.
     (when-let (window (cl-loop for func in actions
                                if (funcall func buffer alist rule)
