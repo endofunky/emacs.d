@@ -307,15 +307,21 @@ the :size key with a number value."
                                           window-min-height))))
             (error "Invalid aligned window size %s, aborting" new-size)
           (let ((slot (plist-get plist :slot)))
-            (if-let ((existing-window (poe--find-window-by-slot slot)))
-                (window--display-buffer buffer existing-window 'reuse alist)
-              (let ((window (split-window (frame-root-window frame)
-                                          new-size alignment)))
-                (progn
-                  (window--display-buffer buffer window 'window alist)
-                  (set-window-parameter window 'window-slot slot)
-                  (unless (cdr (assq 'inhibit-switch-frame alist))
-                    (window--maybe-raise-frame frame)))))))))))
+            ;; Ok, this is a nasty work-around. If we have a window with a
+            ;; matching slot and try to reuse the window, we have to deal with
+            ;; calculating deltas to resize. Also, the window may not be
+            ;; resizable. So in the end it's easier to just delete the window
+            ;; and create a new one so popups also end up where they're
+            ;; expected.
+            (when-let ((existing-window (poe--find-window-by-slot slot)))
+              (delete-window existing-window))
+            (let ((window (split-window (frame-root-window frame)
+                                        new-size alignment)))
+              (progn
+                (window--display-buffer buffer window 'window alist)
+                (set-window-parameter window 'window-slot slot)
+                (unless (cdr (assq 'inhibit-switch-frame alist))
+                  (window--maybe-raise-frame frame))))))))))
 
 (defun poe--display-buffer-reuse-window (buffer alist _plist)
   (display-buffer-reuse-window buffer alist))
