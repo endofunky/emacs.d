@@ -28,7 +28,8 @@
   (+add-hook flymake-mode-hook
     (remove-hook 'flymake-diagnostic-functions 'elisp-flymake-checkdoc t))
 
-  (poe-popup 'flymake-diagnostics-buffer-mode :size .2 :select nil)
+  (poe-popup 'flymake-diagnostics-buffer-mode
+             :size .2 :select nil :ephemeral t)
 
   (defun +flymake-follow-diagnostics-buffer (&rest args)
     "Window hook function that checks if the current buffer has `flymake-mode'
