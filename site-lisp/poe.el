@@ -50,8 +50,12 @@ determine side, must return one of the above four values."
   :type 'boolean)
 
 (defcustom poe-redirect-switch-to-buffer t
-  "Redirect `switch-to-buffer' and related calls to `display-buffer'
-for managed buffers."
+  "Redirect `switch-to-buffer' and related calls to
+`display-buffer'for managed buffers.
+
+This is a hack and might cause unforeseen issues with some
+packages. Most packages are well behaved and use the correct
+functions, so in case of issues this can be disabled."
   :group 'poe
   :type 'boolean)
 
