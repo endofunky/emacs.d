@@ -472,12 +472,13 @@ Defaults to the currently selected window."
 (defun poe-popup-save-a (orig-fun &rest args)
   "Sets aside popups before executing the original function, usually to
 prevent the popup(s) from messing up the UI (or vice versa)."
-  (if (poe--popup-windows)
-      (prog2
-          (poe-popup-toggle)
-          (apply orig-fun args)
-        (poe-popup-toggle))
-    (apply orig-fun args)))
+  (let ((poe--popup-inhibit-kill-buffer t))
+    (if (poe--popup-windows)
+        (prog2
+            (poe-popup-toggle)
+            (apply orig-fun args)
+          (poe-popup-toggle))
+      (apply orig-fun args))))
 
 ;;;###autoload
 (defun poe-rule (key &rest plist)
