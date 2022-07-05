@@ -98,7 +98,6 @@
  ("rustic" . "39029a7e1f059674a9767a9b15514af30ef9f479")
  ("s.el" . "08661efb075d1c6b4fa812184c1e5e90c08795a9")
  ("sesman" . "e0f555f963c9f02f8e4a50e06fc353eb4c15ee77")
- ("shackle" . "f1467db75a8fa5d51c676181fb308ccbf7b05e6f")
  ("smartparens" . "8b6a3c3b31afd5b3f846e09859b5fc62eb06e7c1")
  ("spinner" . "34905eae12a236753fa88abc831eff1e41e8576e")
  ("straight.el" . "4517e118ee43f849f708025dbb2cf4f281793121")
