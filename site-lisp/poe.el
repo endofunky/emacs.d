@@ -78,6 +78,7 @@ See: `poe-popup-dimmed-face'."
            ((const :tag "Same" :same) boolean)
            ((const :tag "Popup" :popup) boolean)
            ((const :tag "Select" :select) boolean)
+           ((const :tag "Shrink" :shrink) boolean)
            ((const :tag "Inhibit window quit" :inhibit-window-quit) boolean)
            ((const :tag "Align" :align)
             (choice :tag "Align" :value nil
@@ -382,6 +383,8 @@ them in a popup-window."
                                 rule)
           (set-window-dedicated-p window 'popup)
           (poe-popup-mode t)))
+      (when (plist-get rule :shrink)
+        (poe--shrink-to-fit window))
       (when (plist-get rule :select)
         (select-window window))
       window)))
@@ -400,6 +403,14 @@ them in a popup-window."
 (defun poe--display-buffer-action (buffer alist)
   "Action function for `display-buffer-alist'."
   (poe--display-buffer buffer alist (poe--match buffer)))
+
+(defun poe--shrink-to-fit (&optional window)
+  "Shrinks WINDOW to fit the buffer contents, if the buffer isn't empty.
+Uses `shrink-window-if-larger-than-buffer'."
+  (unless window
+    (setq window (selected-window)))
+  (unless (= (- (point-max) (point-min)) 0)
+    (shrink-window-if-larger-than-buffer window)))
 
 (defun poe--popup-buffer-p (&optional buffer)
   "Return BUFFER if the buffer is a popup buffer, `nil' otherwise.
