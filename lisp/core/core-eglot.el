@@ -1,4 +1,4 @@
-;;; core-eglot.el --- Language server protocol integration -*- lexical-binding: t; -*-
+;;; core-eglot.el --- LSP integration -*- lexical-binding: t; -*-
 (require 'core-direnv)
 (require 'core-evil)
 (require 'core-popup)
@@ -112,7 +112,8 @@
     "Request documentation for the thing at point."
     (interactive "P")
     (eglot--dbind ((Hover) contents range)
-                  (jsonrpc-request (eglot--current-server-or-lose) :textDocument/hover
+                  (jsonrpc-request (eglot--current-server-or-lose)
+                                   :textDocument/hover
                                    (eglot--TextDocumentPositionParams))
                   (let ((blurb (and (not (seq-empty-p contents))
                                     (eglot--hover-info contents range)))

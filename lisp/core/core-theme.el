@@ -9,7 +9,8 @@
   :custom
   (custom-safe-themes t)
   :init
-  (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
+  (add-to-list 'custom-theme-load-path
+               (expand-file-name "themes" user-emacs-directory))
   :config
   (load-theme 'efdark t))
 

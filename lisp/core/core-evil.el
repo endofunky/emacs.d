@@ -19,7 +19,8 @@ already in normal mode.")
    "b"        '(nil :wk "Buffer")
    "bb"       '(bury-buffer :wk "Bury buffer")
    "bc"       '(clone-indirect-buffer :wk "Clone buffer")
-   "bC"       '(clone-indirect-buffer-other-window :wk "Clone buffer other window")
+   "bC"       '(clone-indirect-buffer-other-window
+                :wk "Clone buffer other window")
    "bi"       '(ibuffer :wk "Open ibuffer")
    "bk"       '(nil :wk "Kill")
    "bkk"      '(kill-current-buffer :wk "Kill buffer")
@@ -157,12 +158,13 @@ already in normal mode.")
     (interactive "FOpen file as root: ")
     (when (file-writable-p file)
       (user-error "File is user writeable, aborting sudo"))
-    (find-file (if (file-remote-p file)
-                   (concat "/" (file-remote-p file 'method) ":"
-                           (file-remote-p file 'user) "@" (file-remote-p file 'host)
-                           "|sudo:root@"
-                           (file-remote-p file 'host) ":" (file-remote-p file 'localname))
-                 (concat "/sudo:root@localhost:" file))))
+    (find-file
+     (if (file-remote-p file)
+         (concat "/" (file-remote-p file 'method) ":"
+                 (file-remote-p file 'user) "@" (file-remote-p file 'host)
+                 "|sudo:root@"
+                 (file-remote-p file 'host) ":" (file-remote-p file 'localname))
+       (concat "/sudo:root@localhost:" file))))
 
   (defun +kill-buffer-or-delete-window ()
     "If more than one window is open, delete the current window, otherwise kill

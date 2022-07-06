@@ -28,8 +28,9 @@
     (let ((inhibit-read-only t))
       (goto-char (point-max))
       (insert " ")
-      (add-text-properties (minibuffer-prompt-end) (point-max)
-                           '(invisible t read-only t cursor-intangible t rear-nonsticky t)))))
+      (add-text-properties
+       (minibuffer-prompt-end) (point-max)
+       '(invisible t read-only t cursor-intangible t rear-nonsticky t)))))
 
 (use-package orderless
   :after vertico

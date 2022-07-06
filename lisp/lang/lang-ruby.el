@@ -153,9 +153,10 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
   (defun +ruby-test-infer-file (filename)
     "Return the inferred test or spec for `filename', or nil if it doesn't
 exist"
-    (cl-some #'+file-or-nil (list (ruby-test-specification-filename filename)
-                                    (ruby-test-unit-filename filename)
-                                    (ruby-test-default-test-filename filename))))
+    (cl-some #'+file-or-nil
+             (list (ruby-test-specification-filename filename)
+                   (ruby-test-unit-filename filename)
+                   (ruby-test-default-test-filename filename))))
 
   (defun +ruby-test-run ()
     "Run the current test/spec or the test/spec corresponding to the

@@ -1,4 +1,4 @@
-;;; core-lib.el --- Core library functions & packages -*- lexical-binding: t; -*-
+;;; core-lib.el --- Core functions & packages -*- lexical-binding: t; -*-
 (require 'use-package)
 
 (defgroup ef nil

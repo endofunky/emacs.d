@@ -87,14 +87,22 @@
           (set-process-sentinel vterm--process #'+vterm-sentinel)))))
 
   ;; DOSBox colors
-  (set-face-attribute 'vterm-color-black nil :foreground "#000000" :background "#545454")
-  (set-face-attribute 'vterm-color-red nil :foreground "#a80000" :background "#fc5454")
-  (set-face-attribute 'vterm-color-green nil :foreground "#00a800" :background "#54fc54")
-  (set-face-attribute 'vterm-color-yellow nil :foreground "#a85400" :background "#fcfc54")
-  (set-face-attribute 'vterm-color-blue nil :foreground "#0000a8" :background "#5454fc")
-  (set-face-attribute 'vterm-color-magenta nil :foreground "#a800a8" :background "#fc54fc")
-  (set-face-attribute 'vterm-color-cyan nil :foreground "#00a8a8" :background "#54fcfc")
-  (set-face-attribute 'vterm-color-white nil :foreground "#a8a8a8" :background "#fcfcfc"))
+  (set-face-attribute 'vterm-color-black nil
+                      :foreground "#000000" :background "#545454")
+  (set-face-attribute 'vterm-color-red nil
+                      :foreground "#a80000" :background "#fc5454")
+  (set-face-attribute 'vterm-color-green nil
+                      :foreground "#00a800" :background "#54fc54")
+  (set-face-attribute 'vterm-color-yellow nil
+                      :foreground "#a85400" :background "#fcfc54")
+  (set-face-attribute 'vterm-color-blue nil
+                      :foreground "#0000a8" :background "#5454fc")
+  (set-face-attribute 'vterm-color-magenta nil
+                      :foreground "#a800a8" :background "#fc54fc")
+  (set-face-attribute 'vterm-color-cyan nil
+                      :foreground "#00a8a8" :background "#54fcfc")
+  (set-face-attribute 'vterm-color-white nil
+                      :foreground "#a8a8a8" :background "#fcfcfc"))
 
 (use-package evil-collection-vterm
   :straight nil

@@ -29,6 +29,7 @@
     ;; Tell Emacs how to parse TeX files.
     (setq-local ispell-parser 'tex)
     ;; Don't auto-fill in math blocks.
-    (setq-local fill-nobreak-predicate (cons #'texmathp fill-nobreak-predicate))))
+    (setq-local fill-nobreak-predicate
+                (cons #'texmathp fill-nobreak-predicate))))
 
 (provide 'lang-tex)

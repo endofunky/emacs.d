@@ -42,7 +42,8 @@
   (defun +cc-mode-enable-lsp ()
     "Conditionally enable LSP integration for cc-mode projects."
     (interactive)
-    (when (or (file-exists-p (expand-file-name "compile_commands.json" (+project-root)))
+    (when (or (file-exists-p (expand-file-name "compile_commands.json"
+                                               (+project-root)))
               (file-exists-p (expand-file-name ".ccls" (+project-root))))
       (+enable-lsp-maybe)))
 
