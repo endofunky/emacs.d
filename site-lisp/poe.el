@@ -471,10 +471,18 @@ If rule has :popup set to t, will also merge RULE with
         (poe--shrink-to-fit window))
       ;; Select the new popup if the :select rule is set. When the origin
       ;; window was a popup, mainain focus irrespective of :select.
-      (when (or origin-was-popup
-                (and (not poe--popup-inhibit-select-buffer)
-                     (plist-get rule :select)))
-        (select-window window))
+      (if (or origin-was-popup
+              (and (not poe--popup-inhibit-select-buffer)
+                   (plist-get rule :select)))
+          (select-window window)
+        ;; Handle edge case where we spawn a popup without selecting it and
+        ;; the currently highlighted line in `hl-line-mode' buffers with
+        ;; `hl-line-sticky-flag' set to nil would disappear until the cursor
+        ;; is moved.
+        (with-selected-window origin
+          (when (and (bound-and-true-p hl-line-mode)
+                     (fboundp 'hl-line-highlight))
+            (hl-line-highlight))))
       window)))
 
 (defun poe--display-buffer-condition (buffer _action)
