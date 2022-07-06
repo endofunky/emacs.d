@@ -26,7 +26,7 @@ Called from `after-init-hook'."
 ;;   https://github.com/radian-software/straight.el/
 ;;
 ;; To require and configure them:
-;; https://github.com/jwiegley/use-package
+;;   https://github.com/jwiegley/use-package
 ;;
 
 ;; Override when straight.el checks if package files have been modified. By
