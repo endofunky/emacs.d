@@ -26,6 +26,7 @@
   (org-edit-src-content-indentation 0)
   (org-enforce-todo-dependencies t)
   (org-fontify-quote-and-verse-blocks t)
+  (org-babel-remove-temporary-stable-directory)
   (org-log-done 'time)
   (org-log-into-drawer t)
   (org-return-follows-link t)
@@ -83,6 +84,17 @@
   (declare-function outline-flag-region "outline")
   (declare-function outline-next-heading "outline")
   (declare-function outline-previous-heading "outline")
+
+  (defun +org-babel-remove-temporary-stable-directory-a (orig-fun &rest args)
+    "Fixes an issue where `kill-emacs-hook' would issue an error when
+`org-babel-temporary-stable-directory' is bound but set to nil and a
+subsequent `file-exists-p' fails."
+    (when (and (boundp 'org-babel-temporary-stable-directory)
+	       org-babel-temporary-stable-directory)
+      (apply orig-fun args)))
+
+  (advice-add #'org-babel-remove-temporary-stable-directory
+              :around #'+org-babel-remove-temporary-stable-directory-a)
 
   (defun +org-archive-done-tasks ()
     "Archive `org-mode' tasks marked as DONE."
