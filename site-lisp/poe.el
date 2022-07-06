@@ -458,10 +458,13 @@ If rule has :popup set to t, will also merge RULE with
 
 (defun poe--display-buffer (buffer alist rule)
   "Handles displaying of poe-managed buffers."
-  (let* ((rule (poe--normalize-rule rule))
+  (let* ((origin (selected-window))
+         (origin-was-popup (poe--popup-window-p origin))
+         (rule (poe--normalize-rule rule))
          (alist (poe--alist alist rule))
          (actions (poe--display-buffer-actions alist rule)))
     ;; Call all the display-buffer actions until we find one that works.
+    (message "origin: %s" origin)
     (when-let (window (cl-loop for func in actions
                                if (funcall func buffer alist rule)
                                return it))
@@ -472,7 +475,10 @@ If rule has :popup set to t, will also merge RULE with
         (poe--init-popup window))
       (when (plist-get rule :shrink)
         (poe--shrink-to-fit window))
-      (when (plist-get rule :select)
+      ;; Select the new popup if the :select rule is set. When the origin
+      ;; window was a popup, mainain focus irrespective of :select.
+      (when (or origin-was-popup
+                (plist-get rule :select))
         (select-window window))
       window)))
 
