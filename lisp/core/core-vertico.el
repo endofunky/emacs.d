@@ -68,12 +68,12 @@ exclamation mark."
   (completion-category-defaults nil)
   (completion-category-overrides nil)
   :config
-  (push 'fussy completion-styles)
-
-  ;; `eglot' defaults to flex, so set an override to point to flx instead.
-  (with-eval-after-load 'eglot
-    (add-to-list 'completion-category-overrides
-                 '(eglot (styles fussy basic)))))
+  ;; Having fussy sort corfu completions is pretty slow, especially with
+  ;; short prefixes, so enable it only in the minibuffer for vertico.
+  (+add-hook minibuffer-setup-hook :fn +fussy-minibuffer-setup-h
+    "Enable fussy completion in minibuffer."
+    (make-variable-buffer-local 'completion-styles)
+    (add-to-list 'completion-styles 'fussy)))
 
 (use-package fzf-native
   :after vertico
