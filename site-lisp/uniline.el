@@ -857,7 +857,8 @@ mouse-2: Show help for minor mode"
              uniline-position
              uniline-misc)
            ;; RHS
-           '(uniline-major-mode)))))
+           '(uniline-major-mode
+             uniline-spc)))))
 
 (defun uniline--set-flymake-format ()
   (setq mode-line-format
@@ -869,7 +870,8 @@ mouse-2: Show help for minor mode"
              uniline--flymake-error-details
              uniline-misc)
            ;; RHS
-           '(uniline-buffer-name)
+           '(uniline-buffer-name
+             uniline-spc)
            ))))
 
 (defun uniline--set-vterm-format ()
@@ -882,7 +884,8 @@ mouse-2: Show help for minor mode"
              uniline-buffer-name
              uniline-misc)
            ;; RHS
-           '(uniline-major-mode)))))
+           '(uniline-major-mode
+             uniline-spc)))))
 
 ;;
 ;; Mode
