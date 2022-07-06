@@ -5,7 +5,8 @@
 (use-package vterm
   :when (bound-and-true-p module-file-suffix)
   :commands (vterm +vterm-popup +vterm-run)
-  :straight nil
+  :functions (+vterm-sentinel-keep-buffer
+              +vterm-sentinel)
   :custom
   (vterm-disable-bold-font nil)
   (vterm-kill-buffer-on-exit t)
@@ -22,8 +23,7 @@
    "V" '(+vterm-popup-and-go :wk "VTerm & go"))
   :config
   (declare-function vterm-send-string "vterm")
-  (declare-function +vterm-sentinel "util-vterm")
-  (declare-function +vterm-sentinel-keep-buffer "util-vterm")
+  (declare-function vterm--internal "vterm")
 
   (+add-hook vterm-mode-hook
     ;; Prevent premature horizontal scrolling
@@ -56,14 +56,14 @@
 
   (poe-popup "*vterm-popup*" :size 0.4 :select t)
 
-  (defun +vterm-sentinel (process event)
+  (defun +vterm-sentinel (process _event)
     "A process sentinel. Kills PROCESS's buffer if it is live."
     (let ((b (process-buffer process)))
       (when (buffer-live-p b)
         (kill-buffer b)
         (message "process finished."))))
 
-  (defun +vterm-sentinel-keep-buffer (process event)
+  (defun +vterm-sentinel-keep-buffer (process _event)
     "A process sentinel. Kills PROCESS's buffer if it is live."
     (let ((b (process-buffer process)))
       (when (buffer-live-p b)
