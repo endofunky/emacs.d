@@ -9,10 +9,6 @@
   :functions (+emacs-lisp-indent-function
               +elisp-describe-thing-at-point)
   :general
-  (:states '(normal visual) :keymaps '(emacs-lisp-mode-map
-                                       lisp-interaction-mode-map)
-   "gd"  'xref-find-definitions
-   "C-t" 'xref-go-back)
   (:prefix ef-local-leader :states 'visual :keymaps '(emacs-lisp-mode-map
                                                       lisp-interaction-mode-map)
    "e"   '(nil :wk "Eval")
@@ -138,6 +134,18 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
     (add-hook 'after-save-hook '+emacs-lisp-recompile nil t)
     (setq-local lisp-indent-function #'+emacs-lisp-indent-function)
     (setq-local mode-name "E-λ")))
+
+(use-package elisp-def
+  :after elisp-mode
+  :general
+  (:states '(normal visual) :keymaps 'elisp-def-mode-map
+   "gd"  'elisp-def
+   "C-t" 'xref-go-back)
+  :commands (elisp-def elisp-def-mode)
+  :hook
+  (ielm-mode . elisp-def-mode)
+  (emacs-lisp-mode . elisp-def-mode)
+  (lisp-interaction-mode . elisp-def-mode))
 
 (use-package macrostep
   :defer t
