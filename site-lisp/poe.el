@@ -617,13 +617,15 @@ permanent-local, we have to re-run the hooks again."
 (defun poe-popup-save-a (orig-fun &rest args)
   "Sets aside popups before executing the original function, usually to
 prevent the popup(s) from messing up the UI (or vice versa)."
-  (let ((poe--popup-inhibit-kill-buffer t))
-    (if (poe--popup-windows)
-        (prog2
-            (poe-popup-toggle)
-            (apply orig-fun args)
-          (poe-popup-toggle))
-      (apply orig-fun args))))
+  (if (bound-and-true-p poe-mode)
+      (let ((poe--popup-inhibit-kill-buffer t))
+        (if (poe--popup-windows)
+            (prog2
+                (poe-popup-toggle)
+                (apply orig-fun args)
+              (poe-popup-toggle))
+          (apply orig-fun args)))
+    (apply orig-fun args)))
 
 ;;;###autoload
 (defun poe-rule (key &rest plist)
