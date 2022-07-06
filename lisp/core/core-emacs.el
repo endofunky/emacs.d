@@ -397,11 +397,11 @@ visual state or mark.")
   (interactive)
   ;; Add/remove an advice from the 'message' function.
   (cond (+messages-buffer-auto-tail--enabled
-         (advice-remove 'message '+messages-buffer-auto-tail--advice)
+         (advice-remove 'message #'+messages-buffer-auto-tail--advice)
          (setq +messages-buffer-auto-tail--enabled nil)
          (message "+messages-buffer-auto-tail: Disabled."))
         (t
-         (advice-add 'message :after '+messages-buffer-auto-tail--advice)
+         (advice-add 'message :after #'+messages-buffer-auto-tail--advice)
          (setq +messages-buffer-auto-tail--enabled t)
          (message "+messages-buffer-auto-tail: Enabled."))))
 

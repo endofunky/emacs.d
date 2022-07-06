@@ -517,14 +517,14 @@ mouse-1: Previous buffer\nmouse-3: Next buffer"
            return (length before)
            finally return 0))
 
-(advice-add #'anzu--where-is-here :override #'uniline-fix-anzu-count)
+(advice-add 'anzu--where-is-here :override #'uniline-fix-anzu-count)
 
 (setq anzu-cons-mode-line-p nil) ; manage modeline segment ourselves
 ;; Ensure anzu state is cleared when searches & iedit are done
 (with-eval-after-load 'anzu
   (add-hook 'isearch-mode-end-hook #'anzu--reset-status t)
   (add-hook 'iedit-mode-end-hook #'anzu--reset-status)
-  (advice-add #'evil-force-normal-state :after #'anzu--reset-status)
+  (advice-add 'evil-force-normal-state :after #'anzu--reset-status)
   ;; Fix matches segment mirroring across all buffers.
   (mapc #'make-variable-buffer-local
         '(anzu--total-matched
@@ -932,29 +932,29 @@ mouse-2: Show help for minor mode"
 
         (add-hook 'process-menu-mode-hook #'uniline--set-mini-format)
 
-        (advice-add #'flymake--handle-report :after #'uniline--update-flymake)
+        (advice-add 'flymake--handle-report :after #'uniline--update-flymake)
         (add-hook 'flymake-diagnostics-buffer-mode-hook 'uniline--set-flymake-format)
 
         (add-hook 'vterm-mode-hook #'uniline--set-vterm-format)
 
         (add-hook 'find-file-hook #'uniline--update-vcs)
         (add-hook 'after-save-hook #'uniline--update-vcs)
-        (advice-add #'vc-refresh-state :after #'uniline--update-vcs)
+        (advice-add 'vc-refresh-state :after #'uniline--update-vcs)
 
         (add-hook 'find-file-hook #'uniline--update-git)
         (add-hook 'after-save-hook #'uniline--update-git)
-        (advice-add #'vc-refresh-state :after #'uniline--update-git)
+        (advice-add 'vc-refresh-state :after #'uniline--update-git)
 
         (add-hook 'find-file-hook #'uniline--update-git-bisect)
         (add-hook 'after-save-hook #'uniline--update-git-bisect)
-        (advice-add #'vc-refresh-state :after #'uniline--update-git-bisect)
+        (advice-add 'vc-refresh-state :after #'uniline--update-git-bisect)
 
         (uniline--force-refresh uniline--mode-line-format))
     (progn
       ;; Reset the original modeline state
       (setq-default mode-line-format uniline--original-mode-line-format)
 
-      (advice-remove #'flymake--handle-report #'uniline--update-flymake)
+      (advice-remove 'flymake--handle-report #'uniline--update-flymake)
       (remove-hook 'flymake-diagnostics-buffer-mode-hook 'uniline--set-flymake-format)
 
       (remove-hook 'process-menu-mode-hook #'uniline--set-mini-format)
@@ -963,15 +963,15 @@ mouse-2: Show help for minor mode"
 
       (remove-hook 'find-file-hook #'uniline--update-vcs)
       (remove-hook 'after-save-hook #'uniline--update-vcs)
-      (advice-remove #'vc-refresh-state #'uniline--update-vcs)
+      (advice-remove 'vc-refresh-state #'uniline--update-vcs)
 
       (remove-hook 'find-file-hook #'uniline--update-git)
       (remove-hook 'after-save-hook #'uniline--update-git)
-      (advice-remove #'vc-refresh-state #'uniline--update-git)
+      (advice-remove 'vc-refresh-state #'uniline--update-git)
 
       (remove-hook 'find-file-hook #'uniline--update-git-bisect)
       (remove-hook 'after-save-hook #'uniline--update-git-bisect)
-      (advice-remove #'vc-refresh-state #'uniline--update-git-bisect)
+      (advice-remove 'vc-refresh-state #'uniline--update-git-bisect)
 
       (uniline--force-refresh uniline--original-mode-line-format)
       (setq uniline--original-mode-line-format nil))))

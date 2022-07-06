@@ -1,4 +1,8 @@
 ;;; core-nix.el --- Nix/NixOS integration -*- lexical-binding: t; -*-
+;;
+;; Normally this sort of thing is configured in the Nix specific site-lisp
+;; files, but we disable loading of them in early-init.el, so let's
+;; configure the things we want to keep here.
 (require 'use-package)
 
 (defconst +nix--profile-paths
@@ -18,9 +22,6 @@
   :defer t
   :config
   ;; Set correct `source-directory' on Nix/NixOS.
-  ;;
-  ;; We don't enable the global site-lisp files, so we have to do this
-  ;; ourselves.
   (unless (string-prefix-p "/nix/store" source-directory)
     (if-let* ((path (executable-find "emacs"))
               ;; Expand symlink

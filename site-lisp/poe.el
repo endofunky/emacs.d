@@ -777,7 +777,7 @@ See `poe-popup-mode'.")
                     :around #'poe--switch-to-buffer-obey-display-actions-a)
         (advice-add 'switch-to-buffer
                     :around #'poe--switch-to-buffer-obey-display-actions-a)
-        (advice-add #'balance-windows :around #'poe-popup-save-a)
+        (advice-add 'balance-windows :around #'poe-popup-save-a)
         (poe--popup-update-buffer-list-h))
     ;; Mode disabled
     (remove-hook 'kill-buffer-hook #'poe--popup-remove-from-list)
@@ -790,7 +790,7 @@ See `poe-popup-mode'.")
     (setq display-buffer-alist
           (remove '(poe--display-buffer-condition poe--display-buffer-action)
                   display-buffer-alist))
-    (advice-remove #'balance-windows #'poe-popup-save-a)))
+    (advice-remove 'balance-windows #'poe-popup-save-a)))
 
 (add-hook 'poe-popup-mode-hook #'poe--popup-dim-h)
 (add-hook 'poe-popup-mode-hook #'poe--popup-remove-fringes-h)

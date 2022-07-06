@@ -195,7 +195,7 @@ prompter."
            (remq #'+embark-which-key-indicator embark-indicators)))
       (apply fn args)))
 
-  (advice-add #'embark-completing-read-prompter
+  (advice-add 'embark-completing-read-prompter
               :around #'+embark-hide-which-key-indicator)
 
   (add-to-list 'display-buffer-alist

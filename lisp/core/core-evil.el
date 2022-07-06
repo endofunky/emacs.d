@@ -178,7 +178,7 @@ current buffer."
     "Run ef-escape-hook hooks"
     (run-hooks 'ef-escape-hook))
 
-  (advice-add #'evil-force-normal-state :after #'+run-escape-hooks-a))
+  (advice-add 'evil-force-normal-state :after #'+run-escape-hooks-a))
 
 (use-package evil-nerd-commenter
   :after evil
