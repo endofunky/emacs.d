@@ -28,20 +28,29 @@
   (+add-hook flymake-mode-hook
     (remove-hook 'flymake-diagnostic-functions 'elisp-flymake-checkdoc t))
 
-  (poe-popup 'flymake-diagnostics-buffer-mode
-             :size .2 :select nil :ephemeral t)
+  (poe-popup 'flymake-diagnostics-buffer-mode :size .2 :select nil)
+
+  (defun +is-flymake-disagnostics-buffer-window-p (window)
+    "Predicate function that checks whether WINDOW contains a
+`flymake-diagnostics-buffer-mode' buffer.
+
+Returns the buffer or nil."
+    (let ((buffer (window-buffer window)))
+      (when (eq (buffer-local-value 'major-mode buffer)
+                'flymake-diagnostics-buffer-mode)
+        buffer)))
 
   (defun +flymake-follow-diagnostics-buffer (&rest args)
     "Window hook function that checks if the current buffer has `flymake-mode'
 enabled, the flymake diagnostics buffer is visible, and if so will follow the
 diagnostics to the buffer being switched to."
     (when (and (not (eq major-mode 'flymake-diagnostics-buffer-mode))
-               flymake-mode
-               (cl-some #'(lambda (win)
-                            (with-current-buffer (window-buffer win)
-                              (eq major-mode 'flymake-diagnostics-buffer-mode)))
-                        (window-list)))
-      (flymake-show-buffer-diagnostics)))
+               flymake-mode)
+      (when-let ((existing-buffer
+                  (cl-some #'+is-flymake-disagnostics-buffer-window-p
+                           (window-list))))
+        (kill-buffer existing-buffer)
+        (flymake-show-buffer-diagnostics))))
 
   (add-to-list 'window-buffer-change-functions
                #'+flymake-follow-diagnostics-buffer)
