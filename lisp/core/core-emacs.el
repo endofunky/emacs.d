@@ -363,6 +363,12 @@ visual state or mark.")
   :config
   (transient-bind-q-to-quit))
 
+(use-package tramp-sh
+  :defer t
+  :config
+  ;; Make tramp work for remote NixOS machines.
+  (add-to-list 'tramp-remote-path "/run/current-system/sw/bin"))
+
 (use-package uniquify
   :straight nil
   :custom
