@@ -231,6 +231,11 @@ Defaults to the current buffer."
     (setq poe--popup-buffer-list
           (remove buffer poe--popup-buffer-list))))
 
+(defvar poe--popup-inhibit-select-buffer nil
+  "Variable that can be set to inhibit `display-buffer' to select
+a new popup that has the :select rule when the popup buffer is not
+already focused.")
+
 (defvar poe--popup-inhibit-kill-buffer nil
   "Variable that can be set during a delete-window cycle to inhibit
 any `kill-buffer' calls issued for buffers with the :ephemeral
@@ -464,7 +469,6 @@ If rule has :popup set to t, will also merge RULE with
          (alist (poe--alist alist rule))
          (actions (poe--display-buffer-actions alist rule)))
     ;; Call all the display-buffer actions until we find one that works.
-    (message "origin: %s" origin)
     (when-let (window (cl-loop for func in actions
                                if (funcall func buffer alist rule)
                                return it))
@@ -478,29 +482,10 @@ If rule has :popup set to t, will also merge RULE with
       ;; Select the new popup if the :select rule is set. When the origin
       ;; window was a popup, mainain focus irrespective of :select.
       (when (or origin-was-popup
-                (plist-get rule :select))
+                (and (not poe--popup-inhibit-select-buffer)
+                     (plist-get rule :select)))
         (select-window window))
       window)))
-
-(defun poe--switch-to-buffer-other-window-redirect-a
-    (orig-fun buffer-or-name &optional norecord)
-  "Redirect `switch-to-buffer-other-window' to `display-buffer'
-so they can be handled by poe."
-  (if (poe--match buffer-or-name)
-      (display-buffer buffer-or-name)
-    (funcall orig-fun buffer-or-name norecord)))
-
-(defun poe--switch-to-buffer-redirect-a
-    (orig-fun buffer-or-name &optional norecord force-same-window)
-  "Redirect `switch-to-buffer' related functions to `display-buffer'
-so they can be handled by poe."
-  (if (poe--match buffer-or-name)
-      (display-buffer buffer-or-name)
-    (if (poe--popup-buffer-p)
-        ;; `switch-to-buffer' was called from inside a popup window, so
-        ;; avoid replacing that.
-        (switch-to-buffer-other-window buffer-or-name norecord)
-      (funcall orig-fun buffer-or-name norecord force-same-window))))
 
 (defun poe--display-buffer-condition (buffer _action)
   "Condition function for `display-buffer-alist'."
@@ -558,6 +543,30 @@ Defaults to the currently selected window."
 (defun poe--popup-windows ()
   "Returns a list of open popup windows."
   (seq-filter #'poe--popup-window-p (window-list)))
+
+;; ----------------------------------------------------------------------------
+;; Advice functions
+;; ----------------------------------------------------------------------------
+
+(defun poe--switch-to-buffer-other-window-redirect-a
+    (orig-fun buffer-or-name &optional norecord)
+  "Redirect `switch-to-buffer-other-window' to `display-buffer'
+so they can be handled by poe."
+  (if (poe--match buffer-or-name)
+      (display-buffer buffer-or-name)
+    (funcall orig-fun buffer-or-name norecord)))
+
+(defun poe--switch-to-buffer-redirect-a
+    (orig-fun buffer-or-name &optional norecord force-same-window)
+  "Redirect `switch-to-buffer' related functions to `display-buffer'
+so they can be handled by poe."
+  (if (poe--match buffer-or-name)
+      (display-buffer buffer-or-name)
+    (if (poe--popup-buffer-p)
+        ;; `switch-to-buffer' was called from inside a popup window, so
+        ;; avoid replacing that.
+        (switch-to-buffer-other-window buffer-or-name norecord)
+      (funcall orig-fun buffer-or-name norecord force-same-window))))
 
 ;; ----------------------------------------------------------------------------
 ;; Hooks
@@ -665,25 +674,27 @@ as a popup, display that buffer."
 (defun poe-popup-next ()
   "Cycle visibility of popup windows forwards."
   (interactive)
-  (if (= 0 (length (poe--popup-windows)))
-      (poe-popup-toggle)
-    (when poe--popup-buffer-list
-      (setq poe--popup-buffer-list
-            (cons (car (last poe--popup-buffer-list))
-                  (butlast poe--popup-buffer-list)))
-      (display-buffer (car poe--popup-buffer-list)))))
+  (let ((poe--popup-inhibit-select-buffer t))
+    (if (= 0 (length (poe--popup-windows)))
+        (poe-popup-toggle)
+      (when poe--popup-buffer-list
+        (setq poe--popup-buffer-list
+              (cons (car (last poe--popup-buffer-list))
+                    (butlast poe--popup-buffer-list)))
+        (display-buffer (car poe--popup-buffer-list))))))
 
 ;;;###autoload
 (defun poe-popup-prev ()
   "Cycle visibility of popup windows backwards."
   (interactive)
-  (if (= 0 (length (poe--popup-windows)))
-      (poe-popup-toggle)
-    (when poe--popup-buffer-list
-      (setq poe--popup-buffer-list
-            (append (cdr poe--popup-buffer-list)
-                    (list (car poe--popup-buffer-list))))
-      (display-buffer (car poe--popup-buffer-list)))))
+  (let ((poe--popup-inhibit-select-buffer t))
+    (if (= 0 (length (poe--popup-windows)))
+        (poe-popup-toggle)
+      (when poe--popup-buffer-list
+        (setq poe--popup-buffer-list
+              (append (cdr poe--popup-buffer-list)
+                      (list (car poe--popup-buffer-list))))
+        (display-buffer (car poe--popup-buffer-list))))))
 
 ;; ----------------------------------------------------------------------------
 ;; Consult source
