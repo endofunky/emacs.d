@@ -26,7 +26,6 @@
   (poe-popup "*Warnings*" :ephemeral t)
   (poe-popup "*compilation*")
   (poe-popup "\\`\\*WoMan.*?\\*\\'" :regexp t :ephemeral t)
-  (poe-popup " *undo-tree*" :select t :ephemeral t)
   (poe-popup 'calendar-mode :ephemeral t)
   (poe-popup 'comint-mode)
   (poe-popup 'compilation-mode)
@@ -46,18 +45,22 @@
     (advice-add 'evil-window-move-far-left    :around #'poe-popup-save-a)
     (advice-add 'evil-window-move-far-right   :around #'poe-popup-save-a))
 
-  ;; `undo-tree-visualize' sets the major mode *after* calling
-  ;; `switch-to-buffer-other-window', which disablees all buffer-local minor
-  ;; modes (including `poe-popup-mode'. So let's re-enable it here (all the
-  ;; window parameters will still be set).
-  (with-eval-after-load 'undo-tree
-    (defun +undo-tree-poe-popup-h ()
-      "Re-enable `poe-popup-mode' for `undo-tree-visualize', if required."
-      (when (and (bound-and-true-p poe-mode)
-                 (poe--match (current-buffer)))
-        (poe-popup-mode t)))
+  ;; Some packages set the major mode *after* displaying buffers. This
+  ;; disablees all buffer-local minor modes including `poe-popup-mode'. So let's
+  ;; re-enable it here (all the window parameters will still be set).
+  (defun +re-enable-popup-h ()
+    "Re-enable `poe-popup-mode' for `undo-tree-visualize', if required."
+    (when (and (bound-and-true-p poe-mode)
+               (poe--match (current-buffer)))
+      (poe-popup-mode t)))
 
-    (add-hook 'undo-tree-visualizer-mode-hook #'+undo-tree-poe-popup-h)))
+  (with-eval-after-load 'undo-tree
+    (poe-popup " *undo-tree*" :select t :ephemeral t)
+    (add-hook 'undo-tree-visualizer-mode-hook #'+re-enable-popup-h))
+
+  (with-eval-after-load 'nix-repl
+    (poe-popup "*Nix-REPL*")
+    (add-hook 'nix-repl-mode-hook #'+re-enable-popup-h)))
 
 (autoload 'poe-popup "poe")
 (autoload 'poe-rule "poe")
