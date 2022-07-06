@@ -430,6 +430,7 @@ with ALIST and poe rules RULE."
   "Initialize `poe-popup-mode' and popup-specific
 window-parameters for WINDOW."
   (with-selected-window window
+    (set-window-dedicated-p window t)
     (set-window-parameter window
                           'split-window
                           #'poe--popup-split-window)
