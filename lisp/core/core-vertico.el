@@ -60,7 +60,7 @@ exclamation mark."
                    :host github
                    :repo "jojojames/fussy")
   :custom
-  (fussy-filter-fn 'fussy-filter-orderless-flex)
+  (fussy-filter-fn 'fussy-filter-orderless)
   (fussy-score-fn 'fussy-fzf-native-score)
   ;; For example, project-find-file uses 'project-files which uses
   ;; substring completion by default. Set to nil to make sure it's using
