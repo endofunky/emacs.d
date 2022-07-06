@@ -141,7 +141,7 @@
   "Enable language server protocol integration for MODES."
   (let* ((m (+as-list modes))
          (hooks (mapcar (lambda (mode)
-                          `(add-hook ',(+mode-hook mode) '+enable-lsp-maybe))
+                          `(add-hook ',(+mode-hook mode) #'+enable-lsp-maybe))
                         m)))
     (macroexp-progn hooks)))
 

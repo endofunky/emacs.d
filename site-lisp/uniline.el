@@ -933,7 +933,7 @@ mouse-2: Show help for minor mode"
         (add-hook 'process-menu-mode-hook #'uniline--set-mini-format)
 
         (advice-add 'flymake--handle-report :after #'uniline--update-flymake)
-        (add-hook 'flymake-diagnostics-buffer-mode-hook 'uniline--set-flymake-format)
+        (add-hook 'flymake-diagnostics-buffer-mode-hook #'uniline--set-flymake-format)
 
         (add-hook 'vterm-mode-hook #'uniline--set-vterm-format)
 

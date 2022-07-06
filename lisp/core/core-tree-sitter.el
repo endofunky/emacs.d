@@ -21,7 +21,7 @@
   "Enable `tree-sitter-mode' for MODES."
   (let* ((m (+as-list modes))
          (hooks (mapcar (lambda (mode)
-                          `(add-hook ',(+mode-hook mode) 'tree-sitter-mode))
+                          `(add-hook ',(+mode-hook mode) #'tree-sitter-mode))
                         m)))
     (macroexp-progn hooks)))
 

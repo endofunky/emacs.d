@@ -63,7 +63,7 @@ registered hooks so they only fire once."
   (run-hooks 'ef-first-command-hook)
   (setq ef-first-command-hook nil))
 
-(add-hook 'pre-command-hook '+run-first-command-hook-h)
+(add-hook 'pre-command-hook #'+run-first-command-hook-h)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -225,7 +225,7 @@ HOOKS is `some-hook'. Usage:
                            ,(if interactive `(interactive))
                            ,@body)))
 	 ,@(mapcar #'(lambda (hook)
-                       `(add-hook ',hook ',fn ,append ,local))
+                       `(add-hook ',hook #',fn ,append ,local))
                    hooks)))))
 
 (defmacro +csetq (&rest pairs)
