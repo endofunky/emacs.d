@@ -139,10 +139,9 @@
 
 (defmacro +enable-lsp (&rest modes)
   "Enable language server protocol integration for MODES."
-  (let* ((m (+as-list modes))
-         (hooks (mapcar (lambda (mode)
+  (let* ((hooks (mapcar (lambda (mode)
                           `(add-hook ',(+mode-hook mode) #'+enable-lsp-maybe))
-                        m)))
+                        modes)))
     (macroexp-progn hooks)))
 
 (provide 'core-eglot)
