@@ -238,22 +238,21 @@ visual state or mark.")
    '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
   :hook
   (minibuffer-setup . cursor-intangible-mode)
+  :general
+  ;; Escape minibuffer with single escape.
+  (:keymaps '(minibuffer-local-map
+              minibuffer-local-ns-map
+              minibuffer-local-completion-map
+              minibuffer-local-must-match-map
+              minibuffer-local-isearch-map)
+   [escape] 'minibuffer-keyboard-quit)
   :config
   ;; This is where `minibuffer-keyboard-quit' is defined.
   (require 'delsel)
 
   (+add-hook minibuffer-setup-hook
     ;; Don't display fringes in minibuffer
-    (set-window-fringes (get-buffer-window (current-buffer)) 0 0))
-
-  ;; Escape minibuffer with single escape.
-  (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-completion-map
-    [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-must-match-map
-    [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit))
+    (set-window-fringes (get-buffer-window (current-buffer)) 0 0)))
 
 (use-package prog-mode
   :straight nil

@@ -7,9 +7,12 @@
   :mode ("\\.hs\\'" "\\.xmobarrc\\'" "xmobarrc\\'")
   :custom
   (haskell-font-lock-symbols nil)
+  :general
+  (:prefix ef-local-leader :states 'normal :keymaps 'haskell-mode-map
+   "c"  '(nil :wk "Compile")
+   "cc" '(haskell-compile :wk "Compile"))
   :config
-  (+enable-tree-sitter haskell-mode)
-  (evil-define-key 'normal haskell-mode-map ",cc" 'haskell-compile))
+  (+enable-tree-sitter haskell-mode))
 
 (use-package haskell
   :straight nil

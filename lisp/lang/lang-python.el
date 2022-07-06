@@ -14,16 +14,23 @@
   (python-shell-interpreter "ipython")
   (python-shell-buffer-name "ipython")
   (python-shell-interpreter-args "--simple-prompt -i")
+  :general
+  (:prefix ef-local-leader :states 'normal :keymaps 'python-mode-map
+   "e"  '(nil :wk "Eval")
+   "eb" '(python-shell-send-buffer :wk "Buffer")
+   "ed" '(python-shell-send-defun :wk "Defun")
+   "ef" '(python-shell-send-file :wk "File")
+   "er" '(python-shell-send-region :wk "Region")
+
+   "r"  '(nil :wk "REPL")
+   "rr" '(run-python :wk "Open"))
+  (:prefix ef-local-leader :states 'visual :keymaps 'python-mode-map
+   "e"  '(nil :wk "Eval")
+   "er" '(python-shell-send-region :wk "Region"))
   :config
   (poe-popup "*ipython*")
 
   (+enable-lsp python-mode)
-  (+enable-tree-sitter python-mode)
-
-  (evil-define-key 'normal inferior-python-mode-map ",r" 'run-python)
-  (evil-define-key 'normal python-mode-map ",eb" 'python-shell-send-buffer)
-  (evil-define-key 'normal python-mode-map ",ed" 'python-shell-send-defun)
-  (evil-define-key 'normal python-mode-map ",ef" 'python-shell-send-file)
-  (evil-define-key 'visual python-mode-map ",er" 'python-shell-send-region))
+  (+enable-tree-sitter python-mode))
 
 (provide 'lang-python)
