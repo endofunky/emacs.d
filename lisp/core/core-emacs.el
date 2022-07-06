@@ -334,22 +334,7 @@ visual state or mark.")
   (transient-enable-popup-navigation t)
   (transient-show-popup t)
   :config
-  (transient-bind-q-to-quit)
-
-  (defadvice transient-setup (before transient-setup activate)
-    (+transient-suspend-shackle-mode-h))
-
-  (defun +transient-suspend-shackle-mode-h ()
-    (when (and (fboundp 'shackle-mode)
-               (bound-and-true-p shackle-mode))
-      (shackle-mode -1)
-      (add-hook 'transient-exit-hook '+transient-resume-shackle-mode-h)))
-
-  (defun +transient-resume-shackle-mode-h ()
-    (unless transient--prefix
-      (when (fboundp 'shackle-mode)
-        (shackle-mode t))
-      (remove-hook 'transient-exit-hook '+transient-resume-shackle-mode-h))))
+  (transient-bind-q-to-quit))
 
 (use-package uniquify
   :straight nil
