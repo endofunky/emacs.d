@@ -193,6 +193,29 @@
 	     (count-lines (point-min) (point-max))
 	     (buffer-size))))
 
+(use-package find-func
+  :defer t
+  :config
+  ;; Set correct `source-directory' on Nix/NixOS.
+  ;;
+  ;; We don't enable the global site-lisp files, so we have to do this
+  ;; ourselves.
+  (unless (string-prefix-p "/nix/store" source-directory)
+    (if-let* ((path (executable-find "emacs"))
+              ;; Expand symlink
+              (path (file-truename path))
+              ;; Check if using emacs from Nix
+              ((string-prefix-p "/nix/store" path))
+              ;; Remove binary dir
+              (path (string-remove-suffix "/bin/emacs" path))
+              ;; Add: /share/emacs/29.0.50/src
+              (path (expand-file-name "share" path))
+              (path (expand-file-name "emacs" path))
+              (path (expand-file-name emacs-version path))
+              (path (expand-file-name "src" path)))
+        (when (file-exists-p path)
+          (setq find-function-C-source-directory path)))))
+
 (use-package hl-line
   :straight nil
   :defer t
