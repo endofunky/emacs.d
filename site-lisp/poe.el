@@ -653,7 +653,9 @@ as a popup, display that buffer."
 
 ;;;###autoload
 (defun poe-popup-toggle ()
-  "Toggle visibility of the last opened popup window."
+  "Toggle visibility of the last opened popup window.
+
+Will select the popup window if the popup rule specifies :select."
   (interactive)
   (if-let ((win (car (poe--popup-windows))))
       ;; Popup window is open, so close it.
@@ -750,10 +752,10 @@ See `poe-popup-mode'.")
 
 ;;;###autoload
 (define-minor-mode poe-popup-mode
-  "Minor mode for individual `poe-mode' buffers to be shown in
-popup windows."
+  "Minor mode for `poe-mode' buffers shown in popup windows."
   :group 'poe
   :lighter nil
+  :interactive nil
   :keymap poe-popup-mode-map)
 
 (defvar poe-mode-map (make-sparse-keymap)
