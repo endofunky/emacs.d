@@ -61,16 +61,6 @@ determine side, must return one of the above four values."
   :group 'poe
   :type 'boolean)
 
-(defcustom poe-redirect-switch-to-buffer t
-  "Redirect `switch-to-buffer' and related calls to
-`display-buffer'for managed buffers.
-
-This is a hack and might cause unforeseen issues with some
-packages. Most packages are well behaved and use the correct
-functions, so in case of issues this can be disabled."
-  :group 'poe
-  :type 'boolean)
-
 (defcustom poe-dim-popups t
   "Change (\"dim\") popup windows with a different background
 color.
@@ -548,25 +538,12 @@ Defaults to the currently selected window."
 ;; Advice functions
 ;; ----------------------------------------------------------------------------
 
-(defun poe--switch-to-buffer-other-window-redirect-a
-    (orig-fun buffer-or-name &optional norecord)
-  "Redirect `switch-to-buffer-other-window' to `display-buffer'
-so they can be handled by poe."
-  (if (poe--match buffer-or-name)
-      (display-buffer buffer-or-name)
-    (funcall orig-fun buffer-or-name norecord)))
+(defun poe--switch-to-buffer-obey-display-actions-a (orig-fun &rest args)
+  "Advice to make `switch-to-buffer' obey `display-buffer-alist'.
 
-(defun poe--switch-to-buffer-redirect-a
-    (orig-fun buffer-or-name &optional norecord force-same-window)
-  "Redirect `switch-to-buffer' related functions to `display-buffer'
-so they can be handled by poe."
-  (if (poe--match buffer-or-name)
-      (display-buffer buffer-or-name)
-    (if (poe--popup-buffer-p)
-        ;; `switch-to-buffer' was called from inside a popup window, so
-        ;; avoid replacing that.
-        (switch-to-buffer-other-window buffer-or-name norecord)
-      (funcall orig-fun buffer-or-name norecord force-same-window))))
+Works by let-binding `switch-to-buffer-obey-display-actions' to t."
+  (let ((switch-to-buffer-obey-display-actions t))
+    (apply orig-fun args)))
 
 ;; ----------------------------------------------------------------------------
 ;; Hooks
@@ -777,11 +754,10 @@ See `poe-popup-mode'.")
         (setq display-buffer-alist
               (cons '(poe--display-buffer-condition poe--display-buffer-action)
                     display-buffer-alist))
-        (when poe-redirect-switch-to-buffer
-          (advice-add 'switch-to-buffer-other-window
-                      :around #'poe--switch-to-buffer-other-window-redirect-a)
-          (advice-add 'switch-to-buffer
-                      :around #'poe--switch-to-buffer-redirect-a))
+        (advice-add 'switch-to-buffer-other-window
+                    :around #'poe--switch-to-buffer-obey-display-actions-a)
+        (advice-add 'switch-to-buffer
+                    :around #'poe--switch-to-buffer-obey-display-actions-a)
         (advice-add #'balance-windows :around #'poe-popup-save-a))
 
     ;; Mode disabled
@@ -789,9 +765,9 @@ See `poe-popup-mode'.")
     (remove-hook 'window-configuration-change-hook
                  #'poe--popup-update-buffer-list-h)
     (advice-remove 'switch-to-buffer-other-window
-                   #'poe--switch-to-buffer-redirect-a)
+                   #'poe--switch-to-buffer-obey-display-actions-a)
     (advice-remove 'switch-to-buffer
-                   #'poe--switch-to-buffer-other-window-redirect-a)
+                   #'poe--switch-to-buffer-obey-display-actions-a)
     (setq display-buffer-alist
           (remove '(poe--display-buffer-condition poe--display-buffer-action)
                   display-buffer-alist))
