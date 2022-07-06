@@ -476,12 +476,25 @@ If rule has :popup set to t, will also merge RULE with
         (select-window window))
       window)))
 
-(defun poe--switch-to-buffer-redirect-a (orig-fun &rest args)
-  "Redirect `switch-to-buffer' and related functions to
-`display-buffer' so they can be handled by poe."
-  (if (poe--match (car args))
-      (apply #'display-buffer args)
-    (apply orig-fun args)))
+(defun poe--switch-to-buffer-other-window-redirect-a
+    (orig-fun buffer-or-name &optional norecord)
+  "Redirect `switch-to-buffer-other-window' to `display-buffer'
+so they can be handled by poe."
+  (if (poe--match buffer-or-name)
+      (display-buffer buffer-or-name)
+    (funcall orig-fun buffer-or-name norecord)))
+
+(defun poe--switch-to-buffer-redirect-a
+    (orig-fun buffer-or-name &optional norecord force-same-window)
+  "Redirect `switch-to-buffer' related functions to `display-buffer'
+so they can be handled by poe."
+  (if (poe--match buffer-or-name)
+      (display-buffer buffer-or-name)
+    (if (poe--popup-buffer-p)
+        ;; `switch-to-buffer' was called from inside a popup window, so
+        ;; avoid replacing that.
+        (switch-to-buffer-other-window buffer-or-name norecord)
+      (funcall orig-fun buffer-or-name norecord force-same-window))))
 
 (defun poe--display-buffer-condition (buffer _action)
   "Condition function for `display-buffer-alist'."
@@ -747,7 +760,7 @@ popup windows."
                     display-buffer-alist))
         (when poe-redirect-switch-to-buffer
           (advice-add 'switch-to-buffer-other-window
-                      :around #'poe--switch-to-buffer-redirect-a)
+                      :around #'poe--switch-to-buffer-other-window-redirect-a)
           (advice-add 'switch-to-buffer
                       :around #'poe--switch-to-buffer-redirect-a))
         (advice-add #'balance-windows :around #'poe-popup-save-a))
@@ -759,7 +772,7 @@ popup windows."
     (advice-remove 'switch-to-buffer-other-window
                    #'poe--switch-to-buffer-redirect-a)
     (advice-remove 'switch-to-buffer
-                   #'poe--switch-to-buffer-redirect-a)
+                   #'poe--switch-to-buffer-other-window-redirect-a)
     (setq display-buffer-alist
           (remove '(poe--display-buffer-condition poe--display-buffer-action)
                   display-buffer-alist))
