@@ -6,6 +6,8 @@
   :mode ("\\.nix\\'" "\\.nix.in\\'")
   :general
   (:prefix ef-local-leader :states 'normal :keymaps 'nix-mode-map
+   "TAB" '(nix-mode-format :wk "Format buffer")
+
    "c"  '(nil :wk "Nix")
    "cu" '(nix-update-fetch "update-fetch")
 
@@ -13,7 +15,7 @@
    "rr" '(nix-repl :wk "Open"))
   :config
   (+enable-tree-sitter nix-mode)
-  (evil-define-key 'normal nix-mode-map (kbd ", TAB") 'nix-mode-format))
+  (poe-popup "*Nix-REPL*"))
 
 (use-package nix-drv-mode
   :straight nix-mode

@@ -565,12 +565,12 @@ Works by let-binding `switch-to-buffer-obey-display-actions' to t."
     (apply orig-fun args)))
 
 ;; ----------------------------------------------------------------------------
-;; Hooks
+;; Hook functions
 ;; ----------------------------------------------------------------------------
 
 (defun poe--popup-update-buffer-list-h ()
-  "Function called from `window-configuration-change-hook' to update
-`ef-popup--buffer-list' with any changes."
+  "Hook function called from `window-configuration-change-hook' to
+update `ef-popup--buffer-list' with any changes."
   (dolist (buf (cl-set-difference (poe--popup-all-buffers)
                                   poe--popup-buffer-list))
     (setq poe--popup-buffer-list
@@ -596,6 +596,18 @@ Called in `poe-popup-buffer-mode-hook'"
              poe-remove-fringes-from-popups)
     (let ((f (if (poe--popup-buffer-p) 0)))
       (set-window-fringes nil f f fringes-outside-margins))))
+
+(defun poe--popup-run-hooks-maybe-h ()
+  "Hook function called from `after-change-major-mode-hook' to re-run
+`poe-popup-mode-hook' hooks if the buffer still matches the conditions.
+
+Some packages set major-modes after displaying the window, which will disable
+`poe-popup-mode' again. While we keep the variable `poe-popup-mode' as
+permanent-local, we have to re-run the hooks again."
+  (when (and (bound-and-true-p poe-mode)
+             (bound-and-true-p poe-popup-mode)
+             (poe--popup-match (current-buffer)))
+    (run-hooks 'poe-popup-mode-hook)))
 
 ;; ----------------------------------------------------------------------------
 ;; Public
@@ -752,7 +764,11 @@ See `poe-popup-mode'.")
   :group 'poe
   :lighter nil
   :interactive nil
+  :init-value nil
   :keymap poe-popup-mode-map)
+
+(put 'poe-popup-mode 'permanent-local t)
+(put 'poe-popup-mode 'permanent-local-hook t)
 
 (defvar poe-mode-map (make-sparse-keymap)
   "Global keymap for `poe-mode'.")
@@ -767,6 +783,7 @@ See `poe-popup-mode'.")
   (if poe-mode
       ;; Mode enabled
       (progn
+        (add-hook 'after-change-major-mode-hook #'poe--popup-run-hooks-maybe-h)
         (add-hook 'window-configuration-change-hook
                   #'poe--popup-update-buffer-list-h)
         (add-hook 'kill-buffer-hook #'poe--popup-remove-from-list)
@@ -780,6 +797,7 @@ See `poe-popup-mode'.")
         (advice-add 'balance-windows :around #'poe-popup-save-a)
         (poe--popup-update-buffer-list-h))
     ;; Mode disabled
+    (remove-hook 'after-change-major-mode-hook #'poe--popup-run-hooks-maybe-h)
     (remove-hook 'kill-buffer-hook #'poe--popup-remove-from-list)
     (remove-hook 'window-configuration-change-hook
                  #'poe--popup-update-buffer-list-h)

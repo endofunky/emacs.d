@@ -217,6 +217,8 @@ current buffer."
   (+add-hook undo-tree-visualizer-mode-hook
     (setq-local show-trailing-whitespace nil))
 
+  (poe-popup " *undo-tree*" :select t :ephemeral t)
+
   (global-undo-tree-mode t)
 
   (defun +undo-tree-save-history-a (orig-fn &rest args)

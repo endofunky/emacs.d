@@ -43,24 +43,7 @@
     (advice-add 'evil-window-move-very-bottom :around #'poe-popup-save-a)
     (advice-add 'evil-window-move-very-top    :around #'poe-popup-save-a)
     (advice-add 'evil-window-move-far-left    :around #'poe-popup-save-a)
-    (advice-add 'evil-window-move-far-right   :around #'poe-popup-save-a))
-
-  ;; Some packages set the major mode *after* displaying buffers. This
-  ;; disablees all buffer-local minor modes including `poe-popup-mode'. So let's
-  ;; re-enable it here (all the window parameters will still be set).
-  (defun +re-enable-popup-h ()
-    "Re-enable `poe-popup-mode' for `undo-tree-visualize', if required."
-    (when (and (bound-and-true-p poe-mode)
-               (poe--match (current-buffer)))
-      (poe-popup-mode t)))
-
-  (with-eval-after-load 'undo-tree
-    (poe-popup " *undo-tree*" :select t :ephemeral t)
-    (add-hook 'undo-tree-visualizer-mode-hook #'+re-enable-popup-h))
-
-  (with-eval-after-load 'nix-repl
-    (poe-popup "*Nix-REPL*")
-    (add-hook 'nix-repl-mode-hook #'+re-enable-popup-h)))
+    (advice-add 'evil-window-move-far-right   :around #'poe-popup-save-a)))
 
 (autoload 'poe-popup "poe")
 (autoload 'poe-rule "poe")
