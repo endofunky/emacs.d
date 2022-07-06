@@ -182,7 +182,7 @@ display buffer actions."
 
 (defun poe--match (buffer-or-name)
   "Match BUFFER-OR-NAME against any conditions defined in
-`poe-rules' and, if found, returns the rule plist"
+`poe-rules' and, if found, returns the rule plist."
   (when-let* ((buffer (get-buffer buffer-or-name))
               (buffer-major-mode (buffer-local-value 'major-mode buffer))
               (buffer-name (buffer-name buffer)))
@@ -200,6 +200,13 @@ display buffer actions."
                          (string-match condition
                                        buffer-name)))))
      return plist)))
+
+(defun poe--popup-match (buffer-or-name)
+  "Match BUFFER-OR-NAME against any conditions defined in
+`poe-rules' and, if found and a popup, returns the rule plist."
+  (let ((rule (poe--match buffer-or-name)))
+    (when (plist-get rule :popup)
+      rule)))
 
 (defun poe--popup-split-window (window size side)
   "Ensure a non-dedicated/popup window is selected when splitting
@@ -534,6 +541,10 @@ Defaults to the currently selected window."
   "Add/mode ELT to the front of LIST."
   (cons elt (remove elt list)))
 
+(defun poe--popup-all-buffers ()
+  "Returns a list of open popup buffers."
+  (seq-filter #'poe--popup-match (buffer-list)))
+
 (defun poe--popup-buffers ()
   "Returns a list of open popup buffers."
   (seq-filter #'poe--popup-buffer-p (buffer-list)))
@@ -560,7 +571,7 @@ Works by let-binding `switch-to-buffer-obey-display-actions' to t."
 (defun poe--popup-update-buffer-list-h ()
   "Function called from `window-configuration-change-hook' to update
 `ef-popup--buffer-list' with any changes."
-  (dolist (buf (cl-set-difference (poe--popup-buffers)
+  (dolist (buf (cl-set-difference (poe--popup-all-buffers)
                                   poe--popup-buffer-list))
     (setq poe--popup-buffer-list
           (poe--move-to-front buf poe--popup-buffer-list))))
@@ -766,8 +777,8 @@ See `poe-popup-mode'.")
                     :around #'poe--switch-to-buffer-obey-display-actions-a)
         (advice-add 'switch-to-buffer
                     :around #'poe--switch-to-buffer-obey-display-actions-a)
-        (advice-add #'balance-windows :around #'poe-popup-save-a))
-
+        (advice-add #'balance-windows :around #'poe-popup-save-a)
+        (poe--popup-update-buffer-list-h))
     ;; Mode disabled
     (remove-hook 'kill-buffer-hook #'poe--popup-remove-from-list)
     (remove-hook 'window-configuration-change-hook
