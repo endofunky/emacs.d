@@ -553,6 +553,18 @@ Defaults to the currently selected window."
   "Returns a list of open popup windows."
   (seq-filter #'poe--popup-window-p (window-list)))
 
+(defun poe--switch-to-prev-buffer-skip (window new-buffer _bury-or-kill)
+  "Handler for `switch-to-prev-buffer-skip'.
+
+Ensudes that `switch-to-prev-buffer' won't replace non-popup
+buffers with popups and vice versa."
+  (let ((window-is-popup (poe--popup-window-p window))
+        (new-buffer-is-popup (poe--popup-match new-buffer)))
+    (or (and (not window-is-popup)
+             new-buffer-is-popup)
+        (and window-is-popup
+             (not new-buffer-is-popup)))))
+
 ;; ----------------------------------------------------------------------------
 ;; Hook functions
 ;; ----------------------------------------------------------------------------
@@ -774,6 +786,11 @@ See `poe-popup-mode'.")
   "Placeholder for `switch-to-buffer-obey-display-actions' value
  before enabling `'poe-mode'")
 
+(defvar poe--old-switch-to-prev-buffer-skip
+  switch-to-prev-buffer-skip
+  "Placeholder for `switch-to-prev-buffer-skip' value before
+enabling `'poe-mode'")
+
 ;;;###autoload
 (define-minor-mode poe-mode
   "Toggle `poe' on or off."
@@ -784,6 +801,8 @@ See `poe-popup-mode'.")
   (if poe-mode
       ;; Mode enabled
       (progn
+        (setq poe--old-switch-to-prev-buffer-skip switch-to-prev-buffer-skip)
+        (setq switch-to-prev-buffer-skip #'poe--switch-to-prev-buffer-skip)
         (setq poe--old-switch-to-buffer-obey-display-actions
               switch-to-buffer-obey-display-actions)
         (setq switch-to-buffer-obey-display-actions t)
@@ -797,6 +816,8 @@ See `poe-popup-mode'.")
         (advice-add 'balance-windows :around #'poe-popup-save-a)
         (poe--popup-update-buffer-list-h))
     ;; Mode disabled
+    (setq switch-to-prev-buffer-skip poe--old-switch-to-prev-buffer-skip)
+    (setq poe--old-switch-to-prev-buffer-skip nil)
     (setq switch-to-buffer-obey-display-actions
           poe--old-switch-to-buffer-obey-display-actions)
     (setq poe--old-switch-to-buffer-obey-display-actions nil)
