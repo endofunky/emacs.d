@@ -181,26 +181,31 @@ display buffer actions."
      (side            . ,(poe--transform-side (plist-get rule :size)))
      (slot            . ,(plist-get rule :slot)))))
 
+(defvar poe--inhibit-match nil
+  "Variable that can be set to inhibit `display-buffer' to select
+the poe display functions.")
+
 (defun poe--match (buffer-or-name)
   "Match BUFFER-OR-NAME against any conditions defined in
 `poe-rules' and, if found, returns the rule plist."
-  (when-let* ((buffer (get-buffer buffer-or-name))
-              (buffer-major-mode (buffer-local-value 'major-mode buffer))
-              (buffer-name (buffer-name buffer)))
-    (cl-loop
-     for (condition . plist) in poe-rules
-     when (or
-           ;; Symbol, compare to major-mode
-           (and (symbolp condition)
-                (eq condition buffer-major-mode))
-           ;; String, compare to buffer name or match against it if
-           ;; the :regexp rule is set.
-           (and (stringp condition)
-                (or (string= condition buffer-name)
-                    (and (plist-get plist :regexp)
-                         (string-match condition
-                                       buffer-name)))))
-     return plist)))
+  (unless poe--inhibit-match
+    (when-let* ((buffer (get-buffer buffer-or-name))
+                (buffer-major-mode (buffer-local-value 'major-mode buffer))
+                (buffer-name (buffer-name buffer)))
+      (cl-loop
+       for (condition . plist) in poe-rules
+       when (or
+             ;; Symbol, compare to major-mode
+             (and (symbolp condition)
+                  (eq condition buffer-major-mode))
+             ;; String, compare to buffer name or match against it if
+             ;; the :regexp rule is set.
+             (and (stringp condition)
+                  (or (string= condition buffer-name)
+                      (and (plist-get plist :regexp)
+                           (string-match condition
+                                         buffer-name)))))
+       return plist))))
 
 (defun poe--popup-match (buffer-or-name)
   "Match BUFFER-OR-NAME against any conditions defined in
@@ -587,6 +592,16 @@ buffers with popups and vice versa."
              (not new-buffer-is-popup)))))
 
 ;; ----------------------------------------------------------------------------
+;; Advice functions
+;; ----------------------------------------------------------------------------
+
+(defun poe--override-display-buffer-alist-a (orig-fun &rest args)
+  "Advice for functions like `switch-to-buffer-other-frame' to respect their
+passed actions and bypass `display-buffer-alist'. "
+  (let ((poe--inhibit-match t))
+    (apply orig-fun args)))
+
+;; ----------------------------------------------------------------------------
 ;; Hook functions
 ;; ----------------------------------------------------------------------------
 
@@ -835,6 +850,14 @@ enabling `'poe-mode'")
               (cons '(poe--display-buffer-condition poe--display-buffer-action)
                     display-buffer-alist))
         (advice-add 'balance-windows :around #'poe-popup-save-a)
+        (advice-add 'display-buffer-other-frame
+                    :around #'poe--override-display-buffer-alist-a)
+        (advice-add 'switch-to-buffer-other-frame
+                    :around #'poe--override-display-buffer-alist-a)
+        (advice-add 'switch-to-buffer-other-window
+                    :around #'poe--override-display-buffer-alist-a)
+        (advice-add 'switch-to-buffer-other-tab
+                    :around #'poe--override-display-buffer-alist-a)
         (poe--popup-update-buffer-list-h))
     ;; Mode disabled
     (setq switch-to-prev-buffer-skip poe--old-switch-to-prev-buffer-skip)
@@ -849,7 +872,15 @@ enabling `'poe-mode'")
     (setq display-buffer-alist
           (remove '(poe--display-buffer-condition poe--display-buffer-action)
                   display-buffer-alist))
-    (advice-remove 'balance-windows #'poe-popup-save-a)))
+    (advice-remove 'balance-windows #'poe-popup-save-a)
+    (advice-remove 'display-buffer-other-frame
+                   #'poe--override-display-buffer-alist-a)
+    (advice-remove 'switch-to-buffer-other-frame
+                   #'poe--override-display-buffer-alist-a)
+    (advice-remove 'switch-to-buffer-other-window
+                   #'poe--override-display-buffer-alist-a)
+    (advice-remove 'switch-to-buffer-other-tab
+                   #'poe--override-display-buffer-alist-a)))
 
 (add-hook 'poe-popup-mode-hook #'poe--popup-dim-h)
 (add-hook 'poe-popup-mode-hook #'poe--popup-remove-fringes-h)
