@@ -55,7 +55,10 @@
       (when (and (fboundp 'envrc-global-mode-check-buffers)
                  (not (file-remote-p default-directory)))
         (envrc-mode t))
-      (eglot-ensure)))
+      ;; Don't enable eglot if a previous revision has been opened using
+      ;; `magit-find-file'.
+      (when (not (bound-and-true-p magit-buffer-revision))
+        (eglot-ensure))))
 
   ;; Pass the correct initialization parameters to solargraph to make language
   ;; server diagnostics work.
