@@ -299,19 +299,21 @@ HOOKS is `some-hook'. Usage:
   (indent-region (point-min) (point-max)))
 
 (defun +kill-buffers-matching (filter)
-  "Kill all other buffers matching FILTER, except the *scratch* buffer.
+  "Kill all other buffers matching FILTER, except visible buffers
+and the *scratch* buffer.
 
-If FILTER is `nil' kill all buffers except the current one and the *scratch*
-buffer."
+If FILTER is `nil' kill all except currently visible buffers and the
+*scratch* buffer."
   (interactive "sFilter: ")
   (dolist (buf (delq (current-buffer) (buffer-list)))
-    (let ((name (buffer-name buf)))
-      (when (and (not (string= name "*scratch*"))
-                 (or (not filter)
-                     (string-match filter (string-trim name))))
-        (if-let ((win (get-buffer-window buf)))
-            (delete-window win))
-        (kill-buffer buf)))))
+    (unless (get-buffer-window buf)
+      (let ((name (buffer-name buf)))
+        (when (and (not (string= name "*scratch*"))
+                   (or (not filter)
+                       (string-match filter (string-trim name))))
+          (if-let ((win (get-buffer-window buf)))
+              (delete-window win))
+          (kill-buffer buf))))))
 
 (defun +kill-other-buffers ()
   "Kill all other buffers except special buffers."
