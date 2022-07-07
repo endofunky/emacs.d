@@ -1,9 +1,13 @@
 ;;; poe.el --- A popup & window manager -*- lexical-binding: t; -*-
 ;;
-;; A popup and window management library, based in large parts on
-;; shackle and doom emacs's popup module. It uses shackle's window
-;; creation routines and combines those with some popup management
-;; features from doom emacs.
+;; A popup and window management library mostly forked from
+;; shackle:
+;;
+;;   https://depp.brause.cc/shackle/
+;;
+;; With added popup management borrowing from doom's popup module:
+;;
+;;   https://github.com/doomemacs/doomemacs/blob/master/modules/ui/popup/
 ;;
 ;; As opposed to doom popups, in poe there will only ever be one
 ;; popup shown at a time. To support a fast work flow, many
