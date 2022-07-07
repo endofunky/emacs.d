@@ -53,7 +53,7 @@ to."
     (when (and (not (eq major-mode 'flymake-diagnostics-buffer-mode))
                flymake-mode)
       (when-let ((existing-window (+find-flymake-diagnostics-buffer-window)))
-        (kill-buffer (window-buffer existing-buffer))
+        (kill-buffer (window-buffer existing-window))
         (flymake-show-buffer-diagnostics))))
 
   (add-to-list 'window-buffer-change-functions
