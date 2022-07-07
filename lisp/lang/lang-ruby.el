@@ -133,6 +133,7 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
              ruby-test-ruby-root
              ruby-test-run-command
              ruby-test-command)
+  :defines (ruby-test-implementation-filename-mapping)
   :custom
   (ruby-test-rspec-options "")
   :general
@@ -144,6 +145,29 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
   :defines (ruby-test-rspec-options)
   :hook (ruby-mode . ruby-test-mode)
   :config
+  (declare-function pcre-to-elisp "ext:pcre2el")
+
+  ;; Add additional app/ sub-directories.
+  (add-to-list 'ruby-test-implementation-filename-mapping
+               `(,(pcre-to-elisp
+                   "(.*)/spec/(apis/.*)_spec\\.rb$")
+                 "\\1/app/\\2.rb"))
+
+  (add-to-list 'ruby-test-implementation-filename-mapping
+               `(,(pcre-to-elisp
+                   "(.*)/test/(apis/.*)_test\\.rb$")
+                 "\\1/app/\\2.rb"))
+
+  (add-to-list 'ruby-test-implementation-filename-mapping
+               `(,(pcre-to-elisp
+                   "(.*)/spec/(publishers/.*)_spec\\.rb$")
+                 "\\1/app/\\2.rb"))
+
+  (add-to-list 'ruby-test-implementation-filename-mapping
+               `(,(pcre-to-elisp
+                   "(.*)/test/(publishers/.*)_test\\.rb$")
+                 "\\1/app/\\2.rb"))
+
   (defun +file-or-nil (filename)
     "Return `filename' if `file-exists-p' returns non-nil, else nil"
     (if (file-exists-p filename)
