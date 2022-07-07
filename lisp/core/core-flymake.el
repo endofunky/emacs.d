@@ -34,22 +34,26 @@
     "Predicate function that checks whether WINDOW contains a
 `flymake-diagnostics-buffer-mode' buffer.
 
-Returns the buffer or nil."
-    (let ((buffer (window-buffer window)))
-      (when (eq (buffer-local-value 'major-mode buffer)
-                'flymake-diagnostics-buffer-mode)
-        buffer)))
+Returns the WINDOW or nil."
+    (when (eq (buffer-local-value 'major-mode (window-buffer window))
+              'flymake-diagnostics-buffer-mode)
+      window))
+
+  (defun +find-flymake-diagnostics-buffer-window ()
+    "Find a FlyMake diagnostics buffer window in `window-list'.
+
+Returns the window if found or nil otherwise."
+    (cl-some #'+is-flymake-disagnostics-buffer-window-p (window-list)))
 
   (defun +flymake-follow-diagnostics-buffer (&rest args)
-    "Window hook function that checks if the current buffer has `flymake-mode'
-enabled, the flymake diagnostics buffer is visible, and if so will follow the
-diagnostics to the buffer being switched to."
+    "Window hook function that checks if the current buffer has
+`flymake-mode'enabled, the flymake diagnostics buffer is visible,
+and if so will follow the diagnostics to the buffer being switched
+to."
     (when (and (not (eq major-mode 'flymake-diagnostics-buffer-mode))
                flymake-mode)
-      (when-let ((existing-buffer
-                  (cl-some #'+is-flymake-disagnostics-buffer-window-p
-                           (window-list))))
-        (kill-buffer existing-buffer)
+      (when-let ((existing-window (+find-flymake-diagnostics-buffer-window)))
+        (kill-buffer (window-buffer existing-buffer))
         (flymake-show-buffer-diagnostics))))
 
   (add-to-list 'window-buffer-change-functions
@@ -59,25 +63,37 @@ diagnostics to the buffer being switched to."
                #'+flymake-follow-diagnostics-buffer)
 
   (defun +flymake-check-buffer-maybe ()
+    "Run `flymake-start' if `flymake-mode' is enabled."
     (when (bound-and-true-p flymake-mode)
       (flymake-start)))
 
   (defun +flymake-toggle-errors ()
+    "Toggle the FlyMake diagnostics window."
     (interactive)
     (if (eq major-mode 'flymake-diagnostics-buffer-mode)
         (quit-window)
-      (if-let ((win (get-buffer-window (flymake--diagnostics-buffer-name))))
+      (if-let ((win (+find-flymake-diagnostics-buffer-window)))
           (delete-window win)
         (flymake-show-buffer-diagnostics))))
 
   ;; Disable flymake while in insert or replace state
-  (defvar ef--flymake-delay nil)
+  (defvar ef--flymake-delay nil
+    "Temporary variable to store `flymake-no-changes-timeout' when
+disabling automatic checks with `+flymake-disable'.")
 
   (defun +flymake-disable ()
+    "Disable automatic checks by FlyMake.
+
+Works by setting `flymake-no-changes-timeout' to nil. Stores the
+current value in `ef--flymake-delay'."
     (setq ef--flymake-delay flymake-no-changes-timeout)
     (setq flymake-no-changes-timeout nil))
 
   (defun +flymake-enable ()
+    "Re-eable automatic checks by FlyMake previously disabled by
+`+flymake-disable'.
+
+Restores `flymake-no-changes-timeout' from `ef--flymake-delay'."
     (setq flymake-no-changes-timeout ef--flymake-delay)
     (when (bound-and-true-p flymake-mode)
       (flymake-start))))
