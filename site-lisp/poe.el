@@ -416,9 +416,11 @@ the :size key with a number value."
   "Wrapper for `display-buffer-same-window' for `poe-mode'."
   (display-buffer-same-window buffer alist))
 
-(defun poe--display-buffer-use-some-window (buffer alist _plist)
-  "Wrapper for `display-buffer-use-some-window' for `poe-mode'."
-  (display-buffer-use-some-window buffer alist))
+(defun poe--display-buffer-fallback (buffer alist _plist)
+  "Wrapper for `display-buffer' fallback for `poe-mode'."
+  (cl-loop for func in (car display-buffer-fallback-action)
+           if (funcall func buffer alist)
+           return it))
 
 (defun poe--popup-delete-other-windows (&rest _)
   "Handler for `delete-other-windows' window-parameter for
@@ -449,10 +451,9 @@ with ALIST and poe rules RULE."
        ((plist-get rule :frame)
         '(poe--display-buffer-reuse-window
           poe--display-buffer-frame))
-       ;; Default to `display-buffer-use-some-window'.
+       ;; Default to `display-buffer-fallback-action'.
        (t
-        '(poe--display-buffer-reuse-window
-          poe--display-buffer-use-some-window)))))
+        '(poe--display-buffer-fallback)))))
 
 (defun poe--init-popup (window)
   "Initialize `poe-popup-mode' and popup-specific
