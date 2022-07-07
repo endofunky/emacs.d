@@ -4,7 +4,7 @@
 (require 'core-lib)
 
 (use-package fringe
-  :if window-system
+  :if (display-graphic-p)
   :straight nil
   :custom
   (fringes-outside-margins nil)
@@ -29,7 +29,7 @@
   (x-gtk-use-system-tooltips nil))
 
 (use-package pixel-scroll
-  :when (and window-system
+  :when (and (display-graphic-p)
              (fboundp 'pixel-scroll-precision-mode))
   :straight nil
   :hook
@@ -37,7 +37,7 @@
 
 (use-package frame
   :straight nil
-  :if window-system
+  :if (display-graphic-p)
   :custom
   (blink-cursor-blinks 0)
   (frame-resize-pixelwise t)

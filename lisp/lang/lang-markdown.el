@@ -37,7 +37,7 @@
   (add-to-list 'markdown-code-lang-modes '("dot" . graphviz-dot-mode))
   (add-to-list 'markdown-code-lang-modes '("rust" . rustic-mode))
 
-  (when window-system
+  (when (display-graphic-p)
     (define-key markdown-mode-map (kbd "M-RET") 'toggle-frame-fullscreen)))
 
 (use-package evil-markdown

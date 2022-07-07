@@ -115,7 +115,7 @@ subsequent `file-exists-p' fails."
      (latex . t)
      (ruby . t)))
 
-  (when window-system
+  (when (display-graphic-p)
     (define-key org-mode-map (kbd "M-RET") 'toggle-frame-fullscreen))
 
   (poe-popup "*Org Select*")
