@@ -367,6 +367,17 @@ visual state or mark.")
   (defadvice xref-goto-xref (after my activate)
     (delete-window (get-buffer-window (get-buffer "*xref*")))))
 
+;; Enable mouse in xterm.
+(use-package xt-mouse
+  :straight nil
+  :if (and (not (display-graphic-p))
+           (string-prefix-p "xterm" (getenv "TERM")))
+  :hook (after-init . xterm-mouse-mode)
+  :config
+  ;; Scrolling with the mouse should move text.
+  (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
+  (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
+
 ;; Auto-tail the *Messages* buffer
 ;;
 ;; From: https://stackoverflow.com/a/6341139/3058915
