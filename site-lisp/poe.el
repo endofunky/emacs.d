@@ -78,6 +78,7 @@ See: `poe-popup-dimmed-face'."
   '(plist :options
           (((const :tag "Regexp" :regexp) boolean)
            ((const :tag "Same" :same) boolean)
+           ((const :tag "Frame" :frame) boolean)
            ((const :tag "Popup" :popup) boolean)
            ((const :tag "Select" :select) boolean)
            ((const :tag "Shrink" :shrink) boolean)
@@ -330,6 +331,25 @@ If found, returns the existing window."
 	    (throw 'found t)))))
       this-window)))
 
+(defun poe--display-buffer-frame (buffer alist plist)
+  "Display BUFFER in a popped up frame.
+
+ALIST is passed to `window--display-buffer' internally.
+If PLIST contains the :other key with t as value, reuse the next
+available frame if possible, otherwise pop up a new frame."
+  (let* ((params (cdr (assq 'pop-up-frame-parameters alist)))
+         (pop-up-frame-alist (append params pop-up-frame-alist))
+         (fun pop-up-frame-function))
+    (when fun
+      (let* ((frame (if (and (plist-get plist :other)
+                             (> (length (frames-on-display-list)) 1))
+                        (next-frame nil 'visible)
+                      (funcall fun)))
+             (window (frame-selected-window frame)))
+        (prog1 (window--display-buffer buffer window 'frame alist)
+          (unless (cdr (assq 'inhibit-switch-frame alist))
+            (window--maybe-raise-frame frame)))))))
+
 (defun poe--display-buffer-aligned-window (buffer alist plist)
   "Display BUFFER in an aligned window.
 
@@ -423,6 +443,10 @@ with ALIST and poe rules RULE."
             (plist-get rule :side))
         '(poe--display-buffer-reuse-window
           poe--display-buffer-aligned-window))
+       ;; When :frame, display it as an aligned window.
+       ((plist-get rule :frame)
+        '(poe--display-buffer-reuse-window
+          poe--display-buffer-frame))
        ;; Default to `display-buffer-use-some-window'.
        (t
         '(poe--display-buffer-reuse-window
@@ -564,21 +588,6 @@ buffers with popups and vice versa."
              new-buffer-is-popup)
         (and window-is-popup
              (not new-buffer-is-popup)))))
-
-
-;; ----------------------------------------------------------------------------
-;; Advice functions
-;; ----------------------------------------------------------------------------
-
-(defun poe--override-display-buffer-alist-a
-    (orig-fun buffer-or-name &optional action norecord)
-  "When `pop-to-buffer' is called with non-nil ACTION, that ACTION
-should override `display-buffer-alist'."
-  (let ((display-buffer-overriding-action
-         (if (eq action t)
-             display-buffer-overriding-action
-           action)))
-    (funcall orig-fun buffer-or-name action norecord)))
 
 ;; ----------------------------------------------------------------------------
 ;; Hook functions
@@ -829,7 +838,6 @@ enabling `'poe-mode'")
               (cons '(poe--display-buffer-condition poe--display-buffer-action)
                     display-buffer-alist))
         (advice-add 'balance-windows :around #'poe-popup-save-a)
-        (advice-add 'pop-to-buffer :around #'poe--override-display-buffer-alist-a)
         (poe--popup-update-buffer-list-h))
     ;; Mode disabled
     (setq switch-to-prev-buffer-skip poe--old-switch-to-prev-buffer-skip)
@@ -844,8 +852,7 @@ enabling `'poe-mode'")
     (setq display-buffer-alist
           (remove '(poe--display-buffer-condition poe--display-buffer-action)
                   display-buffer-alist))
-    (advice-remove 'balance-windows #'poe-popup-save-a)
-    (advice-remove 'pop-to-buffer #'poe--override-display-buffer-alist-a)))
+    (advice-remove 'balance-windows #'poe-popup-save-a)))
 
 (add-hook 'poe-popup-mode-hook #'poe--popup-dim-h)
 (add-hook 'poe-popup-mode-hook #'poe--popup-remove-fringes-h)
