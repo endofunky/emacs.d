@@ -573,7 +573,8 @@ Defaults to the currently selected window."
   (cons elt (remove elt list)))
 
 (defun poe--popup-all-buffers ()
-  "Returns a list of open popup buffers."
+  "Returns a list of open popup buffers, including buffers that
+would be handled as popups but have not been displayed yet."
   (seq-filter #'poe--popup-match (buffer-list)))
 
 (defun poe--popup-buffers ()
