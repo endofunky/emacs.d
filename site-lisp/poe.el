@@ -18,6 +18,10 @@
 (require 'cl-extra)
 (require 'cl-seq)
 
+;; ----------------------------------------------------------------------------
+;; Customize
+;; ----------------------------------------------------------------------------
+
 (defgroup poe nil
   "A window and popup manager."
   :group 'convenience)
@@ -75,7 +79,9 @@ See: `poe-popup-dimmed-face'."
 
 (defface poe-popup-dimmed-face
   `((t (:background "#151617")))
-  "Face used for default."
+  "Face used to \"dim\" popup windows.
+
+Only the background property is used."
   :group 'poe)
 
 (defconst poe-rules-custom-type
@@ -121,6 +127,10 @@ Supported rules are the same as for `poe-rules', however, the
 \":popup\" rule has no effect."
   :group 'poe
   :type poe-rules-custom-type)
+
+;; ----------------------------------------------------------------------------
+;; Implementation
+;; ----------------------------------------------------------------------------
 
 (defvar poe--popup-buffer-list nil
   "List of popup buffers in the order they were opened in.

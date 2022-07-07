@@ -32,6 +32,8 @@
 
   (poe-rule "*info*" :same t)
 
+  ;; Replace consult's `consult--source-buffer' with poe's consult source that
+  ;; is context aware of popup windows.
   (with-eval-after-load 'consult
     (consult-customize consult--source-buffer :hidden t :default nil)
     (add-to-list 'consult-buffer-sources poe-consult-source))
