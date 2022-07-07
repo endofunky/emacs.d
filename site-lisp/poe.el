@@ -554,17 +554,6 @@ Defaults to the currently selected window."
   (seq-filter #'poe--popup-window-p (window-list)))
 
 ;; ----------------------------------------------------------------------------
-;; Advice functions
-;; ----------------------------------------------------------------------------
-
-(defun poe--switch-to-buffer-obey-display-actions-a (orig-fun &rest args)
-  "Advice to make `switch-to-buffer' obey `display-buffer-alist'.
-
-Works by let-binding `switch-to-buffer-obey-display-actions' to t."
-  (let ((switch-to-buffer-obey-display-actions t))
-    (apply orig-fun args)))
-
-;; ----------------------------------------------------------------------------
 ;; Hook functions
 ;; ----------------------------------------------------------------------------
 
@@ -621,9 +610,9 @@ prevent the popup(s) from messing up the UI (or vice versa)."
       (let ((poe--popup-inhibit-kill-buffer t))
         (if (poe--popup-windows)
             (prog2
-                (poe-popup-toggle)
+                (poe-popup-close)
                 (apply orig-fun args)
-              (poe-popup-toggle))
+              (poe-popup-open))
           (apply orig-fun args)))
     (apply orig-fun args)))
 
@@ -662,25 +651,30 @@ as a popup, display that buffer."
       (display-buffer buf))))
 
 ;;;###autoload
+(defun poe-popup-close ()
+  "Close the open popup window, if any."
+  (interactive)
+  (when-let ((win (car (poe--popup-windows))))
+    (delete-window win)
+    t))
+
+;;;###autoload
+(defun poe-popup-open ()
+  "Open the last opened popup window.
+
+Will select the popup window if the popup rule specifies :select."
+  (interactive)
+  (when-let ((buf (car poe--popup-buffer-list)))
+    (display-buffer buf)))
+
+;;;###autoload
 (defun poe-popup-toggle ()
   "Toggle visibility of the last opened popup window.
 
 Will select the popup window if the popup rule specifies :select."
   (interactive)
-  (if-let ((win (car (poe--popup-windows))))
-      ;; Popup window is open, so close it.
-      (delete-window win)
-    (if-let ((buf (car poe--popup-buffer-list)))
-        ;; We have an active "session" of displaying popups, sodisplay the most
-        ;; recent one.
-        (display-buffer buf)
-      ;; All popups have been closed, so find a buried popup window and display
-      ;; it if we found one.
-      (cl-loop for buf being the buffers
-               if (let ((rule (poe--match buf)))
-                    (plist-get rule :popup))
-               do (display-buffer buf)
-               and return it))))
+  (or (poe-popup-close)
+      (poe-popup-open)))
 
 ;;;###autoload
 (defun poe-popup-next ()
@@ -688,7 +682,7 @@ Will select the popup window if the popup rule specifies :select."
   (interactive)
   (let ((poe--popup-inhibit-select-buffer t))
     (if (= 0 (length (poe--popup-windows)))
-        (poe-popup-toggle)
+        (poe-popup-open)
       (when poe--popup-buffer-list
         (setq poe--popup-buffer-list
               (cons (car (last poe--popup-buffer-list))
@@ -701,7 +695,7 @@ Will select the popup window if the popup rule specifies :select."
   (interactive)
   (let ((poe--popup-inhibit-select-buffer t))
     (if (= 0 (length (poe--popup-windows)))
-        (poe-popup-toggle)
+        (poe-popup-open)
       (when poe--popup-buffer-list
         (setq poe--popup-buffer-list
               (append (cdr poe--popup-buffer-list)
@@ -775,6 +769,11 @@ See `poe-popup-mode'.")
 (defvar poe-mode-map (make-sparse-keymap)
   "Global keymap for `poe-mode'.")
 
+(defvar poe--old-switch-to-buffer-obey-display-actions
+  switch-to-buffer-obey-display-actions
+  "Placeholder for `switch-to-buffer-obey-display-actions' value
+ before enabling `'poe-mode'")
+
 ;;;###autoload
 (define-minor-mode poe-mode
   "Toggle `poe' on or off."
@@ -785,6 +784,9 @@ See `poe-popup-mode'.")
   (if poe-mode
       ;; Mode enabled
       (progn
+        (setq poe--old-switch-to-buffer-obey-display-actions
+              switch-to-buffer-obey-display-actions)
+        (setq switch-to-buffer-obey-display-actions t)
         (add-hook 'after-change-major-mode-hook #'poe--popup-run-hooks-maybe-h)
         (add-hook 'window-configuration-change-hook
                   #'poe--popup-update-buffer-list-h)
@@ -792,21 +794,16 @@ See `poe-popup-mode'.")
         (setq display-buffer-alist
               (cons '(poe--display-buffer-condition poe--display-buffer-action)
                     display-buffer-alist))
-        (advice-add 'switch-to-buffer-other-window
-                    :around #'poe--switch-to-buffer-obey-display-actions-a)
-        (advice-add 'switch-to-buffer
-                    :around #'poe--switch-to-buffer-obey-display-actions-a)
         (advice-add 'balance-windows :around #'poe-popup-save-a)
         (poe--popup-update-buffer-list-h))
     ;; Mode disabled
+    (setq switch-to-buffer-obey-display-actions
+          poe--old-switch-to-buffer-obey-display-actions)
+    (setq poe--old-switch-to-buffer-obey-display-actions nil)
     (remove-hook 'after-change-major-mode-hook #'poe--popup-run-hooks-maybe-h)
     (remove-hook 'kill-buffer-hook #'poe--popup-remove-from-list)
     (remove-hook 'window-configuration-change-hook
                  #'poe--popup-update-buffer-list-h)
-    (advice-remove 'switch-to-buffer-other-window
-                   #'poe--switch-to-buffer-obey-display-actions-a)
-    (advice-remove 'switch-to-buffer
-                   #'poe--switch-to-buffer-obey-display-actions-a)
     (setq display-buffer-alist
           (remove '(poe--display-buffer-condition poe--display-buffer-action)
                   display-buffer-alist))
