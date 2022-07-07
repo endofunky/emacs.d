@@ -565,6 +565,21 @@ buffers with popups and vice versa."
         (and window-is-popup
              (not new-buffer-is-popup)))))
 
+
+;; ----------------------------------------------------------------------------
+;; Advice functions
+;; ----------------------------------------------------------------------------
+
+(defun poe--override-display-buffer-alist-a
+    (orig-fun buffer-or-name &optional action norecord)
+  "When `pop-to-buffer' is called with non-nil ACTION, that ACTION
+should override `display-buffer-alist'."
+  (let ((display-buffer-overriding-action
+         (if (eq action t)
+             display-buffer-overriding-action
+           action)))
+    (funcall orig-fun buffer-or-name action norecord)))
+
 ;; ----------------------------------------------------------------------------
 ;; Hook functions
 ;; ----------------------------------------------------------------------------
@@ -814,6 +829,7 @@ enabling `'poe-mode'")
               (cons '(poe--display-buffer-condition poe--display-buffer-action)
                     display-buffer-alist))
         (advice-add 'balance-windows :around #'poe-popup-save-a)
+        (advice-add 'pop-to-buffer :around #'poe--override-display-buffer-alist-a)
         (poe--popup-update-buffer-list-h))
     ;; Mode disabled
     (setq switch-to-prev-buffer-skip poe--old-switch-to-prev-buffer-skip)
@@ -828,7 +844,8 @@ enabling `'poe-mode'")
     (setq display-buffer-alist
           (remove '(poe--display-buffer-condition poe--display-buffer-action)
                   display-buffer-alist))
-    (advice-remove 'balance-windows #'poe-popup-save-a)))
+    (advice-remove 'balance-windows #'poe-popup-save-a)
+    (advice-remove 'pop-to-buffer #'poe--override-display-buffer-alist-a)))
 
 (add-hook 'poe-popup-mode-hook #'poe--popup-dim-h)
 (add-hook 'poe-popup-mode-hook #'poe--popup-remove-fringes-h)
