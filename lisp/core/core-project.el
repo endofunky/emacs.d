@@ -18,6 +18,7 @@
    "pv" '(project-vc-dir :wk "Run vc-dir")
    "pk" '(project-kill-buffers :wk "Kill project buffers")
    "pp" '(+project-switch-project :wk "Switch project")
+   "pr" '(+project-remember :wk "Remember project")
    "ps" '(project-switch-to-buffer :wk "Switch to project buffer"))
   :config
   (defun +project-shell ()
@@ -34,6 +35,15 @@
     (let ((default-directory dir)
           (project-current-inhibit-prompt t))
       (call-interactively #'project-find-file)))
+
+  (defun +project-remember ()
+    "Remember the current project."
+    (interactive)
+    (if-let ((project (project-current nil)))
+        (progn
+          (project-remember-project project)
+          (message "Remembered project under: %s" (project-root project)))
+      (user-error "Not in a project.")))
 
   (defun +project-root ()
     "Return the current project root or nil if not in a project."
