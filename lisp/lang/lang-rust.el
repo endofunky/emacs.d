@@ -5,7 +5,8 @@
 
 (use-package rustic
   :custom
-  (rustic-format-on-save t)
+  (rustic-format-trigger 'on-save)
+  (rustic-rustfmt-args "--edition 2021")
   ;; No ligatures.
   (rust-prettify-symbols-alist nil)
   ;; We use eglot and prefer rust-analyzer over rls.
@@ -19,8 +20,9 @@
   :general
   (:prefix ef-local-leader :states 'normal :keymaps 'rustic-mode-map
    "c"  '(nil :wk "Cargo")
+   "cA" '(+rust-cargo-audit :wk "Audit")
    "cC" '(rustic-cargo-check :wk "Check")
-   "ca" '(+rust-cargo-audit :wk "Audit")
+   "ca" '(rustic-cargo-add :wk "Add")
    "cb" '(rustic-cargo-bench :wk "Bench")
    "cc" '(rustic-cargo-build :wk "Build")
    "cd" '(rustic-cargo-build-doc :wk "Build docs")
