@@ -55,7 +55,8 @@
     (set-frame-font font))
 
   (defadvice blink-cursor-start (around ef-blink-cursor-start activate)
-    "Only blink in comint-mode when in normal state or in minibuffers."
+    "Only blink in comint-mode when in normal state or in
+minibuffers."
     (if (or (and (or (derived-mode-p 'comint-mode)
                      (derived-mode-p 'cider-repl-mode))
                  (eq evil-state 'normal))
@@ -63,7 +64,28 @@
         ad-do-it
       (internal-show-cursor nil t)))
 
-  (blink-cursor-mode t))
+  (blink-cursor-mode t)
+
+  ;; Enable transparent titlebars on macOS and make them match the frame
+  ;; background.
+  (when (eq system-type 'darwin)
+    (defun +ns-set-titlebar-frame (frame &rest _)
+      "Enable transparent titlebar for the given frame and set the
+ns-appearance frame parameter for FRAME to match the
+\"background-mode\" frame-parameter."
+      (let ((background (frame-parameter frame 'background-mode)))
+        (modify-frame-parameters frame `((ns-transparent-titlebar . t)
+                                         (ns-appearance . ,background)))))
+
+    (defun +ns-set-titlebar-all-frames (&rest _)
+      "Enable transparent titlebar for the given frame and set the
+ns-appearance frame parameter for FRAME to match the
+\"background-mode\" frame-parameter for all frames."
+      (mapc #'ns-auto-titlebar-set-frame (frame-list)))
+
+    (add-hook 'after-init-hook #'+ns-set-titlebar-all-frames)
+    (add-hook 'after-make-frame-functions #'+ns-set-titlebar-frame)
+    (advice-add 'frame-set-background-mode :after #'+ns-set-titlebar-frame)))
 
 (use-package ns-win
   :straight nil
