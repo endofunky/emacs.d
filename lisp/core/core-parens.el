@@ -32,6 +32,9 @@
    ;; to press, so overriding them in normal state should be fine.
    ">" 'lispyville->
    "<" 'lispyville-<)
+  (:states 'visual :keymaps 'smartparens-mode-map
+   ">" 'evil-shift-right
+   "<" 'evil-shift-left)
   :commands (show-smartparens-global-mode
              smartparens-global-mode
              smartparens-mode)
