@@ -325,13 +325,13 @@
    `(flycheck-fringe-error ((,class (:foreground ,red :background nil :weight bold))))
    `(flycheck-fringe-warning ((,class (:background nil :foreground ,orange :weight bold))))
    `(flycheck-fringe-info ((,class (:background nil :foreground ,blue :weight bold))))
-   `(flycheck-warning ((,class (:underline (:color ,orange :style line)))))
-   `(flycheck-error ((,class (:underline (:color ,red :style line)))))
+   `(flycheck-warning ((,class (:foreground ,red :weight normal))))
+   `(flycheck-error ((,class (:foregrond ,red :weight bold))))
    `(flycheck-info ((,class (:underline (:color ,blue :style line)))))
 
    ;; flymake
-   `(flymake-warning ((,class (:underline (:color ,orange :style line)))))
-   `(flymake-error ((,class (:underline (:color ,red :style line)))))
+   `(flymake-warning ((,class (:foreground ,red :weight normal))))
+   `(flymake-error ((,class (:foreground ,red :weight bold))))
    `(flymake-note ((,class (:underline (:color ,blue :style line)))))
 
    ;; FIC
