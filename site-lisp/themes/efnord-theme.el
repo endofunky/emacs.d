@@ -403,7 +403,7 @@
    `(org-checkbox ((,class (:foreground ,frost-3))))
    `(org-checkbox-statistics-done ((,class (:foreground ,aurora-green))))
    `(org-checkbox-statistics-todo ((,class (:foreground ,aurora-red))))
-   `(org-code ((,class (:foreground ,frost-1))))
+   `(org-code ((,class (:foreground ,polar-night-4))))
    `(org-column ((,class (:background ,polar-night-3))))
    `(org-column-title ((,class (:inherit org-column :weight bold :underline t))))
    `(org-date ((,class (:foreground ,frost-2))))
