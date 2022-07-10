@@ -15,11 +15,17 @@
   :config
   (load-theme 'alpine-night t))
 
-(+add-hook prog-mode-hook :fn +add-watchwords-h
-  "Highlight FIXME, TODO, and NOCOMMIT in code"
-  (font-lock-add-keywords
-   nil '(("\\<\\(FIXME\\|BUG\\|XXX\\|TODO\\|NOCOMMIT\\)\\>"
-          1 '((:foreground "#cc6666") (:weight bold)) t))))
+(use-package hl-todo
+  :after alpine-night-theme
+  :custom
+  (hl-todo-keyword-faces (let ((color (face-foreground 'error)))
+                           `(("TODO"     . ,color)
+                             ("FIXME"    . ,color)
+                             ("BUG"      . ,color)
+                             ("XXX"      . ,color)
+                             ("NOCOMMIT" . ,color))))
+  :hook
+  (after-init . global-hl-todo-mode))
 
 (defun +reload-theme ()
   "Reload currently enabled theme."
