@@ -2,8 +2,7 @@
 (require 'core-lib)
 (require 'core-popup)
 
-(use-package efdark-theme
-  :demand t
+(use-package alpine-night-theme
   :load-path "site-lisp/themes/"
   :straight nil
   :custom
@@ -12,19 +11,20 @@
   (add-to-list 'custom-theme-load-path
                (expand-file-name "themes" user-emacs-directory))
   :config
-  (load-theme 'efdark t)
-
-  (defun +reload-theme ()
-    "Reload theme."
-    (interactive)
-    (disable-theme 'efdark)
-    (load-theme 'efdark t)))
+  (load-theme 'alpine-night t))
 
 (+add-hook prog-mode-hook :fn +add-watchwords-h
   "Highlight FIXME, TODO, and NOCOMMIT in code"
   (font-lock-add-keywords
    nil '(("\\<\\(FIXME\\|BUG\\|XXX\\|TODO\\|NOCOMMIT\\)\\>"
           1 '((:foreground "#cc6666") (:weight bold)) t))))
+
+(defun +reload-theme ()
+  "Reload currently enabled theme."
+  (interactive)
+  (when-let ((theme (car custom-enabled-themes)))
+    (disable-theme theme)
+    (load-theme theme t)))
 
 (use-package uniline
   :demand t
