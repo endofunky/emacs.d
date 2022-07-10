@@ -190,8 +190,8 @@ settings in the other lists."
 ;;
 
 (cl-defmacro +add-hook(hooks &rest body
-                               &key fn append local interactive
-                               &allow-other-keys)
+                             &key fn append local interactive
+                             &allow-other-keys)
   "Define a new handler for HOOKS
 By default generates a function named `ef-some-hook' if the first hook in
 HOOKS is `some-hook'. Usage:
@@ -252,6 +252,11 @@ HOOKS is `some-hook'. Usage:
     (with-temp-buffer
       (insert-file-contents filename)
       (buffer-string))))
+
+(defun +insert-form-feed ()
+  "Insert form-feed character at point"
+  (interactive)
+  (insert-char ?\^L))
 
 (defun +insert-unix-time ()
   "Insert UNIX timestamp at point."

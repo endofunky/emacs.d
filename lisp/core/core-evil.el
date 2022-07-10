@@ -37,17 +37,18 @@ already in normal mode.")
 
    ;; Insert
    "I"        '(nil :wk "Insert")
+   "IF"       '(add-file-local-variable-prop-line :wk "File Local Prop")
+   "IU"       '(insert-char :wk "Unicode")
    "If"       '(nil :wk "File")
-   "Iff"      '(+insert-file-name :wk "File name")
    "Ifb"      '(+insert-file-name-base :wk "File base-name")
    "Ifd"      '(+insert-file-name-directory :wk "File directory")
-   "IF"       '(add-file-local-variable-prop-line :wk "File Local Prop")
+   "Iff"      '(+insert-file-name :wk "File name")
+   "Ip"       '(+insert-form-feed :wk "Form-feed")
    "It"       '(nil :wk "time")
    "Iti"      '(+insert-iso-datetime :wk "ISO date/time")
    "Ito"      '(+insert-ordinal-date :wk "Ordinal date")
    "Itu"      '(+insert-unix-time :wk "UNIX timestamp")
    "Iu"       '(+insert-uuid :wk "UUID")
-   "IU"       '(insert-char :wk "Unicode")
 
    ;; Whitespace
    "w"        '(nil :wk "Whitespace")
