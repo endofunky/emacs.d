@@ -32,6 +32,17 @@
 
   (poe-rule "*info*" :same t)
 
+  (with-eval-after-load 'undo-tree
+    (defun +use-pop-to-buffer-for-undo-tree-visualizer-a (orig-fun &rest args)
+      "Use `pop-to-buffer' to force `undo-tree-visualize' to open
+in a popup buffer."
+      (if undo-tree-visualizer-diff
+          (apply orig-fun args)
+        (cl-letf (((symbol-function 'switch-to-buffer-other-window) 'pop-to-buffer))
+          (apply orig-fun args))))
+
+    (advice-add 'undo-tree-visualize :around #'+use-pop-to-buffer-for-undo-tree-visualizer-a))
+
   ;; Replace consult's `consult--source-buffer' with poe's consult source that
   ;; is context aware of popup windows.
   (with-eval-after-load 'consult
