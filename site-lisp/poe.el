@@ -18,10 +18,6 @@
 (require 'cl-extra)
 (require 'cl-seq)
 
-;; ----------------------------------------------------------------------------
-;; Customize
-;; ----------------------------------------------------------------------------
-
 (defgroup poe nil
   "A window and popup manager."
   :group 'convenience)
@@ -128,9 +124,8 @@ Supported rules are the same as for `poe-rules', however, the
   :group 'poe
   :type poe-rules-custom-type)
 
-;; ----------------------------------------------------------------------------
+
 ;; Implementation
-;; ----------------------------------------------------------------------------
 
 (defvar poe--popup-buffer-list nil
   "List of popup buffers in the order they were opened in.
@@ -252,6 +247,7 @@ Defaults to the current buffer."
   "Variable that can be set to inhibit `display-buffer' to select
 a new popup that has the :select rule when the popup buffer is not
 already focused.")
+
 
 (defvar poe--popup-inhibit-kill-buffer nil
   "Variable that can be set during a delete-window cycle to inhibit
@@ -607,9 +603,8 @@ buffers with popups and vice versa."
         (and window-is-popup
              (not new-buffer-is-popup)))))
 
-;; ----------------------------------------------------------------------------
+
 ;; Advice functions
-;; ----------------------------------------------------------------------------
 
 (defun poe--override-display-buffer-alist-a (orig-fun &rest args)
   "Advice for functions like `switch-to-buffer-other-frame' to respect their
@@ -617,9 +612,8 @@ passed actions and bypass `display-buffer-alist'. "
   (let ((poe--inhibit-match t))
     (apply orig-fun args)))
 
-;; ----------------------------------------------------------------------------
+
 ;; Hook functions
-;; ----------------------------------------------------------------------------
 
 (defun poe--popup-update-buffer-list-h ()
   "Hook function called from `window-configuration-change-hook' to
@@ -662,9 +656,8 @@ permanent-local, we have to re-run the hooks again."
              (poe--popup-match (current-buffer)))
     (run-hooks 'poe-popup-mode-hook)))
 
-;; ----------------------------------------------------------------------------
+
 ;; Public
-;; ----------------------------------------------------------------------------
 
 ;;;###autoload
 (defun poe-popup-save-a (orig-fun &rest args)
@@ -766,9 +759,8 @@ Will select the popup window if the popup rule specifies :select."
                       (list (car poe--popup-buffer-list))))
         (display-buffer (car poe--popup-buffer-list))))))
 
-;; ----------------------------------------------------------------------------
+
 ;; Consult source
-;; ----------------------------------------------------------------------------
 
 (defun poe--consult-source-predicate (buffer)
   "Predicate function for `consult'.
@@ -809,9 +801,8 @@ Provides buffer lists based on the currently selected buffer. If a
 popup is selected, will give a list of popups, otherwise gives a
 list of regular, non-popup buffers."))
 
-;; ----------------------------------------------------------------------------
+
 ;; Modes
-;; ----------------------------------------------------------------------------
 
 (defvar poe-popup-mode-map (make-sparse-keymap)
   "Active keymap in `poe-mode' popup windows.

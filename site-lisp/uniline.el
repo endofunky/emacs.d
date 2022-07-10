@@ -1,8 +1,6 @@
 ;; uniline.el -*- lexical-binding:t -*-
 
-;;
 ;; Custom
-;;
 
 (defgroup uniline nil
   "A new, minimal mode-line."
@@ -101,18 +99,14 @@
   '((t :inherit font-lock-keyword-face :inverse-video t))
   "Face for error status in the mode-line.")
 
+
 (require 'thingatpt)
 
-;;
 ;; Temp vars
-;;
-
 (defvar uniline--original-mode-line-format)
 (defvar uniline--mode-line-format)
 
-;;
 ;; Defintions for byte-compiler
-;;
 (defvar anzu-cons-mode-line-p)
 (defvar anzu--current-position)
 (defvar anzu--total-matched)
@@ -173,9 +167,8 @@
 
 (declare-function project-root "project")
 
-;;
+
 ;; Helpers
-;;
 
 (defun uniline--face (face &optional inactive-face)
   "Display FACE in mode-line.
@@ -223,9 +216,8 @@ RIGHT-SEGMENTS, aligned respectively."
   "Text style with whitespace."
   (propertize " " 'face 'uniline-spc-face))
 
-;;
+
 ;; Current window tracking (from uniline)
-;;
 
 (defun uniline--get-current-window (&optional frame)
   "Get the current window but should exclude the child windows.
@@ -258,9 +250,8 @@ If FRAME is nil, it means the current frame."
 
 (add-hook 'pre-redisplay-functions #'uniline-set-selected-window)
 
-;;
+
 ;; Segments
-;;
 
 (defun uniline-major-mode (&rest _)
   "The major mode, including environment and text-scale info."
@@ -802,9 +793,9 @@ mouse-2: Show help for minor mode"
                          (describe-function 'flymake-mode)))
                      map))))))
 
-;;
+
 ;; Mode-specific mode-line formats
-;;
+
 (defun uniline--flymake-error-details (&rest _)
   (when (boundp 'flymake--state)
     (with-current-buffer flymake--diagnostics-buffer-source
@@ -887,9 +878,8 @@ mouse-2: Show help for minor mode"
            '(uniline-major-mode
              uniline-spc)))))
 
-;;
+
 ;; Mode
-;;
 
 (define-minor-mode uniline-mode
   "Toggle `uniline' on or off."
