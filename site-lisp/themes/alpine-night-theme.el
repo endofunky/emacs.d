@@ -327,19 +327,19 @@
 
    ;; Magit
    `(magit-branch ((,class (:foreground ,frost-1 :weight bold))))
-   `(magit-diff-context-highlight ((,class (:background ,polar-night-3))))
+   `(magit-diff-context-highlight ((,class (:background ,polar-night-1))))
    `(magit-diff-file-header ((,class (:foreground ,frost-2 :box (:color ,frost-2)))))
    `(magit-diffstat-added ((,class (:foreground ,aurora-green))))
    `(magit-diffstat-removed ((,class (:foreground ,aurora-red))))
    `(magit-hash ((,class (:foreground ,frost-2))))
    `(magit-hunk-heading ((,class (:foreground ,frost-3))))
-   `(magit-hunk-heading-highlight ((,class (:foreground ,frost-3 :background ,polar-night-3))))
-   `(magit-item-highlight ((,class (:foreground ,frost-2 :background ,polar-night-3))))
+   `(magit-hunk-heading-highlight ((,class (:foreground ,frost-3 :background ,polar-night-1))))
+   `(magit-item-highlight ((,class (:foreground ,frost-2 :background ,polar-night-1))))
    `(magit-log-author ((,class (:foreground ,frost-1))))
    `(magit-process-ng ((,class (:foreground ,aurora-yellow :weight bold))))
    `(magit-process-ok ((,class (:foreground ,aurora-green :weight bold))))
    `(magit-section-heading ((,class (:foreground ,frost-1 :weight bold))))
-   `(magit-section-highlight ((,class (:background ,polar-night-3))))
+   `(magit-section-highlight ((,class (:background ,polar-night-1))))
 
    ;; MU4E
    `(mu4e-header-marks-face ((,class (:foreground ,frost-3))))
