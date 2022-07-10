@@ -4,6 +4,8 @@
 
 (use-package alpine-night-theme
   :load-path "site-lisp/themes/"
+  :when (or (display-graphic-p)
+            (= (tty-display-color-cells) 16777216))
   :straight nil
   :custom
   (custom-safe-themes t)
