@@ -21,6 +21,7 @@
    "gr" 'xref-find-references
    "K" '+eglot-lookup-documentation)
   (:prefix ef-leader :states 'normal :keymaps 'eglot-mode-map
+   "a"  '(eglot-code-actions :wk "Action")
    "L"  '(nil :wk "LSP")
    "Lc" '(eglot :wk "Reconnect")
    "Lr" '(eglot-reconnect :wk "Reconnect")
