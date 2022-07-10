@@ -296,10 +296,6 @@ appropriate. Mainly useful in C, C++, and other languages with similar syntax."
                    :post-handlers '(:add
                                     +sp-maybe-complete-lambda))))
 
-(use-package rainbow-delimiters
-  :hook
-  (prog-mode . rainbow-delimiters-mode))
-
 (use-package lispy
   :custom
   (lispy-safe-threshold 3000)

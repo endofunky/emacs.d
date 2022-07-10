@@ -12,7 +12,13 @@
   (add-to-list 'custom-theme-load-path
                (expand-file-name "themes" user-emacs-directory))
   :config
-  (load-theme 'efdark t))
+  (load-theme 'efdark t)
+
+  (defun +reload-theme ()
+    "Reload theme."
+    (interactive)
+    (disable-theme 'efdark)
+    (load-theme 'efdark t)))
 
 (+add-hook prog-mode-hook :fn +add-watchwords-h
   "Highlight FIXME, TODO, and NOCOMMIT in code"
