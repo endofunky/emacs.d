@@ -13,6 +13,7 @@
   (text-mode . turn-on-flyspell))
 
 (use-package ispell
+  :defer t
   :when (executable-find "aspell")
   :custom
   (ispell-program-name "aspell")
