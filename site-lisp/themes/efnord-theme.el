@@ -24,7 +24,8 @@
        (polar-night-2 "#3B4252")
        (polar-night-3 "#434C5E")
        (polar-night-4 "#4C566A")
-       (polar-night-5 "#687080")
+       (polar-night-5 "#5f6c85")
+       (polar-night-6 "#7b88a1")
 
        (snow-storm-1  "#D8DEE9")
        (snow-storm-2  "#E5E9F0")
@@ -403,7 +404,7 @@
    `(org-checkbox ((,class (:foreground ,frost-3))))
    `(org-checkbox-statistics-done ((,class (:foreground ,aurora-green))))
    `(org-checkbox-statistics-todo ((,class (:foreground ,aurora-red))))
-   `(org-code ((,class (:foreground ,polar-night-4))))
+   `(org-code ((,class (:foreground ,polar-night-6))))
    `(org-column ((,class (:background ,polar-night-3))))
    `(org-column-title ((,class (:inherit org-column :weight bold :underline t))))
    `(org-date ((,class (:foreground ,frost-2))))
