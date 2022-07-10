@@ -317,8 +317,8 @@ If FILTER is `nil' kill all except currently visible buffers and the
                    (or (not filter)
                        (string-match filter (string-trim name))))
           (if-let ((win (get-buffer-window buf)))
-              (delete-window win))
-          (kill-buffer buf))))))
+              (delete-window win)
+            (kill-buffer buf)))))))
 
 (defun +kill-other-buffers ()
   "Kill all other buffers except special buffers."
