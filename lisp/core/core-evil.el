@@ -67,7 +67,7 @@ already in normal mode.")
    ;; Indent newlines by default
    [remap newline] 'newline-and-indent)
   (:keymaps 'evil-motion-state-map
-   "RET" nil)
+   "RET" 'ignore)
   :commands (evil-force-normal-state)
   :functions (+run-escape-hooks-a)
   :custom
