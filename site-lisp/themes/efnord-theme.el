@@ -5,10 +5,10 @@
 ;; don't use and changed font-lock rules for syntax highlighting to be (almost)
 ;; monochromatic.
 ;;
-(deftheme alpine-night
+(deftheme efnord
   "A darker, minimalist Nord-theme variation")
 
-(defgroup alpine-night
+(defgroup efnord
   nil
   "A darker, minimalist Nord-theme variation"
   :group 'faces)
@@ -47,7 +47,7 @@
        (mode-line     black1))
 
   (custom-theme-set-faces
-   'alpine-night
+   'efnord
    `(bold ((,class (:weight bold))))
    `(bold-italic ((,class (:weight bold :slant italic))))
    `(border ((,class (:foreground ,snow-storm-1))))
@@ -79,19 +79,37 @@
    `(secondary-selection ((,class (:background ,polar-night-3))))
    `(tool-bar ((,class (:foreground ,snow-storm-1 :background ,polar-night-4))))
 
-   ;; Syntax
-   `(font-lock-builtin-face ((,class (:foreground ,default :background nil))))
-   `(font-lock-comment-face ((,class (:foreground ,comment :background nil))))
-   `(font-lock-constant-face ((,class (:foreground ,default :background nil))))
-   `(font-lock-function-name-face ((,class (:foreground ,default :background nil))))
-   `(font-lock-keyword-face ((,class (:foreground ,snow-storm-2 :background nil))))
-   `(font-lock-string-face ((,class (:foreground ,frost-3 :background nil))))
-   `(font-lock-doc-face ((,class (:inherit font-lock-comment-face :background nil))))
-   `(font-lock-type-face ((,class (:foreground ,default :background nil))))
-   `(font-lock-variable-name-face ((,class (:foreground ,default :background nil))))
-   `(font-lock-warning-face ((,class (:foreground ,default :background nil))))
-   `(font-lock-preprocessor-face ((,class (:foreground ,default :background nil :slant italic))))
-   `(c-annotation-face ((,class (:foreground ,default))))
+   ;; Syntax (Monochrome)
+   ;; `(font-lock-builtin-face ((,class (:foreground ,snow-storm-1 :background nil))))
+   ;; `(font-lock-comment-face ((,class (:foreground ,comment :background nil))))
+   ;; `(font-lock-constant-face ((,class (:foreground ,default :background nil))))
+   ;; `(font-lock-function-name-face ((,class (:foreground ,default :background nil))))
+   ;; `(font-lock-keyword-face ((,class (:foreground ,snow-storm-2 :background nil))))
+   ;; `(font-lock-string-face ((,class (:foreground ,frost-3 :background nil))))
+   ;; `(font-lock-doc-face ((,class (:inherit font-lock-comment-face :background nil))))
+   ;; `(font-lock-type-face ((,class (:foreground ,default :background nil))))
+   ;; `(font-lock-variable-name-face ((,class (:foreground ,default :background nil))))
+   ;; `(font-lock-warning-face ((,class (:foreground ,default :background nil))))
+   ;; `(font-lock-preprocessor-face ((,class (:foreground ,default :background nil :slant italic))))
+
+   ;; Syntax (Nord)
+   `(font-lock-builtin-face ((,class (:foreground ,frost-3))))
+   `(font-lock-comment-face ((,class (:foreground ,comment))))
+   `(font-lock-comment-delimiter-face ((,class (:foreground ,comment))))
+   `(font-lock-constant-face ((,class (:foreground ,frost-3))))
+   `(font-lock-doc-face ((,class (:foreground ,comment))))
+   `(font-lock-function-name-face ((,class (:foreground ,frost-2))))
+   `(font-lock-keyword-face ((,class (:foreground ,frost-3))))
+   `(font-lock-negation-char-face ((,class (:foreground ,frost-3))))
+   `(font-lock-preprocessor-face ((,class (:foreground ,frost-4 :weight bold))))
+   `(font-lock-reference-face ((,class (:foreground ,frost-3))))
+   `(font-lock-regexp-grouping-backslash ((,class (:foreground ,aurora-yellow))))
+   `(font-lock-regexp-grouping-construct ((,class (:foreground ,aurora-yellow))))
+   `(font-lock-string-face ((,class (:foreground ,aurora-green))))
+   `(font-lock-type-face ((,class (:foreground ,frost-1))))
+   `(font-lock-variable-name-face ((,class (:foreground ,snow-storm-1))))
+   `(font-lock-warning-face ((,class (:foreground ,default))))
+   `(rust-string-interpolation-face ((,class (:inherit font-lock-string-face))))
 
    ;; which-key
    `(which-key-face ((,class (:foreground ,default))))
@@ -302,6 +320,9 @@
    `(avy-lead-face-1 ((,class (:background ,polar-night-4 :foreground ,snow-storm-2))))
    `(avy-lead-face-2 ((,class (:background ,aurora-purple :foreground ,snow-storm-2))))
 
+   ;; hl-todo
+   `(hl-todo ((,class (:foreground ,aurora-red))))
+
    ;; diff-hl
    `(diff-hl-change ((,class (:background ,aurora-yellow))))
    `(diff-hl-insert ((,class (:background ,aurora-green))))
@@ -438,4 +459,4 @@
   (add-to-list 'custom-theme-load-path
                (file-name-as-directory (file-name-directory load-file-name))))
 
-(provide-theme 'alpine-night)
+(provide-theme 'efnord)

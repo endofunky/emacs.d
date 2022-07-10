@@ -2,7 +2,7 @@
 (require 'core-lib)
 (require 'core-popup)
 
-(use-package alpine-night-theme
+(use-package efnord-theme
   :load-path "site-lisp/themes/"
   :when (or (display-graphic-p)
             (= (tty-display-color-cells) 16777216))
@@ -13,7 +13,7 @@
   (add-to-list 'custom-theme-load-path
                (expand-file-name "themes" user-emacs-directory))
   :config
-  (load-theme 'alpine-night t))
+  (load-theme 'efnord t))
 
 (+add-hook prog-mode-hook :fn +add-watchwords-h
   "Highlight FIXME, TODO, and NOCOMMIT in code"
