@@ -1,3 +1,10 @@
+;; A modified version of the Nord color theme for emacs:
+;;   https://github.com/arcticicestudio/nord-emacs
+;;
+;; Changes include darker background colors all around, removed some modes I
+;; don't use and changed font-lock rules for syntax highlighting to be (almost)
+;; monochromatic.
+;;
 (deftheme alpine-night
   "A darker, minimalist Nord-theme variation")
 
