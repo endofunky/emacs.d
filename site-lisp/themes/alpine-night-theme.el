@@ -35,7 +35,7 @@
       (aurora-purple "#B48EAD")
 
       (background    "#1F2229")
-      (comment       "#576279")
+      (comment       "#687080")
       (hl-line       "#2E3440")
       (mode-line     "#16171C"))
 
