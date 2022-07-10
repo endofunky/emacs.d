@@ -2,7 +2,6 @@
 (require 'core-eglot)
 (require 'core-popup)
 (require 'core-project)
-(require 'core-tree-sitter)
 
 (use-package cc-mode
   :defer t
@@ -19,8 +18,6 @@
   (c-electric-pound-behavior '(alignleft))
   :config
   (declare-function +project-root "core-project")
-
-  (+enable-tree-sitter c-mode c++-mode)
 
   (define-key c-mode-map (kbd "C-M-l") nil)
   (define-key c-mode-map (kbd "C-M-h") nil)

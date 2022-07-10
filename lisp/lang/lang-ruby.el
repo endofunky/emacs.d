@@ -3,7 +3,6 @@
 (require 'core-eglot)
 (require 'core-project)
 (require 'core-popup)
-(require 'core-tree-sitter)
 
 (use-package ruby-mode
   :mode (("Appraisals\\'" . ruby-mode)
@@ -39,7 +38,6 @@
    "cd" '(ruby-disasm :wk "Disassemble"))
   :config
   (+enable-lsp ruby-mode)
-  (+enable-tree-sitter ruby-mode)
 
   ;; Suppress warnings
   (setenv "RUBYOPT" "-W0")

@@ -1,5 +1,5 @@
 ;;; lang-shell.el --- Shell script configuration -*- lexical-binding: t; -*-
-(require 'core-tree-sitter)
+(require 'use-package)
 
 (use-package sh-script
   :defer t
@@ -18,8 +18,7 @@
   (sh-basic-offset 2)
   (sh-indent-for-case-label 0)
   (sh-indent-for-case-alt '+)
-  :config
-  (+enable-tree-sitter sh-mode))
+  :config)
 
 (use-package flymake-shellcheck
   :defer t

@@ -1,7 +1,6 @@
 ;;; lang-haskell.el --- Haskell configuration -*- lexical-binding: t; -*-
 (require 'core-lib)
 (require 'core-evil)
-(require 'core-tree-sitter)
 
 (use-package haskell-mode
   :mode ("\\.hs\\'" "\\.xmobarrc\\'" "xmobarrc\\'")
@@ -10,9 +9,7 @@
   :general
   (:prefix ef-local-leader :states 'normal :keymaps 'haskell-mode-map
    "c"  '(nil :wk "Compile")
-   "cc" '(haskell-compile :wk "Compile"))
-  :config
-  (+enable-tree-sitter haskell-mode))
+   "cc" '(haskell-compile :wk "Compile")))
 
 (use-package haskell
   :straight nil

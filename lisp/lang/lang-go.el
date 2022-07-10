@@ -1,14 +1,12 @@
 ;;; lang-go.el --- Go configuration -*- lexical-binding: t; -*-
 (require 'core-eglot)
 (require 'core-popup)
-(require 'core-tree-sitter)
 
 (use-package go-mode
   :mode (("\\.go\\'" . go-mode))
   :functions (gofmt-before-save)
   :config
   (+enable-lsp go-mode)
-  (+enable-tree-sitter go-mode)
 
   (declare-function +lsp-organize-imports "core-eglot")
 

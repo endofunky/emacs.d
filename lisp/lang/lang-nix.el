@@ -1,6 +1,5 @@
 ;;; lang-nix.el --- Nix configuration -*- lexical-binding: t; -*-
 (require 'core-evil)
-(require 'core-tree-sitter)
 
 (use-package nix-mode
   :mode ("\\.nix\\'" "\\.nix.in\\'")
@@ -14,7 +13,6 @@
    "r"  '(nil :wk "REPL")
    "rr" '(nix-repl :wk "Open"))
   :config
-  (+enable-tree-sitter nix-mode)
   (poe-popup "*Nix-REPL*"))
 
 (use-package nix-drv-mode

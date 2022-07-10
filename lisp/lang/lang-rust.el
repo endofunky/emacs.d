@@ -1,7 +1,6 @@
 ;;; lang-rust.el --- Rust configuration -*- lexical-binding: t; -*-
 (require 'core-eglot)
 (require 'core-popup)
-(require 'core-tree-sitter)
 
 (use-package rustic
   :custom
@@ -36,7 +35,6 @@
    "tp" '(rustic-cargo-current-test :wk "At point"))
   :config
   (+enable-lsp rustic-mode)
-  (+enable-tree-sitter rustic-mode)
 
   (poe-popup "^\\*rust" :ephemeral t :regexp t)
   (poe-popup "^\\*cargo" :ephemeral t :regexp t)

@@ -2,7 +2,6 @@
 (require 'core-evil)
 (require 'core-eglot)
 (require 'core-popup)
-(require 'core-tree-sitter)
 
 (use-package python
   :mode (("\\.py\\'" . python-mode)
@@ -30,7 +29,6 @@
   :config
   (poe-popup "*ipython*")
 
-  (+enable-lsp python-mode)
-  (+enable-tree-sitter python-mode))
+  (+enable-lsp python-mode))
 
 (provide 'lang-python)
