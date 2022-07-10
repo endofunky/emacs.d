@@ -84,7 +84,7 @@
    `(font-lock-comment-face ((,class (:foreground ,comment :background nil))))
    `(font-lock-constant-face ((,class (:foreground ,default :background nil))))
    `(font-lock-function-name-face ((,class (:foreground ,default :background nil))))
-   `(font-lock-keyword-face ((,class (:foreground ,snow-storm-1 :background nil))))
+   `(font-lock-keyword-face ((,class (:foreground ,snow-storm-2 :background nil))))
    `(font-lock-string-face ((,class (:foreground ,frost-3 :background nil))))
    `(font-lock-doc-face ((,class (:inherit font-lock-comment-face :background nil))))
    `(font-lock-type-face ((,class (:foreground ,default :background nil))))
