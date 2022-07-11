@@ -110,7 +110,7 @@
    `(font-lock-type-face ((,class (:foreground ,frost-1))))
    `(font-lock-variable-name-face ((,class (:foreground ,snow-storm-1))))
    `(font-lock-warning-face ((,class (:foreground ,default))))
-   `(rust-string-interpolation-face ((,class (:inherit font-lock-string-face))))
+   `(rust-string-interpolation-face ((,class (:inherit font-lock-string-face :slant normal))))
 
    ;; which-key
    `(which-key-face ((,class (:foreground ,default))))
