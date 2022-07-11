@@ -108,6 +108,7 @@
  ("undo-tree" . "16f4121032d09ef44b3d7d02c4d02c3c2f18041f")
  ("use-package" . "0ad5d9d5d8a61517a207ab04bf69e71c081149eb")
  ("vertico" . "f222187a81d57332f9008bcbfbfefcfd2ae7e9c2")
+ ("web-mode" . "7b5459f58c381f31eed257480b000a9a46209094")
  ("with-editor" . "cfcbc2731e402b9169c0dc03e89b5b57aa988502")
  ("xref" . "cc312ec800ffe10e8a6f9682050e052a8877e3a9")
  ("xterm-color" . "1a4012854c69a5cdaeb5a73d2ad705011892fca3")
