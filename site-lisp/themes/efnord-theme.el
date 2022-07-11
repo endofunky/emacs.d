@@ -16,9 +16,9 @@
 (let* ((class '((class color) (min-colors 89)))
        (default       "#ABB2BF")
 
-       (black0        "#1A1C21")
-       (black1        "#16171C")
-       (black2        "#1F2229")
+       (black0        "#191D23")
+       (black1        "#171A20")
+       (black2        "#1E222A")
 
        (polar-night-1 "#2E3440")
        (polar-night-2 "#3B4252")
