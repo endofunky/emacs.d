@@ -208,6 +208,17 @@
   (activate-mark-hook . +evil-disable-hl-line)
   (deactivate-mark-hook . +evil-enable-hl-line)
   :config
+  ;; Fix bug with sometimes the current line not being highlighted until the
+  ;; cursor is being moved when certain windows get closed.
+  (defun +highlight-current-line (&rest args)
+    "Hook function to re-highlight the current line if
+`hl-line-mode-is-enabled'."
+    (when (and (bound-and-true-p hl-line-mode)
+               (fboundp 'hl-line-highlight))
+      (hl-line-highlight)))
+
+  (add-hook 'window-buffer-change-functions #'+highlight-current-line)
+
   ;; Disable hl-line when in visual state
   (defvar ef--hl-line-mode nil
     "Whether to re-enable hl-line if it was previously disabled while in evil
