@@ -262,18 +262,18 @@
    `(undo-tree-visualizer-register-face ((,class (:foreground ,frost-3))))
 
    ;; Whitespace
-   `(whitespace-big-indent ((,class (:foreground ,polar-night-4 :background ,black2))))
-   `(whitespace-empty ((,class (:foreground ,polar-night-4 :background ,black2))))
-   `(whitespace-hspace ((,class (:foreground ,polar-night-4 :background ,black2))))
+   `(whitespace-big-indent ((,class (:foreground ,polar-night-4 :background ,background))))
+   `(whitespace-empty ((,class (:foreground ,polar-night-4 :background ,background))))
+   `(whitespace-hspace ((,class (:foreground ,polar-night-4 :background ,background))))
    `(whitespace-indentation ((,class (:foreground ,polar-night-4 :background unspecified))))
-   `(whitespace-line ((,class (:background ,black2))))
-   `(whitespace-newline ((,class (:foreground ,polar-night-4 :background ,black2))))
-   `(whitespace-space ((,class (:foreground ,polar-night-4 :background ,black2))))
-   `(whitespace-space-after-tab ((,class (:foreground ,polar-night-4 :background ,black2))))
-   `(whitespace-space-before-tab ((,class (:foreground ,polar-night-4 :background ,black2))))
-   `(whitespace-tab ((,class (:foreground ,polar-night-4 :background ,black2))))
+   `(whitespace-line ((,class (:background ,background))))
+   `(whitespace-newline ((,class (:foreground ,polar-night-4 :background ,background))))
+   `(whitespace-space ((,class (:foreground ,polar-night-4 :background ,background))))
+   `(whitespace-space-after-tab ((,class (:foreground ,polar-night-4 :background ,background))))
+   `(whitespace-space-before-tab ((,class (:foreground ,polar-night-4 :background ,background))))
+   `(whitespace-tab ((,class (:foreground ,polar-night-4 :background ,background))))
    `(whitespace-trailing ((,class (:inherit trailing-whitespace))))
-   `(trailing-whitespace ((,class (:foreground ,polar-night-4))))
+   `(trailing-whitespace ((,class (:background ,aurora-red :foreground ,background :weight bold))))
 
    ;; VC
    `(vc-conflict-state ((,class (:foreground ,aurora-orange))))
