@@ -69,7 +69,7 @@
    `(file-name-shadow ((,class (:inherit shadow))))
    `(header-line ((,class (:inherit mode-line-inactive))))
    `(help-argument-name ((,class (:foreground ,frost-2))))
-   `(highlight ((,class (:foreground ,frost-2 :background ,polar-night-3))))
+   `(highlight ((,class (:foreground ,frost-2 :background ,polar-night-2))))
    `(hl-line ((,class (:background ,hl-line))))
    `(info-menu-star ((,class (:foreground ,frost-3))))
    `(message-separator ((,class (:inherit shadow))))
