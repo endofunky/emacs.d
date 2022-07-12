@@ -51,7 +51,7 @@
    'efnord
    `(bold ((,class (:weight bold))))
    `(bold-italic ((,class (:weight bold :slant italic))))
-   `(border ((,class (:foreground ,snow-storm-1))))
+   `(border ((,class (:foreground ,polar-night-3))))
    `(cursor ((,class (:background ,snow-storm-1))))
    `(default ((,class (:foreground ,default :background ,background))))
    `(fringe ((,class (:foreground ,snow-storm-1 :background ,background))))
