@@ -201,6 +201,7 @@
   :hook
   (prog-mode . hl-line-mode)
   (text-mode . hl-line-mode)
+  (conf-mode . hl-line-mode)
   (dired-mode . hl-line-mode)
   (tabulated-list-mode . hl-line-mode)
   (evil-visual-state-entry . +evil-disable-hl-line)
