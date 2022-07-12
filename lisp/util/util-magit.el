@@ -46,6 +46,8 @@ what looks like a JIRA ticket ID."
 
   (setenv "GIT_PAGER" ""))
 
+(use-package git-modes)
+
 (use-package magit-todos
   :after magit
   :defer t
