@@ -72,7 +72,10 @@
 
  ;; Resize windows proportionally instead of taking space from the current window
  ;; only. This also ensures windows get rebalanced when a split gets closed.
- window-combination-resize t)
+ window-combination-resize t
+
+ ;; Hide the cursor if the window loses focus
+ cursor-in-non-selected-windows nil)
 
 ;; No GNU ads in minibuffer after start-up.
 (fset #'display-startup-echo-area-message #'ignore)
