@@ -44,12 +44,12 @@
   :group 'uniline-faces)
 
 (defface uniline-buffer-name-face
-  '((t (:inherit (font-lock-type-face uniline))))
+  '((t (:inherit (uniline))))
   "Face used for the buffer name segment in the mode-line."
   :group 'uniline-faces)
 
 (defface uniline-project-face
-  '((t (:inherit (uniline))))
+  '((t (:inherit (font-lock-type-face uniline))))
   "Face used for the project segment in the mode-line."
   :group 'uniline-faces)
 
@@ -59,7 +59,7 @@
   :group 'uniline-faces)
 
 (defface uniline-position-face
-  '((t (:inherit uniline)))
+  '((t (:inherit (uniline-inactive))))
   "Face used for the position segment in the mode-line."
   :group 'uniline-faces)
 
