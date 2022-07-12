@@ -16,8 +16,8 @@
 (let* ((class '((class color) (min-colors 89)))
        (default       "#ABB2BF")
 
-       (black0        "#191D23")
-       (black1        "#171A20")
+       (black0        "#171A20")
+       (black1        "#191D23")
        (black2        "#1E222A")
 
        (polar-night-1 "#2E3440")
@@ -45,7 +45,7 @@
        (background    black2)
        (comment       polar-night-5)
        (hl-line       polar-night-1)
-       (mode-line     black1))
+       (mode-line     black0))
 
   (custom-theme-set-faces
    'efnord
@@ -233,7 +233,7 @@
    `(window-divider-last-pixel ((,class (:background ,polar-night-4))))
 
    ;; corfu
-   `(corfu-default ((,class (:foreground ,default :background ,black0))))
+   `(corfu-default ((,class (:foreground ,default :background ,black1))))
    `(corfu-current ((,class (:background ,polar-night-1))))
    `(corfu-border ((,class (:background ,comment))))
    `(corfu-annotations ((,class (:foreground ,aurora-purple))))
@@ -397,10 +397,10 @@
    `(org-agenda-dimmed-todo-face ((,class (:background ,aurora-yellow))))
    `(org-agenda-done ((,class (:foreground ,aurora-green))))
    `(org-agenda-structure ((,class (:foreground ,frost-3))))
-   `(org-block ((,class (:background ,black0 :foreground ,default :extend t))))
-   `(org-block-background ((,class (:background ,black0 :extend t))))
-   `(org-block-begin-line ((,class (:background ,black0 :foreground ,comment :height 0.8 :extend t))))
-   `(org-block-end-line ((,class (:background ,black0 :foreground ,comment :height 0.8 :extend t))))
+   `(org-block ((,class (:background ,black1 :foreground ,default :extend t))))
+   `(org-block-background ((,class (:background ,black1 :extend t))))
+   `(org-block-begin-line ((,class (:background ,black1 :foreground ,comment :height 0.8 :extend t))))
+   `(org-block-end-line ((,class (:background ,black1 :foreground ,comment :height 0.8 :extend t))))
    `(org-checkbox ((,class (:foreground ,frost-3))))
    `(org-checkbox-statistics-done ((,class (:foreground ,aurora-green))))
    `(org-checkbox-statistics-todo ((,class (:foreground ,aurora-red))))
