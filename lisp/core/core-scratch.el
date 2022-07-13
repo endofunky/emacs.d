@@ -24,7 +24,9 @@
 
 (defun +toggle-scratch--goto-prev-buffer ()
   (if (buffer-live-p +toggle-scratch--prev-buffer)
-      (switch-to-buffer +toggle-scratch--prev-buffer)
+      (progn
+        (bury-buffer)
+        (switch-to-buffer +toggle-scratch--prev-buffer))
     (message "No buffer to switch back to.")))
 
 (defun +toggle-scratch--goto-scratch ()
