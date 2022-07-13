@@ -145,7 +145,9 @@ https://emacs.stackexchange.com/questions/10230/how-to-indent-keywords-aligned"
   :hook
   (ielm-mode . elisp-def-mode)
   (emacs-lisp-mode . elisp-def-mode)
-  (lisp-interaction-mode . elisp-def-mode))
+  (lisp-interaction-mode . elisp-def-mode)
+  :config
+  (advice-add 'elisp-def :after #'+recenter-a))
 
 (use-package macrostep
   :defer t

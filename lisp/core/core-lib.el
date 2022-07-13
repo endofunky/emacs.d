@@ -78,6 +78,10 @@ registered hooks so they only fire once."
   "Call FN with it's arguments ARGS reversed."
   (apply fn (reverse args)))
 
+(defun +recenter-a (&rest _)
+  "Advice function for recentering window."
+  (recenter))
+
 (defsubst +as-list (value-or-list)
   "If VALUE-OR-LIST is already a string, return it.  Otherwise
 convert it to a list and return that."
