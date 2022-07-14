@@ -129,6 +129,8 @@ exclamation mark."
   (:states 'normal :prefix ef-leader
    "/" '(consult-ripgrep :wk "Grep (rg)")
    "i" '(consult-imenu :wk "Open imenu"))
+  (:keymap 'flymake-mode-map :states 'normal :prefix ef-leader
+   "E" '(consult-flymake :wk "Errors"))
   :functions (consult-multi-occur
               consult-completing-read-multiple)
   :config
