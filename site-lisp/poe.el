@@ -116,7 +116,7 @@ Supported rules are the same as for `poe-rules'."
   :type poe-rules-custom-type)
 
 (defcustom poe-popup-default-rule '(:align below
-                                    :size 0.2)
+                                    :size 0.25)
   "Default rules to include for popup windows.
 
 Supported rules are the same as for `poe-rules', however, the
