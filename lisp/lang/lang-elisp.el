@@ -42,8 +42,6 @@
                               lisp-interaction-mode-map
                               ielm-map)
    "K" '+elisp-describe-thing-at-point)
-  :hook
-  (emacs-lisp-mode . outline-minor-mode)
   :config
   (defun +elisp-describe-thing-at-point ()
     "Display the full documentation of the elisp thing at point.
