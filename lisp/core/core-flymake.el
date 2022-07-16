@@ -76,6 +76,19 @@ to."
           (delete-window win)
         (flymake-show-buffer-diagnostics))))
 
+  ;; When editing text in insert/replace state, clear the overlays of the
+  ;; current line while typing.
+  (defun +flymake-clear-overlay-on-change-maybe (beg end &rest args)
+    "Advice function that removes the flymake overlays between BEG
+and END while editing text."
+    (when (and (bound-and-true-p flymake-mode)
+               (buffer-modified-p)
+               (or (evil-insert-state-p)
+                   (evil-replace-state-p)))
+      (mapc #'delete-overlay (flymake--overlays :beg beg :end end))))
+
+  (add-hook 'after-change-functions #'+flymake-clear-overlay-on-change-maybe)
+
   ;; Disable flymake while in insert or replace state
   (defvar ef--flymake-delay nil
     "Temporary variable to store `flymake-no-changes-timeout' when
