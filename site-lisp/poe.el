@@ -194,6 +194,37 @@ display buffer actions."
   "Variable that can be set to inhibit `display-buffer' to select
 the poe display functions.")
 
+(defvar-local poe--popup-buffer-override nil
+  "Buffer-local variable that holds state overriding poe's matching.
+
+`poe-popup-raise' and `poe-popup-lower' may set this to override
+the matching behaviour in `poe--match' and `poe--popup-buffer-p'.")
+
+(put 'poe--popup-buffer-override 'permanent-local t)
+
+(defun poe--popup-raised-p (&optional buffer)
+  "Predicate function that indicates whether BUFFER is raised.
+
+Defaults to the current buffer"
+  (let ((buffer (or buffer
+                    (current-buffer))))
+    (buffer-local-value 'poe--popup-buffer-override buffer)))
+
+(defun poe--popup-raise (&optional buffer)
+  "Raises the given popup buffer to a regular buffer.
+
+Defaults to the current buffer."
+  (let ((buffer (or buffer
+                    (current-buffer))))
+    (unless (poe--popup-match buffer)
+      (user-error "Cannot raise a non-popup buffer"))
+    (with-current-buffer buffer
+      (when poe-dim-popups
+        (buffer-face-set 'default))
+      (poe-popup-mode -1)
+      (setq poe--popup-buffer-override 'raised))
+    (poe--popup-remove-from-list buffer)))
+
 (defun poe--match (buffer-or-name)
   "Match BUFFER-OR-NAME against any conditions defined in
 `poe-rules' and, if found, returns the rule plist."
@@ -201,20 +232,21 @@ the poe display functions.")
     (when-let* ((buffer (get-buffer buffer-or-name))
                 (buffer-major-mode (buffer-local-value 'major-mode buffer))
                 (buffer-name (buffer-name buffer)))
-      (cl-loop
-       for (condition . plist) in poe-rules
-       when (or
-             ;; Symbol, compare to major-mode
-             (and (symbolp condition)
-                  (eq condition buffer-major-mode))
-             ;; String, compare to buffer name or match against it if
-             ;; the :regexp rule is set.
-             (and (stringp condition)
-                  (or (string= condition buffer-name)
-                      (and (plist-get plist :regexp)
-                           (string-match condition
-                                         buffer-name)))))
-       return plist))))
+      (unless (poe--popup-raised-p buffer)
+        (cl-loop
+         for (condition . plist) in poe-rules
+         when (or
+               ;; Symbol, compare to major-mode
+               (and (symbolp condition)
+                    (eq condition buffer-major-mode))
+               ;; String, compare to buffer name or match against it if
+               ;; the :regexp rule is set.
+               (and (stringp condition)
+                    (or (string= condition buffer-name)
+                        (and (plist-get plist :regexp)
+                             (string-match condition
+                                           buffer-name)))))
+         return plist)))))
 
 (defun poe--popup-match (buffer-or-name)
   "Match BUFFER-OR-NAME against any conditions defined in
@@ -554,6 +586,7 @@ Defaults to the current buffer."
     (and (bufferp buffer)
          (buffer-live-p buffer)
          (buffer-local-value 'poe-popup-mode buffer)
+         (not (poe--popup-raised-p buffer))
          buffer)))
 
 (defun poe--regular-buffer-p (&optional buffer)
@@ -732,6 +765,24 @@ Will select the popup window if the popup rule specifies :select."
   (interactive)
   (or (poe-popup-close)
       (poe-popup-open)))
+
+;;;###autoload
+(defun poe-popup-raise (window &optional arg)
+  "Raise a popup to a regular window."
+  (interactive
+   (list (selected-window) current-prefix-arg))
+  (cl-check-type window window)
+  (unless (poe--popup-window-p window)
+    (user-error "Cannot raise a non-popup window"))
+  (let ((buffer (window-buffer window))
+        (poe--popup-inhibit-kill-buffer t)
+        (inhibit-quit t))
+    (poe--popup-raise buffer)
+    (delete-window window)
+    (if arg
+        (pop-to-buffer buffer)
+      (display-buffer buffer))
+    (selected-window)))
 
 ;;;###autoload
 (defun poe-popup-next ()

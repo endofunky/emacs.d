@@ -9,6 +9,7 @@
   (:keymaps 'override
    "M-l" 'poe-popup-next
    "M-h" 'poe-popup-prev
+   "M-k" 'poe-popup-raise
    "M-p" 'poe-popup-toggle
    "M-q" 'poe-popup-kill)
   :hook (after-init . poe-mode)
