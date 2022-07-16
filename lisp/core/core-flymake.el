@@ -80,12 +80,18 @@ to."
   ;; current line while typing.
   (defun +flymake-clear-overlay-on-change-maybe (beg end &rest args)
     "Advice function that removes the flymake overlays between BEG
-and END while editing text."
+and END or the current line while editing text."
     (when (and (bound-and-true-p flymake-mode)
                (buffer-modified-p)
                (or (evil-insert-state-p)
                    (evil-replace-state-p)))
-      (mapc #'delete-overlay (flymake--overlays :beg beg :end end))))
+      (mapc #'delete-overlay (flymake--overlays
+                              :beg (min beg (save-excursion
+                                              (beginning-of-line)
+                                              (point)))
+                              :end (max end (save-excursion
+                                              (end-of-line)
+                                              (point)))))))
 
   (add-hook 'after-change-functions #'+flymake-clear-overlay-on-change-maybe)
 
