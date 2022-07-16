@@ -835,9 +835,10 @@ Defaults to the currently selected window."
   (let ((buffer (window-buffer window))
         (poe--popup-inhibit-kill-buffer t)
         (inhibit-quit t))
-    (poe--popup-lower buffer)
-    (bury-buffer buffer)
+    (unless (switch-to-prev-buffer window)
+      (user-error "No regular buffer to replace lowered buffer with"))
     (poe-popup-close)
+    (poe--popup-lower buffer)
     (display-buffer buffer)
     (selected-window)))
 
