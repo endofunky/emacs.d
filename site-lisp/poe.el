@@ -116,7 +116,8 @@ Supported rules are the same as for `poe-rules'."
   :type poe-rules-custom-type)
 
 (defcustom poe-popup-default-rule '(:align below
-                                    :size 0.25)
+                                    :size 0.25
+                                    :popup t)
   "Default rules to include for popup windows.
 
 Supported rules are the same as for `poe-rules', however, the
@@ -208,7 +209,17 @@ the matching behaviour in `poe--match' and `poe--popup-buffer-p'.")
 Defaults to the current buffer"
   (let ((buffer (or buffer
                     (current-buffer))))
-    (buffer-local-value 'poe--popup-buffer-override buffer)))
+    (eq (buffer-local-value 'poe--popup-buffer-override buffer)
+        'raised)))
+
+(defun poe--popup-lowered-p (&optional buffer)
+  "Predicate function that indicates whether BUFFER is lowered.
+
+Defaults to the current buffer"
+  (let ((buffer (or buffer
+                    (current-buffer))))
+    (eq (buffer-local-value 'poe--popup-buffer-override buffer)
+        'lowered)))
 
 (defun poe--popup-raise (&optional buffer)
   "Raises the given popup buffer to a regular buffer.
@@ -222,8 +233,24 @@ Defaults to the current buffer."
       (when poe-dim-popups
         (buffer-face-set 'default))
       (poe-popup-mode -1)
-      (setq poe--popup-buffer-override 'raised))
+      (if (poe--popup-lowered-p buffer)
+          (setq poe--popup-buffer-override nil)
+        (setq poe--popup-buffer-override 'raised)))
     (poe--popup-remove-from-list buffer)))
+
+(defun poe--popup-lower (&optional buffer)
+  "Lowers the given buffer to a popup buffer.
+
+Defaults to the current buffer."
+  (let ((buffer (or buffer
+                    (current-buffer))))
+    (if (poe--popup-raised-p buffer)
+        (with-current-buffer buffer
+          (setq poe--popup-buffer-override nil)
+          (poe-popup-mode t))
+      (with-current-buffer buffer
+        (setq poe--popup-buffer-override 'lowered)
+        (poe-popup-mode t)))))
 
 (defun poe--match (buffer-or-name)
   "Match BUFFER-OR-NAME against any conditions defined in
@@ -232,7 +259,12 @@ Defaults to the current buffer."
     (when-let* ((buffer (get-buffer buffer-or-name))
                 (buffer-major-mode (buffer-local-value 'major-mode buffer))
                 (buffer-name (buffer-name buffer)))
-      (unless (poe--popup-raised-p buffer)
+      (cond
+       ((poe--popup-lowered-p buffer)
+        poe-popup-default-rule)
+       ((poe--popup-raised-p buffer)
+        nil)
+       (t
         (cl-loop
          for (condition . plist) in poe-rules
          when (or
@@ -246,7 +278,7 @@ Defaults to the current buffer."
                         (and (plist-get plist :regexp)
                              (string-match condition
                                            buffer-name)))))
-         return plist)))))
+         return plist))))))
 
 (defun poe--popup-match (buffer-or-name)
   "Match BUFFER-OR-NAME against any conditions defined in
@@ -768,7 +800,12 @@ Will select the popup window if the popup rule specifies :select."
 
 ;;;###autoload
 (defun poe-popup-raise (window &optional arg)
-  "Raise a popup to a regular window."
+  "Raise a popup to a regular window.
+
+If the popup is a previously lowered regular buffer, will re-open
+it in a regular window.
+
+Defaults to the currently selected window."
   (interactive
    (list (selected-window) current-prefix-arg))
   (cl-check-type window window)
@@ -782,6 +819,26 @@ Will select the popup window if the popup rule specifies :select."
     (if arg
         (pop-to-buffer buffer)
       (display-buffer buffer))
+    (selected-window)))
+
+(defun poe-popup-lower (window)
+  "Lowers a window to a popup window.
+
+If the window is a previously raised popup buffer, will re-open
+it in a popup window.
+
+Defaults to the currently selected window."
+  (interactive (list (selected-window)))
+  (cl-check-type window window)
+  (if (poe--popup-window-p window)
+      (user-error "Cannot lower a popup window"))
+  (let ((buffer (window-buffer window))
+        (poe--popup-inhibit-kill-buffer t)
+        (inhibit-quit t))
+    (poe--popup-lower buffer)
+    (bury-buffer buffer)
+    (poe-popup-close)
+    (display-buffer buffer)
     (selected-window)))
 
 ;;;###autoload

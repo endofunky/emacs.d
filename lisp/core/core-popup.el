@@ -10,6 +10,7 @@
    "M-l" 'poe-popup-next
    "M-h" 'poe-popup-prev
    "M-k" 'poe-popup-raise
+   "M-j" 'poe-popup-lower
    "M-p" 'poe-popup-toggle
    "M-q" 'poe-popup-kill)
   :hook (after-init . poe-mode)
