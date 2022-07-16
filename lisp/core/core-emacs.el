@@ -194,7 +194,14 @@
     (message "\"%s\" %dL, %dC written"
 	     (buffer-name)
 	     (count-lines (point-min) (point-max))
-	     (buffer-size))))
+	     (buffer-size)))
+
+  (defun +find-file-recenter-buffer-a (&rest args)
+    "Advice function called after `find-file' to recenter the
+opened buffer."
+    (recenter-top-bottom))
+
+  (advice-add 'find-file :after #'+find-file-recenter-buffer-a))
 
 (use-package hl-line
   :straight nil
