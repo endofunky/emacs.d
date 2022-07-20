@@ -334,4 +334,14 @@ If FILTER is `nil' kill all except currently visible buffers and the
   (interactive)
   (+kill-buffers-matching nil))
 
+(defun +delete-frame-or-kill-terminal (&optional arg)
+  (interactive "P")
+  (if (cdr (frame-list))
+      (progn (save-some-buffers arg)
+	     (delete-frame))
+    (call-interactively #'save-buffers-kill-terminal t (vector arg))))
+
+(with-eval-after-load 'general
+  (general-define-key "C-x C-c" #'+delete-frame-or-kill-terminal))
+
 (provide 'core-lib)
