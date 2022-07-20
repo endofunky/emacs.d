@@ -4,6 +4,33 @@
 (defconst ef-gpg (executable-find "gpg")
   "Path to \"gpg\" executable, if present.")
 
+(use-package epa
+  :defer t
+  :custom
+  ;; Display status information in echo area instead of a new window.
+  (epa-popup-info-window nil)
+  :general
+  (:states 'normal :prefix ef-leader
+   "G"   '(nil :wk "GnuPG")
+   "Gd"  '(nil :wk "Decrypt")
+   "Gdf" '(epa-decrypt-file :wk "File")
+   "Ge"  '(nil :wk "Encrypt")
+   "Gef" '(epa-encrypt-file :wk "File")
+   "Gk"  '(epa-list-keys :wk "List keys")
+   "GK"  '(epa-list-secret-keys :wk "List secret keys")
+   "Gs"  '(nil :wk "Sign")
+   "Gsf" '(epa-sign-file :wk "File")
+   "Gv"  '(nil :wk "Verify")
+   "Gvf" '(epa-verify-file :wk "File"))
+  (:states 'visual :prefix ef-leader
+   "Gdr" '(epa-decrypt-region :wk "Region")
+   "Ger" '(epa-encrypt-region :wk "Region")
+   "Gsr" '(epa-sign-region :wk "Region")
+   "Gvr" '(epa-verify-region :wk "Region"))
+  :config
+  (poe-popup 'epa-key-list-mode :select t :size .4 :shrink t :ephemeral t)
+  (poe-popup "*Error*" :size .3 :ephemeral t))
+
 (use-package epg-config
   :straight nil
   :when ef-gpg
