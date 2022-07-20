@@ -42,22 +42,19 @@
   ;; use can be selected using vertico.
   (defun +epa-completion (key)
     "Creates a completion list entry for the given epg-key KEY."
-    (let ((primary-sub-key (car (epg-key-sub-key-list key)))
-	  (primary-user-id (car (epg-key-user-id-list key))))
-      (list
-       (if primary-user-id
-           (if (stringp (epg-user-id-string primary-user-id))
-               (epg-user-id-string primary-user-id)
-             (epg-decode-dn (epg-user-id-string primary-user-id)))
-         "")
-       key)))
+    (list
+     (if-let ((primary-user-id (car (epg-key-user-id-list key))))
+         (if (stringp (epg-user-id-string primary-user-id))
+             (epg-user-id-string primary-user-id)
+           (epg-decode-dn (epg-user-id-string primary-user-id)))
+       "")
+     key))
 
   (defun +epa-annotate-key (s)
     "Annotate function for epg-key completing read."
     (let ((item (assoc s minibuffer-completion-table)))
       (when-let ((key (cadr item)))
         (let ((primary-sub-key (car (epg-key-sub-key-list key)))
-	      (primary-user-id (car (epg-key-user-id-list key)))
               (validity (epg-sub-key-validity
                          (car (epg-key-sub-key-list key)))))
           (concat
