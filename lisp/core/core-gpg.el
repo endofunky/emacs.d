@@ -6,6 +6,7 @@
 
 (use-package epa
   :defer t
+  :straight nil
   :custom
   ;; Display status information in echo area instead of a new window.
   (epa-popup-info-window nil)
@@ -16,6 +17,9 @@
    "Gdf" '(epa-decrypt-file :wk "File")
    "Ge"  '(nil :wk "Encrypt")
    "Gef" '(epa-encrypt-file :wk "File")
+   "Gi"  '(epa-insert-keys :wk "Insert keys")
+   "GI"  '(nil :wk "Import")
+   "GIf" '(epa-import-keys :wk "File")
    "Gk"  '(epa-list-keys :wk "List keys")
    "GK"  '(epa-list-secret-keys :wk "List secret keys")
    "Gs"  '(nil :wk "Sign")
@@ -25,6 +29,7 @@
   (:states 'visual :prefix ef-leader
    "Gdr" '(epa-decrypt-region :wk "Region")
    "Ger" '(epa-encrypt-region :wk "Region")
+   "GIr" '(epa-import-keys-region :wk "Region")
    "Gsr" '(epa-sign-region :wk "Region")
    "Gvr" '(epa-verify-region :wk "Region"))
   :config
