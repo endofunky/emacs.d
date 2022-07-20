@@ -35,7 +35,46 @@
    "Gvr" '(epa-verify-region :wk "Region"))
   :config
   (poe-popup 'epa-key-list-mode :select t :size .4 :shrink t :ephemeral t)
-  (poe-popup "*Error*" :size .3 :ephemeral t))
+  (poe-popup "*Error*" :size .3 :ephemeral t)
+
+  ;; epa's default key selection window is a bit cumbersome. I rarely select
+  ;; more than one key, so override this with a completing read so the key to
+  ;; use can be selected using vertico.
+  (defun +epa-completion (key)
+    "Creates a completion list entry for the given epg-key KEY."
+    (let ((primary-sub-key (car (epg-key-sub-key-list key)))
+	  (primary-user-id (car (epg-key-user-id-list key))))
+      (list
+       (if primary-user-id
+           (if (stringp (epg-user-id-string primary-user-id))
+               (epg-user-id-string primary-user-id)
+             (epg-decode-dn (epg-user-id-string primary-user-id)))
+         "")
+       key)))
+
+  (defun +epa-annotate-key (s)
+    "Annotate function for epg-key completing read."
+    (let ((item (assoc s minibuffer-completion-table)))
+      (when-let ((key (cadr item)))
+        (let ((primary-sub-key (car (epg-key-sub-key-list key)))
+	      (primary-user-id (car (epg-key-user-id-list key)))
+              (validity (epg-sub-key-validity
+                         (car (epg-key-sub-key-list key)))))
+          (concat
+           (propertize " " 'display '(space :align-to 80))
+           (epg-sub-key-id primary-sub-key)
+           (format " [%s]" (epg-sub-key-validity primary-sub-key)))))))
+
+  (defun +epa-completing-read-key-a (context _prompt &optional names secret)
+    "Select GnuPG keys using `completing-read'."
+    (when-let ((keys (epg-list-keys context names secret)))
+      (let ((completions (mapcar #'+epa-completion keys))
+            (completion-extra-properties '(:annotation-function
+                                           +epa-annotate-key)))
+        (list (cadr (assoc (completing-read "GnuPG key: " completions)
+                           completions))))))
+
+  (advice-add 'epa-select-keys :override #'+epa-completing-read-key-a))
 
 (use-package epg-config
   :straight nil
