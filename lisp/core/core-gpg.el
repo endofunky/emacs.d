@@ -7,6 +7,7 @@
 (use-package epa
   :defer t
   :straight nil
+  :when ef-gpg
   :custom
   ;; Display status information in echo area instead of a new window.
   (epa-popup-info-window nil)
