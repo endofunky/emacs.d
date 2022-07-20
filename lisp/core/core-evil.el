@@ -63,6 +63,9 @@ already in normal mode.")
    "W0"       '(text-scale-adjust :wk "Reset text scale")
    "Wd"       '(delete-window :wk "Delete window")
    "WD"       '(delete-other-windows-internal :wk "Delete other window"))
+  ;; Add a vim-ish keybind for C-u
+  (:states '(normal visual) :prefix ef-leader
+   "U"   '(universal-argument :wk "Universal arg"))
   ;; Let emacs look up RET key behaviour in appropriate keymaps.
   (:states 'insert
    ;; Indent newlines by default
