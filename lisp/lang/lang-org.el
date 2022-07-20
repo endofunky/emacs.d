@@ -93,7 +93,7 @@ subsequent `file-exists-p' fails."
 	       org-babel-temporary-stable-directory)
       (apply orig-fun args)))
 
-  (advice-add #'org-babel-remove-temporary-stable-directory
+  (advice-add 'org-babel-remove-temporary-stable-directory
               :around #'+org-babel-remove-temporary-stable-directory-a)
 
   (defun +org-archive-done-tasks ()
