@@ -41,7 +41,6 @@
   :custom
   (blink-cursor-blinks 0)
   (frame-resize-pixelwise t)
-  (frame-title-format '(multiple-frames "%b" "%b"))
   :general
   ("M-<return>" 'toggle-frame-fullscreen)
   :config
