@@ -178,6 +178,9 @@
    `(message-header-xheader ((,class (:foreground ,aurora-yellow))))
    `(message-mml ((,class (:foreground ,frost-4))))
 
+   ;; macrostep
+   `(macrostep-expansion-highlight-face ((,class (:background ,black1 :extend t))))
+
    ;; Modeline
    `(mode-line ((,class (:foreground ,snow-storm-1 :background ,mode-line))))
    `(mode-line-buffer-id ((,class (:weight bold))))
