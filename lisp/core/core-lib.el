@@ -15,10 +15,8 @@
   :group 'ef
   :type 'string)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
+
 ;;; Core ext
-;;
 
 (use-package general
   :config
@@ -49,10 +47,8 @@
   :config
   (global-page-break-lines-mode))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
+
 ;;; Hooks
-;;
 
 (defvar ef-first-command-hook nil
   "Transient hooks run before the first user input.")
@@ -65,10 +61,8 @@ registered hooks so they only fire once."
 
 (add-hook 'pre-command-hook #'+run-first-command-hook-h)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
+
 ;;; Utilities
-;;
 
 (defsubst +nsp ()
   "Return t if running on macOS or NeXTSTEP."
@@ -146,10 +140,8 @@ symbol.  Otherwise, return it as a symbol with `-mode-hook'
 appended."
   (intern (+mode-hook-name name)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
+
 ;;; Property lists
-;;
 
 (defun +plist-merge (&rest plists)
   "Create a single property list from all plists in PLISTS.
@@ -179,19 +171,15 @@ the first list are the most significant ones and overrule
 settings in the other lists."
   (apply #'+plist-merge (reverse plists)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
+
 ;;; Lists
-;;
 
 (defun +move-to-front (elt list)
   "Add/mode ELT to the front of LIST."
   (cons elt (remove elt list)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
+
 ;;; Configuration macros
-;;
 
 (cl-defmacro +add-hook(hooks &rest body
                              &key fn append local interactive
@@ -243,10 +231,8 @@ HOOKS is `some-hook'. Usage:
               forms)))
     `(progn ,@(nreverse forms))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
+
 ;;; Commands
-;;
 
 (defun +read-file (filename)
   "Return the contents of FILENAME."
