@@ -1,4 +1,5 @@
 ;;; core-lib.el --- Core functions & packages -*- lexical-binding: t; -*-
+(require 'straight)
 (require 'use-package)
 
 (defgroup ef nil
@@ -233,6 +234,13 @@ HOOKS is `some-hook'. Usage:
 
 
 ;;; Commands
+
+(defun +update-packages ()
+  "Update all packages and freeze versions."
+  (interactive)
+  (call-interactively #'straight-pull-all)
+  (call-interactively #'straight-freeze-versions)
+  (call-interactively #'straight-check-all))
 
 (defun +read-file (filename)
   "Return the contents of FILENAME."
