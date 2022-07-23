@@ -56,7 +56,6 @@ exclamation mark."
 
 (use-package fussy
   :after vertico
-  :ensure t
   :straight (fussy :type git
                    :host github
                    :repo "jojojames/fussy")
