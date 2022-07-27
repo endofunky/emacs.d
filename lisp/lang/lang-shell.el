@@ -21,7 +21,10 @@
   (sh-indent-after-continuation 'always)
   :general
   (:keymaps 'sh-mode-map :states 'normal
-   "K" 'woman))
+   "K" 'woman)
+  :config
+  (+add-hook sh-mode-hook
+    (setq-local mode-name "sh")))
 
 (use-package flymake-shellcheck
   :defer t
