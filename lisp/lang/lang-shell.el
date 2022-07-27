@@ -15,7 +15,7 @@
          ("\\.?xprofile\\'" . sh-mode)
          ("\\.?xsession\\'" . sh-mode))
   :custom
-  (sh-basic-offset 2)
+  (sh-basic-offset 8)
   (sh-indent-for-case-label 0)
   (sh-indent-for-case-alt '+)
   :config)
