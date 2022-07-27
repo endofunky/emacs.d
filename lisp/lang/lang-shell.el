@@ -18,7 +18,9 @@
   (sh-basic-offset 8)
   (sh-indent-for-case-label 0)
   (sh-indent-for-case-alt '+)
-  :config)
+  :general
+  (:keymaps 'sh-mode-map :states 'normal
+   "K" 'woman))
 
 (use-package flymake-shellcheck
   :defer t
