@@ -31,6 +31,7 @@
   (poe-popup 'calendar-mode :ephemeral t)
   (poe-popup 'comint-mode)
   (poe-popup 'compilation-mode)
+  (poe-popup 'Man-mode :size 0.5 :shrink t :ephemeral t)
 
   (poe-rule "*info*" :same t)
 
