@@ -29,6 +29,7 @@
 (use-package flymake-shellcheck
   :defer t
   :after sh-script
+  :if (executable-find "shellcheck")
   :commands flymake-shellcheck-load
   :hook
   (sh-mode . flymake-shellcheck-load))
