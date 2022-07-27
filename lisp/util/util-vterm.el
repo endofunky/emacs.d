@@ -86,12 +86,11 @@
             (set-process-sentinel vterm--process #'+vterm-sentinel-keep-buffer)
           (set-process-sentinel vterm--process #'+vterm-sentinel)))))
 
-  ;; EGA color palette with slightly brightened dark blue to improve
-  ;; visibility on dark backgrounds.
+  ;; EGA color palette
   (set-face-attribute 'vterm-color-black nil
                       :foreground "#000000" :background "#555555")
   (set-face-attribute 'vterm-color-blue nil
-                      :foreground "#0a0aff" :background "#5555ff")
+                      :foreground "#0000aa" :background "#5555ff")
   (set-face-attribute 'vterm-color-green nil
                       :foreground "#00aa00" :background "#55ff55")
   (set-face-attribute 'vterm-color-cyan nil
