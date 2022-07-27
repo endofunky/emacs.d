@@ -18,6 +18,7 @@
   (sh-basic-offset 8)
   (sh-indent-for-case-label 0)
   (sh-indent-for-case-alt '+)
+  (sh-indent-after-continuation 'always)
   :general
   (:keymaps 'sh-mode-map :states 'normal
    "K" 'woman))
