@@ -27,7 +27,7 @@
   (poe-popup "*Pp Eval Output*")
   (poe-popup "*Warnings*" :ephemeral t)
   (poe-popup "*compilation*")
-  (poe-popup "\\`\\*WoMan.*?\\*\\'" :regexp t :ephemeral t)
+  (poe-popup "\\`\\*WoMan.*?\\*\\'" :regexp t :size 0.5 :shrink t :ephemeral t)
   (poe-popup 'calendar-mode :ephemeral t)
   (poe-popup 'comint-mode)
   (poe-popup 'compilation-mode)
