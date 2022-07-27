@@ -31,4 +31,42 @@
   :after nix-mode
   :commands nix-update-fetch)
 
+(use-package nixos-options
+  :general
+  (:keymaps 'nix-mode-map :states 'normal
+   "K" '+nix/lookup-option)
+  :functions (nixos-options-doc-buffer
+              nixos-options-get-documentation-for-option
+              +nix--options-action)
+  :defines (nixos-options)
+  :config
+  (defun +nix--options-action (candidate)
+    (switch-to-buffer-other-window
+     (nixos-options-doc-buffer
+      (nixos-options-get-documentation-for-option candidate))))
+
+  (defun +nix/lookup-option (&optional initial-input)
+    "Look up documentation on a nix option."
+    (interactive
+     (list
+      ;; REVIEW Must be a better way to do this
+      (when (looking-at-p "[a-zA-Z0-9-_\\.]")
+        (buffer-substring-no-properties
+         (save-excursion
+           (skip-chars-backward "^ ")
+           (point))
+         (save-excursion
+           (skip-chars-forward "^ ")
+           (point))))))
+    (+nix--options-action (cdr
+                           (assoc
+                            (completing-read "NixOs options: "
+                                             nixos-options
+                                             nil
+                                             t
+                                             initial-input) nixos-options)))
+    ;; Tell lookup module to let us handle things from here
+    'deferred))
+
+
 (provide 'lang-nix)
