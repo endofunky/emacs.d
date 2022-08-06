@@ -28,6 +28,12 @@
   (general-auto-unbind-keys)
   (general-override-mode t))
 
+(use-package minibuffer-header
+  :straight (:type git
+             :host github
+             :repo "rougier/minibuffer-header")
+  :hook (ef-first-command . minibuffer-header-mode))
+
 (use-package which-key
   :custom
   (which-key-idle-delay 0.5)

@@ -112,6 +112,9 @@
    `(font-lock-warning-face ((,class (:foreground ,default))))
    `(rust-string-interpolation-face ((,class (:inherit font-lock-string-face :slant normal))))
 
+   ;; minibuffer-header-line
+   `(minibuffer-header-face ((,class (:inherit mode-line))))
+
    ;; which-key
    `(which-key-face ((,class (:foreground ,default))))
    `(which-key-command-description-face ((,class (:foreground ,snow-storm-1))))
