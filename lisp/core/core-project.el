@@ -19,7 +19,8 @@
    "pk" '(project-kill-buffers :wk "Kill project buffers")
    "pp" '(+project-switch-project :wk "Switch project")
    "pr" '(+project-remember :wk "Remember project")
-   "ps" '(project-switch-to-buffer :wk "Switch to project buffer"))
+   "ps" '(project-switch-to-buffer :wk "Switch to project buffer")
+   "pt" '(+project-open-todo :wk "Open TODO"))
   :config
   (defun +project-shell ()
     "Open VTerm Shell in Project Root"
@@ -49,6 +50,18 @@
     "Return the current project root or nil if not in a project."
     (when-let ((project (project-current nil)))
       (project-root project)))
+
+  (defun +project-open-todo ()
+    "Open a project-local TODO file.
+
+If a TODO file exists in the project root, open that. If not,open a TODO.org
+file."
+    (interactive)
+    (when-let* ((project (+project-root))
+                (todo (expand-file-name "TODO" project)))
+      (if (file-exists-p todo)
+          (find-file todo)
+        (find-file (expand-file-name "TODO.org" project)))))
 
   (defun +project-find-file ()
     "If in a project call `project-find-file', otherwise call `find-file'."
