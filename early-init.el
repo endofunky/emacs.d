@@ -7,34 +7,19 @@
 (defconst ef-initial-load-prefer-newer load-prefer-newer
   "Initial value of `load-prefer-newer' at start-up time.")
 
-(defconst ef-initial-file-name-handler-alist file-name-handler-alist
-  "Initial value of `file-name-handler-alist' at start-up time.")
-
-(defun +reset-load-prefer-newer-h ()
-  "Resets `load-prefer-newer' to it's initial value."
+(defun +reset-startup-values-h ()
+  "Resets early-init.el performance overrides to their initial values."
   (setq-default load-prefer-newer ef-initial-load-prefer-newer))
 
-(defun +reset-file-name-handler-alist-h ()
-  "Resets `file-name-handler-alist' to it's initial value."
-  (setq file-name-handler-alist
-        ;; Merge instead of overwrite because there may have bene changes to
-        ;; `file-name-handler-alist' since startup we want to preserve.
-        (delete-dups (append file-name-handler-alist
-                             ef-initial-file-name-handler-alist))))
+(unless (or (daemonp) noninteractive)
+  (unless init-file-debug
+    ;; Don't do mtime checks on `load' during init. We reset this later since
+    ;; this may lead to unexpected surprises when doing devlopment work on elisp
+    ;; files.
+    (setq load-prefer-newer nil)
 
-(unless (or (daemonp) noninteractive init-file-debug)
-  ;; Don't do mtime checks on `load' during init. We reset this later since
-  ;; this may lead to unexpected surprises when doing devlopment work on elisp
-  ;; files.
-  (setq load-prefer-newer nil)
-
-  ;; Avoid going through `file-name-handler-alist' every time we `require' or
-  ;; `load' during start-up.
-  (setq-default file-name-handler-alist nil)
-
-  ;; Install hook to reset these again.
-  (add-hook 'emacs-startup-hook #'+reset-file-name-handler-alist-h 101)
-  (add-hook 'after-init-hook #'+reset-load-prefer-newer-h)
+    ;; Install hook to reset these again.
+    (add-hook 'after-init-hook #'+reset-startup-values-h))
 
   ;; Disable GUI elements as early possible to avoid flickering during startup.
   ;;
