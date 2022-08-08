@@ -7,13 +7,9 @@
 (defconst ef-initial-load-prefer-newer load-prefer-newer
   "Initial value of `load-prefer-newer' at start-up time.")
 
-(defconst ef-initial-file-name-handler-alist file-name-handler-alist
-  "Initial value of `file-name-handler-alist' at start-up time.")
-
 (defun +reset-startup-values-h ()
   "Resets early-init.el performance overrides to their initial values."
-  (setq-default file-name-handler-alist ef-initial-file-name-handler-alist
-                load-prefer-newer ef-initial-load-prefer-newer))
+  (setq-default load-prefer-newer ef-initial-load-prefer-newer))
 
 (unless (or (daemonp) noninteractive)
   (unless init-file-debug
@@ -21,10 +17,6 @@
     ;; this may lead to unexpected surprises when doing devlopment work on elisp
     ;; files.
     (setq load-prefer-newer nil)
-
-    ;; Avoid going through `file-name-handler-alist' every time we `require' or
-    ;; `load' during start-up.
-    (setq-default file-name-handler-alist nil)
 
     ;; Install hook to reset these again.
     (add-hook 'after-init-hook #'+reset-startup-values-h))
