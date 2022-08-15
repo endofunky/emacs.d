@@ -158,9 +158,6 @@
 (declare-function evil-visual-state-p "ext:evil-states")
 (declare-function evil-replace-state-p "ext:evil-states")
 
-(declare-function flyspell-overlay-p "ext:flyspell")
-(declare-function flyspell-get-word "ext:flyspell")
-
 (declare-function magit-get-push-branch "ext:magit-git")
 (declare-function magit-get-current-branch "ext:magit-git")
 (declare-function magit-git-string "ext:magit-git")
@@ -648,54 +645,6 @@ mouse-1: Start server"))
 (add-hook 'eglot-managed-mode-hook #'uniline-override-eglot-modeline)
 (add-hook 'uniline-mode-hook #'uniline-override-eglot-modeline)
 
-(defun uniline--has-flyspell-overlay-p (ovs)
-  (let ((r nil))
-    (while (and (not r) (consp ovs))
-      (if (flyspell-overlay-p (car ovs))
-          (setq r t)
-        (setq ovs (cdr ovs))))
-    r))
-
-(defun uniline--collect-flyspell-candidates ()
-  (save-excursion
-    (save-restriction
-      (narrow-to-region (window-start) (window-end (selected-window) t))
-      (let ((pos (point-min))
-            (pos-max (point-max))
-            (pos-list nil)
-            (word t))
-        (goto-char pos)
-        (while (and word (< pos pos-max))
-          (setq word (flyspell-get-word t))
-          (when word
-            (setq pos (nth 1 word))
-            (let* ((ovs (overlays-at pos))
-                   (r (uniline--has-flyspell-overlay-p ovs)))
-              (when r
-                (push pos pos-list)))
-            (setq pos (1+ (nth 2 word)))
-            (goto-char pos)))
-        (nreverse pos-list)))))
-
-(defun uniline-flyspell (&rest _)
-  (when (and (boundp 'flyspell-mode)
-             flyspell-mode
-             (or (eq major-mode 'markdown-mode)
-                 (eq major-mode 'gfm-mode)
-                 (eq major-mode 'org-mode)
-                 (eq major-mode 'text-mode)))
-    (let ((count (length (uniline--collect-flyspell-candidates))))
-      (when (> count 0)
-        (propertize (if (> count 1)
-                        (format "%d Misspells " count)
-                      "1 Misspell ")
-                    'help-echo "Flyspell: mouse-1: Correct next word"
-                    'local-map (let ((map (make-sparse-keymap)))
-                                 (define-key map [mode-line mouse-1]
-                                   'flyspell-correct-next)
-                                 map)
-                    'face 'uniline-error-face)))))
-
 (defvar-local uniline--flymake nil)
 
 (defun uniline-flymake (&rest _)
@@ -904,8 +853,7 @@ mouse-2: Show help for minor mode"
                    uniline-position
                    uniline-misc)
                  ;; RHS
-                 '(uniline-flyspell
-                   uniline-flymake
+                 '(uniline-flymake
                    uniline-vcs-text
                    uniline-git-bisect
                    uniline-git-unpulled-text
