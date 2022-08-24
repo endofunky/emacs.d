@@ -33,6 +33,7 @@
   (org-src-fontify-natively t)
   (org-src-preserve-indentation t)
   (org-src-tab-acts-natively t)
+  (org-todo-keywords '((sequence "TODO" "PROG" "|" "DONE")))
   :commands (org-capture org-switchb)
   :hook
   (org-mode . flyspell-mode)
