@@ -13,6 +13,7 @@
   (python-shell-interpreter "ipython")
   (python-shell-buffer-name "ipython")
   (python-shell-interpreter-args "--simple-prompt -i")
+  (python-indent-guess-indent-offset-verbose nil)
   :general
   (:prefix ef-local-leader :states 'normal :keymaps 'python-mode-map
    "e"  '(nil :wk "Eval")
