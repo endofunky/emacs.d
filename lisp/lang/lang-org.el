@@ -11,6 +11,11 @@
   :group 'ef-org
   :type 'directory)
 
+(defcustom ef-org-notes-file (expand-file-name "notes.org" ef-org-directory)
+  "Path to `org-mode' notes file."
+  :group 'ef-org
+  :type 'file)
+
 (use-package org
   :defer t
   :mode (("\\.\\(org\\|org_archive\\)$" . org-mode))
@@ -43,6 +48,7 @@
   (:states 'normal :prefix ef-local-leader
    "o" '(nil :wk "Org")
    "oc" '(org-capture :wk "Capture")
+   "on" '(+org-toggle-notes-file :wk "Toggle notes")
    "or" '(org-roam-node-find :wk "Roam")
    "os" '(org-switchb :wk "Switch buffer"))
   (:states 'normal :keymaps 'org-mode-map
@@ -105,6 +111,15 @@ subsequent `file-exists-p' fails."
        (org-archive-subtree)
        (setq org-map-continue-from (outline-previous-heading)))
      "/DONE" 'tree))
+
+  (defun +org-toggle-notes-file ()
+    "Toggle notes file `ef-org-notes-file'."
+    (interactive)
+    (if (string= (buffer-file-name) ef-org-notes-file)
+        (if (buffer-modified-p)
+            (bury-buffer)
+          (kill-buffer))
+      (find-file ef-org-notes-file)))
 
   (defun org-switch-to-buffer-other-window (&rest args)
     (apply 'switch-to-buffer-other-window args))
