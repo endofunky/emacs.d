@@ -39,6 +39,9 @@
   (org-src-preserve-indentation t)
   (org-src-tab-acts-natively t)
   (org-todo-keywords '((sequence "TODO" "PROG" "|" "DONE")))
+  (org-todo-keyword-faces '(("TODO" . error)
+                            ("PROG" . warning)
+                            ("DONE" . success)))
   :commands (org-capture org-switchb)
   :hook
   (org-mode . flyspell-mode)
