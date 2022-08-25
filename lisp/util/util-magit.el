@@ -19,6 +19,7 @@
   (:prefix ef-leader :states 'normal
    "g" '(nil :wk "Git")
    "gd" '(magit-diff :wk "Diff")
+   "gi" '(magit-init :wk "Init")
    "gs" '(magit-status :wk "Status")
    "gl" '(magit-log :wk "Log")
    "gL" '(magit-log-all :wk "Log (all)")
