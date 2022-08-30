@@ -141,6 +141,16 @@ symbol.  Otherwise, return it as a symbol with `-mode-hook'
 appended."
   (intern (+mode-hook-name name)))
 
+(defun +join-file-names (root &rest directories)
+  "Joins a series of directories together.
+
+Recursively joins ROOT and DIRECTORIES using `expand-file-name'."
+  (if (not directories)
+      root
+    (apply #'+join-file-names
+           (expand-file-name (car directories) root)
+           (cdr directories))))
+
 
 ;;; Property lists
 
