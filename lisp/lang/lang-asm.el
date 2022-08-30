@@ -25,6 +25,13 @@
                   (concat "nasm -f bin "
                           (file-name-nondirectory buffer-file-name))))))
 
+(use-package flymake-nasm
+  :after nasm-mode
+  :custom
+  (flymake-nasm-format "bin")
+  :hook
+  (nasm-mode . flymake-nasm-setup))
+
 (use-package x86-lookup
   :general
   (:keymaps 'asm-mode-map :states 'normal
