@@ -1,8 +1,16 @@
 ;;; lang-asm.el --- Assembly configuration -*- lexical-binding: t; -*-
 (require 'core-lib)
 
+(use-package asm-mode
+  :general
+  (:keymaps 'asm-mode-map :states 'insert
+   ";" 'self-insert-command))
+
 (use-package nasm-mode
-  :mode ("\\.asm\\'"))
+  :mode ("\\.asm\\'")
+  :general
+  (:keymaps 'nasm-mode-map :states 'insert
+   ";" 'self-insert-command))
 
 (use-package x86-lookup
   :general
