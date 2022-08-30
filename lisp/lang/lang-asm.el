@@ -4,11 +4,17 @@
 (use-package asm-mode
   :general
   (:keymaps 'asm-mode-map :states 'insert
-   ";" 'self-insert-command))
+   ";" 'self-insert-command)
+  (:prefix ef-local-leader :states 'normal :keymaps 'asm-mode-map
+   "c"  '(nil :wk "Compile")
+   "cc" '(compile :wk "Compile")))
 
 (use-package nasm-mode
   :mode ("\\.asm\\'")
   :general
+  (:prefix ef-local-leader :states 'normal :keymaps 'nasm-mode-map
+   "c"  '(nil :wk "Compile")
+   "cc" '(compile :wk "Compie"))
   (:keymaps 'nasm-mode-map :states 'insert
    ";" 'self-insert-command))
 
