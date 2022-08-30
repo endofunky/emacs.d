@@ -16,7 +16,14 @@
    "c"  '(nil :wk "Compile")
    "cc" '(compile :wk "Compie"))
   (:keymaps 'nasm-mode-map :states 'insert
-   ";" 'self-insert-command))
+   ";" 'self-insert-command)
+
+  (+add-hook nasm-mode-hook
+    (unless (or (file-exists-p "makefile")
+		(file-exists-p "Makefile"))
+      (setq-local compile-command
+                  (concat "nasm -f bin "
+                          (file-name-nondirectory buffer-file-name))))))
 
 (use-package x86-lookup
   :general
