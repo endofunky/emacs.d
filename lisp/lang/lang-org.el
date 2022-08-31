@@ -66,6 +66,8 @@
    "oR" '(org-roam-buffer-toggle :wk "Toggle roam buffer")
    "ot" '(org-todo :wk "Cycle TODO")
 
+   "Is" '(org-insert-structure-template :wk "Structure Template")
+
    "l" '(nil :wk "Links")
    "li" '(org-insert-link :wk "Insert")
    "lr" '(org-roam-insert :wk "Insert (Roam)")

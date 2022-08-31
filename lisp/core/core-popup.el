@@ -52,6 +52,10 @@ in a popup buffer."
     (consult-customize consult--source-buffer :hidden t :default nil)
     (add-to-list 'consult-buffer-sources poe-consult-source))
 
+  (with-eval-after-load 'org
+    ;; Make temporary org-mode buffers work with popup windows.
+    (advice-add 'org-switch-to-buffer-other-window :override #'pop-to-buffer))
+
   ;; Don't have evil's window movement/rotate commands affect popup windows.
   (with-eval-after-load 'evil
     (advice-add 'evil-window-rotate-downwards :around #'poe-popup-save-a)
