@@ -32,4 +32,15 @@
 
   (+enable-lsp python-mode))
 
+(use-package python-black
+  :if (executable-find "black")
+  :after python
+  :functions (python-black-on-save-mode
+              python-black--third-party-file-p)
+  :config
+  (+add-hook python-mode-hook
+    (when-let* ((file (buffer-file-name))
+                (ok (not (python-black--third-party-file-p file))))
+      (python-black-on-save-mode))))
+
 (provide 'lang-python)
