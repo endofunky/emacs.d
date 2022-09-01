@@ -31,4 +31,16 @@
   :after nix-mode
   :commands nix-update-fetch)
 
+(use-package nix-flymake
+  :after nix-mode
+  :straight (:repo "tviti/nix-flymake"
+             :host github)
+  :hook
+  (nix-mode . +nix-flymake-setup-h)
+  :config
+  (defun +nix-flymake-setup-h ()
+    "Enable flymake backend."
+    (interactive)
+    (add-hook 'flymake-diagnostic-functions #'nix-flymake nil t)))
+
 (provide 'lang-nix)
