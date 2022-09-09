@@ -9,9 +9,9 @@
   (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.hpp$" . c++-mode))
   :hook
-  (c-mode . +cc-mode-enable-lsp)
-  (c++-mode . +cc-mode-enable-lsp)
-  (objc-mode . +cc-mode-enable-lsp)
+  (c-mode . +enable-lsp-maybe)
+  (c++-mode . +enable-lsp-maybe)
+  (objc-mode . +enable-lsp-maybe)
   (c-mode-common . c-toggle-hungry-state)
   :custom
   ;; Left-align `#define`s
@@ -35,14 +35,6 @@
     (setq-local c-basic-offset 2)
     (setq-local tab-width 2)
     (setq-local indent-tabs-mode nil))
-
-  (defun +cc-mode-enable-lsp ()
-    "Conditionally enable LSP integration for cc-mode projects."
-    (interactive)
-    (when (or (file-exists-p (expand-file-name "compile_commands.json"
-                                               (+project-root)))
-              (file-exists-p (expand-file-name ".ccls" (+project-root))))
-      (+enable-lsp-maybe)))
 
   ;; https://stackoverflow.com/questions/23553881/emacs-indenting-of-c11-lambda-functions-cc-mode
   (defadvice c-lineup-arglist (around my activate)
