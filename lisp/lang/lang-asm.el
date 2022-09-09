@@ -10,7 +10,7 @@
    "cc" '(compile :wk "Compile")))
 
 (use-package nasm-mode
-  :mode ("\\.[n]asm\\'")
+  :mode ("\\.n?asm\\'")
   :general
   (:prefix ef-local-leader :states 'normal :keymaps 'nasm-mode-map
    "c"  '(nil :wk "Compile")
