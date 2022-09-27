@@ -9,6 +9,7 @@
   (eglot-connect-timeout 10)
   (eglot-autoshutdown t)
   (eglot-auto-display-help-buffer nil)
+  (eldoc-echo-area-use-multiline-p nil)
   (eglot-send-changes-idle-time 0.1)
   (eglot-ignored-server-capabilities '(:documentHighlightProvider
                                        :documentSymbolProvider))
