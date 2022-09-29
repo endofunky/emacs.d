@@ -117,7 +117,7 @@
 (declare-function anzu--where-is-here "ext:anzu")
 
 (declare-function eglot "ext:eglot")
-(declare-function eglot--major-mode "ext:eglot")
+(declare-function eglot--major-modes "ext:eglot")
 (declare-function eglot--project-nickname "ext:eglot")
 (declare-function eglot--server-info "ext:eglot")
 (declare-function eglot--spinner "ext:eglot")
@@ -610,7 +610,7 @@ mouse-3: Clear this status" (plist-get last-error :message)))
 C-mouse-1: Go to server errors
 mouse-1: Go to server events
 mouse-2: Quit server
-mouse-3: Reconnect to server" nick (eglot--major-mode server)))
+mouse-3: Reconnect to server" nick (eglot--major-modes server)))
                                (t "EGLOT Disconnected
 mouse-1: Start server"))
                    'mouse-face 'uniline-highlight
