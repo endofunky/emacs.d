@@ -19,10 +19,12 @@
   :config
   (declare-function +project-root "core-project")
 
-  (define-key c-mode-map (kbd "C-M-l") nil)
-  (define-key c-mode-map (kbd "C-M-h") nil)
-  (define-key c++-mode-map (kbd "C-M-l") nil)
   (define-key c++-mode-map (kbd "C-M-h") nil)
+  (define-key c++-mode-map (kbd "C-M-l") nil)
+  (define-key c++-mode-map (kbd "TAB") nil)
+  (define-key c-mode-map (kbd "C-M-h") nil)
+  (define-key c-mode-map (kbd "C-M-l") nil)
+  (define-key c-mode-map (kbd "TAB") nil)
 
   (+add-hook c-mode-hook
     (setq-local c-default-style "k&r")
