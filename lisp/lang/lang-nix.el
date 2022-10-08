@@ -43,4 +43,10 @@
     (interactive)
     (add-hook 'flymake-diagnostic-functions #'nix-flymake nil t)))
 
+(use-package nixpkgs-fmt
+  :if (executable-find "nixpkgs-fmt")
+  :after nix-mode
+  :hook
+  (nix-mode . nixpkgs-fmt-on-save-mode))
+
 (provide 'lang-nix)
