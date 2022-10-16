@@ -79,7 +79,7 @@ exclamation mark."
   :after vertico
   :straight (:repo "dangduc/fzf-native"
              :host github
-             :files (:defaults "*.c" "*.h" "*.txt"))
+             :files (:defaults "bin" "*.c" "*.h" "*.txt"))
   :custom
   ;; Don't ask if we want to compile the module.
   (fzf-native-always-compile-module t)
@@ -88,7 +88,7 @@ exclamation mark."
   ;; As opposed to the included binary, fzf-native will build the module
   ;; using -march=native if we do it ourselves so it creates optimal code
   ;; for the used CPU.
-  (fzf-native-load-own-build-dyn))
+  (fzf-native-load-dyn))
 
 (use-package marginalia
   :after vertico
