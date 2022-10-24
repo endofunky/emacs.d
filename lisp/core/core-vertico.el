@@ -61,7 +61,7 @@ exclamation mark."
                    :repo "jojojames/fussy")
   :custom
   (fussy-filter-fn 'fussy-filter-orderless)
-  (fussy-score-fn 'fussy-fzf-native-score)
+  (fussy-score-fn 'fussy-fuz-bin-score)
   ;; For example, project-find-file uses 'project-files which uses
   ;; substring completion by default. Set to nil to make sure it's using
   ;; fussy.
@@ -75,20 +75,14 @@ exclamation mark."
     (make-variable-buffer-local 'completion-styles)
     (add-to-list 'completion-styles 'fussy)))
 
-(use-package fzf-native
-  :after vertico
-  :straight (:repo "dangduc/fzf-native"
-             :host github
-             :files (:defaults "bin" "*.c" "*.h" "*.txt"))
-  :custom
-  ;; Don't ask if we want to compile the module.
-  (fzf-native-always-compile-module t)
+(use-package fuz-bin
+  :after fussy
+  :straight (fuz-bin
+             :repo "jcs-elpa/fuz-bin"
+             :fetcher github
+             :files (:defaults "bin"))
   :config
-  (poe-popup fzf-native-module-install-buffer-name :ephemeral t)
-  ;; As opposed to the included binary, fzf-native will build the module
-  ;; using -march=native if we do it ourselves so it creates optimal code
-  ;; for the used CPU.
-  (fzf-native-load-dyn))
+  (fuz-bin-load-dyn))
 
 (use-package marginalia
   :after vertico
