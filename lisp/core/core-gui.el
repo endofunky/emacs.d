@@ -39,11 +39,12 @@
   :straight nil
   :if (display-graphic-p)
   :custom
-  (blink-cursor-blinks 0)
   (frame-resize-pixelwise t)
   :general
   ("M-<return>" 'toggle-frame-fullscreen)
   :config
+  (blink-cursor-mode 0)
+
   (let* ((file (expand-file-name "~/.emacs-font-size"))
          (font (if (file-exists-p file)
                    (format "DejaVu Sans Mono-%s"
@@ -52,18 +53,6 @@
     (add-to-list 'default-frame-alist `(font .  ,font))
     (set-face-attribute 'default t :font font)
     (set-frame-font font))
-
-  (defadvice blink-cursor-start (around ef-blink-cursor-start activate)
-    "Only blink in comint-mode when in normal state or in
-minibuffers."
-    (if (or (and (or (derived-mode-p 'comint-mode)
-                     (derived-mode-p 'cider-repl-mode))
-                 (eq evil-state 'normal))
-            (minibufferp))
-        ad-do-it
-      (internal-show-cursor nil t)))
-
-  (blink-cursor-mode t)
 
   ;; Enable transparent titlebars on macOS and make them match the frame
   ;; background.
