@@ -100,8 +100,7 @@
 (use-package autorevert
   :straight nil
   :custom
-  ;; Check files every second.
-  (auto-revert-interval 1)
+  (auto-revert-interval 5)
   ;; Don't spam the echo area with messages when reverting.
   (auto-revert-verbose nil)
   ;; Make autorevert version control aware.
