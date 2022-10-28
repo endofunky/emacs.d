@@ -321,7 +321,8 @@ If FILTER is `nil' kill all except currently visible buffers and the
   (dolist (buf (delq (current-buffer) (buffer-list)))
     (unless (get-buffer-window buf)
       (let ((name (buffer-name buf)))
-        (when (and (not (string= name "*scratch*"))
+        (when (and name
+                   (not (string= name "*scratch*"))
                    (or (not filter)
                        (string-match filter (string-trim name))))
           (if-let ((win (get-buffer-window buf)))
