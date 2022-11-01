@@ -278,6 +278,31 @@ HOOKS is `some-hook'. Usage:
       (insert (string-trim (shell-command-to-string uuidgen)))
     (error "Binary 'uuidgen' not found in PATH.")))
 
+(defun +insert-set-theory-symbol ()
+  "You'd be surprised how often this comes up.
+
+Original code by Karl Fogel.
+https://svn.red-bean.com/repos/kfogel/trunk/.emacs"
+  (interactive)
+  (let* ((map '((?0 . ?∅)
+                (?e . ?∈)
+                (?u . ?∪)
+                (?i . ?∩)
+                (?a . ?∧)
+                (?o . ?∨)
+                (?p . ?×)))
+         (ch (read-char
+              (format "Choose a set theory symbol: %s"
+                      (string-join
+                       (mapcar (lambda (cell)
+                                 (concat
+                                  (char-to-string (car cell))
+                                  "->"
+                                  (char-to-string (cdr cell))))
+                               map)
+                       ", ")))))
+    (insert (cdr (assoc ch map)))))
+
 (defun +insert-file-name ()
   "Insert current file name at point."
   (interactive)
