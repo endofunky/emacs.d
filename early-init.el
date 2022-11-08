@@ -31,7 +31,7 @@
   (when (and (fboundp 'tool-bar-mode)) (tool-bar-mode -1))
 
   ;; Disable GTK tooltips if we're in X.
-  (when (boundp x-gtk-use-system-tooltips)
+  (when (boundp 'x-gtk-use-system-tooltips)
     (setq x-gtk-use-system-tooltips nil))
 
   ;; Keep menu-bar on macOS.
