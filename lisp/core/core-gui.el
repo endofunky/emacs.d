@@ -56,7 +56,8 @@
 
   ;; Enable transparent titlebars on macOS and make them match the frame
   ;; background.
-  (when (eq system-type 'darwin)
+  (when (and (eq system-type 'darwin)
+             (boundp 'ns-auto-titlebar-set-frame))
     (defun +ns-set-titlebar-frame (frame &rest _)
       "Enable transparent titlebar for the given frame and set the
 ns-appearance frame parameter for FRAME to match the
