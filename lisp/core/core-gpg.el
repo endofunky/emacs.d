@@ -73,15 +73,4 @@
 
   (advice-add 'epa-select-keys :override #'+epa-completing-read-key-a))
 
-(use-package epg-config
-  :straight nil
-  :when ef-gpg
-  :defer t
-  :custom
-  (epg-pinentry-mode 'loopback))
-
-(use-package pinentry
-  :when ef-gpg
-  :hook (after-init . pinentry-start))
-
 (provide 'core-gpg)
