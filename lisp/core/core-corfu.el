@@ -50,6 +50,7 @@
   :straight nil
   :after corfu
   :custom
+  (corfu-popupinfo-delay nil)
   (corfu-popupinfo-max-width 90)
   (corfu-popupinfo-max-height 24)
   :general
