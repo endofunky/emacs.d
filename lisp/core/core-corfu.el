@@ -46,20 +46,20 @@
   (advice-add 'corfu--teardown :after #'evil-normalize-keymaps)
   (evil-make-overriding-map corfu-map))
 
-(use-package corfu-doc
+(use-package corfu-popupinfo
+  :straight nil
   :after corfu
   :custom
-  (corfu-doc-auto nil)
-  (corfu-doc-max-width 90)
-  (corfu-doc-max-height 24)
+  (corfu-popupinfo-max-width 90)
+  (corfu-popupinfo-max-height 24)
   :general
   (:keymaps 'corfu-map
-   [remap corfu-show-documentation] 'corfu-doc-toggle
-   "C-i" 'corfu-doc-toggle
-   "C-M-p" 'corfu-doc-scroll-down
-   "C-M-n" 'corfu-doc-scroll-up)
+   [remap corfu-show-documentation] 'corfu-popupinfo-toggle
+   "C-i" 'corfu-popupinfo-toggle
+   "C-M-p" 'corfu-popupinfo-scroll-down
+   "C-M-n" 'corfu-popupinfo-scroll-up)
   :hook
-  (corfu-mode . corfu-doc-mode))
+  (corfu-mode . corfu-popupinfo-mode))
 
 (use-package emacs
   :after corfu
