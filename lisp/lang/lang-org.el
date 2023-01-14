@@ -86,7 +86,6 @@
   :config
   (require 'org-archive)
   (require 'org-capture)
-  (require 'org-install)
   (require 'ox-md)
   (require 'org-roam)
 
