@@ -107,6 +107,8 @@
   (auto-revert-check-vc-info t)
   ;; Refresh non-file buffers that implement autorevert.
   (global-auto-revert-non-file-buffers t)
+  ;; File system accesses are slow on macOS, so avoid polling
+  (auto-revert-avoid-polling (+nsp))
   :config
   (global-auto-revert-mode 1))
 
