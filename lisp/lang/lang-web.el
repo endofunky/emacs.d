@@ -11,4 +11,10 @@
   :mode (("\\.[px]?html?\\'". web-mode)
          ("\\.html\\.erb?\\'". web-mode)))
 
+(use-package haml-mode
+  :mode (("\\.haml?\\'". haml-mode)))
+
+(use-package slim-mode
+  :mode (("\\.slim?\\'". slim-mode)))
+
 (provide 'lang-web)
