@@ -5,18 +5,6 @@
 ;; configure the things we want to keep here.
 (require 'use-package)
 
-(defconst +nix--profile-paths
-  (reverse (split-string (or (getenv "NIX_PROFILES") ""))))
-
-(when (featurep 'comp)
-  ;; Append native-comp subdirectories from `NIX_PROFILES'.
-  (setq native-comp-eln-load-path
-        (cl-remove-duplicates
-         (append (mapcar (lambda (profile-dir)
-                           (concat profile-dir "/share/emacs/native-lisp/"))
-                         +nix--profile-paths)
-                 native-comp-eln-load-path))))
-
 (use-package find-func
   :straight nil
   :defer t
