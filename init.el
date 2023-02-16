@@ -93,6 +93,17 @@ Called from `after-init-hook'."
 
 (require 'use-package)
 
+;; Enable general early as well so the :general keyword gets defined for
+;; use-package declarations.
+(use-package general
+  :config
+  (declare-function general-override-mode "general")
+  (declare-function general-auto-unbind-keys "general")
+  (declare-function general-define-key "general")
+
+  (general-auto-unbind-keys)
+  (general-override-mode t))
+
 ;; Display package load messages if we start in debug mode.
 (setq-default use-package-verbose init-file-debug)
 

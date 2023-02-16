@@ -19,15 +19,6 @@
 
 ;;; Core ext
 
-(use-package general
-  :config
-  (declare-function general-override-mode "general")
-  (declare-function general-auto-unbind-keys "general")
-  (declare-function general-define-key "general")
-
-  (general-auto-unbind-keys)
-  (general-override-mode t))
-
 (use-package which-key
   :custom
   (which-key-idle-delay 0.5)
