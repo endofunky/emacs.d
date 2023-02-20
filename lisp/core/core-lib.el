@@ -1,4 +1,5 @@
 ;;; core-lib.el --- Core functions & packages -*- lexical-binding: t; -*-
+(require 'general)
 (require 'straight)
 (require 'use-package)
 
