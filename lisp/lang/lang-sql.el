@@ -19,6 +19,8 @@
 
 (use-package sqlup-mode
   :after sql
+  :custom
+  (sqlup-blacklist '("type"))
   :hook
   (sql-mode . sqlup-mode))
 
