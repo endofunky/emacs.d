@@ -22,7 +22,8 @@
   :custom
   (sqlup-blacklist '("type"))
   :hook
-  (sql-mode . sqlup-mode))
+  (sql-mode . sqlup-mode)
+  (sql-interactive-mode . sqlup-mode))
 
 (use-package sql-indent
   :after sql
