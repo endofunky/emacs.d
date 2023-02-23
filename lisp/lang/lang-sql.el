@@ -14,8 +14,14 @@
                    (sql-database "postgres://vagrant:vagrant@localhost:5432/"))))
   :general
   (:prefix ef-local-leader :states 'normal :keymaps 'sql-mode-map
+   "e"   '(nil :wk "Eval")
+   "eb"  '(sql-send-buffer :wk "Buffer")
+   "ee"  '(sql-send-paragraph :wk "Paragraph")
    "r"   '(nil :wk "REPL")
    "rr"  '(sql-connect :wk "SQL Connect"))
+  (:prefix ef-local-leader :states 'visual :keymaps 'sql-mode-map
+   "e"   '(nil :wk "Eval")
+   "er"  '(sql-send-region :wk "Region"))
   :config
   (poe-popup 'sql-interactive-mode :size 0.4 :select t)
   ;; Make double quotes work like a quoting character.
