@@ -4,6 +4,7 @@
 (require 'core-popup)
 
 (use-package eglot
+  :straight (:source (gnu-elpa-mirror))
   :custom
   (eglot-sync-connect 1)
   (eglot-connect-timeout 10)
