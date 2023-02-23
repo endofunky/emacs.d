@@ -9,7 +9,13 @@
   (sql-postgres-login-params nil)
   (sql-connection-alist
    '((psql-docker (sql-product 'postgres)
-                  (sql-database "postgres://postgres:postgres@localhost:5432/"))))
+                  (sql-database "postgres://postgres:postgres@localhost:5432/"))
+     (psql-vagrant (sql-product 'postgres)
+                   (sql-database "postgres://vagrant:vagrant@localhost:5432/"))))
+  :general
+  (:prefix ef-local-leader :states 'normal :keymaps 'sql-mode-map
+   "r"   '(nil :wk "REPL")
+   "rr"  '(sql-connect :wk "SQL Connect"))
   :config
   (poe-popup 'sql-interactive-mode :size 0.4 :select t)
   ;; Make double quotes work like a quoting character.
