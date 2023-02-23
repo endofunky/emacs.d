@@ -33,7 +33,7 @@
   (ruby-deep-indent-paren nil)
   (ruby-insert-encoding-magic-comment nil)
   :general
-  (:prefix ef-local-leader :states 'visual :keymaps 'ruby-mode-map
+  (:prefix ef-local-leader :states 'visual :keymaps 'ruby-base-mode-map
    "c"  '(nil :wk "Compile")
    "cd" '(ruby-disasm :wk "Disassemble"))
   :config
@@ -72,7 +72,7 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
   :custom
   (inf-ruby-default-implementation "pry")
   :general
-  (:prefix ef-local-leader :states 'normal :keymaps 'ruby-mode-map
+  (:prefix ef-local-leader :states 'normal :keymaps 'ruby-base-mode-map
    "e"  '(nil :wk "Eval")
    "eb" '(ruby-send-buffer :wk "Buffer")
    "ed" '(ruby-send-definition :wk "Definition")
@@ -80,7 +80,7 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
 
    "r"  '(nil :wk "REPL")
    "rr" '(run-ruby :wk "Open"))
-  (:prefix ef-local-leader :states 'visual :keymaps 'ruby-mode-map
+  (:prefix ef-local-leader :states 'visual :keymaps 'ruby-base-mode-map
    "e"  '(nil :wk "Eval")
    "er" '(ruby-send-region :wk "Region"))
   :hook
@@ -91,16 +91,6 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
     (comint-read-input-ring 'silent))
 
   (poe-popup 'inf-ruby-mode))
-
-(use-package hideshow
-  :after ruby-mode
-  :config
-  (add-to-list 'hs-special-modes-alist
-               `(ruby-mode
-                 ,(rx (or "def" "class" "module" "do" "{" "["))
-                 ,(rx (or "}" "]" "end"))
-                 ,(rx (or "#" "=begin"))
-                 ruby-forward-sexp nil)))
 
 (use-package bundler
   :after ruby-mode)
@@ -141,7 +131,7 @@ RubyVM::InstructionSequence.compile_file('%s').disasm\"" f))))
    "tp" '(ruby-test-run-at-point :wk "At point")
    "tt" '(+ruby-test-run :wk "Buffer"))
   :defines (ruby-test-rspec-options)
-  :hook (ruby-mode . ruby-test-mode)
+  :hook (ruby-base-mode . ruby-test-mode)
   :config
   (declare-function pcre-to-elisp "ext:pcre2el")
 
