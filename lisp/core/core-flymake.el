@@ -47,7 +47,7 @@ Returns the window if found or nil otherwise."
 
   (defun +flymake-follow-diagnostics-buffer (&rest args)
     "Window hook function that checks if the current buffer has
-`flymake-mode'enabled, the flymake diagnostics buffer is visible,
+`flymake-mode' enabled, the flymake diagnostics buffer is visible,
 and if so will follow the diagnostics to the buffer being switched
 to."
     (when (and (not (eq major-mode 'flymake-diagnostics-buffer-mode))
