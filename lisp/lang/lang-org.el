@@ -205,6 +205,8 @@ subsequent `file-exists-p' fails."
   (org-roam-completion-everywhere t)
   (org-roam-completion-system 'default)
   (org-roam-directory (expand-file-name "roam" ef-org-directory))
+  (org-roam-node-display-template
+   (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   :config
   (org-roam-setup)
   (poe-popup "*org-roam diagnostics*"))
