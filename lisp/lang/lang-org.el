@@ -72,6 +72,17 @@
                               (todo  . " %i ")
                               (tags  . " %i ")
                               (search . " %i ")))
+  ;;
+  ;; org-refile
+  ;;
+  (org-refile-targets '((ef-org-notes-file :maxlevel . 1)))
+  ;; Show full paths for refiling
+  (org-refile-use-outline-path t)
+  ;;
+  ;; org-outline
+  ;;
+  ;; Refile in a single go
+  (org-outline-path-complete-in-steps nil)
   :commands (org-capture org-switchb)
   :hook
   (org-mode . flyspell-mode)
@@ -85,6 +96,7 @@
    "oc" '(org-capture :wk "Capture")
    "on" '(+org-toggle-notes-file :wk "Toggle notes")
    "or" '(org-roam-node-find :wk "Roam")
+   "o-" '(org-refile :wk "Refile")
    "os" '(org-switchb :wk "Switch buffer"))
   (:states 'normal :keymaps 'org-mode-map
    "RET" 'org-return
