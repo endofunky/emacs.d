@@ -6,12 +6,22 @@
   :group 'org
   :prefix "ef-org-")
 
-(defcustom ef-org-directory (expand-file-name "org" (getenv "HOME"))
+(defcustom ef-org-directory (expand-file-name "org" (expand-file-name "Dropbox" (getenv "HOME")))
   "Directory with `org-mode' files."
   :group 'ef-org
   :type 'directory)
 
-(defcustom ef-org-notes-file (expand-file-name "notes.org" ef-org-directory)
+(defcustom ef-org-notes-directory (expand-file-name "notes" ef-org-directory)
+  "Directory with `org-mode' notes files."
+  :group 'ef-org
+  :type 'directory)
+
+(defcustom ef-org-roam-directory (expand-file-name "roam" ef-org-directory)
+  "Directory with `org-roam' files."
+  :group 'ef-org
+  :type 'directory)
+
+(defcustom ef-org-notes-file (expand-file-name "todo.org" ef-org-notes-directory)
   "Path to `org-mode' notes file."
   :group 'ef-org
   :type 'file)
@@ -31,6 +41,7 @@
   (org-edit-src-content-indentation 0)
   (org-enforce-todo-dependencies t)
   (org-fontify-quote-and-verse-blocks t)
+  (org-hide-emphasis-markers nil)
   (org-babel-remove-temporary-stable-directory)
   (org-log-done 'time)
   (org-log-into-drawer t)
@@ -84,6 +95,9 @@
    "te" '(org-table-edit-field :wk "Edit field")
    "ts" '(org-table-sort-lines :wk "Sort rows")
    "tt" '(org-table-create :wk "Create"))
+  :init
+  (unless (file-directory-p ef-org-notes-directory)
+    (make-directory ef-org-notes-directory))
   :config
   (require 'org-archive)
   (require 'org-capture)
@@ -195,8 +209,8 @@ subsequent `file-exists-p' fails."
   :commands (org-roam-node-find org-roam-buffer-toggle)
   :functions (org-roam-setup)
   :init
-  (unless (file-directory-p (expand-file-name "roam" ef-org-directory))
-    (make-directory (expand-file-name "roam" ef-org-directory)))
+  (unless (file-directory-p ef-org-roam-directory)
+    (make-directory ef-org-roam-directory))
   :hook
   (org-roam-backlinks-mode . turn-on-visual-line-mode)
   :general
@@ -205,7 +219,7 @@ subsequent `file-exists-p' fails."
   (org-roam-buffer-window-parameters '((no-delete-other-windows . t)))
   (org-roam-completion-everywhere t)
   (org-roam-completion-system 'default)
-  (org-roam-directory (expand-file-name "roam" ef-org-directory))
+  (org-roam-directory ef-org-roam-directory)
   (org-roam-node-display-template
    (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   :config
