@@ -96,7 +96,6 @@
    "oc" '(org-capture :wk "Capture")
    "on" '(+org-toggle-notes-file :wk "Toggle notes")
    "or" '(org-roam-node-find :wk "Roam")
-   "o-" '(org-refile :wk "Refile")
    "os" '(org-switchb :wk "Switch buffer"))
   (:states 'normal :keymaps 'org-mode-map
    "RET" 'org-return
@@ -105,10 +104,12 @@
   (:states 'normal :prefix ef-local-leader :keymaps 'org-mode-map
    "o," '(org-priority-up :wk "Priority up")
    "o." '(org-priority-down :wk "Priority down")
+   "o-" '(org-refile :wk "Refile")
    "oA" '(+org-archive-done-tasks :wk "Archive tasks")
    "oe" '(org-export-dispatch :wk "Export")
    "op" '(org-priority :wk "Cycle priority")
    "oR" '(org-roam-buffer-toggle :wk "Toggle roam buffer")
+   "oS" '(org-sort :wk "Sort")
    "ot" '(org-todo :wk "Cycle TODO")
 
    "Is" '(org-insert-structure-template :wk "Structure Template")
