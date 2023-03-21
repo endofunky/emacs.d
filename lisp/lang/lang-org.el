@@ -70,7 +70,7 @@
 
    "l" '(nil :wk "Links")
    "li" '(org-insert-link :wk "Insert")
-   "lr" '(org-roam-insert :wk "Insert (Roam)")
+   "lr" '(org-roam-node-insert :wk "Insert (Roam)")
    "lt" '(org-toggle-link-display :wk "Toggle")
 
    "t" '(nil :wk "Table")
