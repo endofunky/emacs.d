@@ -32,7 +32,7 @@
 (use-package sqlup-mode
   :after sql
   :custom
-  (sqlup-blacklist '("type"))
+  (sqlup-blacklist '("source" "type"))
   :hook
   (sql-mode . sqlup-mode)
   (sql-interactive-mode . sqlup-mode))
