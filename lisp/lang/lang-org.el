@@ -1,4 +1,5 @@
 ;;; lang-org.el --- `org-mode' configuration -*- lexical-binding: t; -*-
+(require 'core-lib)
 (require 'core-popup)
 
 (defgroup ef-org nil
@@ -53,14 +54,34 @@
   (org-todo-keyword-faces '(("TODO" . error)
                             ("PROG" . warning)
                             ("DONE" . success)))
+  ;;
+  ;; org-agenda
+  ;;
+  (org-agenda-files (list ef-org-notes-directory))
+  (org-agenda-restore-windows-after-quit t)
+  (org-agenda-start-on-weekday 1)
+  (org-agenda-skip-scheduled-if-done t)
+  (org-agenda-skip-deadline-if-done t)
+  (org-agenda-include-deadlines t)
+  (org-agenda-include-diary t)
+  (org-agenda-block-separator ?―)
+  (org-agenda-compact-blocks nil)
+  (org-agenda-window-setup 'current-window)
+  (org-agenda-time-grid '((daily today require-timed) () "" ""))
+  (org-agenda-prefix-format '((agenda  .  " %i %?-15(ef-org-agenda-prefix)%?-12t% s")
+                              (todo  . " %i ")
+                              (tags  . " %i ")
+                              (search . " %i ")))
   :commands (org-capture org-switchb)
   :hook
   (org-mode . flyspell-mode)
   (org-mode . org-indent-mode)
   (org-mode . turn-on-auto-fill)
+  (org-agenda-mode . hl-line-mode)
   :general
   (:states 'normal :prefix ef-local-leader
    "o" '(nil :wk "Org")
+   "oa" '(ef-org-agenda :wk "Agenda")
    "oc" '(org-capture :wk "Capture")
    "on" '(+org-toggle-notes-file :wk "Toggle notes")
    "or" '(org-roam-node-find :wk "Roam")
@@ -110,6 +131,19 @@
   (declare-function outline-flag-region "outline")
   (declare-function outline-next-heading "outline")
   (declare-function outline-previous-heading "outline")
+
+  (defun ef-org-agenda ()
+    "Show org-agenda with with Agenda and TODOs"
+    (interactive)
+    (org-agenda nil "n"))
+
+  (defun ef-org-agenda-prefix ()
+    "Returns the most significant header of the org-outline for the element
+to be used in `org-agenda-prefix-format'."
+    (let ((x (car (last (org-get-outline-path)))))
+      (if x
+          (org-format-outline-path (list x))
+        "")))
 
   (defun +org-babel-remove-temporary-stable-directory-a (orig-fun &rest args)
     "Fixes an issue where `kill-emacs-hook' would issue an error when
@@ -203,7 +237,13 @@ subsequent `file-exists-p' fails."
 (use-package evil-org
   :hook
   (org-mode . evil-org-mode)
-  (org-mode . evil-org-set-key-theme))
+  (org-mode . evil-org-set-key-theme)
+  :init
+  (+add-hook org-agenda-mode-hook
+    (require 'evil-org-agenda)
+    (declare-function evil-org-agenda-set-keys "evil-org-agenda")
+    (evil-org-agenda-set-keys)
+    (setq org-super-agenda-header-map nil)))
 
 (use-package org-roam
   :commands (org-roam-node-find org-roam-buffer-toggle)
@@ -244,6 +284,38 @@ subsequent `file-exists-p' fails."
     (unless (bound-and-true-p org-roam-ui-mode)
       (org-roam-ui-mode t))
     (org-roam-ui-open)))
+
+(use-package org-super-agenda
+  :after org
+  :ensure t
+  :custom
+  (org-agenda-custom-commands
+   '(("n" "Agenda and TODOs"
+      ((agenda "" ((org-agenda-span 'day)
+                   (org-agenda-overriding-header "")
+                   (org-super-agenda-groups
+                    '((:name "Today"
+                       :and (:time-grid t
+                             :not (:habit t))
+                       :and (:scheduled today
+                             :not (:habit t))
+                       :and (:deadline today
+                             :not (:habit t))
+                       :order 1)
+                      (:name "Overdue"
+                       :deadline past
+                       :order 0)
+                      (:name "Due soon"
+                       :time-grid t
+                       :date t
+                       :scheduled t
+                       :order 2)))))
+       (alltodo "" ((org-agenda-overriding-header "TODOs")
+                    (org-super-agenda-groups
+                     '((:discard (:habit t :scheduled t :deadline t))
+                       (:auto-outline-path t)))))))))
+  :config
+  (org-super-agenda-mode t))
 
 (use-package ox-gfm
   :after org)
