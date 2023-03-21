@@ -211,6 +211,25 @@ subsequent `file-exists-p' fails."
   (org-roam-setup)
   (poe-popup "*org-roam diagnostics*"))
 
+(use-package org-roam-ui
+  :straight (:host github
+             :repo "org-roam/org-roam-ui"
+             :branch "main"
+             :files ("*.el" "out"))
+  :after org-roam
+  :custom
+  (org-roam-ui-sync-theme t)
+  (org-roam-ui-follow t)
+  (org-roam-ui-update-on-save t)
+  (org-roam-ui-open-on-start t)
+  :config
+  (defun +roam-ui ()
+    "Enable `org-roam-ui-mode' and open UI in browser"
+    (interactive)
+    (unless (bound-and-true-p org-roam-ui-mode)
+      (org-roam-ui-mode t))
+    (org-roam-ui-open)))
+
 (use-package ox-gfm
   :after org)
 
