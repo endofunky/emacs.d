@@ -55,6 +55,7 @@
    "or" '(org-roam-node-find :wk "Roam")
    "os" '(org-switchb :wk "Switch buffer"))
   (:states 'normal :keymaps 'org-mode-map
+   "RET" 'org-return
    "gd" '(org-open-at-point :wk "Open link")
    "C-t" '(org-mark-ring-goto :wk "Pop back"))
   (:states 'normal :prefix ef-local-leader :keymaps 'org-mode-map
