@@ -36,6 +36,7 @@
   ;;
   (org-adapt-indentation nil)
   (org-archive-location "%s_archive::datetree/* Archived Tasks")
+  (org-babel-remove-temporary-stable-directory)
   (org-confirm-babel-evaluate nil)
   (org-deadline-warning-days 7)
   (org-directory ef-org-directory)
@@ -43,7 +44,7 @@
   (org-enforce-todo-dependencies t)
   (org-fontify-quote-and-verse-blocks t)
   (org-hide-emphasis-markers nil)
-  (org-babel-remove-temporary-stable-directory)
+  (org-image-actual-width nil)
   (org-log-done 'time)
   (org-log-into-drawer t)
   (org-return-follows-link t)
@@ -139,8 +140,11 @@
   (require 'org-roam)
 
   (declare-function org-archive-subtree "org-archive")
+  (declare-function org-archive-subtree "org-archive")
   (declare-function org-end-of-subtree "org")
   (declare-function org-map-entries "org")
+  (declare-function org-get-outline-path "org")
+  (declare-function org-format-outline-path "org")
   (declare-function outline-flag-region "outline")
   (declare-function outline-next-heading "outline")
   (declare-function outline-previous-heading "outline")
@@ -264,6 +268,10 @@ subsequent `file-exists-p' fails."
   :init
   (unless (file-directory-p ef-org-roam-directory)
     (make-directory ef-org-roam-directory))
+
+  (use-package emacsql-sqlite-builtin)
+
+  (+csetq org-roam-database-connector 'sqlite-builtin)
   :hook
   (org-roam-backlinks-mode . turn-on-visual-line-mode)
   :general
