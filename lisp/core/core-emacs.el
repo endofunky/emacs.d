@@ -252,6 +252,12 @@ visual state or mark.")
   :commands hs-minor-mode
   :hook (prog-mode . hs-minor-mode))
 
+(use-package mule
+  :straight nil
+  :config
+  (add-to-list 'auto-coding-alist '("\\.diz\\'" . cp437-dos))
+  (add-to-list 'auto-coding-alist '("\\.nfo\\'" . cp437-dos)))
+
 (use-package minibuffer
   :straight nil
   :custom
