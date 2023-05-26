@@ -217,6 +217,8 @@ current buffer."
   :custom
   (undo-tree-auto-save-history t)
   (undo-tree-enable-undo-in-region t)
+  (undo-tree-history-directory-alist
+   `(("." . ,(expand-file-name "undo-tree-hist" no-littering-var-directory))))
   (undo-tree-visualizer-timestamps t)
   (undo-tree-visualizer-lazy-drawing nil)
   :commands (global-undo-tree-mode)
