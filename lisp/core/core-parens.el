@@ -309,6 +309,9 @@ appropriate. Mainly useful in C, C++, and other languages with similar syntax."
          (dune-mode . lispy-mode)
          (clojure-mode . lispy-mode)
          (fennel-mode . lispy-mode))
+  :general
+  (keymaps 'lispy-mode-map
+   "M-p" nil)
   :custom
   ;; Move past end-quote when pressing `\"' at the end of a string.
   (lispy-close-quotes-at-end-p t)
