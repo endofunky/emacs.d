@@ -120,7 +120,6 @@
 (declare-function eglot--major-modes "ext:eglot")
 (declare-function eglot--project-nickname "ext:eglot")
 (declare-function eglot--server-info "ext:eglot")
-(declare-function eglot--spinner "ext:eglot")
 (declare-function eglot-clear-status "ext:eglot")
 (declare-function eglot-current-server "ext:eglot")
 (declare-function eglot-events-buffer "ext:eglot")
@@ -584,11 +583,8 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
                  (nick (and server (eglot--project-nickname server)))
                  (pending (and server (hash-table-count
                                        (jsonrpc--request-continuations server))))
-                 (`(,_id ,doing ,done-p ,detail) (and server
-                                                      (eglot--spinner server)))
                  (last-error (and server (jsonrpc-last-error server)))
                  (face (cond (last-error 'uniline-error-face)
-                             ((and doing (not done-p)) 'uniline-ok-face)
                              ((and pending (cl-plusp pending))
                               'uniline-warning-face)
                              (nick 'uniline-lsp-face)
@@ -601,9 +597,6 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
                                (last-error
                                 (format "EGLOT\nAn error occured: %s
 mouse-3: Clear this status" (plist-get last-error :message)))
-                               ((and doing (not done-p))
-                                (format "EGLOT\n%s%s" doing
-                                        (if detail (format "%s" detail) "")))
                                ((and pending (cl-plusp pending))
                                 (format "EGLOT\n%d outstanding requests" pending))
                                (nick (format "EGLOT Connected (%s/%s)
