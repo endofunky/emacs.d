@@ -1,6 +1,7 @@
 (require 'core-lib)
 
-(use-package treesit)
+(use-package treesit
+  :straight nil)
 
 (use-package treesit-auto
   :demand t
