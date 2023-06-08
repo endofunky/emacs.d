@@ -47,9 +47,9 @@
 
   (let* ((file (expand-file-name "~/.emacs-font-size"))
          (font (if (file-exists-p file)
-                   (format "DejaVu Sans Mono-%s"
+                   (format "DejaVuSansM Nerd Font Mono-%s"
                            (string-trim (+read-file file)))
-                 "DejaVu Sans Mono-9")))
+                 "DejaVuSansM Nerd Font Mono-9")))
     (add-to-list 'default-frame-alist `(font .  ,font))
     (set-face-attribute 'default t :font font)
     (set-frame-font font))
