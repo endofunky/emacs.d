@@ -11,6 +11,11 @@
   (show-paren-mode t))
 
 (use-package smartparens
+  :straight (:type git
+             :host github
+             :repo "Fuco1/smartparens"
+             :fork (:host github
+                    :repo "endofunky/smartparens"))
   :demand t
   :custom
   (sp-autoskip-closing-pair 'always)
