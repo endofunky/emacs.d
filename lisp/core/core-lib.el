@@ -357,20 +357,4 @@ If FILTER is `nil' kill all except currently visible buffers and the
   (interactive)
   (+kill-buffers-matching nil))
 
-(defun +delete-frame-or-kill-terminal (&optional arg)
-  "Delete frame or save buffers and kill terminal.
-
-If the current frame is not the last frame, call `delete-frame' passing
-ARG, otherwise interactively call `save-buffers-kill-terminal'.
-
-With prefix ARG, silently save all file-visiting buffers, then kill."
-  (interactive "P")
-  (if (cdr (frame-list))
-      (progn (save-some-buffers arg)
-	     (delete-frame))
-    (call-interactively #'save-buffers-kill-terminal t (vector arg))))
-
-(with-eval-after-load 'general
-  (general-define-key "C-x C-c" #'+delete-frame-or-kill-terminal))
-
 (provide 'core-lib)
