@@ -13,7 +13,8 @@
   (eldoc-echo-area-use-multiline-p nil)
   (eglot-send-changes-idle-time 0.1)
   (eglot-ignored-server-capabilities '(:documentHighlightProvider
-                                       :documentSymbolProvider))
+                                       :documentSymbolProvider
+                                       :inlayHintProvider))
   ;; Consider files outside project jumped to via xref part of the project.
   (eglot-extend-to-xref t)
   :general
