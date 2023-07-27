@@ -19,6 +19,9 @@
   ;; Consider files outside project jumped to via xref part of the project.
   (eglot-extend-to-xref t)
   :general
+  (:prefix ef-leader :states 'normal
+   "L"  '(nil :wk "LSP")
+   "Lc" '(eglot :wk "Connect"))
   (:states 'normal :keymaps 'eglot-mode-map
    "C-t" 'xref-go-back
    "gd" 'xref-find-definitions
@@ -27,7 +30,7 @@
   (:prefix ef-leader :states 'normal :keymaps 'eglot-mode-map
    "a"  '(eglot-code-actions :wk "Action")
    "L"  '(nil :wk "LSP")
-   "Lc" '(eglot :wk "Reconnect")
+   "Lc" '(eglot :wk "Connect")
    "Lr" '(eglot-reconnect :wk "Reconnect")
    "Lq" '(eglot-shutdown :wk "Quit")
    "R"  '(nil :wk "Refactor")
