@@ -7,7 +7,7 @@
   :group 'org
   :prefix "ef-org-")
 
-(defcustom ef-org-directory (expand-file-name "org" (expand-file-name "Dropbox" (getenv "HOME")))
+(defcustom ef-org-directory (expand-file-name "org" (expand-file-name "doc" (getenv "HOME")))
   "Directory with `org-mode' files."
   :group 'ef-org
   :type 'directory)
