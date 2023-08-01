@@ -109,6 +109,8 @@
                                          "--completion-style=detailed"
                                          "--header-insertion=never")))))
 
+  (add-to-list 'eglot-server-programs '((ruby-mode ruby-ts-mode) "ruby-lsp"))
+
   (setq-default
    eglot-workspace-configuration
    ;; rust-analyzer needs a separate target, otherwise a slight difference in
