@@ -184,11 +184,10 @@ current buffer's file, if it exists"
           (message "no corresponding test/spec file found"))))))
 
 (use-package rubocop
-  :after ruby-mode
   :commands (rubocop-autocorrect-project
              rubocop-autocorrect-current-file)
   :hook
-  (ruby-mode . rubocop-mode)
+  (ruby-base-mode . rubocop-mode)
   :general
   (:prefix ef-local-leader :states 'normal :keymaps 'rubocop-mode-map
    "l"  '(nil :wk "Lint")
