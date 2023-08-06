@@ -2,31 +2,18 @@
 (require 'core-lib)
 (require 'core-popup)
 
-(use-package efnord-theme
-  :load-path "site-lisp/themes/"
-  :when (or (display-graphic-p)
-            (= (tty-display-color-cells) 16777216))
-  :straight nil
-  :custom
-  (custom-safe-themes t)
-  :init
-  (add-to-list 'custom-theme-load-path
-               (expand-file-name "themes" user-emacs-directory))
+(use-package doom-themes
+  :ensure t
+  :demand t
+  :commands (doom-themes-org-config)
   :config
-  (load-theme 'efnord t))
+  (load-theme 'doom-tokyo-night t)
 
-(+add-hook prog-mode-hook :fn +add-watchwords-h
-  "Highlight FIXME, TODO, and NOCOMMIT in code"
-  (font-lock-add-keywords
-   nil '(("\\<\\(FIXME\\|BUG\\|XXX\\|TODO\\|NOCOMMIT\\)\\>"
-          1 '((:foreground "#cc6666") (:weight bold)) t))))
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config)
 
-(defun +reload-theme ()
-  "Reload currently enabled theme."
-  (interactive)
-  (when-let ((theme (car custom-enabled-themes)))
-    (disable-theme theme)
-    (load-theme theme t)))
+  (custom-set-faces
+   `(hl-line ((t :background "#24283b")))))
 
 (use-package uniline
   :demand t
