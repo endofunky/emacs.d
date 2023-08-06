@@ -13,6 +13,7 @@
   (doom-themes-org-config)
 
   (custom-set-faces
+   `(poe-popup-dimmed-face ((t :background "#12121a")))
    `(hl-line ((t :background "#24283b")))))
 
 (use-package uniline
