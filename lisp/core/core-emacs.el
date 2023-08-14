@@ -322,6 +322,12 @@ visual state or mark.")
   :config
   (setq-default save-place t))
 
+(use-package server
+  :straight nil
+  :demand t
+  :config
+  (unless (server-running-p) (server-start)))
+
 (use-package smerge-mode
   :straight nil
   :commands smerge-mode
