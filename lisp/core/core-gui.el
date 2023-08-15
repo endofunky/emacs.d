@@ -12,13 +12,6 @@
   (indicate-empty-lines nil)
   (overflow-newline-into-fringe t)
   :config
-  (+add-hook window-configuration-change-hook :fn +fringe-update-h
-    (let ((left (frame-parameter nil 'left-fringe))
-          (right (frame-parameter nil 'right-fringe)))
-      (cl-loop for win being the windows
-               if (with-selected-window win (derived-mode-p 'prog-mode))
-               do (set-window-fringes win nil nil)
-               else do (set-window-fringes win 0 0))))
   (fringe-mode nil))
 
 (use-package x-win
