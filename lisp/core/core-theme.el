@@ -17,7 +17,7 @@
    `(flymake-note ((t :foreground "#f7768e" :underline nil)))
    `(flymake-warning ((t :foreground "#f7768e" :underline nil)))
    `(font-lock-builtin-face ((t :foreground "#73daca")))
-   `(font-lock-type-face ((t :foreground "#e0af68")))
+   `(font-lock-type-face ((t :foreground "#73daca")))
    `(hl-line ((t :background "#24283b")))
    `(nix-attribute-face ((t :foreground "#7dcfff")))
    `(poe-popup-dimmed-face ((t :background "#12121a")))
