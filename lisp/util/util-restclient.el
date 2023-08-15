@@ -8,7 +8,9 @@
 (use-package restclient
   :mode (("\\.rest\\'" . restclient-mode)
          ("\\.restclient\\'" . restclient-mode))
-  :commands (+restclient restclient-mode)
+  :commands (+restclient
+             restclient-mode
+             +use-pop-to-buffer-for-restclient-mode)
   :defines (restclient-info-buffer-name
             restclient-same-buffer-response-name)
   :general
@@ -38,7 +40,16 @@
         (with-current-buffer (generate-new-buffer ef-restclient-buffer-name)
           (set-buffer-modified-p nil)
           (restclient-mode)))
-      (switch-to-buffer ef-restclient-buffer-name))))
+      (switch-to-buffer ef-restclient-buffer-name)))
+
+  (with-eval-after-load 'undo-tree
+    (defun +use-pop-to-buffer-for-restclient-mode (orig-fun &rest args)
+      "Override `switch-to-buffer-other-window' with `pop-to-buffer'."
+      (cl-letf (((symbol-function 'switch-to-buffer-other-window) 'pop-to-buffer))
+        (apply orig-fun args)))
+
+    (advice-add 'restclient-http-handle-response :around #'+use-pop-to-buffer-for-restclient-mode)
+    (advice-add 'restclient-show-info :around #'+use-pop-to-buffer-for-restclient-mode)))
 
 (use-package restclient-jq
   :after restclient)
