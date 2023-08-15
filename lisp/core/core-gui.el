@@ -105,6 +105,7 @@ ns-appearance frame parameter for FRAME to match the
   :demand (and (+nsp)
                (null (getenv "TERM_PROGRAM")))
   :commands (exec-path-from-shell-initialize)
+  :defines (exec-path-from-shell-variables)
   :config
   (exec-path-from-shell-initialize)
   (+csetq
