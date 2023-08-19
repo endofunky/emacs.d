@@ -252,6 +252,17 @@ visual state or mark.")
   :commands hs-minor-mode
   :hook (prog-mode . hs-minor-mode))
 
+(use-package message
+  :straight nil
+  :custom
+  (message-fill-column 72)
+  :init
+  (add-to-list 'auto-mode-alist
+               `(,(concat "neomutt-" (system-name)) . message-mode))
+  :config
+  (+add-hook message-mode-hook
+    (setq-local mail-header-separator "")))
+
 (use-package mule
   :straight nil
   :config
