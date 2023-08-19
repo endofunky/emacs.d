@@ -37,6 +37,9 @@
   (poe-popup 'epa-key-list-mode :select t :size .4 :shrink t :ephemeral t)
   (poe-popup "*Error*" :size .3 :ephemeral t)
 
+  ;; Work around for gpg >= 2.4.1 hanging on save.
+  (fset 'epg-wait-for-status 'ignore)
+
   ;; epa's default key selection window is a bit cumbersome. I rarely select
   ;; more than one key, so override this with a completing read so the key to
   ;; use can be selected using vertico.
