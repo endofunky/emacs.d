@@ -90,6 +90,9 @@ file."
       ;; Bazel
       "WORKSPACE"
 
+      ;; Nix
+      "flake.nix"
+
       ;; Ruby
       "Rakefile"
       "Gemfile"
