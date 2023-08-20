@@ -261,6 +261,7 @@ visual state or mark.")
                `(,(concat "neomutt-" (system-name)) . message-mode))
   :config
   (+add-hook message-mode-hook
+    "Set correct mail header separator for neomutt."
     (setq-local mail-header-separator "")))
 
 (use-package mule
@@ -338,6 +339,20 @@ visual state or mark.")
   :demand t
   :config
   (unless (server-running-p) (server-start)))
+
+(use-package sieve
+  :straight nil
+  :commands sieve-manage
+  :hook (sieve-mode . +dos2unix)
+  :custom
+  (sieve-manage-default-port 4190)
+  (sieve-manage-authenticators '(plain digest-md5 cram-md5 scram-md5 ntlm login))
+  :config
+  (defun +dos2unix ()
+    "Replace DOS eolns CR LF with Unix eolns CR"
+    (interactive)
+    (goto-char (point-min))
+    (while (search-forward "\r" nil t) (replace-match ""))))
 
 (use-package smerge-mode
   :straight nil
