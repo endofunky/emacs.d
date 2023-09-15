@@ -15,7 +15,7 @@
   (python-shell-interpreter-args "--simple-prompt -i")
   (python-indent-guess-indent-offset-verbose nil)
   :general
-  (:prefix ef-local-leader :states 'normal :keymaps 'python-mode-map
+  (:prefix ef-local-leader :states 'normal :keymaps 'python-base-mode-map
    "e"  '(nil :wk "Eval")
    "eb" '(python-shell-send-buffer :wk "Buffer")
    "ed" '(python-shell-send-defun :wk "Defun")
@@ -24,13 +24,13 @@
 
    "r"  '(nil :wk "REPL")
    "rr" '(run-python :wk "Open"))
-  (:prefix ef-local-leader :states 'visual :keymaps 'python-mode-map
+  (:prefix ef-local-leader :states 'visual :keymaps 'python-base-mode-map
    "e"  '(nil :wk "Eval")
    "er" '(python-shell-send-region :wk "Region"))
   :config
   (poe-popup "*ipython*")
 
-  (+enable-lsp python-mode))
+  (+enable-lsp python-base-mode))
 
 (use-package python-black
   :if (executable-find "black")
@@ -38,7 +38,7 @@
   :functions (python-black-on-save-mode
               python-black--third-party-file-p)
   :config
-  (+add-hook python-mode-hook
+  (+add-hook python-base-mode-hook
     (when-let* ((file (buffer-file-name))
                 (ok (not (python-black--third-party-file-p file))))
       (python-black-on-save-mode))))
