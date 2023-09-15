@@ -113,12 +113,22 @@
 
   (setq-default
    eglot-workspace-configuration
-   ;; rust-analyzer needs a separate target, otherwise a slight difference in
-   ;; toolchains/environment causes constant rebuilds after every check.
-   '(:rust-analyzer
-     (:check (:extraArgs ["--target-dir=target/analyzer"])
-      :checkOnSave (:extraArgs ["--target-dir=target/analyzer"])
-      :server (:extraEnv (:CARGO_TARGET_DIR "target/analyzer")))))
+   '(
+     ;; rust-analyzer needs a separate target, otherwise a slight difference in
+     ;; toolchains/environment causes constant rebuilds after every check.
+     (:rust-analyzer .
+      (:check (:extraArgs ["--target-dir=target/analyzer"])
+       :checkOnSave (:extraArgs ["--target-dir=target/analyzer"])
+       :server (:extraEnv (:CARGO_TARGET_DIR "target/analyzer"))))
+
+     ;; Prefer flake8 over other modules.
+     (:pylsp .
+      (:plugins (:mccabe (:enabled :json-false)
+                 :pycodestyle (:enabled :json-false)
+                 :pyflakes (:enabled :json-false)
+                 :flake8 (:enabled t)
+                 :rope_autoimport (:enabled :json-false))
+       :configurationSources ["flake8"]))))
 
   ;; The following is taken from doom-emacs' eglot.el:
   ;; https://github.com/doomemacs/doomemacs/blob/master/modules/tools/lsp/autoload/eglot.el
