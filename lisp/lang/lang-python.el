@@ -39,6 +39,8 @@
               python-black--third-party-file-p)
   :config
   (+add-hook python-base-mode-hook
+    (setq-local fill-column 79)
+
     (when-let* ((file (buffer-file-name))
                 (ok (not (python-black--third-party-file-p file))))
       (python-black-on-save-mode))))
