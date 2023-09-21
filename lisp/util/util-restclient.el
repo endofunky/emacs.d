@@ -15,7 +15,7 @@
             restclient-same-buffer-response-name)
   :general
   (:states 'normal :prefix ef-leader
-   "R" '(+restclient :wk "Toggle RESTclient"))
+   "H" '(+restclient :wk "Toggle RESTclient"))
   (:states 'normal :prefix ef-leader :keymaps 'restclient-mode-map
    "c" '(nil :wk "restclient")
    "cc" '(restclient-http-send-current :wk "Send request")
