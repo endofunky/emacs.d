@@ -45,4 +45,22 @@
                 (ok (not (python-black--third-party-file-p file))))
       (python-black-on-save-mode))))
 
+(use-package pytest
+  :after python
+  :general
+  (:prefix ef-local-leader :states 'normal :keymaps 'python-base-mode-map
+   "t"  '(nil :wk "Test")
+   "tl" '(ruby-test-toggle-implementation-and-specification :wk "Toggle")
+   "tp" '(pytest-one :wk "At point")
+   "tt" '(pytest-module :wk "Buffer"))
+  :config
+  (defun pytest-cmd-format (_format-string
+                            _working-directory
+                            _test-runner
+                            _command-flags
+                            test-names)
+    "Ignore other format string values and override command so pytest works with
+direnv."
+    (format "pytest -s --no-header %s" test-names)))
+
 (provide 'lang-python)
