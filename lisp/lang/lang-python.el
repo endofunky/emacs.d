@@ -37,13 +37,14 @@
   :after python
   :functions (python-black-on-save-mode
               python-black--third-party-file-p)
+  :general
+  (:states 'normal :prefix ef-leader :keymaps 'python-base-mode-map
+   "<tab>" '(python-black-buffer :wk "Format buffer"))
   :config
-  (+add-hook python-base-mode-hook
-    (setq-local fill-column 79)
+  (poe-popup "*python-black errors*")
 
-    (when-let* ((file (buffer-file-name))
-                (ok (not (python-black--third-party-file-p file))))
-      (python-black-on-save-mode))))
+  (+add-hook python-base-mode-hook
+    (setq-local fill-column 79)))
 
 (use-package pytest
   :after python
