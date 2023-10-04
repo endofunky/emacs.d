@@ -23,6 +23,7 @@
    "C-SPC" #'+vertico-restrict-to-matches)
   :hook (ef-first-command . vertico-mode)
   :config
+  (require 'vertico-repeat)
   (defun +vertico-restrict-to-matches ()
     (interactive)
     (let ((inhibit-read-only t))
