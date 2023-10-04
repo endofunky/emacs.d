@@ -140,7 +140,8 @@
    "<up>" 'comint-previous-input
    "<down>" 'comint-next-input)
   :config
-  (evil-set-initial-state 'comint-mode 'normal)
+  (with-eval-after-load 'evil
+    (evil-set-initial-state 'comint-mode 'normal))
   (+add-hook comint-mode-hook
     "Do not use `truncate-lines' in comint buffers.."
     (setq-local truncate-lines nil)
