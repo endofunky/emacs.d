@@ -67,14 +67,7 @@ exclamation mark."
   ;; substring completion by default. Set to nil to make sure it's using
   ;; fussy.
   (completion-category-defaults nil)
-  (completion-category-overrides nil)
-  :config
-  ;; Having fussy sort corfu completions is pretty slow, especially with
-  ;; short prefixes, so enable it only in the minibuffer for vertico.
-  (+add-hook minibuffer-setup-hook :fn +fussy-minibuffer-setup-h
-    "Enable fussy completion in minibuffer."
-    (make-variable-buffer-local 'completion-styles)
-    (add-to-list 'completion-styles 'fussy)))
+  (completion-category-overrides nil))
 
 (use-package fuz-bin
   :after fussy
