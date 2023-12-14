@@ -11,7 +11,8 @@
   (vterm-disable-bold-font nil)
   (vterm-kill-buffer-on-exit t)
   (vterm-max-scrollback 10000)
-  (vterm-timer-delay 0.01)
+  ;; Refresh at roughly 60 fps.
+  (vterm-timer-delay 0.016)
   :general
   (:states 'emacs :keymaps 'vterm-mode-map
    "M-h" 'poe-popup-next
