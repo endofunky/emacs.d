@@ -98,9 +98,9 @@ Only enable it if `smartparens-global-mode' is on."
 
   ;; Pair /* .. */ documentation blocks correctly.
   (sp-local-pair
-   '(js2-mode typescript-mode rjsx-mode rust-mode c-mode c++-mode objc-mode
-              csharp-mode java-mode php-mode css-mode scss-mode less-css-mode
-              stylus-mode scala-mode)
+   '(js2-mode typescript-mode rjsx-mode rust-mode rust-ts-mode c-mode c++-mode
+              objc-mode csharp-mode java-mode php-mode css-mode scss-mode
+              less-css-mode stylus-mode scala-mode)
    "/*" "*/"
    :actions '(insert)
    :post-handlers '(("| " "SPC")
@@ -139,6 +139,9 @@ parentheses when appropriate, for Rust lang"
         (save-excursion
           (forward-char) ;; skip closing brace
           (insert ";"))))
+
+    (sp-local-pair 'rust-ts-mode '"{" nil
+                   :post-handlers '(:add +sp-maybe-add-semicolon-paren-rust))
 
     (sp-local-pair 'rust-mode '"{" nil
                    :post-handlers '(:add +sp-maybe-add-semicolon-paren-rust)))
@@ -316,7 +319,7 @@ appropriate. Mainly useful in C, C++, and other languages with similar syntax."
          (fennel-mode . lispy-mode))
   :general
   (keymaps 'lispy-mode-map
-   "M-p" nil)
+           "M-p" nil)
   :custom
   ;; Move past end-quote when pressing `\"' at the end of a string.
   (lispy-close-quotes-at-end-p t)
