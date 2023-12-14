@@ -9,8 +9,7 @@
   :hook
   (org-mode . turn-on-flyspell)
   (markdown-mode . turn-on-flyspell)
-  (gtm-mode . turn-on-flyspell)
-  (text-mode . turn-on-flyspell))
+  (gtm-mode . turn-on-flyspell))
 
 (use-package ispell
   :defer t
