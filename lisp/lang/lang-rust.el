@@ -40,6 +40,7 @@
    "lfb" '(rust-format-buffer :wk "Buffer")
    "lfd" '(rust-format-diff-buffer :wk "Diff"))
   :config
+  (poe-popup "*rustfmt*" :ephemeral t)
   (+add-hook rust-ts-mode-hook
     (add-hook 'before-save-hook 'rust-format-buffer nil t)))
 
