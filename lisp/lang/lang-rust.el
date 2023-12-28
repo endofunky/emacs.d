@@ -42,6 +42,7 @@
   :config
   (poe-popup "*rustfmt*" :ephemeral t)
   (+add-hook rust-ts-mode-hook
+    (setq-local fill-column 100)
     (add-hook 'before-save-hook 'rust-format-buffer nil t)))
 
 
