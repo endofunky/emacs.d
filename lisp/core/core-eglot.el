@@ -49,7 +49,7 @@
   :config
   (declare-function eglot--guess-contact "ext:eglot")
 
-  (poe-popup "^\\*eglot-help" :regexp t :size 0.5 :shrink t)
+  (poe-popup "^\\*eglot-help" :regexp t :size 0.25)
 
   (defun +lsp-organize-imports ()
     (interactive)
