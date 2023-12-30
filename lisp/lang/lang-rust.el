@@ -34,12 +34,13 @@
 (use-package cargo-mode
   :hook
   (rust-ts-mode . cargo-minor-mode)
-  :functions (+rust-ts-mode-cargo-minor-mode-hook
+  :functions (+cargo-minor-mode-hook
               cargo-mode--project-directory
               cargo-mode--start)
   :general
   (:prefix ef-local-leader :states 'normal :keymaps 'cargo-minor-mode-map
    "c"  '(nil :wk "Cargo")
+   "ce" '(cargo-mode-execute-task :wk "Execute task")
    "cc" '(cargo-mode-build :wk "Build")
    "cr" '(+cargo-mode-run :wk "Run")
 
@@ -51,6 +52,8 @@
    "tt" '(cargo-mode-test-current-buffer :wk "Buffer")
    "tp" '(cargo-mode-test-current-test :wk "Point"))
   :config
+  (poe-popup 'cargo-mode :size .5 :select nil)
+
   (defun +cargo-mode-run ()
     "Execute cargo run."
     (interactive)
@@ -63,9 +66,7 @@
     (let* ((project-root (cargo-mode--project-directory)))
       (cargo-mode--start "execute" "clippy" project-root nil)))
 
-  (+add-hook rust-ts-mode-hook :fn +rust-ts-mode-cargo-minor-mode-hook
-    "Ensure we use the correct cargo binary for the current direnv environment."
-    (envrc-reload)
+  (+add-hook cargo-minor-mode-hook :fn +cargo-minor-mode-hook
     (setq-local cargo-path-to-bin (or (executable-find "cargo")
                                       "~/.cargo/bin/cargo"))))
 
