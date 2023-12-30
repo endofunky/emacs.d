@@ -574,6 +574,12 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
 (defun uniline-misc (&rest _)
   (format-mode-line mode-line-misc-info))
 
+(defun uniline--eglot-pending-count (server)
+  "Get count of pending eglot requests to SERVER."
+  (if (fboundp 'jsonrpc-continuation-count)
+      (jsonrpc-continuation-count server)
+    (hash-table-count (jsonrpc--request-continuations server))))
+
 (defun uniline-lsp ()
   "Update `eglot' state."
   (when (and (fboundp 'eglot-managed-p)
@@ -581,8 +587,7 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
     (pcase-let* ((server (and (eglot-managed-p)
                               (eglot-current-server)))
                  (nick (and server (eglot--project-nickname server)))
-                 (pending (and server (hash-table-count
-                                       (jsonrpc--request-continuations server))))
+                 (pending (and server (uniline--eglot-pending-count server)))
                  (last-error (and server (jsonrpc-last-error server)))
                  (face (cond (last-error 'uniline-error-face)
                              ((and pending (cl-plusp pending))
