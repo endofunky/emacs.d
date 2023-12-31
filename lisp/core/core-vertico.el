@@ -67,7 +67,21 @@ exclamation mark."
   ;; substring completion by default. Set to nil to make sure it's using
   ;; fussy.
   (completion-category-defaults nil)
-  (completion-category-overrides nil))
+  (completion-category-overrides nil)
+  :config
+  ;; This is declared in fussy.el, but for some reason without initializing this
+  ;; first it leads to the following error:
+  ;;
+  ;; Error in post-command-hook (vertico--exhibit): (void-variable
+  ;; orderless-skip-highlighting)
+  (setq orderless-skip-highlighting nil)
+
+  ;; Having fussy sort corfu completions is pretty slow, especially with
+  ;; short prefixes, so enable it only in the minibuffer for vertico.
+  (+add-hook minibuffer-setup-hook :fn +fussy-minibuffer-setup-h
+    "Enable fussy completion in minibuffer."
+    (make-variable-buffer-local 'completion-styles)
+    (add-to-list 'completion-styles 'fussy)))
 
 (use-package fuz-bin
   :after fussy
