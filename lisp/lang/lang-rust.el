@@ -36,7 +36,9 @@
   (rust-ts-mode . cargo-minor-mode)
   :functions (+cargo-minor-mode-hook
               cargo-mode--project-directory
-              cargo-mode--start)
+              cargo-mode--start
+              rust-in-str-or-cmnt
+              rust-beginning-of-defun)
   :general
   (:prefix ef-local-leader :states 'normal :keymaps 'cargo-minor-mode-map
    "c"  '(nil :wk "Cargo")
@@ -68,6 +70,36 @@
 
   (+add-hook cargo-minor-mode-hook :fn +cargo-minor-mode-hook
     (setq-local cargo-path-to-bin (or (executable-find "cargo")
-                                      "~/.cargo/bin/cargo"))))
+                                      "~/.cargo/bin/cargo")))
+
+  ;; The following functions are imported from rustic and are required to make
+  ;; `cargo-mode-test-current-test' work.
+  (defun rust-in-str-or-cmnt () (nth 8 (syntax-ppss)))
+
+  (defvar rust-func-item-beg-re
+    (concat "\\s-*\\(?:priv\\|pub\\)?\\s-*\\(?:async\\)?\\s-*"
+            (regexp-opt '("fn")))
+    "Start of a rust function.")
+
+  ;; this function only differs from the rust-mode version in applying
+  ;; `rustic-func-item-beg-re'
+  (defun rust-beginning-of-defun (&optional arg)
+    (interactive "p")
+    (let* ((arg (or arg 1))
+           (magnitude (abs arg))
+           (sign (if (< arg 0) -1 1)))
+      ;; If moving forward, don't find the defun we might currently be
+      ;; on.
+      (when (< sign 0)
+        (end-of-line))
+      (catch 'done
+        (dotimes (_ magnitude)
+          ;; Search until we find a match that is not in a string or comment.
+          (while (if (re-search-backward (concat "^\\(" rust-func-item-beg-re "\\)")
+                                         nil 'move sign)
+                     (rust-in-str-or-cmnt)
+                   ;; Did not find it.
+                   (throw 'done nil)))))
+      t)))
 
 (provide 'lang-rust)
