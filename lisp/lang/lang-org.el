@@ -97,7 +97,8 @@
    "oc" '(org-capture :wk "Capture")
    "on" '(+org-toggle-notes-file :wk "Toggle notes")
    "or" '(org-roam-node-find :wk "Roam")
-   "os" '(org-switchb :wk "Switch buffer"))
+   "os" '(org-switchb :wk "Switch buffer")
+   "ou" '(+roam-ui :wk "Start org-roam UI"))
   (:states 'normal :keymaps 'org-mode-map
    "RET" 'org-return
    "gd" '(org-open-at-point :wk "Open link")
