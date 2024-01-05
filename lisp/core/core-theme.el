@@ -38,12 +38,15 @@
                                :color "#1a1b26"
                                :style nil))))
 
-(use-package uniline
-  :demand t
-  :straight nil
-  :load-path "site-lisp/"
-  :commands (uniline-mode)
+(use-package doom-nano-modeline
+  :straight (doom-nano-modeline :type git
+                                :host github
+                                :repo "ronisbr/doom-nano-modeline"
+                                :branch "main"
+                                :files ("*.el"))
+  :custom
+  (doom-nano-modeline-position 'bottom)
   :config
-  (uniline-mode t))
+  (doom-nano-modeline-mode t))
 
 (provide 'core-theme)
