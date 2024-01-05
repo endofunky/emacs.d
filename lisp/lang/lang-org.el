@@ -240,7 +240,7 @@ subsequent `file-exists-p' fails."
                               " line missing at position %s")
                              (1+ start))))
                   (if (re-search-forward "^[ \t]*:END:" limit t)
-                      (outline-flag-region start (point-at-eol) t)
+                      (outline-flag-region start (line-end-position) t)
                     (user-error msg)))))))))))
 
 (use-package org-contrib
