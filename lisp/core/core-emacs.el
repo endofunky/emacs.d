@@ -86,6 +86,17 @@
 ;; Show columns in mode-line
 (column-number-mode t)
 
+(use-package arc-mode
+  :straight nil
+  :custom
+  ;; Archive-mode for RAR files
+  (add-to-list 'auto-coding-alist '("\\.\\(rar\\|RAR\\)\\'" . no-conversion))
+  (add-to-list 'auto-mode-alist '("\\.\\(rar\\|RAR\\)\\'" . archive-mode))
+
+  ;; Archive-mode for iTunes' ipg/ipa files
+  (add-to-list 'auto-coding-alist '("\\.\\(ipg\\|ipa\\)\\'" . no-conversion))
+  (add-to-list 'auto-mode-alist '("\\.\\(ipg\\|ipa\\)\\'" . archive-mode)))
+
 (use-package ansi-color
   :after comint
   :straight nil
