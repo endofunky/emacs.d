@@ -279,8 +279,8 @@ visual state or mark.")
 (use-package mule
   :straight nil
   :config
-  (add-to-list 'auto-coding-alist '("\\.diz\\'" . cp437-dos))
-  (add-to-list 'auto-coding-alist '("\\.nfo\\'" . cp437-dos)))
+  (add-to-list 'auto-coding-alist '("\\.\\(diz\\|DIZ\\)\\'"  . cp437-dos))
+  (add-to-list 'auto-coding-alist '("\\.\\(nfo\\|NFO\\)\\'"  . cp437-dos)))
 
 (use-package minibuffer
   :straight nil
