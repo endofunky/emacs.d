@@ -134,6 +134,7 @@
   :init
   (unless (file-directory-p ef-org-notes-directory)
     (make-directory ef-org-notes-directory))
+  :functions  (+org-babel-remove-temporary-stable-directory-a)
   :config
   (require 'org-archive)
   (require 'org-capture)
@@ -256,6 +257,7 @@ subsequent `file-exists-p' fails."
   :hook
   (org-mode . evil-org-mode)
   (org-mode . evil-org-set-key-theme)
+  :defines (org-super-agenda-header-map)
   :init
   (+add-hook org-agenda-mode-hook
     (require 'evil-org-agenda)
