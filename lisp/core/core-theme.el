@@ -20,6 +20,7 @@
    `(font-lock-type-face ((t :foreground "#73daca")))
    `(hl-line ((t :background "#24283b")))
    `(nix-attribute-face ((t :foreground "#7dcfff")))
+   `(markdown-code-face ((t :background "#1a1b26")))
    `(org-block ((t :background "#1a1b26")))
    `(org-block-begin-line ((t :inherit nil :foreground "#343952" :background "#1a1b26" :extend t)))
    `(org-block-end-line ((t :inherit nil :foreground "#343952" :background "#1a1b26" :extend t)))
