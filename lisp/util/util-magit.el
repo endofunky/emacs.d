@@ -50,11 +50,26 @@ what looks like a JIRA ticket ID."
 (use-package git-modes)
 
 (use-package magit-todos
-  :after magit
-  :defer t
+  :after magit-status
   :functions (magit-todos-mode)
   :config
-  (require 'org)
-  (magit-todos-mode t))
+  ;; https://github.com/alphapapa/magit-todos/issues/24
+  (custom-set-variables
+   '(magit-todos-keywords (list "HOLD"
+                                "TODO"
+                                "NEXT"
+                                "THEM"
+                                "PROG"
+                                "OKAY"
+                                "DONT"
+                                "FAIL"
+                                "MAYBE"
+                                "KLUDGE"
+                                "HACK"
+                                "TEMP"
+                                "FIXME"
+                                "XXX"
+                                "XXXX")))
+    (magit-todos-mode t))
 
 (provide 'util-magit)
