@@ -50,4 +50,17 @@
   :config
   (doom-nano-modeline-mode t))
 
+(use-package hl-todo
+  :commands (hl-todo-mode)
+  :custom
+  (hl-todo-keyword-faces '(("HOLD"   . "#f7768e")
+                           ("TODO"   . "#f7768e")
+                           ("FAIL"   . "#f7768e")
+                           ("NOTE"   . "#ff9e64")
+                           ("HACK"   . "#ff9e64")
+                           ("FIXME"  . "#f7768e")
+                           ("XXX"    . "#f7768e")))
+  :hook
+  (prog-mode . hl-todo-mode))
+
 (provide 'core-theme)
