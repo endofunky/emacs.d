@@ -1,6 +1,7 @@
 ;;; lang-org.el --- `org-mode' configuration -*- lexical-binding: t; -*-
 (require 'core-lib)
 (require 'core-popup)
+(require 'core-project)
 
 (defgroup ef-org nil
   "Endomacs org-mode configuration."
@@ -96,6 +97,7 @@
    "oa" '(ef-org-agenda :wk "Agenda")
    "oc" '(org-capture :wk "Capture")
    "on" '(+org-toggle-notes-file :wk "Toggle notes")
+   "op" '(+org-toggle-project-todo :wk "Project TODO")
    "or" '(org-roam-node-find :wk "Roam")
    "os" '(org-switchb :wk "Switch buffer")
    "ou" '(+roam-ui :wk "Start org-roam UI"))
@@ -109,7 +111,8 @@
    "o-" '(org-refile :wk "Refile")
    "oA" '(+org-archive-done-tasks :wk "Archive tasks")
    "oe" '(org-export-dispatch :wk "Export")
-   "op" '(org-priority :wk "Cycle priority")
+   "op" '(+org-toggle-project-todo :wk "Project TODO")
+   "oP" '(org-priority :wk "Cycle priority")
    "oR" '(org-roam-buffer-toggle :wk "Toggle roam buffer")
    "oS" '(org-sort :wk "Sort")
    "ot" '(org-todo :wk "Cycle TODO")
@@ -192,6 +195,18 @@ subsequent `file-exists-p' fails."
             (bury-buffer)
           (kill-buffer))
       (find-file ef-org-notes-file)))
+
+(defun +org-toggle-project-todo ()
+  "Toggle project local TODO file."
+  (interactive)
+  (if-let* ((project (project-current))
+            (project-root (project-root project))
+            (todo-file (expand-file-name "TODO.org" project-root)))
+      (if (string= (buffer-file-name) todo-file)
+          (if (buffer-modified-p)
+              (bury-buffer)
+            (kill-buffer))
+        (find-file todo-file))))
 
   (defun org-switch-to-buffer-other-window (&rest args)
     (apply 'switch-to-buffer-other-window args))
