@@ -53,23 +53,6 @@ what looks like a JIRA ticket ID."
   :after magit-status
   :functions (magit-todos-mode)
   :config
-  ;; https://github.com/alphapapa/magit-todos/issues/24
-  (custom-set-variables
-   '(magit-todos-keywords (list "HOLD"
-                                "TODO"
-                                "NEXT"
-                                "THEM"
-                                "PROG"
-                                "OKAY"
-                                "DONT"
-                                "FAIL"
-                                "MAYBE"
-                                "KLUDGE"
-                                "HACK"
-                                "TEMP"
-                                "FIXME"
-                                "XXX"
-                                "XXXX")))
-    (magit-todos-mode t))
+  (magit-todos-mode t))
 
 (provide 'util-magit)
