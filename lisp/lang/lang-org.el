@@ -70,7 +70,6 @@
   :commands (org-capture org-switchb)
   :hook
   (org-mode . flyspell-mode)
-  (org-mode . org-indent-mode)
   (org-mode . turn-on-auto-fill)
   :general
   (:states 'normal :prefix ef-local-leader
@@ -286,5 +285,15 @@ subsequent `file-exists-p' fails."
 
 (use-package ox-gfm
   :after org)
+
+
+(use-package org-margin
+  :straight (:host github
+             :repo "rougier/org-margin"
+             :files ("*.el"))
+  :after org
+  :hook
+  (org-mode . org-margin-mode))
+
 
 (provide 'lang-org)
